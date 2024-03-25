@@ -1,0 +1,46 @@
+'use client'
+
+import React from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+interface AvatarProps {
+    src: string;
+    alt: string;
+    fallback: string;
+    clickEvent: boolean;
+    badgeText: string;
+    onClick?: () => void; // Optional onClick callback function
+}
+
+const AvatarBadge: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, badgeText, onClick }) => {  
+  return (
+    <>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Avatar 
+            className={`cursor-${clickEvent ? 'pointer' : 'default'}`} 
+            onClick={clickEvent ? onClick : undefined} 
+            >
+            <AvatarImage src={src} alt={alt} />
+            <AvatarFallback>{fallback}</AvatarFallback>
+            </Avatar>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{badgeText}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+    </>
+
+  );
+};
+
+export default AvatarBadge;
