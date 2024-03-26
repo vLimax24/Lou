@@ -1,0 +1,3 @@
+- `href` (string): URL that is behind the link
+- `text` (string): Text displayed in the link
+- `className` (string): Classnames to apply in used File

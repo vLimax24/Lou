@@ -1,0 +1,4 @@
+- `href` (string): URL that is behind the link
+- `text` (string): Text displayed in the link
+- `showArrow` (boolean): Whether to display a "redirect" arrow or not
+- `className` (string): Classnames to apply in used File

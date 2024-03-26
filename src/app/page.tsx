@@ -1,23 +1,25 @@
 'use client'
 
 import HomeLayout from '@/layouts/Home'
-import AvatarBadge from '@/components/common/AvatarBadge';
+import EmptyLink from '@/components/common/Link';
+import ActiveLink from '@/components/common/ActiveLink';
 
 export default function HomePage() {
-  const handleClick = () => {
-    alert("Hello World!");
-  }
-
   return (
-  <HomeLayout>
-    <AvatarBadge 
-      src='https://github.com/vlimax24.png'
-      alt='vlimax24'
-      fallback='VL'
-      clickEvent={true}
-      badgeText='test'
-      onClick={handleClick}
-    />
-  </HomeLayout>
+      <div className='bg-gray-800 h-full w-full min-h-screen'>
+        <HomeLayout>
+          <div className='flex'>
+            <EmptyLink 
+              href='https://google.com'
+              text='Google'
+              showArrow={true}
+            />
+            <ActiveLink 
+              href='https://google.com'
+              text='Google'
+            />
+          </div>
+        </HomeLayout>
+      </div>
   );
 }

@@ -15,17 +15,18 @@ interface AvatarProps {
     fallback: string;
     clickEvent: boolean;
     badgeText: string;
+    className?: string;
     onClick?: () => void; // Optional onClick callback function
 }
 
-const AvatarBadge: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, badgeText, onClick }) => {  
+const AvatarBadge: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, badgeText, className, onClick }) => {  
   return (
     <>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <Avatar 
-            className={`cursor-${clickEvent ? 'pointer' : 'default'}`} 
+            className={`cursor-${clickEvent ? 'pointer' : 'default'} ${className}`} 
             onClick={clickEvent ? onClick : undefined} 
             >
             <AvatarImage src={src} alt={alt} />
