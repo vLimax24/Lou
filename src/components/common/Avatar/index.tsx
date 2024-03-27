@@ -12,7 +12,7 @@ interface AvatarProps {
     onClick?: () => void; // Optional onClick callback function
 }
 
-const AvatarRounded: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, className, onClick }) => {
+export const AvatarRounded: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, className, onClick }) => {
   return (
     <Avatar 
       className={`cursor-${clickEvent ? 'pointer' : 'default'} ${className}`} 
@@ -23,5 +23,3 @@ const AvatarRounded: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, 
     </Avatar>
   );
 };
-
-export default AvatarRounded;

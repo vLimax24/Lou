@@ -9,7 +9,7 @@ interface EmptyLinkProps {
   className?: string;
 }
 
-const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, className }) => {
+export const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, className }) => {
   return (
     <Link href={href} className={`flex items-center justify-center hover:bg-gray-500 hover:bg-opacity-30 py-1.5 px-3 rounded-md ${className}`}>
       <div className='flex items-center justify-center'>
@@ -27,5 +27,3 @@ const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, className 
     </Link>
   );
 };
-
-export default EmptyLink;

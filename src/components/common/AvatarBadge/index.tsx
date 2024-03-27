@@ -19,7 +19,7 @@ interface AvatarProps {
     onClick?: () => void; // Optional onClick callback function
 }
 
-const AvatarBadge: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, badgeText, className, onClick }) => {  
+export const AvatarBadge: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, badgeText, className, onClick }) => {  
   return (
     <>
       <TooltipProvider>
@@ -43,5 +43,3 @@ const AvatarBadge: React.FC<AvatarProps> = ({ src, fallback, alt, clickEvent, ba
 
   );
 };
-
-export default AvatarBadge;

@@ -1,0 +1,6 @@
+- `title` (string): Title of the Notification
+- `description` (string): Further description of the Notification
+- `label` (string): label button with click event listener
+- `buttonName` (string): Name of the notification trigger
+- `onClick` (function): Function after label click
+- `className` (string, optional): Classnames to apply in used File

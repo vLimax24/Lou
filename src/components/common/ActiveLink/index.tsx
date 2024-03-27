@@ -8,7 +8,7 @@ interface ActiveLinkProps {
   className?: string;
 }
 
-const ActiveLink: React.FC<ActiveLinkProps> = ({ href, text, className }) => {
+export const ActiveLink: React.FC<ActiveLinkProps> = ({ href, text, className }) => {
   return (
     <Link href={href} className={`flex items-center justify-center bg-green-600 hover:bg-green-700 py-1.5 px-3 rounded-md ${className}`}>
       <div>
@@ -19,5 +19,3 @@ const ActiveLink: React.FC<ActiveLinkProps> = ({ href, text, className }) => {
     </Link>
   )
 }
-
-export default ActiveLink

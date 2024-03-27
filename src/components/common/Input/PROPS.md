@@ -1,0 +1,5 @@
+- `className` (string): Classnames to apply in used File
+- `placeholder` (string): placeholder text when input not focused
+- `disabled` (boolean): Whether Input is disabled or not
+- `type` (string, enum): type of input (e.g date, telephone, email, password, etc.)
+- `onValueChange` (callback): Value to be added in state in the corresponding state / file

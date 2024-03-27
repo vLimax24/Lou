@@ -1,23 +1,25 @@
 'use client'
 
+import React, { useState } from 'react';
 import HomeLayout from '@/layouts/Home'
-import EmptyLink from '@/components/common/Link';
-import ActiveLink from '@/components/common/ActiveLink';
+import { InputField } from '@/components/common/Input';
 
 export default function HomePage() {
+  const [value, setValue] = useState('')
+  const handleInput = (newValue: string) => {
+    setValue(newValue)
+  }
   return (
-      <div className='bg-gray-800 h-full w-full min-h-screen'>
+      <div className='bg-background h-full w-full min-h-screen'>
         <HomeLayout>
           <div className='flex'>
-            <EmptyLink 
-              href='https://google.com'
-              text='Google'
-              showArrow={true}
+            <InputField 
+              placeholder='test'
+              disabled={false}
+              type={'password'}
+              onValueChange={handleInput}
             />
-            <ActiveLink 
-              href='https://google.com'
-              text='Google'
-            />
+            <p>{value}</p>
           </div>
         </HomeLayout>
       </div>
