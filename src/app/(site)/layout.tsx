@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/sonner"
 import { Inter } from "next/font/google";
+import { NavBar } from "@/components/containers/NavBar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -13,18 +14,17 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default function SiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <main className='bg-foreground h-full w-full min-h-screen text-white'>
+        <NavBar />
         {children}
         <Toaster />
-      </body>
+      </main>
       
-    </html>
   );
 }

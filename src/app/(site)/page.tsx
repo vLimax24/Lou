@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function HomePage() {
   return (
-      <div className='bg-background h-full w-full min-h-screen text-white'>
+      <div>
         <h1>TEst</h1>
         <h1>TEst</h1>
         <h1>TEst</h1>
