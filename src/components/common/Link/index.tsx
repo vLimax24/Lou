@@ -13,7 +13,7 @@ export const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, cla
   return (
     <Link href={href} className={`flex items-center justify-center hover:bg-gray-500 hover:bg-opacity-30 py-1.5 px-3 rounded-md ${className}`}>
       <div className='flex items-center justify-center'>
-        <p className='flex items-center justify-center mr-2 text-white'>
+        <p className={`flex items-center justify-center text-white ${showArrow ? 'mr-2' : ''}`}>
             {text}
         </p>
         {showArrow && (

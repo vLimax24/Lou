@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/sonner"
 import { Inter } from "next/font/google";
+import { NavBar } from "@/components/containers/NavBar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
+        <NavBar />
         {children}
         <Toaster />
       </body>
