@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Link from 'next/link';
+import { ReactLoadableManifest } from 'next/dist/server/load-components';
 
 
 interface EmptyLinkProps {
@@ -7,6 +8,12 @@ interface EmptyLinkProps {
   text: string;
   showArrow: boolean;
   className?: string;
+}
+
+interface IconLinkProps {
+  href: string;
+  className?: string;
+  children: ReactNode;
 }
 
 export const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, className }) => {
@@ -24,6 +31,14 @@ export const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, cla
             </div>
         )}
       </div>
+    </Link>
+  );
+};
+
+export const IconLink: React.FC<IconLinkProps> = ({ href, className, children }) => {
+  return (
+    <Link href={href} className={`flex items-center justify-center hover:bg-gray-500 hover:bg-opacity-30 p-2 rounded-md ${className}`} target='_blank'>
+      {children}
     </Link>
   );
 };
