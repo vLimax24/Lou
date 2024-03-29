@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/lib/AuthProvider';
 import type { Session } from 'next-auth';
 import { getServerAuthSession } from '@/server/auth';
+import ConvexClientProvider from '@/lib/ConvexClientProvider';
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -26,7 +27,7 @@ export default async function RootLayout({
     <html lang="en">
       <AuthProvider session={session}>
         <body className={`font-sans ${inter.variable}`}>
-          {children}
+          <ConvexClientProvider>{children}</ConvexClientProvider>
           <Toaster />
         </body>
       </AuthProvider>

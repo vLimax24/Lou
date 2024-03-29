@@ -25,7 +25,10 @@ export default async function DashboardLayout({
       <DashboardSidebar />
       <div className="flex flex-col">
         <DashboardHeader />
+        <div className='p-4'>
+
         {children}
+        </div>
       </div>
     </div>
   );

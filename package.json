@@ -48,6 +48,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "convex": "^1.10.0",
     "date-fns": "^3.6.0",
     "drizzle-orm": "^0.29.4",
     "embla-carousel-react": "^8.0.0",
