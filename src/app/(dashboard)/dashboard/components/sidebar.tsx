@@ -1,79 +1,72 @@
 'use client';
 import React from 'react';
-import {
-  Bell,
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  ShoppingCart,
-  Users,
-} from 'lucide-react';
+import { CalendarDays, ListChecks, StickyNote, BookA, Package2, Home, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
-
 import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { usePathname } from 'next/navigation';
+import NotificationDialog from '@/components/dashboard/notification'; // Import the new component here
 
 const DashboardSidebar = () => {
+  const pathname = usePathname();
+
   return (
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
-            <span className="">Acme Inc</span>
+            <span>StudenOS</span>
           </Link>
-          <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-            <Bell className="h-4 w-4" />
-            <span className="sr-only">Toggle notifications</span>
-          </Button>
+          <NotificationDialog />
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
             <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              href="/dashboard"
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
             >
               <Home className="h-4 w-4" />
-              Dashboard
+              Home
             </Link>
             <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              href="/dashboard/calendar"
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard/calendar' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
             >
-              <ShoppingCart className="h-4 w-4" />
-              Orders
+              <CalendarDays className="h-4 w-4" />
+              Calendar
+            </Link>
+            <Link
+              href="/dashboard/grade-sheet"
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard/calendar' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
+            >
+              <GraduationCap className="h-4 w-4" />
+              Grade Sheet
+            </Link>
+            <Link
+              href="/dashboard/tasks"
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard/tasks' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
+            >
+              <ListChecks className="h-4 w-4" />
+              Tasks
               <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                 6
               </Badge>
             </Link>
             <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+              href="/dashboard/notes"
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard/notes' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
             >
-              <Package className="h-4 w-4" />
-              Products{' '}
+              <StickyNote className="h-4 w-4" />
+              Notes{' '}
             </Link>
             <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              href="/dashboard/learn-resources"
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard/learn-resources' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
             >
-              <Users className="h-4 w-4" />
-              Customers
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <LineChart className="h-4 w-4" />
-              Analytics
+              <BookA className="h-4 w-4" />
+              Learn Resources
             </Link>
           </nav>
         </div>
