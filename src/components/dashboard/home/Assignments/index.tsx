@@ -70,7 +70,7 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
     };
 
     calculateRemainingTime();
-  }, [assignments]);
+  }, []);
 
   const displayedAssignments = assignments.slice(0, 6);
 

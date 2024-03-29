@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -7,7 +6,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 import { subjectColors } from '@/utils/subjectColors';
  
 const grades = [
