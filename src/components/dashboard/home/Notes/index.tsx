@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowUpRightIcon } from '@heroicons/react/24/solid';
 import { cn } from "@/lib/utils"
  
-const events = [
+const notes = [
   {
     title: "Your call has been confirmed.",
     description: "1 hour ago",
@@ -39,7 +39,7 @@ export default function NotesCard({ className, ...props }: CardProps) {
       </CardHeader>
       <CardContent className="grid gap-4 mt-2">
         <div>
-          {events.map((event, index) => (
+          {notes.map((note, index) => (
             <div
               key={index}
               className="mb-4 grid grid-cols-[25px_1fr] items-start pb-3 last:mb-0 last:pb-0"
@@ -49,11 +49,11 @@ export default function NotesCard({ className, ...props }: CardProps) {
                 <div>
                     <Checkbox id="note" />
                     <label className="text-sm font-medium leading-none" htmlFor='note'>
-                    {event.title}
+                    {note.title}
                     </label>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  {event.description}
+                  {note.description}
                 </p>
               </div>
             </div>
