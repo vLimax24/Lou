@@ -21,6 +21,26 @@ const assignments = [
     date: "15-03-2025", // Another example assignment
     subject: "History", // Subject name corrected to capital "History"
   },
+  {
+    title: "Exam Preparation",
+    date: "30-03-2024", // Date format changed to DD-MM-YYYY
+    subject: "German", // Subject name corrected to capital "German"
+  },
+  {
+    title: "Project Presentation",
+    date: "15-03-2025", // Another example assignment
+    subject: "History", // Subject name corrected to capital "History"
+  },
+  {
+    title: "Exam Preparation",
+    date: "30-03-2024", // Date format changed to DD-MM-YYYY
+    subject: "German", // Subject name corrected to capital "German"
+  },
+  {
+    title: "Project Presentation",
+    date: "15-03-2025", // Another example assignment
+    subject: "History", // Subject name corrected to capital "History"
+  },
 ];
  
 type CardProps = React.ComponentProps<typeof Card>;
@@ -55,7 +75,7 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
   const displayedAssignments = assignments.slice(0, 6);
 
   return (
-    <Card className={cn("w-3/5 mx-5", className)} {...props}>
+    <Card className={cn("w-3/5 mx-1", className)} {...props}>
       <CardHeader>
         <CardTitle>Assignments</CardTitle>
         <CardDescription>Your upcoming Assignments</CardDescription>
@@ -67,7 +87,7 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
               {displayedAssignments.map((assignment, index) => (
                 <div
                   key={index}
-                  className="mb-4 w-64 items-start p-4 border rounded-md"
+                  className="mb-2 w-64 items-start p-4 border rounded-md"
                 >
                   <div className="space-y-1">
                     <h1 className="text-sm font-semibold leading-none">

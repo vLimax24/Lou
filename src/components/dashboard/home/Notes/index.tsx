@@ -8,27 +8,27 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import Link from 'next/link';
+import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowUpRightIcon } from '@heroicons/react/24/solid';
 import { cn } from "@/lib/utils"
  
 const events = [
   {
     title: "Your call has been confirmed.",
-    date: "1 hour ago",
+    description: "1 hour ago",
   },
   {
-    title: "You have a new message!",
-    date: "1 hour ago",
-  },
-  {
-    title: "Your subscription is expiring soon!",
-    date: "2 hours ago",
+    title: "Your call has been confirmed.",
+    description: "1 hour ago",
+  },  {
+    title: "Your call has been confirmed.",
+    description: "1 hour ago",
   },
 ]
  
 type CardProps = React.ComponentProps<typeof Card>
 
-export default function CalendarCard({ className, ...props }: CardProps) {
+export default function NotesCard({ className, ...props }: CardProps) {
   return (
       <Card className={cn("w-2/5 mx-1", className)} {...props}>
       <CardHeader>
@@ -44,13 +44,16 @@ export default function CalendarCard({ className, ...props }: CardProps) {
               key={index}
               className="mb-4 grid grid-cols-[25px_1fr] items-start pb-3 last:mb-0 last:pb-0"
             >
-              <span className="flex h-2 w-2 translate-y-1 rounded-full bg-black" />
+            
               <div className="space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {event.title}
-                </p>
+                <div>
+                    <Checkbox id="note" />
+                    <label className="text-sm font-medium leading-none" htmlFor='note'>
+                    {event.title}
+                    </label>
+                </div>
                 <p className="text-sm text-muted-foreground">
-                  {event.date}
+                  {event.description}
                 </p>
               </div>
             </div>
