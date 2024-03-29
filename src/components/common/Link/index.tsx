@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Link from 'next/link';
 import { ReactLoadableManifest } from 'next/dist/server/load-components';
+import { cn } from '@/lib/utils';
 
 
 interface EmptyLinkProps {
@@ -18,7 +19,10 @@ interface IconLinkProps {
 
 export const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, className }) => {
   return (
-    <Link href={href} className={`flex items-center justify-center hover:bg-gray-500 hover:bg-opacity-30 py-1.5 px-3 rounded-md ${className}`}>
+    <Link href={href} className={cn(
+      'flex items-center justify-center hover:bg-gray-500 hover:bg-opacity-30 py-1.5 px-3 rounded-md',
+      className
+    )}>
       <div className='flex items-center justify-center'>
         <p className={`flex items-center justify-center text-white ${showArrow ? 'mr-2' : ''}`}>
             {text}

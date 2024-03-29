@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
 import NodejsLight from '@/components/Icons/Logos/NodejsLight';
-import { EmptyLink, IconLink } from '@/components/common/Link';
 import { ActiveLink } from '@/components/common/ActiveLink';
-import { usePathname } from 'next/navigation';
-import { AvatarRounded } from '../common/Avatar';
-import GitHub from '../Icons/Social/GitHub';
-import Link from 'next/link';
+import { EmptyLink, IconLink } from '@/components/common/Link';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React, { useMemo, useState } from 'react';
+import GitHub from '../Icons/Social/GitHub';
+import { AvatarRounded } from '../common/Avatar';
 
 interface NavLink {
   name: string;
@@ -16,7 +17,6 @@ interface NavLink {
 }
 
 const links: NavLink[] = [
-  { name: 'Dashboard', link: '/dashboard' },
   { name: 'Help', link: '/help' },
   { name: 'Contact', link: '/contact' },
   { name: 'Blog', link: '/blog' },
@@ -25,23 +25,8 @@ const links: NavLink[] = [
 export const NavBar: React.FC = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [scrolled, setScrolled] = useState<boolean>(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  const { data: session } = useSession();
+  console.log('🚀 ~ session:', session);
 
   const toggleMenu = () => {
     setMenuOpen(prevState => !prevState);
@@ -71,7 +56,7 @@ export const NavBar: React.FC = () => {
   return (
     <>
       <nav
-        className={`sticky left-0 right-0 top-0 z-10 border-gray-200 border-b border-b-[#2C3437] px-8 py-3 backdrop-filter backdrop-blur-sm bg-opacity-30}`}
+        className={`bg-opacity-30} sticky left-0 right-0 top-0 z-10 border-b border-gray-200 border-b-[#2C3437] px-8 py-3 backdrop-blur-sm backdrop-filter`}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center">
@@ -84,15 +69,34 @@ export const NavBar: React.FC = () => {
             <IconLink href="https://github.com/vlimax24" className="mx-2">
               <GitHub width={22} height={22} color="white" />
             </IconLink>
-            <Link href={'/dashboard'}>
-              <AvatarRounded
-                src="https://github.com/shadcn.png"
-                fallback="CN"
-                alt="Limax"
-                clickEvent={false}
-                className="size-10 hover:cursor-pointer"
-              />
-            </Link>
+            {session ? (
+              <>
+                <Link href={'/dashboard'}>
+                  <AvatarRounded
+                    src={`${session.user.image}`}
+                    fallback="AZ"
+                    alt="Limax"
+                    clickEvent={false}
+                    className="size-10 hover:cursor-pointer"
+                  />
+                </Link>
+              </>
+            ) : (
+              <>
+                <EmptyLink
+                  href={'/login'}
+                  text={'Login'}
+                  showArrow={false}
+                  className="mx-1 text-[15px]"
+                />
+                <EmptyLink
+                  href={'/signup'}
+                  text={'Sign Up'}
+                  showArrow={false}
+                  className="mx-1 text-[15px]"
+                />
+              </>
+            )}
           </div>
           <div
             className="flex hover:cursor-pointer md:hidden"
