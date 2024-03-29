@@ -75,7 +75,7 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
   const displayedAssignments = assignments.slice(0, 6);
 
   return (
-    <Card className={cn("w-3/5 mx-1", className)} {...props}>
+    <Card className={cn("w-4/5 mx-1", className)} {...props}>
       <CardHeader>
         <CardTitle>Assignments</CardTitle>
         <CardDescription>Your upcoming Assignments</CardDescription>
@@ -83,11 +83,11 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
       <CardContent className="grid gap-4">
         <div>
           {displayedAssignments.length > 0 ? (
-            <div className='grid gap-4 grid-cols-3'>
+            <div className='grid gap-4 grid-cols-4'>
               {displayedAssignments.map((assignment, index) => (
                 <div
                   key={index}
-                  className="mb-2 w-64 items-start p-4 border rounded-md"
+                  className="mb-0.5 w-72 items-start p-4 border rounded-md hover:scale-[1.03] hover:cursor-pointer transition-all duration-300 ease-in-out"
                 >
                   <div className="space-y-1">
                     <h1 className="text-sm font-semibold leading-none">
