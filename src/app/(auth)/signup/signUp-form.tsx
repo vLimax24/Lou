@@ -2,14 +2,24 @@
 
 import React from 'react';
 import Link from "next/link"
-
+import { api } from '@/convex/_generated/api';
+import { useMutation, useQuery } from 'convex/react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signIn } from 'next-auth/react';
 import { env } from '@/env';
+import { useSession } from 'next-auth/react';
 
 const SignUpForm = () => {
+  const { data: session, status } = useSession();
+  const signUp = async () => {
+    await signIn('google', { callbackUrl: env.NEXT_PUBLIC_URL })
+
+    console.log(session)
+
+
+  }
   return (
     <div className="mx-auto grid w-[350px] gap-6">
       <div className="grid gap-2 text-center">
@@ -42,7 +52,7 @@ const SignUpForm = () => {
         <Button type="submit" className="w-full">
           Signup
         </Button> */}
-        <Button variant="outline" className="w-full" onClick={() => signIn('google', { callbackUrl: env.NEXT_PUBLIC_URL })}>
+        <Button variant="outline" className="w-full" onClick={signUp}>
           Sign up with Google
         </Button>
       </div>

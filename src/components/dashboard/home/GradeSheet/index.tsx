@@ -64,15 +64,15 @@ type CardProps = React.ComponentProps<typeof Card>;
 export default function GradeSheetCard({ className, ...props }: CardProps) {
 
   return (
-    <Card className={cn("w-3/5 h-96 max-h-96 mx-1", className)} {...props}>
+    <Card className={cn("w-full md:w-3/5 md:h-96 md:max-h-96 mx-1", className)} {...props}>
       <CardHeader>
         <CardTitle>Grades</CardTitle>
         <CardDescription>Your current averages</CardDescription>
       </CardHeader>
       <CardContent className="grid">
-        <div className='grid grid-cols-4 '>
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-2'>
           {grades.map((grade, index) => (
-            <div key={index} className={`w-52 h-20 ${subjectColors[grade.subject]} my-1 rounded-md px-2 flex flex-col items-start justify-center hover:scale-105 transition-all duration-300 ease-in-out hover:cursor-pointer`}>
+            <div key={index} className={`w-full md:w-52 h-20 ${subjectColors[grade.subject]} my-1 rounded-md px-2 flex flex-col items-start justify-center hover:scale-105 transition-all duration-300 ease-in-out hover:cursor-pointer`}>
                 <h1 className={`${subjectColors[grade.subject]} text-md font-semibold text-white`}>{grade.subject}</h1>
                 <h1 className='text-3xl text-white font-bold'>{grade.gradeAverage}</h1>
             </div>

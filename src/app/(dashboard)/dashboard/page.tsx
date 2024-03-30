@@ -15,11 +15,11 @@ export default function Dashboard() {
         <h1 className="text-lg font-semibold md:text-2xl ml-1">Welcome Back, {session?.user.name}</h1>
       </div>
       <div className="flex flex-col flex-1 rounded-lg">
-        <div className='flex flex-1 pb-1'>
+        <div className='flex flex-col md:flex-row flex-1 pb-1'>
           <CalendarCard />
           <AssignmentCard />
         </div>
-        <div className='flex flex-1 pt-1 pb-0'>
+        <div className='flex flex-1 pt-1 pb-0 flex-col md:flex-row'>
           <GradeSheetCard />
           <NotesCard />
         </div>

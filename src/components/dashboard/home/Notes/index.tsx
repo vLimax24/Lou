@@ -37,7 +37,7 @@ type CardProps = React.ComponentProps<typeof Card>
 
 export default function NotesCard({ className, ...props }: CardProps) {
   return (
-      <Card className={cn("w-2/5 mx-1", className)} {...props}>
+      <Card className={cn("w-full md:w-2/5 mx-1 my-2 md:my-0", className)} {...props}>
       <CardHeader>
         <Link href={'/dashboard/notes'}>
           <CardTitle className='flex items-center justify-start'>Notes <ArrowUpRightIcon className="ml-2 h-4 w-4 mt-1" /></CardTitle>
