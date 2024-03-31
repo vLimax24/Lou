@@ -40,6 +40,6 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts"
-  ],
+, "src/components/Calendar/Combobox.jsx"  ],
   "exclude": ["node_modules"]
 }

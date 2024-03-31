@@ -15,14 +15,11 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const [currentMonth, setCurrentMonth] = useState(initialDate);
   const [events, setEvents] = useState<Events>({});
 
-  const handleDayDoubleClick = (date: string) => {
-    const eventTitle = prompt('Enter event title:');
-    if (eventTitle) {
+  const handleDate = (date: string) => {
       setEvents((prevEvents) => ({
         ...prevEvents,
-        [date]: [...(prevEvents[date] ?? []), eventTitle],
+        [date]: [...(prevEvents[date] ?? [])],
       }));
-    }
   };
 
   const goToCurrentDay = () => {
@@ -50,13 +47,13 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
         </div>
         <h2>{currentMonth.format('MMMM YYYY')}</h2>
         <div>
-          <button onClick={goToCurrentDay}>Go to Current Day</button>
+          <button onClick={goToCurrentDay}>today</button>
         </div>
       </div>
       <CalendarGrid
         currentMonth={currentMonth}
         events={events}
-        onDayDoubleClick={handleDayDoubleClick}
+        onClick={handleDate}
       />
     </div>
   );
