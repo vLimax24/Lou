@@ -40,7 +40,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
             <Sheet key={day.format('YYYY-MM-DD')}>
               <SheetTrigger asChild>
                 <button
-                  className={`flex items-center justify-center h-32 border border-gray-300 hover:cursor-default text-sm relative ${
+                  className={`flex items-center justify-center h-24 md:h-28 lg:h-32 border border-gray-300 hover:cursor-default text-sm relative ${
                     day.month() === currentMonth.month() ? 'bg-white' : 'bg-gray-200 text-gray-500'
                   } ${isCurrentDay ? 'bg-blue-200' : ''}`}
                   style={{ flexGrow: 1 }}
@@ -115,7 +115,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
           currentRow.push(
             <div
               key={day.format('YYYY-MM-DD')}
-              className={`flex items-center justify-center h-32 border border-gray-300 text-sm relative bg-gray-200 text-gray-500 ${
+              className={`flex items-center justify-center h-24 md:h-28 lg:h-32 border border-gray-300 text-sm relative bg-gray-200 text-gray-500 ${
                 isCurrentDay ? 'bg-blue-200' : ''
               }`}
               style={{ flexGrow: 1 }}

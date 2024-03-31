@@ -37,17 +37,15 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <div>
-          <button onClick={goToPreviousMonth}>
+        <h2 className='font-bold text-2xl'>{currentMonth.format('MMMM YYYY')}</h2>
+        <div className='flex items-center justify-center mr-2'>
+          <button onClick={goToPreviousMonth} className='hover:bg-gray-100 p-1.5 rounded-full'>
             <ChevronLeft size={20}/>
           </button>
-          <button onClick={goToNextMonth}>
+          <button onClick={goToCurrentDay} className='pb-1 mx-2'>Today</button>
+          <button onClick={goToNextMonth} className='hover:bg-gray-100 p-1.5 rounded-full'>
             <ChevronRight size={20}/>
           </button>
-        </div>
-        <h2>{currentMonth.format('MMMM YYYY')}</h2>
-        <div>
-          <button onClick={goToCurrentDay}>today</button>
         </div>
       </div>
       <CalendarGrid

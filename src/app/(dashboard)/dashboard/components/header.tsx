@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useSession } from 'next-auth/react';
+import { CalendarDays, ListChecks, StickyNote, BookA, Package2, Home, GraduationCap, Lightbulb, Search, Menu, CircleUser } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   Card,
@@ -20,17 +21,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  CircleUser,
-  Home,
-  LineChart,
-  Menu,
-  Package,
-  Package2,
-  Search,
-  ShoppingCart,
-  Users,
-} from 'lucide-react';
 // functions
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
@@ -53,46 +43,53 @@ export default function DashboardHeader() {
               href="#"
               className="flex items-center gap-2 text-lg font-semibold"
             >
-              <Package2 className="h-6 w-6" />
-              <span className="sr-only">StudentOS</span>
+              <Lightbulb className="h-6 w-6" />
+              <span className="ml-5 text-black">StudentOS</span>
             </Link>
             <Link
-              href="#"
+              href="/dashboard/"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <Home className="h-5 w-5" />
-              Dashboard
+              Home
             </Link>
             <Link
-              href="#"
+              href="/dashboard/calendar"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
             >
-              <ShoppingCart className="h-5 w-5" />
-              Orders
+              <CalendarDays className="h-5 w-5" />
+              Calendar
               <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                 6
               </Badge>
             </Link>
             <Link
-              href="#"
+              href="/dashboard/grade-sheet"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
-              <Package className="h-5 w-5" />
-              Products
+              <GraduationCap className="h-5 w-5" />
+              Grade Sheet
             </Link>
             <Link
-              href="#"
+              href="/dashboard/tasks"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
-              <Users className="h-5 w-5" />
-              Customers
+              <ListChecks className="h-5 w-5" />
+              Tasks
             </Link>
             <Link
-              href="#"
+              href="/dashboard/notes"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
-              <LineChart className="h-5 w-5" />
-              Analytics
+              <StickyNote className="h-5 w-5" />
+              Notes
+            </Link>
+            <Link
+              href="/dashboard/learn-ressources"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+            >
+              <BookA className="h-5 w-5" />
+              Learn Ressources
             </Link>
           </nav>
           <div className="mt-auto">
