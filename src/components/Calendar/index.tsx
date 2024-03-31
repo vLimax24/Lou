@@ -1,33 +1,57 @@
-'use client'
+import React, { useState } from 'react';
+import dayjs from 'dayjs';
+import CalendarGrid from './CalendarGrid';
 
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
+interface CalendarProps {
+  initialDate?: dayjs.Dayjs;
+}
 
-const events = [
-  { title: 'Meeting', start: new Date() }
-]
+type Events = Record<string, string[]>;
 
-export function Calendar() {
+const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
+  const [currentMonth, setCurrentMonth] = useState(initialDate);
+
+  const [events, setEvents] = useState<Events>({});
+
+  const handleDayDoubleClick = (date: string) => {
+    const eventTitle = prompt('Enter event title:');
+    if (eventTitle) {
+      setEvents((prevEvents) => ({
+        ...prevEvents,
+        [date]: [...(prevEvents[date] ?? []), eventTitle],
+      }));
+    }
+  };
+
+  const goToCurrentDay = () => {
+    setCurrentMonth(dayjs());
+  };
+
+  const goToPreviousMonth = () => {
+    setCurrentMonth((prevMonth) => prevMonth.subtract(1, 'month'));
+  };
+
+  const goToNextMonth = () => {
+    setCurrentMonth((prevMonth) => prevMonth.add(1, 'month'));
+  };
+
   return (
     <div>
-      <h1>Demo App</h1>
-      <FullCalendar
-        plugins={[dayGridPlugin]}
-        initialView='dayGridMonth'
-        weekends={true}
+      <div className="flex justify-between items-center mb-4">
+        <button onClick={goToPreviousMonth}>Previous Month</button>
+        <h2>{currentMonth.format('MMMM YYYY')}</h2>
+        <button onClick={goToNextMonth}>Next Month</button>
+      </div>
+      <div className="mb-4">
+        <button onClick={goToCurrentDay}>Go to Current Day</button>
+      </div>
+      <CalendarGrid
+        currentMonth={currentMonth}
         events={events}
-        eventContent={renderEventContent}
+        onDayDoubleClick={handleDayDoubleClick}
       />
     </div>
-  )
-}
+  );
+};
 
-// a custom render function
-function renderEventContent(eventInfo) {
-  return (
-    <>
-      <b>{eventInfo?.timeText}</b>
-      <i>{eventInfo?.event?.title}</i>
-    </>
-  )
-}
+export default Calendar;

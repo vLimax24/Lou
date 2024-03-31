@@ -2,7 +2,6 @@ import '@/styles/globals.css';
 import { Toaster } from '@/components/ui/sonner';
 import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/lib/AuthProvider';
-import type { Session } from 'next-auth';
 import { getServerAuthSession } from '@/server/auth';
 import ConvexClientProvider from '@/lib/ConvexClientProvider';
 const inter = Inter({
