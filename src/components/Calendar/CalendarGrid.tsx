@@ -20,6 +20,9 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   onClick,
 }) => {
     const [dropdownValue, setDropdownValue] = useState('OTHER');
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [date, setDate] = useState('')
     const renderCalendarGrid = () => {
         const startOfMonth = currentMonth.startOf('month');
         const endOfMonth = currentMonth.endOf('month');
