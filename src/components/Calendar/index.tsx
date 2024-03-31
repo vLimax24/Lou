@@ -16,12 +16,18 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const [events, setEvents] = useState<Events>({});
 
   const handleDate = (date: string) => {
-      setEvents((prevEvents) => ({
-        ...prevEvents,
-        [date]: [...(prevEvents[date] ?? [])],
-      }));
+    // This function could be used to handle clicking on a date cell in the calendar
+    // For now, we're just logging the clicked date
+    console.log('Clicked on date:', date);
   };
 
+  const handleCreateEvent = (date: string, title: string, description: string, type: string) => {
+    // Update the events state with the new event
+    setEvents(prevEvents => ({
+      ...prevEvents,
+      [date]: [...(prevEvents[date] ?? []), `${title} (${type}) - ${description}`],
+    }));
+  };
   const goToCurrentDay = () => {
     setCurrentMonth(dayjs());
   };
@@ -52,6 +58,7 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
         currentMonth={currentMonth}
         events={events}
         onClick={handleDate}
+        onCreateEvent={handleCreateEvent}
       />
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Sheet, SheetContent, SheetTitle, SheetTrigger, SheetFooter, SheetClose } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetFooter, SheetClose } from "@/components/ui/sheet"
 import { Calendar } from 'lucide-react'
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
@@ -12,17 +12,26 @@ interface CalendarGridProps {
   currentMonth: dayjs.Dayjs;
   events: Record<string, string[]>;
   onClick: (date: string) => void;
+  onCreateEvent: (date: string, title: string, description: string, type: string) => void;
 }
 
 const CalendarGrid: React.FC<CalendarGridProps> = ({
   currentMonth,
   events,
   onClick,
+  onCreateEvent,
 }) => {
     const [dropdownValue, setDropdownValue] = useState('OTHER');
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [date, setDate] = useState('')
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [date, setDate] = useState('');
+  
+    const handleCreateEvent = () => {
+      onCreateEvent(date, title, description, dropdownValue);
+      setTitle('');
+      setDescription('');
+    };
+
     const renderCalendarGrid = () => {
         const startOfMonth = currentMonth.startOf('month');
         const endOfMonth = currentMonth.endOf('month');
@@ -38,6 +47,44 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
       
           currentRow.push(
             <Sheet key={day.format('YYYY-MM-DD')}>
+              <SheetContent>
+                <SheetTitle>
+                  <h1 className='font-bold text-xl font-open-sans'>Create an Event - {day.format('YYYY-MM-DD')}</h1>
+                </SheetTitle>
+                <div className='mt-2 flex flex-col'>
+                  <div className='mb-5'>
+                    <Label htmlFor='title'>Title</Label>
+                    <Input id='title' type='text' placeholder='Event Title' value={title} onChange={(e) => setTitle(e.target.value)} required className='mt-1'/>
+                  </div>
+                  <div className='flex items-center justify-between'>
+                    <div className='flex items-center'>
+                      <Calendar size={20}/>
+                      <Label htmlFor='date' className='ml-2'>Date</Label>
+                    </div>
+                    <div>
+                      <p>{day.format('YYYY-MM-DD')}</p>
+                      <input type="hidden" value={day.format('YYYY-MM-DD')} />
+                    </div>
+                  </div>
+                  <div className='mb-5'>
+                    <Label htmlFor='description'>Description</Label>
+                    <Textarea id='description' value={description} onChange={(e) => setDescription(e.target.value)} className='mt-1'/>
+                  </div>
+                  <div className='flex items-center justify-between'>
+                    <h1>Type:</h1>
+                    <div className='flex items-center'>
+                        <h1 className='mr-2'>{dropdownValue.charAt(0).toUpperCase() + dropdownValue.slice(1).toLowerCase()}</h1>
+                        <Dropdown value={dropdownValue} setValue={setDropdownValue} />
+                    </div>
+                  </div>
+                </div>
+                <SheetFooter>
+                    <SheetClose asChild>
+                        <Button onClick={handleCreateEvent} className='w-full mt-5'>Create</Button>
+                    </SheetClose>
+              </SheetFooter>
+              </SheetContent>
+
               <SheetTrigger asChild>
                 <button
                   className={`flex items-center justify-center h-24 md:h-28 lg:h-32 border border-gray-300 hover:cursor-default text-sm relative ${
@@ -58,43 +105,6 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                   )}
                 </button>
               </SheetTrigger>
-              <SheetContent>
-                <SheetTitle>
-                  <h1 className='font-bold text-xl font-open-sans'>Create an Event - {day.format('YYYY-MM-DD')}</h1>
-                </SheetTitle>
-                <div className='mt-2 flex flex-col'>
-                  <div className='mb-5'>
-                    <Label htmlFor='title'>Title</Label>
-                    <Input id='title' type='text' placeholder='Event Title' required className='mt-1'/>
-                  </div>
-                  <div className='flex items-center justify-between'>
-                    <div className='flex items-center'>
-                      <Calendar size={20}/>
-                      <Label htmlFor='date' className='ml-2'>Date</Label>
-                    </div>
-                    <div>
-                      <p>{day.format('YYYY-MM-DD')}</p>
-                    </div>
-                  </div>
-                  <div className='mb-5'>
-                    <Label htmlFor='description'>Description</Label>
-                    <Textarea id='description' className='mt-1'/>
-                  </div>
-                  <div className='flex items-center justify-between'>
-                    <h1>Type:</h1>
-                    <div className='flex items-center'>
-                        <h1 className='mr-2'>{dropdownValue.charAt(0).toUpperCase() + dropdownValue.slice(1).toLowerCase()}</h1>
-                        <Dropdown value={dropdownValue} setValue={setDropdownValue} />
-                    </div>
-                  </div>
-                </div>
-                <SheetFooter>
-                    <SheetClose asChild>
-                        <Button className='w-full mt-5'>Create</Button>
-                    </SheetClose>
-              </SheetFooter>
-              </SheetContent>
-
             </Sheet>
           );
 
