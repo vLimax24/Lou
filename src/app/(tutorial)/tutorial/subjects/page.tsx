@@ -149,7 +149,7 @@ const Page: React.FC = () => {
                     ))}
                 </div>
                 <div className='mt-32 flex items-center justify-center mb-5'>
-                    <Link href={''} className='w-full h-12 flex items-center justify-center'>
+                    <Link href={'/tutorial/grading-system'} className='w-full h-12 flex items-center justify-center'>
                         <Button className='w-1/2 h-12' variant={'outline'}>
                             <h4 className='text-xl'>Continue</h4>
                         </Button>
