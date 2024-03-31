@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button"
+import Link from 'next/link';
 
 interface Subject {
     name: string;
@@ -148,9 +149,11 @@ const Page: React.FC = () => {
                     ))}
                 </div>
                 <div className='mt-32 flex items-center justify-center mb-5'>
-                    <Button className='w-1/2 h-12' variant={'outline'}>
-                        <h4 className='text-xl'>Continue</h4>
-                    </Button>
+                    <Link href={''} className='w-full h-12 flex items-center justify-center'>
+                        <Button className='w-1/2 h-12' variant={'outline'}>
+                            <h4 className='text-xl'>Continue</h4>
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </div>
