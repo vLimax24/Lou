@@ -1,6 +1,9 @@
+'use client'
+
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import CalendarGrid from './CalendarGrid';
+import { ChevronRight, ChevronLeft } from 'lucide-react'
 
 interface CalendarProps {
   initialDate?: dayjs.Dayjs;
@@ -10,7 +13,6 @@ type Events = Record<string, string[]>;
 
 const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const [currentMonth, setCurrentMonth] = useState(initialDate);
-
   const [events, setEvents] = useState<Events>({});
 
   const handleDayDoubleClick = (date: string) => {
@@ -38,12 +40,18 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <button onClick={goToPreviousMonth}>Previous Month</button>
+        <div>
+          <button onClick={goToPreviousMonth}>
+            <ChevronLeft size={20}/>
+          </button>
+          <button onClick={goToNextMonth}>
+            <ChevronRight size={20}/>
+          </button>
+        </div>
         <h2>{currentMonth.format('MMMM YYYY')}</h2>
-        <button onClick={goToNextMonth}>Next Month</button>
-      </div>
-      <div className="mb-4">
-        <button onClick={goToCurrentDay}>Go to Current Day</button>
+        <div>
+          <button onClick={goToCurrentDay}>Go to Current Day</button>
+        </div>
       </div>
       <CalendarGrid
         currentMonth={currentMonth}
