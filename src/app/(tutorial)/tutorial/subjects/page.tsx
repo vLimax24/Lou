@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button"
-import Link from 'next/link';
+import { CircleAlert } from 'lucide-react';
 
 interface Subject {
     name: string;
@@ -107,8 +107,9 @@ function AnimatedCheckIcon() {
     );
   }
 
-const Page: React.FC = () => {
+  const Page: React.FC = () => {
     const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+    const [showWarning, setShowWarning] = useState(false);
 
     const toggleSubject = (subjectName: string): void => {
         setSelectedSubjects(prevSelectedSubjects => {
@@ -122,6 +123,14 @@ const Page: React.FC = () => {
 
     const isSelected = (subjectName: string): boolean => {
         return selectedSubjects.includes(subjectName);
+    };
+
+    const handleFinish = () => {
+        if (selectedSubjects.length === 0) {
+            setShowWarning(true);
+        } else {
+            window.location.href = '/tutorial/grading-system';
+        }
     };
 
     return (
@@ -148,12 +157,16 @@ const Page: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                <div className='mt-32 flex items-center justify-center mb-5'>
-                    <Link href={'/tutorial/grading-system'} className='w-full h-12 flex items-center justify-center'>
-                        <Button className='w-1/2 h-12' variant={'outline'}>
-                            <h4 className='text-xl'>Continue</h4>
-                        </Button>
-                    </Link>
+                <div className='mt-32 flex items-center justify-center mb-5 flex-col'>
+                    {showWarning && (
+                        <div className="text-red-500 flex items-center mb-2">
+                            <CircleAlert size={20}/>
+                            <p className='ml-2 text-center pb-1'>Please select at least one subject before finishing.</p>
+                        </div>
+                    )}
+                    <Button className='w-1/2 h-12' variant={'outline'} onClick={handleFinish}>
+                        <h4 className='text-xl'>Finish</h4>
+                    </Button>
                 </div>
             </div>
         </div>

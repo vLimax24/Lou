@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Link from 'next/link';
+import { CircleAlert } from 'lucide-react'
 
 function AnimatedCheckIcon() {
     return (
@@ -29,6 +29,7 @@ function AnimatedCheckIcon() {
 
 const Page = () => {
     const [selectedGradingSystem, setSelectedGradingSystem] = useState<string | null>(null);
+    const [showWarning, setShowWarning] = useState(false);
 
     const toggleGradingSystem = (system: string) => {
         setSelectedGradingSystem(prevSystem => (prevSystem === system ? null : system));
@@ -36,6 +37,14 @@ const Page = () => {
 
     const isGradingSystemSelected = (system: string) => {
         return selectedGradingSystem === system;
+    };
+
+    const handleFinish = () => {
+        if (!selectedGradingSystem) {
+            setShowWarning(true);
+        } else {
+            window.location.href = '/dashboard';
+        }
     };
 
     return (
@@ -91,12 +100,17 @@ const Page = () => {
                         </Card>
                     </div>
                 </div>
-                <div className='w-full mt-16 flex items-center justify-center h-12'>
-                    <Link href={'/dashboard'} className='w-full h-12 flex items-center justify-center'>
-                        <Button className='w-1/2 h-12' variant={'outline'}>
-                            <h4 className='text-xl'>Finish</h4>
-                        </Button>
-                    </Link>
+                
+                <div className='w-full mt-16 flex items-center justify-center h-12 flex-col'>
+                    {showWarning && (
+                        <div className="text-red-500 flex items-center mb-2">
+                            <CircleAlert size={20}/>
+                            <p className='ml-2 text-center pb-1'>Please select a grading system before finishing.</p>
+                        </div>
+                    )}
+                    <Button className='w-1/2 h-12' variant={'outline'} onClick={handleFinish}>
+                        <h4 className='text-xl'>Finish</h4>
+                    </Button>
                 </div>
             </div>
         </div>
