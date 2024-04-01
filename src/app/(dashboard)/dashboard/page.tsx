@@ -1,14 +1,13 @@
 'use client'
-import React from 'react';
-import { useSession } from 'next-auth/react';
-import CalendarCard from '@/components/dashboard/home/Calendar';
 import AssignmentCard from '@/components/dashboard/home/Assignments';
+import CalendarCard from '@/components/dashboard/home/Calendar';
 import GradeSheetCard from '@/components/dashboard/home/GradeSheet';
 import NotesCard from '@/components/dashboard/home/Notes';
+import { useSession } from 'next-auth/react';
 
 export default function Dashboard() {
   const { data: session } = useSession();
-
+  
   return (
     <main className="flex flex-col gap-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">

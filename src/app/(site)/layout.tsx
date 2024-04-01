@@ -1,7 +1,7 @@
-import "@/styles/globals.css";
-import { Toaster } from "@/components/ui/sonner"
-import { Inter } from "next/font/google";
 import { NavBar } from "@/components/containers/NavBar";
+import { Toaster } from "@/components/ui/sonner";
+import "@/styles/globals.css";
+import { Inter } from "next/font/google";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,6 +19,9 @@ export default function SiteLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+ 
+
   return (
       <main className='bg-foreground h-full w-full min-h-screen text-white'>
         <NavBar />

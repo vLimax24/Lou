@@ -87,7 +87,7 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
               {displayedAssignments.map((assignment, index) => (
                 <div
                   key={index}
-                  className="mb-0.5 w-full lg:w-72 items-start p-4 border rounded-md hover:scale-[1.03] hover:cursor-pointer transition-all duration-300 ease-in-out"
+                  className="mb-0.5 w-full items-start p-4 border rounded-md hover:scale-[1.03] hover:cursor-pointer transition-all duration-300 ease-in-out"
                 >
                   <div className="space-y-1">
                     <h1 className="text-sm font-semibold leading-none">

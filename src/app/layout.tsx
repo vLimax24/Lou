@@ -1,35 +1,38 @@
-import '@/styles/globals.css';
+"use client"
 import { Toaster } from '@/components/ui/sonner';
+import { env } from '@/env';
+import { useAuthFromNextAuth } from '@/hooks/auth/useAuthFromNextAuth';
+import '@/styles/globals.css';
+import { ConvexProviderWithAuth, ConvexReactClient } from 'convex/react';
+import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
-import { AuthProvider } from '@/lib/AuthProvider';
-import { getServerAuthSession } from '@/server/auth';
-import ConvexClientProvider from '@/lib/ConvexClientProvider';
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
 });
 
-export const metadata = {
-  title: 'StudentOS',
-  description: 'Created by vLimax24',
-  icons: [{ rel: 'icon', url: '/favicon.ico' }],
-};
+// do not cache this layout
+export const revalidate = 0;
+const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL);
 
-export default async function RootLayout({
+
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerAuthSession();
+ 
+
+ 
 
   return (
     <html lang="en">
-      <AuthProvider session={session}>
+      <SessionProvider>
         <body className={`font-sans ${inter.variable}`}>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+          <ConvexProviderWithAuth client={convex} useAuth={useAuthFromNextAuth}>{children}</ConvexProviderWithAuth>
           <Toaster />
         </body>
-      </AuthProvider>
+      </SessionProvider>
     </html>
   );
 }

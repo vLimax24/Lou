@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import useStoreUser from '@/hooks/auth/useStoreUser';
 
 const Tasks = () => {
   const tasks = useQuery(api.tasks.getTasks);
@@ -57,7 +58,7 @@ const formSchema = z.object({
   isCompleted: z.boolean().default(false),
 });
 export function AddTaskDialog() {
-
+  const userId = useStoreUser()
   const addTask = useMutation(api.tasks.addTask)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -70,7 +71,7 @@ export function AddTaskDialog() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await addTask({isCompleted: values.isCompleted, text: values.text})
+      await addTask({isCompleted: values.isCompleted, text: values.text, userId: userId!})
       toast('Task Added.')
     } catch (error) {
       toast('Error Adding Task')
