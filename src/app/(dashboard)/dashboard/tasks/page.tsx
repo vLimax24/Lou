@@ -56,7 +56,6 @@ const Tasks = () => {
     const destinationColumnId = destination.droppableId as keyof TaskColumns;
   
     if (sourceColumnId === destinationColumnId) {
-      // Reordering within the same column
       const updatedTasks = Array.from(taskColumns[sourceColumnId]);
       const [removedTask] = updatedTasks.splice(source.index, 1);
       updatedTasks.splice(destination.index, 0, removedTask);
@@ -85,7 +84,7 @@ const Tasks = () => {
         {Object.keys(taskColumns).map((columnId: keyof TaskColumns) => (
           <div key={columnId}>
             <h2>{columnId === 'todo' ? 'To-Do' : columnId === 'inProgress' ? 'In Progress' : 'Completed'}</h2>
-            {taskColumns[columnId].length > 0 && ( // Check if tasks exist for the column
+            {taskColumns[columnId].length > 0 && (
               <Droppable droppableId={columnId} key={columnId}>
                 {(provided) => (
                   <ul
