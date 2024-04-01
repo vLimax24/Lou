@@ -38,14 +38,14 @@ const Tasks = () => {
     <>
     <AddTaskDialog/>
     <ul className="grid grid-cols-1 gap-8">
-      {tasks?.map(task => (
-        <li key={task._id} className="flex max-w-lg flex-row gap-2 border p-4">
-          <Badge variant={task.isCompleted ? 'outline' : 'destructive'}>
-            {task.isCompleted ? 'True' : 'False'}
-          </Badge>
-          <p>{task.text}</p>
-        </li>
-      ))}
+    {tasks?.map(task => (
+      <li key={task._id} className="flex max-w-lg flex-row gap-2 border p-4">
+        <Badge variant={task.status === 'COMPLETED' ? 'outline' : (task.status === 'IN-PROGRESS' ? 'default' : 'destructive')}>
+          {task.status}
+        </Badge>
+        <p>{task.text}</p>
+      </li>
+    ))}
     </ul>
     </>
   );
@@ -55,7 +55,7 @@ export default Tasks;
 
 const formSchema = z.object({
   text: z.string().min(2).max(50),
-  isCompleted: z.boolean().default(false),
+  status: z.enum(['PENDING', 'IN-PROGRESS', 'COMPLETED']).default('PENDING'),
 });
 export function AddTaskDialog() {
   const userId = useStoreUser()
@@ -65,13 +65,13 @@ export function AddTaskDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       text: '',
-      isCompleted: false,
+      status: 'PENDING',
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await addTask({isCompleted: values.isCompleted, text: values.text, userId: userId!})
+      await addTask({status: values.status, text: values.text, userId: userId!})
       toast('Task Added.')
     } catch (error) {
       toast('Error Adding Task')
@@ -112,20 +112,18 @@ export function AddTaskDialog() {
                 />
                 <FormField
                   control={form.control}
-                  name="isCompleted"
+                  name="status"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormItem>
+                      <FormLabel>Task Status</FormLabel>
                       <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <select {...field} className="input">
+                          <option value="PENDING">To-Do</option>
+                          <option value="IN-PROGRESS">In Progress</option>
+                          <option value="COMPLETED">Done</option>
+                        </select>
                       </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel>
-                          Task Status
-                        </FormLabel>
-                      </div>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />

@@ -3,7 +3,7 @@ import { v } from 'convex/values';
 
 export default defineSchema({
   tasks: defineTable({
-    isCompleted: v.boolean(),
+    status: v.string(),
     text: v.string(),
     userId: v.id('users'),
   }),
