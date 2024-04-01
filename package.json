@@ -51,6 +51,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
     "convex": "^1.10.0",
+    "convex-helpers": "^0.1.27",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "drizzle-orm": "^0.29.4",

@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import { api } from '@/convex/_generated/api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from 'convex/react';
+import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -17,7 +17,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -33,28 +33,58 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import useStoreUser from '@/hooks/auth/useStoreUser';
+import { Loader2 } from 'lucide-react';
 
+type BadgeVariant =
+  | 'outline'
+  | 'default'
+  | 'destructive'
+  | 'secondary'
+  | null
+  | undefined;
+
+const TaskStatus: Record<string, BadgeVariant> = {
+  COMPLETED: 'outline',
+  'IN-PROGRESS': 'default',
+  PENDING: 'destructive',
+};
 const Tasks = () => {
-  const tasks = useQuery(api.tasks.getTasks);
+  const { isAuthenticated } = useConvexAuth();
+  const tasks = useQuery(
+    api.tasks.getTasks,
+    !isAuthenticated ? 'skip' : undefined
+  );
+
+  function getBadgeVariant(status: string): BadgeVariant {
+    const normalizedStatus = status.toUpperCase();
+    return TaskStatus[normalizedStatus] ?? 'default';
+  }
 
   return (
     <>
-    <AddTaskDialog/>
-    <ul className="grid grid-cols-1 gap-8">
-    {tasks?.map(task => (
-      <li key={task._id} className="flex max-w-lg flex-row gap-2 border p-4">
-        <Badge variant={task.status === 'COMPLETED' ? 'outline' : (task.status === 'IN-PROGRESS' ? 'default' : 'destructive')}>
-          {task.status}
-        </Badge>
-        <p>{task.text}</p>
-      </li>
-    ))}
-    </ul>
+      <AddTaskDialog />
+      <ul className="grid grid-cols-1 gap-8">
+        {!tasks ? (
+          <Loader2 className="size-8 animate-spin" />
+        ) : (
+          tasks.map(task => (
+            <li
+              key={task._id}
+              className="flex max-w-lg flex-row gap-2 border p-4"
+            >
+              <Badge variant={getBadgeVariant(task.status)}>
+                {task.status}
+              </Badge>
+              <p>{task.text}</p>
+            </li>
+          ))
+        )}
+      </ul>
     </>
   );
 };
@@ -66,8 +96,8 @@ const formSchema = z.object({
   status: z.enum(['PENDING', 'IN-PROGRESS', 'COMPLETED']).default('PENDING'),
 });
 export function AddTaskDialog() {
-  const userId = useStoreUser()
-  const addTask = useMutation(api.tasks.addTask)
+  const userId = useStoreUser();
+  const addTask = useMutation(api.tasks.addTask);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,12 +109,16 @@ export function AddTaskDialog() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await addTask({status: values.status, text: values.text, userId: userId!})
-      toast('Task Added.')
+      await addTask({
+        status: values.status,
+        text: values.text,
+        userId: userId!,
+      });
+      toast('Task Added.');
     } catch (error) {
-      toast('Error Adding Task')
+      toast('Error Adding Task');
     }
-    
+
     console.log(values);
   }
 
@@ -125,19 +159,23 @@ export function AddTaskDialog() {
                     <FormItem>
                       <FormLabel>Task Status</FormLabel>
                       <FormControl>
-                      <Select>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Select a status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Status</SelectLabel>
-                            <SelectItem value="PENDING">To-Do</SelectItem>
-                            <SelectItem value="IN-PROGRESS">In Progress</SelectItem>
-                            <SelectItem value="COMPLETED">Completed</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Select a status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Status</SelectLabel>
+                              <SelectItem value="PENDING">To-Do</SelectItem>
+                              <SelectItem value="IN-PROGRESS">
+                                In Progress
+                              </SelectItem>
+                              <SelectItem value="COMPLETED">
+                                Completed
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

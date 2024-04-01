@@ -1,16 +1,19 @@
 import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
+import { authQuery } from './util';
 
-export const getTasks = query({
-  handler: async ({ auth, db }) => {
+export const getTasks = authQuery({
+  args:{},
+  handler: async ({ auth, db, user }) => {
+  
     const identity = await auth.getUserIdentity();
     if (!identity) {
       throw new Error('you must be logged in to get your tasks');
     }
-
-    const user = await db.query('users').filter((q) => q.eq(q.field("subject"), identity?.subject)).first()
-
-    const tasks = await db.query('tasks').filter((q) => q.eq(q.field("userId"), user?._id)).collect();
+    const tasks = await db
+      .query('tasks')
+      .filter(q => q.eq(q.field('userId'), user?._id))
+      .collect();
 
     return tasks;
   },

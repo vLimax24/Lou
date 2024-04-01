@@ -1,4 +1,5 @@
 import { mutation } from './_generated/server';
+import { authQuery } from './util';
 
 /**
  * Insert or update the user in a Convex table then return the document's ID.
@@ -41,5 +42,12 @@ export const store = mutation({
       pictureUrl: identity.pictureUrl,
       name: identity.name,
     });
+  },
+});
+
+export const getMyUser = authQuery({
+  args: {},
+  async handler(ctx) {
+    return ctx.user;
   },
 });
