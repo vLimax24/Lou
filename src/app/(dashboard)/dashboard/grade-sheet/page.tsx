@@ -1,8 +1,11 @@
 import React from 'react'
+import { DataTableDemo } from '@/components/GradeSheet/Datatable'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <DataTableDemo />
+    </div>
   )
 }
 
