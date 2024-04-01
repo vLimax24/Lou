@@ -1,11 +1,11 @@
-import { defineSchema, defineTable } from "convex/server";
-import { v } from "convex/values";
+import { defineSchema, defineTable } from 'convex/server';
+import { v } from 'convex/values';
 
 export default defineSchema({
   tasks: defineTable({
     isCompleted: v.boolean(),
     text: v.string(),
-    userId: v.id('users')
+    userId: v.id('users'),
   }),
   users: defineTable({
     name: v.optional(v.string()),
@@ -13,7 +13,20 @@ export default defineSchema({
     email: v.optional(v.string()),
     pictureUrl: v.optional(v.string()),
     tokenIdentifier: v.string(),
-  }).index("by_token", ["tokenIdentifier"]),
+  }).index('by_token', ['tokenIdentifier']),
+  subjects: defineTable({
+    name: v.string(),
+    color: v.string(),
+    fromColor: v.string(),
+    toColor: v.string(),
+  }),
+  studentSubjects: defineTable({
+    // many to many relationship table
+    userId: v.id('users'),
+    subjectId: v.id('subjects'),
+  })
+    .index('subjectId', ['subjectId'])
+    .index('userId', ['userId']),
 
   // users: defineTable({
   //   name: v.string(),

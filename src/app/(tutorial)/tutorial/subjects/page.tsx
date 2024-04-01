@@ -3,88 +3,12 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button"
-import { CircleAlert } from 'lucide-react';
+import { CircleAlert, Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
-interface Subject {
-    name: string;
-    color: string;
-    fromColor: string;
-    toColor: string;
-    selected: boolean;
-}
-
-const subjects: Subject[] = [
-    {
-        name: 'English',
-        color: 'green-500',
-        fromColor: 'from-green-500',
-        toColor: 'to-green-400',
-        selected: false
-    },
-    {
-        name: 'Maths',
-        color: 'blue-500',
-        fromColor: 'from-blue-500',
-        toColor: 'to-blue-400',
-        selected: false
-    },
-    {
-        name: 'Physics',
-        color: 'purple-500',
-        fromColor: 'from-purple-500',
-        toColor: 'to-purple-400',
-        selected: false
-    },
-    {
-        name: 'Chemistry',
-        color: 'yellow-500',
-        fromColor: 'from-yellow-500',
-        toColor: 'to-yellow-400',
-        selected: false
-    },
-    {
-        name: 'Biology',
-        color: 'indigo-500',
-        fromColor: 'from-indigo-500',
-        toColor: 'to-indigo-400',
-        selected: false
-    },
-    {
-        name: 'Computer Science',
-        color: 'pink-500',
-        fromColor: 'from-pink-500',
-        toColor: 'to-pink-400',
-        selected: false
-    },
-    {
-        name: 'Geography',
-        color: 'teal-500',
-        fromColor: 'from-teal-500',
-        toColor: 'to-teal-400',
-        selected: false
-    },
-    {
-        name: 'Economics',
-        color: 'gray-500',
-        fromColor: 'from-gray-500',
-        toColor: 'to-gray-400',
-        selected: false
-    },
-    {
-        name: 'History',
-        color: 'orange-500',
-        fromColor: 'from-orange-500',
-        toColor: 'to-orange-400',
-        selected: false
-    },
-    {
-        name: 'German',
-        color: 'red-500',
-        fromColor: 'from-red-500',
-        toColor: 'to-red-400',
-        selected: false
-    }
-]
 
 function AnimatedCheckIcon() {
     return (
@@ -108,8 +32,11 @@ function AnimatedCheckIcon() {
   }
 
   const Page: React.FC = () => {
+    const router = useRouter()
     const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
     const [showWarning, setShowWarning] = useState(false);
+    
+    const subjects = useQuery(api.subjects.getAllSubjects)
 
     const toggleSubject = (subjectName: string): void => {
         setSelectedSubjects(prevSelectedSubjects => {
@@ -129,7 +56,7 @@ function AnimatedCheckIcon() {
         if (selectedSubjects.length === 0) {
             setShowWarning(true);
         } else {
-            window.location.href = '/tutorial/grading-system';
+            router.push('/tutorial/grading-system')
         }
     };
 
@@ -139,13 +66,18 @@ function AnimatedCheckIcon() {
             <div className="p-5 mt-10">
                 <h2 className='font-semibold text-2xl mb-10'>1. Choose your Subjects</h2>
                 <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-2">
-                    {subjects.map((subject) => (
+                    {
+                    !subjects ? <Loader2 className='size-8 animate-spin'/> : 
+                    subjects.map((subject) => (
                         <div
                             key={subject.name}
                             className={`relative bg-gradient-to-br ${subject.fromColor} from-30% ${subject.toColor} rounded-md h-24 pl-4 pt-3 hover:cursor-pointer transition-all duration-300 ease-in-out`}
                             onClick={() => toggleSubject(subject.name)}
                         >
-                            <div className={`absolute inset-0 rounded-md transition-opacity duration-300 ease-in-out ${isSelected(subject.name) ? 'bg-black bg-opacity-50' : ''}`}></div>
+                            <div className={cn(
+                                'absolute inset-0 rounded-md transition-opacity duration-300 ease-in-out ',
+                                isSelected(subject.name) && 'bg-black bg-opacity-50'
+                            )}></div>
                             <h1 className="text-white text-3xl font-bold">
                                 {subject.name}
                             </h1>
