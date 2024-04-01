@@ -9,7 +9,15 @@ import { z } from 'zod';
 
 //  components
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   Dialog,
   DialogContent,
@@ -117,11 +125,19 @@ export function AddTaskDialog() {
                     <FormItem>
                       <FormLabel>Task Status</FormLabel>
                       <FormControl>
-                        <select {...field} className="input">
-                          <option value="PENDING">To-Do</option>
-                          <option value="IN-PROGRESS">In Progress</option>
-                          <option value="COMPLETED">Done</option>
-                        </select>
+                      <Select>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Select a status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Status</SelectLabel>
+                            <SelectItem value="PENDING">To-Do</SelectItem>
+                            <SelectItem value="IN-PROGRESS">In Progress</SelectItem>
+                            <SelectItem value="COMPLETED">Completed</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
