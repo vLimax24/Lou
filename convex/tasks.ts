@@ -1,6 +1,6 @@
 import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
-import { authQuery } from './util';
+import { authMutation, authQuery } from './util';
 
 export const getTasks = authQuery({
   args:{},
@@ -18,6 +18,13 @@ export const getTasks = authQuery({
     return tasks;
   },
 });
+
+export const updateTaskStatus = authMutation({
+  args: { taskId: v.id('tasks'), newStatus: v.string()},
+  handler: async(ctx, args) => {
+    await ctx.db.patch(args.taskId, {status: args.newStatus})
+  }
+})
 
 export const addTask = mutation({
   args: {
