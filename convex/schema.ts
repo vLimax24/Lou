@@ -13,6 +13,7 @@ export default defineSchema({
     email: v.optional(v.string()),
     pictureUrl: v.optional(v.string()),
     tokenIdentifier: v.string(),
+    gradingSystem: v.optional(v.string())
   }).index('by_token', ['tokenIdentifier']),
   subjects: defineTable({
     name: v.string(),

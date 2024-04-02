@@ -1,33 +1,46 @@
-import { getServerAuthSession } from '@/server/auth';
-import '@/styles/globals.css';
-import { redirect } from 'next/navigation';
+'use client';
+import { useRouter } from 'next/navigation';
+//convex
+import { api } from '@/convex/_generated/api';
+import { useConvexAuth, useQuery } from 'convex/react';
+//components
 import DashboardHeader from './dashboard/components/header';
 import DashboardSidebar from './dashboard/components/sidebar';
+import { useEffect } from 'react';
+import useStoreUser from '@/hooks/auth/useStoreUser';
 
-export const metadata = {
-  title: 'StudentOS - Dashboard',
-  description: 'Dashboard for StudentOS',
-  icons: [{ rel: 'icon', url: '/favicon.ico' }],
-};
-
-export default async function DashboardLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerAuthSession();
-  console.log('🚀 ~ session:', session);
-  if (!session) {
-    redirect('/login');
+  useStoreUser()
+  const router = useRouter();
+  const { isAuthenticated, isLoading: AuthLoading } = useConvexAuth();
+
+  if (!isAuthenticated && !AuthLoading) {
+    router.push('/login');
   }
 
+  const subjects = useQuery(
+    api.subjects.getUserSubjects,
+    !isAuthenticated ? 'skip' : undefined
+  );
+
+  useEffect(() => {
+    if (!subjects || !isAuthenticated) return;
+    if (subjects.length <= 0) {
+      router.push('/dashboard/tutorial/subjects');
+    }
+  }, [subjects, isAuthenticated]);
+
   return (
-      <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-        <DashboardSidebar />
-        <div className="flex flex-col">
-          <DashboardHeader />
-          <div className="p-4">{children}</div>
-        </div>
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+      <DashboardSidebar />
+      <div className="flex flex-col">
+        <DashboardHeader />
+        <div className="p-4">{children}</div>
       </div>
+    </div>
   );
 }
