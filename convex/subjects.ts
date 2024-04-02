@@ -1,6 +1,6 @@
 import { query } from './_generated/server';
 import { authQuery } from './util';
-import { getManyFrom } from 'convex-helpers/server/relationships';
+import { getManyFrom } from 'convex-helpers/server/relationships'
 
 export const getAllSubjects = query({
   handler: async ctx => {
