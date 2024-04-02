@@ -12,6 +12,7 @@ import {
 } from 'react-beautiful-dnd';
 import { AddTaskDialog } from './task-form';
 import { type Id } from '@/convex/_generated/dataModel';
+import { cn } from '@/lib/utils';
 
 type Task = {
   _id: string;
@@ -56,6 +57,7 @@ const Tasks = () => {
   }, [tasks]);
 
   const handleDragEnd = async (result: DropResult) => {
+    console.log('🚀 ~ handleDragEnd ~ result:', result);
     const { source, destination, draggableId } = result;
 
     if (!destination) return;
@@ -86,7 +88,7 @@ const Tasks = () => {
 
     // Re-fetch or locally adjust the tasks to reflect the change
     // For simplicity here, we're just going to re-filter tasks assuming they're already updated
-    // In a real app, we need to ensure the state is consistent with the server
+    // In a real app, you might want to ensure the state is consistent with the server
     setTaskColumns(prevState => {
       return {
         todo: prevState.todo
@@ -118,16 +120,18 @@ const Tasks = () => {
                       ? 'In Progress'
                       : 'Completed'}
                 </h2>
-
-                <Droppable droppableId={columnKey} key={columnId}>
-                  {provided => (
-                    <ul
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className="min-h-8 rounded bg-gray-100 p-4"
-                    >
-                      {taskColumns[columnKey].length > 0 &&
-                        taskColumns[columnKey].map((task, index) => (
+                {taskColumns[columnKey].length > 0 && (
+                  <Droppable droppableId={columnKey} key={columnId}>
+                    {(provided, snapshot) => (
+                      <ul
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        className={cn(
+                          "min-h-12 rounded p-4",
+                          snapshot.isDraggingOver ? 'bg-gray-50' : "bg-gray-100"
+                        )}
+                      >
+                        {taskColumns[columnKey].map((task, index) => (
                           <Draggable
                             key={task._id}
                             draggableId={task._id}
@@ -156,10 +160,11 @@ const Tasks = () => {
                             )}
                           </Draggable>
                         ))}
-                      {provided.placeholder}
-                    </ul>
-                  )}
-                </Droppable>
+                        {provided.placeholder}
+                      </ul>
+                    )}
+                  </Droppable>
+                )}
               </div>
             );
           })}
