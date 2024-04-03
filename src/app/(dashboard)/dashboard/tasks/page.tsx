@@ -33,6 +33,7 @@ const Tasks = (): JSX.Element => {
     api.tasks.getTasks,
     !isAuthenticated ? 'skip' : undefined
   );
+  console.log(tasks);
   const updateTask = useMutation<{ taskId: string, newStatus: TaskStatus }>(api.tasks.updateTaskStatus);
   const containers: TaskStatus[] = Object.values(taskTypes);
   const [parent, setParent] = useState<string | null>(null);
@@ -44,13 +45,17 @@ const Tasks = (): JSX.Element => {
     const taskId: string = active.id as string;
 
     // Update task status
-    await updateTask.mutateAsync({ taskId, newStatus });
+    await updateTask({ taskId, newStatus });
     setParent(null); // Reset parent
   }
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <AddTaskDialog />
+      <div className='w-full flex items-center justify-between mr-10 mb-6 p-4'>
+        <h1 className='text-4xl font-bold'>Your Tasks</h1>
+        <AddTaskDialog />
+      </div>
+      
       <div className='flex w-full justify-between'>
         {containers.map((type: TaskStatus) => (
           <div key={type} className="w-1/3 p-4">

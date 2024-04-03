@@ -1,10 +1,9 @@
 'use client'
 
 import React from 'react'
-import { AddNoteDialog } from './addNoteDialog'
+import { AddNoteDialog } from './AddNoteDialog'
 import { Trash, CalendarDays, Pencil } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Button } from "@/components/ui/button"
 
 const notes = [
   {
@@ -70,13 +69,13 @@ const Page = () => {
         {notes.map((note) => (
           <div
             key={note.text}
-            className="border border-gray-200 rounded-md p-4 bg-white shadow-md flex-grow h-32 flex flex-col justify-between"
+            className="border border-gray-200 rounded-md bg-white shadow-md flex-grow h-32 flex flex-col justify-between"
           >
-            <div className="flex flex-col items-start justify-start">
+            <div className="flex flex-col items-start justify-start p-4">
               <p className="text-lg font-semibold">{note.text}</p>
               
             </div>
-            <div className='mt-auto text-gray-700 flex w-full items-center justify-between'>
+            <div className='mt-auto text-gray-700 flex w-full items-center justify-between border-t border-gray-200 px-4 py-2'>
             <p className="text-sm text-gray-500">{note.dueDate}</p>
             <TooltipProvider>
               <div className='flex items-center'>

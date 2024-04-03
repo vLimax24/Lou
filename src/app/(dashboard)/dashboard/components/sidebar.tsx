@@ -2,6 +2,8 @@
 import React from 'react';
 import { CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
+import { api } from '@/convex/_generated/api';
+import { useConvexAuth, useQuery } from 'convex/react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,6 +12,13 @@ import NotificationDialog from '@/components/dashboard/notification'; // Import 
 
 const DashboardSidebar = () => {
   const pathname = usePathname();
+  const { isAuthenticated } = useConvexAuth();
+  const tasks = useQuery<Task[]>(
+    api.tasks.getTasks,
+    !isAuthenticated ? 'skip' : undefined
+  );
+
+  const pendingTasksCount = tasks?.filter((task) => task.status === 'PENDING').length ?? 0;
 
   return (
     <div className="hidden border-r bg-muted/40 md:block">
@@ -50,9 +59,11 @@ const DashboardSidebar = () => {
             >
               <ListChecks className="h-4 w-4" />
               Tasks
-              <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                6
-              </Badge>
+              {pendingTasksCount > 0 && (
+                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                  {pendingTasksCount}
+                </Badge>
+              )}
             </Link>
             <Link
               href="/dashboard/notes"
