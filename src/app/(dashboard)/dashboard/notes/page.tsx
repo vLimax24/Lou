@@ -62,7 +62,7 @@ const Page = () => {
   return (
     <div className='p-5'>
       <div className="flex items-center justify-between mb-6">
-        <h1 className='text-4xl font-bold'>Your Pinboard</h1>
+        <h1 className=''>Your Pinboard</h1>
         <AddNoteDialog />
       </div>
       <div className='grid grid-cols-5 gap-4'>

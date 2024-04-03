@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button';
+import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -28,6 +29,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from "@/components/ui/switch"
+import { Calendar } from "@/components/ui/calendar"
 import useStoreUser from '@/hooks/auth/useStoreUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'convex/react';
@@ -35,28 +38,34 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { api } from '@/convex/_generated/api';
+import { Label } from "@/components/ui/label"
 const formSchema = z.object({
   text: z.string().min(2).max(50),
-  status: z.enum(['PENDING', 'IN-PROGRESS', 'COMPLETED']).default('PENDING'),
+  showInCalendar: z.boolean(),
+  date: z.string(),
 });
 
 export function AddNoteDialog() {
   const userId = useStoreUser();
-  const addTask = useMutation(api.tasks.addTask);
+  const addNote = useMutation(api.tasks.addNote);
+  const [showInCalendar, setShowInCalendar] = useState(false)
+  const [date, setDate] = useState<Date | undefined>(new Date())
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       text: '',
-      status: 'PENDING',
+      showInCalendar: false,
+      date: '',
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await addTask({
-        status: values.status,
+      await addNote({
         text: values.text,
+        showInCalendar: values.showInCalendar,
+        date: values.date,
         userId: userId!,
       });
       toast('Note added!');
@@ -67,12 +76,16 @@ export function AddNoteDialog() {
     console.log(values);
   }
 
+  const handleSwitchClick = () => {
+    setShowInCalendar(!showInCalendar);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">Add Note</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] transition-all duration-300 ease-in-out">
         <DialogHeader>
           <DialogTitle>Add Note</DialogTitle>
           <DialogDescription>Add a new note for yourself.</DialogDescription>
@@ -86,10 +99,10 @@ export function AddNoteDialog() {
                   name="text"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Task Description</FormLabel>
+                      <FormLabel>Note</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="have to finish coding.."
+                          placeholder="Clouds are white now"
                           {...field}
                         />
                       </FormControl>
@@ -99,37 +112,47 @@ export function AddNoteDialog() {
                 />
                 <FormField
                   control={form.control}
-                  name="status"
+                  name="showInCalendar"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Task Status</FormLabel>
-                      <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select a status" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Status</SelectLabel>
-                              <SelectItem value="PENDING">To-Do</SelectItem>
-                              <SelectItem value="IN-PROGRESS">
-                                In Progress
-                              </SelectItem>
-                              <SelectItem value="COMPLETED">
-                                Completed
-                              </SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
+                      <FormControl className='flex'> 
+                        <div className='flex items-center justify-between'>
+                            <Label htmlFor="showInCalendar">Show in Calendar</Label>
+                            <Switch id="showInCalendar" onClick={handleSwitchClick} />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                <div className={`transition-opacity duration-300 ease-in-out opacity-${showInCalendar ? '100' : '0'}`}>
+                  {showInCalendar && (
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Pick a due date</FormLabel>
+                          <FormControl className='flex'> 
+                            <div>
+                              <Calendar
+                                mode="single"
+                                selected={date}
+                                onSelect={setDate}
+                                className="rounded-md border"
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </div>
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Add Task</Button>
+              <Button type="submit">Add Note</Button>
             </DialogFooter>
           </form>
         </Form>
