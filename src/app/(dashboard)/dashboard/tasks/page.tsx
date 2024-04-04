@@ -12,7 +12,7 @@ import { Draggable } from './Draggable';
 type TaskStatus = 'PENDING' | 'IN-PROGRESS' | 'COMPLETED';
 
 interface Task {
-  _id: string; // Assuming _id is a string
+  _id: string;
   text: string;
   status: TaskStatus;
 }
@@ -29,12 +29,14 @@ const capitalizeFirstLetter = (str: string): string => {
 
 const Tasks = (): JSX.Element => {
   const { isAuthenticated } = useConvexAuth();
-  const tasks = useQuery<Task[]>(
+  const tasks = useQuery(
     api.tasks.getTasks,
     !isAuthenticated ? 'skip' : undefined
   );
   console.log(tasks);
-  const updateTask = useMutation<{ taskId: string, newStatus: TaskStatus }>(api.tasks.updateTaskStatus);
+  const updateTask = useMutation<{ taskId: string; newStatus: TaskStatus }>(
+    api.tasks.updateTaskStatus
+  );
   const containers: TaskStatus[] = Object.values(taskTypes);
   const [parent, setParent] = useState<string | null>(null);
 
@@ -63,7 +65,7 @@ const Tasks = (): JSX.Element => {
             <Droppable key={type} id={type}>
               {tasks
                 ?.filter((task) => task.status === type)
-                .map((task) => (
+                ?.map((task) => (
                   <Draggable key={task._id} id={task._id}>
                     <div className="bg-gray-100 p-2 rounded shadow mb-2">{task.text}</div>
                   </Draggable>
