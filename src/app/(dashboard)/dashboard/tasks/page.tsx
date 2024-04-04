@@ -8,15 +8,9 @@ import { DndContext, DragEndEvent } from '@dnd-kit/core';
 
 import { Droppable } from './Droppable';
 import { Draggable } from './Draggable';
+import { Id } from '@/convex/_generated/dataModel';
 
 type TaskStatus = 'PENDING' | 'IN-PROGRESS' | 'COMPLETED';
-
-interface Task {
-  _id: string;
-  text: string;
-  status: TaskStatus;
-}
-
 const taskTypes: Record<string, TaskStatus> = {
   todo: 'PENDING',
   inProgress: 'IN-PROGRESS',
@@ -34,9 +28,9 @@ const Tasks = (): JSX.Element => {
     !isAuthenticated ? 'skip' : undefined
   );
   console.log(tasks);
-  const updateTask = useMutation<{ taskId: string; newStatus: TaskStatus }>(
-    api.tasks.updateTaskStatus
-  );
+  
+  const updateTask = useMutation<typeof api.tasks.updateTaskStatus>(api.tasks.updateTaskStatus);
+  
   const containers: TaskStatus[] = Object.values(taskTypes);
   const [parent, setParent] = useState<string | null>(null);
 
@@ -44,7 +38,7 @@ const Tasks = (): JSX.Element => {
     const { over, active } = event;
     if (!over) return; // No drop target
     const newStatus: TaskStatus = over.id as TaskStatus;
-    const taskId: string = active.id as string;
+    const taskId: Id<"tasks"> = active.id as Id<"tasks">;
 
     // Update task status
     await updateTask({ taskId, newStatus });
