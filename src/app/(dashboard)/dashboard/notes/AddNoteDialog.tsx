@@ -27,6 +27,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Label } from "@/components/ui/label"
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   showInCalendar: z.boolean(),
@@ -34,7 +36,7 @@ const formSchema = z.object({
 });
 
 export function AddNoteDialog() {
-  // const addNote = useMutation(api.tasks.addNote);
+  const addNote = useMutation(api.notes.addNote);
   const [showInCalendar, setShowInCalendar] = useState(false)
   const [date, setDate] = useState<Date | undefined>(new Date())
 
@@ -49,12 +51,12 @@ export function AddNoteDialog() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // await addNote({
-      //   text: values.text,
-      //   showInCalendar: values.showInCalendar,
-      //   date: values.date,
-      //   userId: userId!,
-      // });
+      await addNote({
+        text: values.text,
+        showInCalendar: values.showInCalendar,
+        date: values.date,
+         userId: userId!,
+      });
       toast('Note added!');
     } catch (error) {
       toast('Error Adding Note!');
