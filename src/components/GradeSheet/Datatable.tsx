@@ -13,10 +13,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -24,6 +20,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+
+import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table"
 import { Input } from "@/components/ui/input"
 import {
   Table,
