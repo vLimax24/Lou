@@ -47,7 +47,7 @@ const formSchema = z.object({
 
 export function AddNoteDialog() {
   const userId = useStoreUser();
-  const addNote = useMutation(api.tasks.addNote);
+  // const addNote = useMutation(api.tasks.addNote);
   const [showInCalendar, setShowInCalendar] = useState(false)
   const [date, setDate] = useState<Date | undefined>(new Date())
 
@@ -62,12 +62,12 @@ export function AddNoteDialog() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await addNote({
-        text: values.text,
-        showInCalendar: values.showInCalendar,
-        date: values.date,
-        userId: userId!,
-      });
+      // await addNote({
+      //   text: values.text,
+      //   showInCalendar: values.showInCalendar,
+      //   date: values.date,
+      //   userId: userId!,
+      // });
       toast('Note added!');
     } catch (error) {
       toast('Error Adding Note!');
