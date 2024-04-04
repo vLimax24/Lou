@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useSession } from 'next-auth/react';
-import { CalendarDays, ListChecks, StickyNote, BookA, Package2, Home, GraduationCap, Lightbulb, Search, Menu, CircleUser } from 'lucide-react';
+import { CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, Search, Menu, CircleUser } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   Card,

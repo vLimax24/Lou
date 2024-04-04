@@ -13,7 +13,7 @@ interface DropdownProps {
   setValue: (value: string) => void;
 }
 
-export const Dropdown: React.FC<DropdownProps> = ({ value, setValue }) => {
+export const Dropdown: React.FC<DropdownProps> = ({ setValue }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

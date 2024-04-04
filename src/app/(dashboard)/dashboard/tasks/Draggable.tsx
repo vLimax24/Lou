@@ -1,5 +1,6 @@
 import React from 'react';
-import { useDraggable, UseDraggableArguments } from '@dnd-kit/core';
+import { useDraggable } from '@dnd-kit/core';
+import type { UseDraggableArguments } from '@dnd-kit/core';
 
 interface DraggableProps {
   id: string;

@@ -4,11 +4,12 @@ import { api } from '@/convex/_generated/api';
 import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { AddTaskDialog } from './task-form';
 import React, { useState } from 'react';
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { DndContext } from '@dnd-kit/core';
+import type { DragEndEvent } from '@dnd-kit/core'
 
 import { Droppable } from './Droppable';
 import { Draggable } from './Draggable';
-import { Id } from '@/convex/_generated/dataModel';
+import type { Id } from '@/convex/_generated/dataModel';
 
 type TaskStatus = 'PENDING' | 'IN-PROGRESS' | 'COMPLETED';
 const taskTypes: Record<string, TaskStatus> = {
@@ -33,6 +34,7 @@ const Tasks = (): JSX.Element => {
   
   const containers: TaskStatus[] = Object.values(taskTypes);
   const [parent, setParent] = useState<string | null>(null);
+  console.log(parent)
 
   async function handleDragEnd(event: DragEndEvent): Promise<void> {
     const { over, active } = event;

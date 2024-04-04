@@ -20,24 +20,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Switch } from "@/components/ui/switch"
 import { Calendar } from "@/components/ui/calendar"
-import useStoreUser from '@/hooks/auth/useStoreUser';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'convex/react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { api } from '@/convex/_generated/api';
 import { Label } from "@/components/ui/label"
 const formSchema = z.object({
   text: z.string().min(2).max(50),
@@ -46,7 +34,6 @@ const formSchema = z.object({
 });
 
 export function AddNoteDialog() {
-  const userId = useStoreUser();
   // const addNote = useMutation(api.tasks.addNote);
   const [showInCalendar, setShowInCalendar] = useState(false)
   const [date, setDate] = useState<Date | undefined>(new Date())
@@ -113,7 +100,7 @@ export function AddNoteDialog() {
                 <FormField
                   control={form.control}
                   name="showInCalendar"
-                  render={({ field }) => (
+                  render={() => (
                     <FormItem>
                       <FormControl className='flex'> 
                         <div className='flex items-center justify-between'>
@@ -130,7 +117,7 @@ export function AddNoteDialog() {
                     <FormField
                       control={form.control}
                       name="date"
-                      render={({ field }) => (
+                      render={() => (
                         <FormItem>
                           <FormLabel>Pick a due date</FormLabel>
                           <FormControl className='flex'> 

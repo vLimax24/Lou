@@ -93,6 +93,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                   style={{ flexGrow: 1 }}
                   onClick={() => {
                     onClick(day.format('YYYY-MM-DD'));
+                    setDate(day.format('YYYY-MM-DD'))
                   }}
                 >
                   <div className="absolute top-0 right-0 m-1">{day.format('D')}</div>

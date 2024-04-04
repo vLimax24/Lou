@@ -2,17 +2,13 @@
 
 import React from 'react';
 import Link from "next/link"
-import { api } from '@/convex/_generated/api';
-import { useMutation, useQuery } from 'convex/react';
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { signIn } from 'next-auth/react';
 import { env } from '@/env';
 import { useSession } from 'next-auth/react';
 
 const SignUpForm = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const signUp = async () => {
     await signIn('google', { callbackUrl: env.NEXT_PUBLIC_URL })
 

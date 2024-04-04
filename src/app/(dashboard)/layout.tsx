@@ -32,7 +32,7 @@ export default function DashboardLayout({
     if (subjects.length <= 0) {
       router.push('/dashboard/tutorial/subjects');
     }
-  }, [subjects, isAuthenticated]);
+  }, [subjects, isAuthenticated, router]);
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">

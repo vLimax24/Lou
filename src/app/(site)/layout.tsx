@@ -1,12 +1,6 @@
 import { NavBar } from "@/components/containers/NavBar";
 import { Toaster } from "@/components/ui/sonner";
 import "@/styles/globals.css";
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const metadata = {
   title: "StudentOS",
