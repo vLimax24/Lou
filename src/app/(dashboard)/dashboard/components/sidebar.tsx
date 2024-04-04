@@ -13,7 +13,7 @@ import NotificationDialog from '@/components/dashboard/notification'; // Import 
 const DashboardSidebar = () => {
   const pathname = usePathname();
   const { isAuthenticated } = useConvexAuth();
-  const tasks = useQuery<Task[]>(
+  const tasks = useQuery(
     api.tasks.getTasks,
     !isAuthenticated ? 'skip' : undefined
   );
