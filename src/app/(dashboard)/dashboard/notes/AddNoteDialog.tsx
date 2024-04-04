@@ -1,7 +1,5 @@
-'use client'
-
 import { Button } from '@/components/ui/button';
-import { useState } from 'react'
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -20,27 +18,32 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Switch } from "@/components/ui/switch"
-import { Calendar } from "@/components/ui/calendar"
+import { Switch } from '@/components/ui/switch';
+import { Calendar } from '@/components/ui/calendar';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { Label } from "@/components/ui/label"
+import { Label } from '@/components/ui/label';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
+import useStoreUser from '@/hooks/auth/useStoreUser';
+
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   showInCalendar: z.boolean(),
   date: z.string(),
 });
 
-export function AddNoteDialog() {
-  const addNote = useMutation(api.notes.addNote);
-  const [showInCalendar, setShowInCalendar] = useState(false)
-  const [date, setDate] = useState<Date | undefined>(new Date())
+type FormData = z.infer<typeof formSchema>;
 
-  const form = useForm<z.infer<typeof formSchema>>({
+export function AddNoteDialog() {
+  const userId = useStoreUser();
+  const addNote = useMutation(api.notes.addNote);
+  const [showInCalendar, setShowInCalendar] = useState(false);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       text: '',
@@ -49,13 +52,13 @@ export function AddNoteDialog() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData) {
     try {
       await addNote({
         text: values.text,
         showInCalendar: values.showInCalendar,
         date: values.date,
-         userId: userId!,
+        userId: userId!,
       });
       toast('Note added!');
     } catch (error) {
