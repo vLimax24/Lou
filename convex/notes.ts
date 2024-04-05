@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { authMutation, authQuery } from './util';
 
-export const getTasks = authQuery({
+export const getNotes = authQuery({
   args:{},
   handler: async ({ auth, db, user }) => {
   
