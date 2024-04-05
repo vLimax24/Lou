@@ -10,7 +10,7 @@ export default defineSchema({
   notes: defineTable({
     showInCalendar: v.boolean(),
     text: v.string(),
-    date: v.optional(v.string()),
+    date: v.string(),
     userId: v.id('users'),
   }),
   users: defineTable({

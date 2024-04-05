@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -25,10 +25,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { Pencil } from 'lucide-react'
 import { Label } from '@/components/ui/label';
-import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import useStoreUser from '@/hooks/auth/useStoreUser';
+import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 
 const formSchema = z.object({
   text: z.string().min(2).max(50),
@@ -38,16 +39,29 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function AddNoteDialog() {
+export function EditNoteDialog({ id }: any) {
+  const note = useQuery(
+    api.notes.getSpecificNote,
+    { noteId: id }
+  );
   const userId = useStoreUser();
-  const addNote = useMutation(api.notes.addNote);
+  const editNote = useMutation(api.notes.editNote);
   const [showInCalendar, setShowInCalendar] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [text, setText] = useState<string>('')
+
+  useEffect(() => {
+    if (note) {
+      setShowInCalendar(note.showInCalendar);
+      setDate(note.date ? new Date(note.date) : undefined);
+      setText(note.text)
+    }
+  }, [note]);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      text: '',
+      text: note?.text ?? '', // Set defaultValue to note's text
       showInCalendar: false,
       date: '',
     },
@@ -56,34 +70,28 @@ export function AddNoteDialog() {
   async function onSubmit(values: FormData) {
     try {
       const formattedDate = date?.toISOString()
-      console.log(formattedDate)
-
-      await addNote({
-        text: values.text,
-        showInCalendar: showInCalendar,
-        date: formattedDate,
-        userId: userId!,
+      await editNote({
+        noteId: id,
+        newText: values.text,
+        newShowInCalendar: showInCalendar,
+        newDate: formattedDate,
       });
-      toast('Note added!');
-      setShowInCalendar(false)
-      setDate(undefined)
-      form.reset()
+      toast('Note edited successfully!');
+      form.reset();
     } catch (error) {
-      toast('Error Adding Note!');
+      toast('Error editing Note!');
     }
-
-    console.log(values);
   }
-  
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Note</Button>
+        <Pencil size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300'/>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] transition-all duration-300 ease-in-out">
         <DialogHeader>
-          <DialogTitle>Add Note</DialogTitle>
-          <DialogDescription>Add a new note for yourself.</DialogDescription>
+          <DialogTitle>Edit Note</DialogTitle>
+          <DialogDescription>Edit the parts of the note that you want to be changed!</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -113,8 +121,11 @@ export function AddNoteDialog() {
                       <FormControl className='flex'> 
                         <div className='flex items-center justify-between'>
                             <Label htmlFor="showInCalendar">Show in Calendar</Label>
-                            <Switch id="showInCalendar"                       checked={showInCalendar}
-                            onCheckedChange={() => setShowInCalendar(!showInCalendar)} />
+                            <Switch
+                              id="showInCalendar"
+                              checked={showInCalendar}
+                              onCheckedChange={() => setShowInCalendar(!showInCalendar)}
+                            />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -122,32 +133,32 @@ export function AddNoteDialog() {
                   )}
                 />
                 <div>
-                    <FormField
-                      control={form.control}
-                      name="date"
-                      render={() => (
-                        <FormItem>
-                          <FormLabel>Pick a due date</FormLabel>
-                          <FormControl className='flex'> 
-                            <div>
-                              <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={setDate}
-                                className="rounded-md border w-full grid place-items-center"
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>Pick a due date</FormLabel>
+                        <FormControl className='flex'> 
+                          <div>
+                            <Calendar
+                              mode="single"
+                              selected={date}
+                              onSelect={setDate}
+                              className="rounded-md border w-full grid place-items-center"
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
             </div>
             <DialogFooter>
               <DialogClose>
-                <Button type="submit">Add Note</Button>
+                <Button type="submit">Save</Button>
               </DialogClose>
             </DialogFooter>
           </form>

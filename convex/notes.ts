@@ -19,10 +19,26 @@ export const getNotes = authQuery({
   },
 });
 
-export const updateNoteText = authMutation({
-  args: { noteId: v.id('notes'), newText: v.string()},
+export const getSpecificNote = authQuery({
+  args: { noteId: v.id('notes') },
+  handler: async ({ auth, db }, args) => {
+    const identity = await auth.getUserIdentity();
+    if (!identity) {
+      throw new Error('you must be logged in to get your notes');
+    }
+    const note = await db
+      .query('notes')
+      .filter(q => q.eq(q.field('_id'), args.noteId))
+      .first();
+
+    return note;
+  },
+});
+
+export const editNote = authMutation({
+  args: { noteId: v.id('notes'), newText: v.string(), newDate: v.string(), newShowInCalendar: v.boolean()},
   handler: async(ctx, args) => {
-    await ctx.db.patch(args.noteId, {text: args.newText})
+    await ctx.db.patch(args.noteId, {text: args.newText, showInCalendar: args.newShowInCalendar, date: args.newDate})
   }
 })
 
@@ -45,5 +61,12 @@ export const addNote = mutation({
       userId: args.userId
     });
     return newNote;
+  },
+});
+
+export const deleteNote = mutation({
+  args: { id: v.id("notes") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id);
   },
 });

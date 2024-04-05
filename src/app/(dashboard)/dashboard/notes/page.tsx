@@ -2,63 +2,12 @@
 
 import React from 'react'
 import { AddNoteDialog } from './AddNoteDialog'
+import { EditNoteDialog } from './EditNoteDialog'
 import { Trash, CalendarDays, Pencil } from 'lucide-react'
 import { api } from '@/convex/_generated/api';
-import { useConvexAuth, useQuery } from 'convex/react';
+import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-
-const notes = [
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-  {
-    text: 'this is a test note',
-    dueDate: '2024-10-12',
-    showInCalendar: true,
-  },
-]
+import { toast } from 'sonner';
 
 const Page = () => {
   const { isAuthenticated } = useConvexAuth();
@@ -66,7 +15,27 @@ const Page = () => {
     api.notes.getNotes,
     !isAuthenticated ? 'skip' : undefined
   );
+
+  const deleteNote = useMutation(api.notes.deleteNote)
+
+  async function handleDeleteNote(id: any) {
+    try {
+      await deleteNote({
+        id: id,
+      });
+      toast('Note deleted!');
+    } catch (error) {
+      toast('Error deleting Note!');
+    }
+  }
+
   console.log(notes);
+  
+  const formatDate = (dateString: any) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('de-DE');
+  };
+
   return (
     <div className='p-5'>
       <div className="flex items-center justify-between mb-6">
@@ -81,44 +50,45 @@ const Page = () => {
           >
             <div className="flex flex-col items-start justify-start p-4">
               <p className="text-lg font-semibold">{note.text}</p>
-              
             </div>
             <div className='mt-auto text-gray-700 flex w-full items-center justify-between border-t border-gray-200 px-4 py-2'>
-            <p className="text-sm text-gray-500">{note.date}</p>
-            <TooltipProvider>
-              <div className='flex items-center'>
-                <div>
-                  <Tooltip delayDuration={50}>
-                    <TooltipTrigger asChild>
-                        <CalendarDays size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300' />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>View in Calendar</p>
-                    </TooltipContent>
-                  </Tooltip>
+              <p className="text-sm text-gray-500">{formatDate(note.date)}</p>
+              <TooltipProvider>
+                <div className='flex items-center'>
+                {note?.showInCalendar && (
+                  <div>
+                    <Tooltip delayDuration={50}>
+                      <TooltipTrigger asChild>
+                          <CalendarDays size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300' />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>View in Calendar</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                )}
+                  <div>
+                    <Tooltip delayDuration={50}>
+                      <TooltipTrigger asChild>
+                          <Trash size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300'  onClick={() => handleDeleteNote(note._id)}/>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Delete Note</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                  <div>
+                    <Tooltip delayDuration={50}>
+                      <TooltipTrigger asChild>
+                          <EditNoteDialog id={note?._id}/>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Edit Note</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
                 </div>
-                <div>
-                  <Tooltip delayDuration={50}>
-                    <TooltipTrigger asChild>
-                        <Trash size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300' />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Delete Note</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-                <div>
-                  <Tooltip delayDuration={50}>
-                    <TooltipTrigger asChild>
-                        <Pencil size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300' />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Edit Note</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              </div>
-            </TooltipProvider>
+              </TooltipProvider>
             </div>
           </div>
         ))}
