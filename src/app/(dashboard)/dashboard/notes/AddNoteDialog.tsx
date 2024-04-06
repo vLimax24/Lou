@@ -56,7 +56,6 @@ export function AddNoteDialog() {
   async function onSubmit(values: FormData) {
     try {
       const formattedDate = date?.toISOString()
-      console.log(formattedDate)
 
       await addNote({
         text: values.text,

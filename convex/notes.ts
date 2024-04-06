@@ -46,7 +46,7 @@ export const addNote = mutation({
   args: {
     showInCalendar: v.boolean(),
     text: v.string(),
-    date: v.optional(v.string()),
+    date: v.string(),
     userId: v.id("users")
   },
   handler: async ({ auth, db }, args) => {

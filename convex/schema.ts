@@ -27,6 +27,14 @@ export default defineSchema({
     fromColor: v.string(),
     toColor: v.string(),
   }),
+  events: defineTable({
+    title: v.string(),
+    description: v.string(),
+    // subjects: v.optional(v.string()),
+    type: v.string(),
+    date: v.string(),
+    userId: v.id('users'),
+  }),
   studentSubjects: defineTable({
     // many to many relationship table
     userId: v.id('users'),
