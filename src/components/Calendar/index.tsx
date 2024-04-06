@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import CalendarGrid from './CalendarGrid';
 import { ChevronRight, ChevronLeft } from 'lucide-react'
-import { useMutation } from 'convex/react';
+import { useMutation, useQuery, useConvexAuth } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
+
 import useStoreUser from '@/hooks/auth/useStoreUser';
 import moment from 'moment';
 
@@ -18,9 +19,14 @@ type Events = Record<string, string[]>;
 
 const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const [currentMonth, setCurrentMonth] = useState(initialDate);
-  const [events, setEvents] = useState<Events>({});
   const userId = useStoreUser();
   const addEvent = useMutation(api.events.addEvent);
+
+  const { isAuthenticated } = useConvexAuth();
+  const events = useQuery(
+    api.events.getEvents,
+    !isAuthenticated ? 'skip' : undefined
+  );
 
   const handleDate = (date: string) => {
     // This function could be used to handle clicking on a date cell in the calendar
@@ -43,11 +49,6 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
       toast('Event added!');
     } catch (error) {
       toast('Error Adding Event!');
-    } finally {
-      setEvents(prevEvents => ({
-        ...prevEvents,
-        [date]: [...(prevEvents[date] ?? []), `${title} (${type}) - ${description}`],
-      }));
     }
   }
 

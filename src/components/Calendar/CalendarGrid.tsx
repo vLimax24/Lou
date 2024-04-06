@@ -10,7 +10,7 @@ import { Dropdown } from './Dropdown';
 
 interface CalendarGridProps {
   currentMonth: dayjs.Dayjs;
-  events: Record<string, string[]>;
+  events: any;
   onClick: (date: string) => void;
   onCreateEvent: (date: string, title: string, description: string, type: string) => void;
 }
@@ -31,6 +31,16 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
       setTitle('');
       setDescription('');
     };
+
+    const getEventsForDate = (date: any) => {
+      const eventTitles: React.ReactNode[] = [];
+      events?.forEach((event:any) => {
+        if(date == event.date) {
+          eventTitles.push(<p key={event.id}>{event.title}</p>);
+        }
+      });
+      return eventTitles;
+    }
 
     const renderCalendarGrid = () => {
         const startOfMonth = currentMonth.startOf('month');
@@ -97,13 +107,9 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                   }}
                 >
                   <div className="absolute top-0 right-0 m-1">{day.format('D')}</div>
-                  {events[day.format('YYYY-MM-DD')] && (
-                    <div className="text-xs">
-                      {events[day.format('YYYY-MM-DD')]?.map((event, index) => (
-                        <div key={index}>{event}</div>
-                      ))}
-                    </div>
-                  )}
+                  {getEventsForDate(day.toISOString()).map((test) => (
+                    <div key={test?._id}>{test?.title}</div>
+                  ))}
                 </button>
               </SheetTrigger>
             </Sheet>
