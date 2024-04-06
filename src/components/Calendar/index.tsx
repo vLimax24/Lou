@@ -4,6 +4,11 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import CalendarGrid from './CalendarGrid';
 import { ChevronRight, ChevronLeft } from 'lucide-react'
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { toast } from 'sonner';
+import useStoreUser from '@/hooks/auth/useStoreUser';
+import moment from 'moment';
 
 interface CalendarProps {
   initialDate?: dayjs.Dayjs;
@@ -14,6 +19,8 @@ type Events = Record<string, string[]>;
 const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const [currentMonth, setCurrentMonth] = useState(initialDate);
   const [events, setEvents] = useState<Events>({});
+  const userId = useStoreUser();
+  const addEvent = useMutation(api.events.addEvent);
 
   const handleDate = (date: string) => {
     // This function could be used to handle clicking on a date cell in the calendar
@@ -21,13 +28,31 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
     console.log('Clicked on date:', date);
   };
 
-  const handleCreateEvent = (date: string, title: string, description: string, type: string) => {
-    // Update the events state with the new event
-    setEvents(prevEvents => ({
-      ...prevEvents,
-      [date]: [...(prevEvents[date] ?? []), `${title} (${type}) - ${description}`],
-    }));
-  };
+
+  async function handleCreateEvent(date: any, title: string, type: string, description: string) {
+    const formattedDate = moment(date).toISOString()
+    console.log(formattedDate)
+    try {
+      await addEvent({
+        title: title,
+        description: description,
+        date: formattedDate,
+        type: type,
+        userId: userId!,
+      });
+      toast('Event added!');
+    } catch (error) {
+      toast('Error Adding Event!');
+    } finally {
+      setEvents(prevEvents => ({
+        ...prevEvents,
+        [date]: [...(prevEvents[date] ?? []), `${title} (${type}) - ${description}`],
+      }));
+    }
+  }
+
+
+
   const goToCurrentDay = () => {
     setCurrentMonth(dayjs());
   };
