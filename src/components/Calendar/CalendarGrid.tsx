@@ -46,7 +46,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
       .map((event: any) => (
         <Dialog key={event.id}>
           <DialogTrigger key={event.id} className='w-full text-left z-10' onMouseEnter={() => setIsSheetAllowed(false)}>
-            <div className='bg-green-500 bg-opacity-50 w-full pl-2 my-1 rounded-sm hover:cursor-pointer'>
+            <div className='bg-green-500 bg-opacity-50 w-full pl-2 my-0.5 rounded-sm hover:cursor-pointer hover:bg-green-600 hover:bg-opacity-50'>
               {event.title}
             </div>
           </DialogTrigger>
@@ -57,11 +57,11 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
             <div className='flex items-center justify-between'>
               <div className='flex items-center'>
               {event.description === 'ASSIGNMENT' ? (
-                <ClipboardCheck size={20} className='mx-2' />
+                <ClipboardCheck size={20} className='mr-2' />
               ) : event.description === 'EXAM' ? (
-                <School size={20} className='mx-2' />
+                <School size={20} className='mr-2' />
               ) : event.description === 'OTHER' && (
-                <Presentation size={20} className='mx-2' />
+                <Presentation size={20} className='mr-2' />
               )}
               <p>Type:</p>
               </div>
@@ -71,20 +71,20 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
             </div>
             <div className='flex items-center justify-between'>
               <div className='flex items-center'>
-                <CalendarDays size={20} className='mx-2'/>
+                <CalendarDays size={20} className='mr-2'/>
                 <p>Date:</p>
               </div>
               <div>
               {dayjs(event.date).format('DD.MM.YYYY')}
               </div>
             </div>
-            <div className='flex flex-col'>
+            <div className='flex items-center justify-between'>
               <div className='flex items-center '>
-                <Text size={20} className='mx-2'/>
+                <Text size={20} className='mr-2'/>
                 <p>Description:</p>
               </div>
-              <div>
-                <p className='ml-5 my-1 text-muted-foreground'>{event.type}</p>
+              <div className=''>
+                <p className='ml-9 my-1 text-muted-foreground'>{event.type}</p>
               </div>
             </div>
           </DialogContent>
