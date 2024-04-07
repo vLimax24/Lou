@@ -7,8 +7,9 @@ import { Calendar } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Dropdown } from './Dropdown';
-import { CalendarDays, Text, Presentation, School, ClipboardCheck } from 'lucide-react';
+import { CalendarDays, Text, Presentation, School, ClipboardCheck, Plus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip"
 
 interface CalendarGridProps {
   currentMonth: dayjs.Dayjs;
@@ -106,7 +107,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                   <SheetTrigger asChild  key={day.format('YYYY-MM-DD')} onClick={() => console.log('clicked sheet')}>
                   <div
                     key={day.format('YYYY-MM-DD')}
-                    className={`flex items-center justify-center h-24 md:h-28 lg:h-32 border border-gray-300 hover:cursor-default text-sm relative ${
+                    className={`group flex items-center justify-center h-24 md:h-28 lg:h-32 border border-gray-300 hover:cursor-default text-sm relative ${
                       day.month() === currentMonth.month() ? 'bg-white' : 'bg-gray-200 text-gray-500'
                     } ${isCurrentDay ? 'bg-blue-200' : ''}`}
                     style={{ flexGrow: 1, width: 'calc(100% / 7)' }} // Set a fixed width for the cell
@@ -114,6 +115,18 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                       setSelectedDate(day.format('YYYY-MM-DD'));
                     }}
                   >
+                    <TooltipProvider>
+                      <Tooltip delayDuration={50}>
+                        <TooltipTrigger>
+                          <div className='hidden group-hover:block absolute top-0 left-0 m-0.5 p-1 bg-gray-200 rounded-md hover:cursor-pointer'>
+                            <Plus size={20} color='#464646'/>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className='mb-16 ml-5'>
+                          <p>Create an Event</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                     <div className="absolute top-0 right-0 m-1">{day.format('D')}</div>
                     <div className='w-full px-2'>{getEventsForDate(day.format('YYYY-MM-DD'))}</div>
                   </div>
