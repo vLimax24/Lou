@@ -32,13 +32,22 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
       setDescription('');
     };
 
+    console.log(events)
+
     const getEventsForDate = (date: any) => {
       const eventTitles: React.ReactNode[] = [];
+      const formattedDate = dayjs(date).format('YYYY-MM-DD');
       events?.forEach((event:any) => {
-        if(date == event.date) {
+        const formattedEventDate = dayjs(event.date).format('YYYY-MM-DD');
+        if(formattedDate === formattedEventDate) {
           eventTitles.push(<p key={event.id}>{event.title}</p>);
+          console.log('Formatted Event Date:', formattedEventDate);
         }
       });
+
+      console.log('Events:', events);
+      console.log('Formatted Date:', formattedDate);
+      
       return eventTitles;
     }
 
@@ -107,9 +116,9 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                   }}
                 >
                   <div className="absolute top-0 right-0 m-1">{day.format('D')}</div>
-                  {getEventsForDate(day.toISOString()).map((test) => (
-                    <div key={test?._id}>{test?.title}</div>
-                  ))}
+                  <div>
+                    {getEventsForDate(day.toISOString())}
+                  </div>
                 </button>
               </SheetTrigger>
             </Sheet>
