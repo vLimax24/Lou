@@ -67,7 +67,7 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   };
 
   return (
-    <div>
+    <>
       <div className="flex justify-between items-center mb-4">
         <h2 className='font-bold text-2xl'>{currentMonth.format('MMMM YYYY')}</h2>
         <div className='flex items-center justify-center mr-2'>
@@ -86,7 +86,7 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
         onClick={handleDate}
         onCreateEvent={handleCreateEvent}
       />
-    </div>
+    </>
   );
 };
 

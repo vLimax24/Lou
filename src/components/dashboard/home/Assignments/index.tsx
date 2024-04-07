@@ -9,70 +9,44 @@ import {
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { subjectColors } from '@/utils/subjectColors';
+import { api } from '@/convex/_generated/api';
+import { useConvexAuth, useMutation, useQuery } from 'convex/react';
+import dayjs from 'dayjs'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+dayjs.extend(isSameOrAfter)
  
-const assignments = [
-  {
-    title: "Exam Preparation",
-    date: "30-03-2024", // Date format changed to DD-MM-YYYY
-    subject: "German", // Subject name corrected to capital "German"
-  },
-  {
-    title: "Project Presentation",
-    date: "15-03-2025", // Another example assignment
-    subject: "History", // Subject name corrected to capital "History"
-  },
-  {
-    title: "Exam Preparation",
-    date: "30-03-2024", // Date format changed to DD-MM-YYYY
-    subject: "German", // Subject name corrected to capital "German"
-  },
-  {
-    title: "Project Presentation",
-    date: "15-03-2025", // Another example assignment
-    subject: "History", // Subject name corrected to capital "History"
-  },
-  {
-    title: "Exam Preparation",
-    date: "30-03-2024", // Date format changed to DD-MM-YYYY
-    subject: "German", // Subject name corrected to capital "German"
-  },
-  {
-    title: "Project Presentation",
-    date: "15-03-2025", // Another example assignment
-    subject: "History", // Subject name corrected to capital "History"
-  },
-];
+
  
 type CardProps = React.ComponentProps<typeof Card>;
 
 export default function AssignmentCard({ className, ...props }: CardProps) {
   const [remainingTime, setRemainingTime] = useState<(number | string)[]>([]);
 
-  useEffect(() => {
-    const calculateRemainingTime = () => {
-      const today = new Date();
-      const remainingTimeArray = assignments.map(assignment => {
-        const assignmentDate = new Date(assignment.date.split('-').reverse().join('-')); // Parsing date in DD-MM-YYYY format
-        const differenceInTime = assignmentDate.getTime() - today.getTime();
-        if (differenceInTime <= 0) {
-          return "Expired";
-        } else {
-          const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-          if (differenceInDays === 0) {
-            const differenceInHours = Math.ceil(differenceInTime / (1000 * 3600));
-            return `${differenceInHours - 1} hour${differenceInHours !== 1 ? 's' : ''}`;
-          } else {
-            return `${differenceInDays} day${differenceInDays !== 1 ? 's' : ''}`;
-          }
-        }
-      });
-      setRemainingTime(remainingTimeArray);
-    };
+  const { isAuthenticated } = useConvexAuth();
+  const events = useQuery(
+    api.events.getEvents,
+    !isAuthenticated ? 'skip' : undefined
+  );
+  console.log(events);
 
-    calculateRemainingTime();
-  }, []);
-
-  const displayedAssignments = assignments.slice(0, 6);
+  const sortedEvents = events?.slice(0).filter(event => {
+    const eventDate = dayjs(event.date);
+    const currentDate = dayjs(); // Current date
+    return eventDate.isSameOrAfter(currentDate, 'day');
+  }).sort((a, b) => {
+    const dateA = dayjs(a.date);
+    const dateB = dayjs(b.date);
+    const currentDate = dayjs(); // Current date
+    const diffA = Math.abs(dateA.diff(currentDate, 'day')); // Difference in days
+    const diffB = Math.abs(dateB.diff(currentDate, 'day'));
+    return diffA - diffB;
+  }).filter(event => event.description === "ASSIGNMENT").slice(0, 3);
+  
+  function convertToGermanDate(isoDate: any) {
+    const germanDate: any = dayjs(isoDate).format('DD.MM.YYYY')
+    console.log(germanDate) // Convert to German format "dd.mm.yyyy"
+    return germanDate;
+  }
 
   return (
     <Card className={cn("w-full my-2 md:my-0 md:w-4/5 mx-1", className)} {...props}>
@@ -82,9 +56,9 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
       </CardHeader>
       <CardContent className="grid gap-4">
         <div>
-          {displayedAssignments.length > 0 ? (
+          {sortedEvents?.length > 0 ? (
             <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-              {displayedAssignments.map((assignment, index) => (
+              {sortedEvents?.map((assignment, index) => (
                 <div
                   key={index}
                   className="mb-0.5 w-full items-start p-4 border rounded-md hover:scale-[1.03] hover:cursor-pointer transition-all duration-300 ease-in-out"
@@ -94,9 +68,9 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
                       {assignment.title}
                     </h1>
                     <p className="text-sm text-muted-foreground">
-                      {assignment.date} - {remainingTime[index]} left
+                      {convertToGermanDate(assignment.date)}
                     </p>
-                    <Badge className={`${subjectColors[assignment.subject]} text-sm text-white`}>{assignment.subject}</Badge>
+                    {/* <Badge className={`${subjectColors[assignment.subject]} text-sm text-white`}>{assignment.subject}</Badge> */}
                   </div>
                 </div>
               ))}

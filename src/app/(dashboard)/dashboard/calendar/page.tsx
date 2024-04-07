@@ -3,9 +3,9 @@ import Calendar from '@/components/Calendar'
 
 const page = () => {
   return (
-    <div>
+    <>
       <Calendar />
-    </div>
+    </>
   )
 }
 

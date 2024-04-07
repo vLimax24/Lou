@@ -45,12 +45,15 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
       ?.filter((event: any) => dayjs(event.date).format('YYYY-MM-DD') === date)
       .map((event: any) => (
         <Dialog key={event.id}>
-          <DialogTrigger key={event.id} className='w-full text-left z-10' onMouseEnter={() => setIsSheetAllowed(false)}>
+          <DialogTrigger className='w-full text-left z-10' onClick={(e) => {
+            console.log('click')
+            e.stopPropagation()
+          }}>
             <div className='bg-green-500 bg-opacity-50 w-full pl-2 my-0.5 rounded-sm hover:cursor-pointer hover:bg-green-600 hover:bg-opacity-50'>
               {event.title}
             </div>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent onClick={(e) => e.stopPropagation()}>
             <DialogHeader>
               <DialogTitle className='font-bold text-xl'>{event.title}</DialogTitle>
             </DialogHeader>
@@ -99,9 +102,8 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
     const isCurrentDay = day.isSame(dayjs(), 'day');
 
     return (
-      <Sheet>
-        {isSheetAllowed ? (
-                  <SheetTrigger asChild>
+      <Sheet key={day.format('YYYY-MM-DD')}>
+                  <SheetTrigger asChild  key={day.format('YYYY-MM-DD')} onClick={() => console.log('clicked sheet')}>
                   <div
                     key={day.format('YYYY-MM-DD')}
                     className={`flex items-center justify-center h-24 md:h-28 lg:h-32 border border-gray-300 hover:cursor-default text-sm relative ${
@@ -116,22 +118,6 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                     <div className='w-full px-2'>{getEventsForDate(day.format('YYYY-MM-DD'))}</div>
                   </div>
                 </SheetTrigger>
-        ): (
-          <div
-          key={day.format('YYYY-MM-DD')}
-          className={`flex items-center justify-center h-24 md:h-28 lg:h-32 border border-gray-300 hover:cursor-default text-sm relative ${
-            day.month() === currentMonth.month() ? 'bg-white' : 'bg-gray-200 text-gray-500'
-          } ${isCurrentDay ? 'bg-blue-200' : ''}`}
-          style={{ flexGrow: 1, width: 'calc(100% / 7)' }} // Set a fixed width for the cell
-          onClick={() => {
-            setSelectedDate(day.format('YYYY-MM-DD'));
-          }}
-          onMouseEnter={() => setIsSheetAllowed(true)}
-        >
-          <div className="absolute top-0 right-0 m-1">{day.format('D')}</div>
-          <div className='w-full px-2'>{getEventsForDate(day.format('YYYY-MM-DD'))}</div>
-        </div>
-        )}
         <SheetContent>
           <SheetTitle>
             <h1 className="font-bold text-xl font-open-sans">

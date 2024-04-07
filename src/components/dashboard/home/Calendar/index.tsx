@@ -29,7 +29,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
   const sortedEvents = events?.slice(0).filter(event => {
     const eventDate = dayjs(event.date);
     const currentDate = dayjs(); // Current date
-    return dayjs(eventDate).isSameOrAfter(currentDate, 'day');
+    return eventDate.isSameOrAfter(currentDate, 'day');
   }).sort((a, b) => {
     const dateA = dayjs(a.date);
     const dateB = dayjs(b.date);
@@ -37,7 +37,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
     const diffA = Math.abs(dateA.diff(currentDate, 'day')); // Difference in days
     const diffB = Math.abs(dateB.diff(currentDate, 'day'));
     return diffA - diffB;
-  }).slice(0, 3);
+  }).filter(event => event.description === "EXAM").slice(0, 3);
   
   function convertToGermanDate(isoDate: any) {
     const germanDate: any = dayjs(isoDate).format('DD.MM.YYYY')
