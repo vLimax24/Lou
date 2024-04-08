@@ -26,20 +26,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
 import useStoreUser from '@/hooks/auth/useStoreUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'convex/react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { api } from '@/convex/_generated/api';
+
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   status: z.enum(['PENDING', 'IN-PROGRESS', 'COMPLETED']).default('PENDING'),
 });
 
-export function AddTaskDialog() {
-  const userId = useStoreUser();
+export function AddTaskDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
   const addTask = useMutation(api.tasks.addTask);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,9 +56,10 @@ export function AddTaskDialog() {
       await addTask({
         status: values.status,
         text: values.text,
-        userId: userId!,
+        subjectId: subjectId
       });
       toast('Task Added.');
+      form.reset();
     } catch (error) {
       toast('Error Adding Task');
     }
@@ -102,7 +104,10 @@ export function AddTaskDialog() {
                     <FormItem>
                       <FormLabel>Task Status</FormLabel>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Select a status" />
                           </SelectTrigger>

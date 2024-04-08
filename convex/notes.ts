@@ -42,23 +42,24 @@ export const editNote = authMutation({
   }
 })
 
-export const addNote = mutation({
+export const addNote = authMutation({
   args: {
     showInCalendar: v.boolean(),
     text: v.string(),
     date: v.string(),
-    userId: v.id("users")
+    subjectId: v.optional(v.id('subjects'))
   },
-  handler: async ({ auth, db }, args) => {
+  handler: async ({ auth, db, user }, args) => {
     // const user = await auth.getUserIdentity();
-    if (!args.userId) {
+    if (!auth) {
       throw new Error('you must be logged in to create a note');
     }
     const newNote = await db.insert('notes', {
       text: args.text,
       showInCalendar: args.showInCalendar,
       date: args.date,
-      userId: args.userId
+      userId: user._id,
+      subjectId: args.subjectId
     });
     return newNote;
   },

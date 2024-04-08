@@ -6,13 +6,15 @@ export default defineSchema({
     status: v.string(),
     text: v.string(),
     userId: v.id('users'),
-  }),
+    subjectId: v.optional(v.id('subjects'))
+  }).index('by_subjectId', ['subjectId']).index('by_userId', ['userId']),
   notes: defineTable({
     showInCalendar: v.boolean(),
     text: v.string(),
     date: v.string(),
     userId: v.id('users'),
-  }),
+    subjectId: v.optional(v.id('subjects'))
+  }).index('by_subjectId', ['subjectId']).index('by_userId', ['userId']),
   users: defineTable({
     name: v.optional(v.string()),
     subject: v.string(),
@@ -20,12 +22,11 @@ export default defineSchema({
     pictureUrl: v.optional(v.string()),
     tokenIdentifier: v.string(),
     gradingSystem: v.optional(v.string())
-  }).index('by_token', ['tokenIdentifier']),
+  }).index('by_token', ['tokenIdentifier']).index("by_userId", ['subject']),
   subjects: defineTable({
     name: v.string(),
-    color: v.string(),
-    fromColor: v.string(),
-    toColor: v.string(),
+    color: v.optional(v.string()),
+    addedByUser: v.optional(v.boolean())
   }),
   events: defineTable({
     title: v.string(),
@@ -34,6 +35,7 @@ export default defineSchema({
     type: v.string(),
     date: v.string(),
     userId: v.id('users'),
+    subjectId: v.optional(v.id('subjects'))
   }),
   studentSubjects: defineTable({
     // many to many relationship table

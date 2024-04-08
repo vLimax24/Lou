@@ -1,6 +1,20 @@
-import { v } from 'convex/values';
-import { mutation } from './_generated/server';
-import { authMutation, authQuery } from './util';
+import { ConvexError, v } from 'convex/values';
+import { internalQuery, mutation } from './_generated/server';
+import { authAction, authMutation, authQuery } from './util';
+import { internal } from './_generated/api';
+import { Doc, Id } from './_generated/dataModel';
+
+export const getUserById = internalQuery({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_userId', q => q.eq('subject', args.userId))
+      .first();
+
+    return user;
+  },
+});
 
 export const store = mutation({
   args: {},
@@ -45,5 +59,44 @@ export const getMyUser = authQuery({
   args: {},
   async handler(ctx) {
     return ctx.user;
+  },
+});
+
+export const addUserSubjectAction = authAction({
+  args: { name: v.string() },
+  handler: async (ctx, args) => {
+    if (!ctx.auth) throw new ConvexError('Not Authorized');
+    if (!ctx.user) throw new Error('Not User');
+
+    const userSubjectId = await ctx.runMutation(internal.subjects.addSubject, {
+      name: args.name,
+      addedByUser: true
+    });
+
+    const assignedSubjectToUser: Id<'studentSubjects'> = await ctx.runMutation(
+      internal.studentSubjects.assignUserAddedSubject,
+      {
+        userId: ctx.user._id,
+        subjectId: userSubjectId,
+      }
+    );
+
+    return assignedSubjectToUser;
+  },
+});
+export const editUserSubjectAction = authAction({
+  args: { name: v.string(), subjectId: v.id('subjects') },
+  handler: async (ctx, args) => {
+    if (!ctx.auth) throw new ConvexError('Not Authorized');
+    if (!ctx.user) throw new Error('Not User');
+
+    await ctx.runMutation(internal.subjects.editSubject, {
+      name: args.name,
+      subjectId: args.subjectId
+    });
+
+    // if(!userSubject) throw new Error('Issue Editing Subject')
+
+   
   },
 });

@@ -40,6 +40,13 @@ const DashboardSidebar = () => {
               Home
             </Link>
             <Link
+              href="/dashboard/subjects"
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
+            >
+              <Home className="h-4 w-4" />
+              Subjects
+            </Link>
+            <Link
               href="/dashboard/calendar"
               className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard/calendar' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
             >

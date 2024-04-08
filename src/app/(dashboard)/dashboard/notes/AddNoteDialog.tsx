@@ -1,14 +1,14 @@
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -19,67 +19,61 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Calendar } from '@/components/ui/calendar';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from 'convex/react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { Label } from '@/components/ui/label';
-import { useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import useStoreUser from '@/hooks/auth/useStoreUser';
 
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   showInCalendar: z.boolean(),
-  date: z.string(),
+  date: z.date(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export function AddNoteDialog() {
-  const userId = useStoreUser();
+export function AddNoteDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
   const addNote = useMutation(api.notes.addNote);
-  const [showInCalendar, setShowInCalendar] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(new Date());
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       text: '',
       showInCalendar: false,
-      date: '',
+      date: new Date(),
     },
   });
 
   async function onSubmit(values: FormData) {
     try {
-      const formattedDate = date?.toISOString()
+      const formattedDate = values.date.toISOString();
 
       await addNote({
         text: values.text,
-        showInCalendar: showInCalendar,
+        showInCalendar: values.showInCalendar,
         date: formattedDate,
-        userId: userId!,
+        subjectId: subjectId,
       });
       toast('Note added!');
-      setShowInCalendar(false)
-      setDate(undefined)
-      form.reset()
+      form.reset();
     } catch (error) {
       toast('Error Adding Note!');
     }
 
     console.log(values);
   }
-  
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">Add Note</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] transition-all duration-300 ease-in-out">
+      <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add Note</DialogTitle>
           <DialogDescription>Add a new note for yourself.</DialogDescription>
@@ -95,10 +89,7 @@ export function AddNoteDialog() {
                     <FormItem>
                       <FormLabel>Note</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Clouds are white now"
-                          {...field}
-                        />
+                        <Input placeholder="Clouds are white now" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -107,13 +98,18 @@ export function AddNoteDialog() {
                 <FormField
                   control={form.control}
                   name="showInCalendar"
-                  render={() => (
+                  render={({field}) => (
                     <FormItem>
-                      <FormControl className='flex'> 
-                        <div className='flex items-center justify-between'>
-                            <Label htmlFor="showInCalendar">Show in Calendar</Label>
-                            <Switch id="showInCalendar"                       checked={showInCalendar}
-                            onCheckedChange={() => setShowInCalendar(!showInCalendar)} />
+                      <FormControl className="flex">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="showInCalendar">
+                            Show in Calendar
+                          </Label>
+                          <Switch
+                            id="showInCalendar"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -121,26 +117,26 @@ export function AddNoteDialog() {
                   )}
                 />
                 <div>
-                    <FormField
-                      control={form.control}
-                      name="date"
-                      render={() => (
-                        <FormItem>
-                          <FormLabel>Pick a due date</FormLabel>
-                          <FormControl className='flex'> 
-                            <div>
-                              <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={setDate}
-                                className="rounded-md border w-full grid place-items-center"
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({field}) => (
+                      <FormItem>
+                        <FormLabel>Pick a due date</FormLabel>
+                        <FormControl className="flex">
+                          <div>
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              className="grid w-full place-items-center rounded-md border"
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
             </div>
