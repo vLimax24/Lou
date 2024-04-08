@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb } from 'lucide-react';
+import { CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, LibraryBig } from 'lucide-react';
 import Link from 'next/link';
 import { api } from '@/convex/_generated/api';
 import { useConvexAuth, useQuery } from 'convex/react';
@@ -41,9 +41,9 @@ const DashboardSidebar = () => {
             </Link>
             <Link
               href="/dashboard/subjects"
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == '/dashboard/subjects' ? 'bg-muted text-primary' : 'bg-none text-muted-foreground'}`}
             >
-              <Home className="h-4 w-4" />
+              <LibraryBig className="h-4 w-4" />
               Subjects
             </Link>
             <Link
