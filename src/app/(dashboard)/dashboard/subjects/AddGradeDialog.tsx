@@ -39,7 +39,7 @@ import { useMutation } from 'convex/react';
 const formSchema = z.object({
   topic: z.string().min(2).max(50),
   grade: z.string(),
-  date: z.string(),
+  date: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -54,7 +54,7 @@ export function AddGradeDialog({ subjectId }:any) {
     defaultValues: {
       topic: '',
       grade: '',
-      date: '',
+      date: undefined
     },
   });
 
