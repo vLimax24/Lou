@@ -1,5 +1,6 @@
 import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
+import { updateGradeSystem } from './users';
 
 export default defineSchema({
   tasks: defineTable({
@@ -36,6 +37,13 @@ export default defineSchema({
     date: v.string(),
     userId: v.id('users'),
     subjectId: v.optional(v.id('subjects'))
+  }),
+  grades: defineTable({
+    userId: v.id('users'),
+    subjectId: v.id('studentSubjects'),
+    grade: v.string(),
+    topic: v.string(),
+    date: v.string(),
   }),
   studentSubjects: defineTable({
     // many to many relationship table
