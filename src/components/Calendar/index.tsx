@@ -27,6 +27,15 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
     api.events.getEvents,
     !isAuthenticated ? 'skip' : undefined
   );
+  const noteEvents = useQuery(
+    api.notes.getNotes,
+    !isAuthenticated ? 'skip' : undefined
+  )
+
+  const filteredNoteEvents = noteEvents?.filter((note: any) => note.showInCalendar === true)
+
+
+  
 
   const handleDate = (date: string) => {
     // This function could be used to handle clicking on a date cell in the calendar
