@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import Link from 'next/link';
-import { ScrollText, Home, CalendarDays, ArrowRight } from 'lucide-react';
+import { ScrollText, Home, CalendarDays, ArrowRight, PartyPopper } from 'lucide-react';
 import { ArrowUpRightIcon } from '@heroicons/react/24/solid';
 import { cn } from "@/lib/utils"
 import { api } from '@/convex/_generated/api';
@@ -55,35 +55,44 @@ export default function CalendarCard({ className, ...props }: CardProps) {
       </CardHeader>
       <CardContent className="grid gap-4 mt-2">
         <div className='flex flex-col'>
-          {sortedEvents?.map((event, index) => (
-            <div
-              key={index}
-              className="mb-4 flex items-center p-2 border border-muted-foreground rounded-md justify-between hover:cursor-pointer"
-            >
-              <div className="flex items-center justify-start">
-                <div>
-                  {event.type === "EXAM" ? (
-                    <ScrollText size={20} className='mr-5 ml-2'/>
-                  ) : event.type === 'ASSIGNMENT' ? (
-                    <Home size={20} className='mr-5 ml-2'/>
-                  ) : (
-                    <CalendarDays size={20} className='mr-5 ml-2'/>
-                  )}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium leading-none">
-                    {event.title}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {convertToGermanDate(event.date)}
-                  </p>
-                </div>
-              </div>
-              <div>
-                <ArrowRight size={20} className="mr-2"/>
-              </div>
+          {sortedEvents ? (
+            <div className="flex flex-col items-center justify-center">
+              <PartyPopper size={56} className="mb-10"/>
+              <p className="mt-[-1rem]">Hurray! You currently don&apos;t have any exams!</p>
             </div>
-          ))}
+          ) : (
+            <>
+              {sortedEvents?.map((event:any, index:any) => (
+                <div
+                  key={index}
+                  className="mb-4 flex items-center p-2 border border-muted-foreground rounded-md justify-between hover:cursor-pointer"
+                >
+                  <div className="flex items-center justify-start">
+                    <div>
+                      {event.type === "EXAM" ? (
+                        <ScrollText size={20} className='mr-5 ml-2'/>
+                      ) : event.type === 'ASSIGNMENT' ? (
+                        <Home size={20} className='mr-5 ml-2'/>
+                      ) : (
+                        <CalendarDays size={20} className='mr-5 ml-2'/>
+                      )}
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {event.title}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {convertToGermanDate(event.date)}
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <ArrowRight size={20} className="mr-2"/>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </CardContent>
     </Card>

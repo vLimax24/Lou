@@ -1,10 +1,10 @@
 import React from 'react'
-import { DataTableDemo } from '@/components/GradeSheet/Datatable'
+import { DataTable } from '@/components/GradeSheet/Datatable'
 
 const page = () => {
   return (
     <div>
-      <DataTableDemo />
+      <DataTable />
     </div>
   )
 }

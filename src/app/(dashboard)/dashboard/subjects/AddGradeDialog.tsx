@@ -39,7 +39,7 @@ import { useMutation } from 'convex/react';
 const formSchema = z.object({
   topic: z.string().min(2).max(50),
   grade: z.string(),
-  date: z.string().optional(),
+  date: z.date(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -54,12 +54,12 @@ export function AddGradeDialog({ subjectId }:any) {
     defaultValues: {
       topic: '',
       grade: '',
-      date: undefined
+      date: new Date()
     },
   });
 
   async function onSubmit(values: FormData) {
-    const formattedDate = date?.toISOString()
+    const formattedDate = values.date.toISOString()
     try {
       await addNote({
         topic: values.topic,
@@ -110,8 +110,8 @@ export function AddGradeDialog({ subjectId }:any) {
                       <FormControl>
                         <Calendar
                           mode="single"
-                          selected={date}
-                          onSelect={setDate}
+                          selected={field.value}
+                          onSelect={field.onChange}
                           className="rounded-md border flex items-center justify-center"
                           {...field}
                         />

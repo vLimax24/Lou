@@ -19,7 +19,11 @@ function Subjects() {
       </div>
       <div className="grid grid-cols-5 gap-4">
         {!subjects ? (
-          <Skeleton className="h-20 w-76 rounded-md" />
+          <div className='grid grid-cols-3 w-full flex-1'>
+            <Skeleton className="h-20 w-76 rounded-md mx-2" />
+            <Skeleton className="h-20 w-76 rounded-md mx-2" />
+            <Skeleton className="h-20 w-76 rounded-md mx-2" />
+          </div>
         ) : (
             subjects.map(subject => (
               <SubjectCard subject={subject} key={subject._id} />
