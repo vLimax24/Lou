@@ -45,7 +45,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export function AddGradeDialog({ subjectId }:any) {
-  const [date, setDate] = useState<Date | undefined>(new Date())
+  const [date, setDate] = useState<Date>(new Date())
 
   const addNote = useMutation(api.grades.addGrade);
 

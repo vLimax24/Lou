@@ -40,10 +40,10 @@ export default defineSchema({
   }),
   grades: defineTable({
     userId: v.id('users'),
-    subjectId: v.id('studentSubjects'),
+    subjectId: v.id('subjects'),
     grade: v.string(),
     topic: v.string(),
-    date: v.string(),
+    date: v.string()
   }),
   studentSubjects: defineTable({
     // many to many relationship table

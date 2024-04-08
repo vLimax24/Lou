@@ -39,9 +39,9 @@ export default function SubjectPage() {
         <SubjectSection
           title="Grades"
           description="All your grades"
-          addDialog={<AddGradeDialog />}
+          addDialog={<AddGradeDialog subjectId={subjectId}/>}
         >
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-5">   
             {!subject.subjectTasks ? (
               <Loader2 className="h-12 w-12 animate-spin" />
             ) : (
@@ -102,8 +102,8 @@ export default function SubjectPage() {
             )}
           </div>
         </SubjectSection>
-        <SubjectSection title="Events" description="Events for your subject">
-          <h1>Here will be content for assignments</h1>
+        <SubjectSection title="Exams" description="Exmas in your subject">
+          <h1>Here will be content for exams</h1>
         </SubjectSection>
       </div>
     </div>

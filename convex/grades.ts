@@ -20,7 +20,7 @@ export const getGrades = authQuery({
 });
 
 export const getSubjectGrades = authQuery({
-  args: { subjectId: v.id('studentSubjects')},
+  args: { subjectId: v.id('subjects')},
   handler: async ({ auth, db }, args) => {
     const identity = await auth.getUserIdentity();
     if (!identity) {
@@ -40,7 +40,7 @@ export const addGrade = authMutation({
     grade: v.string(),
     topic: v.string(),
     date: v.string(),
-    subjectId: v.id('studentSubjects')
+    subjectId: v.id('subjects')
   },
   handler: async ({ auth, db, user }, args) => {
     // const user = await auth.getUserIdentity();
