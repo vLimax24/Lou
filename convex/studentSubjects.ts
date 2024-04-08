@@ -30,7 +30,7 @@ export const getUserSubjects = authQuery({
       db,
       'studentSubjects',
       'subjectId',
-      'userId',
+      'by_userId',
       user._id
     );
 

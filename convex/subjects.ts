@@ -19,27 +19,28 @@ export const getSubjectData = authQuery({
   handler: async (ctx, args) => {
     if (!ctx.auth) throw new Error('Not authorized');
     if (!ctx.user) throw new Error('Not authorized');
-    const userSubject = await getOneFromOrThrow(
-      ctx.db,
-      'studentSubjects',
-      'subjectId',
-      args.subjectId
-    );
 
-    const subject = await ctx.db.get(userSubject.subjectId)
+    const userSubject = await ctx.db
+      .query('studentSubjects')
+      .withIndex('by_subjectId', q => q.eq('subjectId', args.subjectId))
+      .filter(q => q.eq(q.field('userId'), ctx.user._id)).first();
+
+    if(!userSubject) throw new Error('No associated subject found');
+
+    const subject = await ctx.db.get(userSubject.subjectId);
 
     if (!subject) throw new Error('No Subject Found');
 
     const subjectTasks = await ctx.db
       .query('tasks')
       .withIndex('by_userId', q => q.eq('userId', ctx.user._id))
-      .filter(q => q.eq(q.field('subjectId'), args.subjectId))
+      .filter(q => q.eq(q.field('subjectId'), subject._id))
       .collect();
 
     const subjectNotes = await ctx.db
       .query('notes')
       .withIndex('by_userId', q => q.eq('userId', ctx.user._id))
-      .filter(q => q.eq(q.field('subjectId'), args.subjectId))
+      .filter(q => q.eq(q.field('subjectId'), subject._id))
       .collect();
 
     return { subject, subjectTasks, subjectNotes };
@@ -54,8 +55,8 @@ export const getUserSubjects = authQuery({
     const userSubjects = await getManyFrom(
       db,
       'studentSubjects',
-      'userId',
-      user?._id
+      'by_userId',
+      user._id
     );
 
     return userSubjects;

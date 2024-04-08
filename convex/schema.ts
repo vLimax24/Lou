@@ -50,8 +50,8 @@ export default defineSchema({
     userId: v.id('users'),
     subjectId: v.id('subjects'),
   })
-    .index('subjectId', ['subjectId'])
-    .index('userId', ['userId']),
+    .index('by_subjectId', ['subjectId'])
+    .index('by_userId', ['userId']),
 
   // users: defineTable({
   //   name: v.string(),
