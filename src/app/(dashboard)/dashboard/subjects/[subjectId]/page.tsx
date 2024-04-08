@@ -10,7 +10,8 @@ import { Loader2 } from 'lucide-react';
 import { AddNoteDialog } from '../../notes/AddNoteDialog';
 import { AddGradeDialog } from '../AddGradeDialog';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card, CardFooter, CardHeader, CardContent } from '@/components/ui/card';
+import dayjs from 'dayjs'
 
 export default function SubjectPage() {
   const params = useParams<{ subjectId: Id<'subjects'> }>();
@@ -18,6 +19,10 @@ export default function SubjectPage() {
   const subject = useQuery(api.subjects.getSubjectData, {
     subjectId: subjectId!
   });
+
+  const grades = useQuery(api.grades.getSubjectGrades, {
+    subjectId: subjectId!
+  })
 
   if (!subject) {
     return <Loader2 className="h-12 w-12 animate-spin" />;
@@ -41,18 +46,24 @@ export default function SubjectPage() {
           description="All your grades"
           addDialog={<AddGradeDialog subjectId={subjectId}/>}
         >
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-5">   
-            {!subject.subjectTasks ? (
+          <div className="grid grid-cols-6 gap-20">   
+            {!grades ? (
               <Loader2 className="h-12 w-12 animate-spin" />
             ) : (
-              subject.subjectTasks.map(task => (
-                <Card key={task._id}>
-                  <CardHeader>
-                    <p>{task.text}</p>
-                  </CardHeader>
-                  <CardFooter>
-                    <Badge variant="outline">{task.status}</Badge>
-                  </CardFooter>
+              grades?.map(grade => (
+                <Card key={grade._id} className='w-64'>
+                  <CardContent className='flex items-center justify-between p-4'>
+                    <div className='flex flex-col items-start justify-center'>
+                      <p className='font-bold text-xl'>{grade.topic}</p>
+                      <p className='text-muted-foreground'>{dayjs(grade.date).format('DD.MM.YYYY')}</p>
+                    </div>
+                  
+                    <Badge variant="outline" className='w-12 h-12 flex items-center justify-center rounded-full'>
+                      <p className='font-bold text-2xl'>
+                      {grade.grade}
+                      </p>
+                    </Badge>
+                  </CardContent>
                 </Card>
               ))
             )}

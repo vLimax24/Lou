@@ -6,6 +6,7 @@ import { Loader2 } from 'lucide-react';
 import React from 'react';
 import SubjectCard from './subject-card';
 import { AddSubjectDialog } from './AddSubjectDialog';
+import { Skeleton } from "@/components/ui/skeleton"
 
 function Subjects() {
   const subjects = useQuery(api.studentSubjects.getUserSubjects);
@@ -18,7 +19,7 @@ function Subjects() {
       </div>
       <div className="grid grid-cols-5 gap-4">
         {!subjects ? (
-          <Loader2 className="h-8 w-8 animate-spin" />
+          <Skeleton className="h-20 w-76 rounded-md" />
         ) : (
             subjects.map(subject => (
               <SubjectCard subject={subject} key={subject._id} />
