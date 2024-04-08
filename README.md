@@ -1,12 +1,12 @@
 
 # StudentOS
 
-StudentOS is a platform for students, to manage all of their needs during school. That includes Assignments, Exams, Tasks, Notes and even a interactive Calendar
+StudentOS is a platform for students, to manage all of their needs during school. That includes Assignments, Exams, Tasks, Notes and even an interactive Calendar.
 
 
 ## Getting Started - Developer
 
-To get your project up and running as Developer, follow the steps listed below
+To get your project up and running as Developer, follow the steps listed below.
 
  
 - Clone the repository to your local device
