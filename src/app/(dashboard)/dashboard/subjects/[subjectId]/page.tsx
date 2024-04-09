@@ -46,7 +46,7 @@ export default function SubjectPage() {
           description="All your grades"
           addDialog={<AddGradeDialog subjectId={subjectId}/>}
         >
-          <div className="grid grid-cols-6 gap-20">   
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-5">   
             {!grades ? (
               <Loader2 className="h-12 w-12 animate-spin" />
             ) : (
