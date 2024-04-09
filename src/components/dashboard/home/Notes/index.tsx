@@ -15,34 +15,11 @@ import { toast } from 'sonner';
 import { CircleHelp } from "lucide-react";
 import { Button } from "@/components/ui/button"
  
-const notes = [
-  {
-    title: "Your call has been confirmed.",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam",
-  },
-  {
-    title: "Your call has been confirmed.",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam",
-  },  
-  {
-    title: "Your call has been confirmed.",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam",
-  },
-  {
-    title: "Your call has been confirmed.",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam",
-  },
-  {
-    title: "Your call has been confirmed.",
-    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam",
-  },
-]
- 
 type CardProps = React.ComponentProps<typeof Card>
 
 export default function NotesCard({ className, ...props }: CardProps) {
   const { isAuthenticated } = useConvexAuth();
-  const notes = useQuery(
+  const notes:any = useQuery(
     api.notes.getNotes,
     !isAuthenticated ? 'skip' : undefined
   );
@@ -80,7 +57,7 @@ export default function NotesCard({ className, ...props }: CardProps) {
             </div>
           ) : (
             <>
-              {notes?.map((note, index) => (
+              {notes?.map((note:any, index:any) => (
               <div
                 key={index}
                 className="mb-3 flex"
