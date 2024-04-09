@@ -70,7 +70,7 @@ export function EditSubjectDialog({ name, color, id }: EditProps) {
         <Pencil
           size={20}
           className={cn(
-            "mx-1 duration-300 hover:cursor-pointer hover:text-green-500",
+            "mx-1 duration-300 hover:cursor-pointer hover:text-green-500 text-green-800",
             
           )}
         />

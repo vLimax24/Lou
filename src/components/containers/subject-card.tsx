@@ -96,7 +96,7 @@ export default function SubjectCard({ subject }: { subject: Doc<'subjects'> }) {
             <>
               <Trash
                 size={20}
-                className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
+                className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500 text-green-800"
               />
               <EditSubjectDialog
                 name={subject.name}

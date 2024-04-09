@@ -6,10 +6,10 @@ export const getGrades = authQuery({
   args:{},
   handler: async ({ auth, db, user }) => {
   
-    const identity = await auth.getUserIdentity();
-    if (!identity) {
-      throw new Error('you must be logged in to get your grades');
-    }
+    // const identity = await auth.getUserIdentity();
+    // if (!identity) {
+    //   throw new Error('you must be logged in to get your grades');
+    // }
     const grades = await db
       .query('grades')
       .filter(q => q.eq(q.field('userId'), user?._id))

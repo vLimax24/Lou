@@ -18,7 +18,7 @@ export const getSubjectData = authQuery({
   args: { subjectId: v.id('subjects') },
   handler: async (ctx, args) => {
     if (!ctx.auth) throw new Error('Not authorized');
-    if (!ctx.user) throw new Error('Not authorized');
+    if (!ctx.user) return false;
 
     const userSubject = await ctx.db
       .query('studentSubjects')

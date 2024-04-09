@@ -18,18 +18,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
-import { Calendar } from "@/components/ui/calendar"
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { api } from '@/convex/_generated/api';
-import { useState } from 'react'
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -40,17 +40,19 @@ const formSchema = z.object({
   topic: z.string().min(2).max(50),
   grade: z.string(),
   date: z.date(),
-  subjectId: z.any()
+  subjectId: z.any(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
+const letterGrades = ['A', 'B', 'C', 'D', 'F']; // Add more detailed options if needed
+const numberGrades = Array.from({ length: 10 }, (_, i) => `${i + 1}`);
+
 export function AddGradeDialogWithSubject() {
-  const [date, setDate] = useState<Date>(new Date())
 
   const addGrade = useMutation(api.grades.addGrade);
-
   const subjects = useQuery(api.studentSubjects.getUserSubjects);
+  const user = useQuery(api.users.getMyUser);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -58,12 +60,12 @@ export function AddGradeDialogWithSubject() {
       topic: '',
       grade: '',
       date: new Date(),
-      subjectId: ''
+      subjectId: '',
     },
   });
 
   async function onSubmit(values: FormData) {
-    const formattedDate = values.date.toISOString()
+    const formattedDate = values.date.toISOString();
     try {
       await addGrade({
         topic: values.topic,
@@ -94,7 +96,7 @@ export function AddGradeDialogWithSubject() {
               <div className="grid grid-cols-1 items-center gap-4">
                 <FormField
                   control={form.control}
-                  name='topic'
+                  name="topic"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Topic</FormLabel>
@@ -107,7 +109,7 @@ export function AddGradeDialogWithSubject() {
                 />
                 <FormField
                   control={form.control}
-                  name='date'
+                  name="date"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Date</FormLabel>
@@ -116,8 +118,8 @@ export function AddGradeDialogWithSubject() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          className="rounded-md border flex items-center justify-center"
-                          {...field}
+                          className="flex items-center justify-center rounded-md border"
+                          // {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -126,12 +128,13 @@ export function AddGradeDialogWithSubject() {
                 />
                 <FormField
                   control={form.control}
-                  name='grade'
+                  name="grade"
+                  disabled={!user}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Grade</FormLabel>
                       <FormControl>
-                        <div className='flex items-center justify-between'>
+                        <div className="flex items-center justify-between">
                           <Select
                             onValueChange={field.onChange}
                             value={field.value}
@@ -140,15 +143,25 @@ export function AddGradeDialogWithSubject() {
                               <SelectValue placeholder="Select a grade" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Subjects</SelectLabel>
-                                <SelectItem value="1">1</SelectItem>
-                                <SelectItem value="2">2</SelectItem>
-                                <SelectItem value="3">3</SelectItem>
-                                <SelectItem value="4">4</SelectItem>
-                                <SelectItem value="5">5</SelectItem>
-                                <SelectItem value="6">6</SelectItem>
-                              </SelectGroup>
+                              {user?.gradingSystem === 'letter' ? (
+                                <SelectGroup>
+                                  <SelectLabel>Letter Grades</SelectLabel>
+                                  {letterGrades.map(grade => (
+                                    <SelectItem key={grade} value={grade}>
+                                      {grade}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              ) : (
+                                <SelectGroup>
+                                  <SelectLabel>Number Grades</SelectLabel>
+                                  {numberGrades.map(grade => (
+                                    <SelectItem key={grade} value={grade}>
+                                      {grade}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              )}
                             </SelectContent>
                           </Select>
                         </div>
@@ -159,12 +172,12 @@ export function AddGradeDialogWithSubject() {
                 />
                 <FormField
                   control={form.control}
-                  name='subjectId'
+                  name="subjectId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Subject</FormLabel>
                       <FormControl>
-                        <div className='flex items-center justify-between'>
+                        <div className="flex items-center justify-between">
                           <Select
                             onValueChange={field.onChange}
                             value={field.value}
@@ -175,8 +188,13 @@ export function AddGradeDialogWithSubject() {
                             <SelectContent>
                               <SelectGroup>
                                 <SelectLabel>Subject</SelectLabel>
-                                {subjects?.map((subject) => (
-                                     <SelectItem key={subject?._id} value={subject?._id}>{subject.name}</SelectItem>
+                                {subjects?.map(subject => (
+                                  <SelectItem
+                                    key={subject?._id}
+                                    value={subject?._id}
+                                  >
+                                    {subject.name}
+                                  </SelectItem>
                                 ))}
                               </SelectGroup>
                             </SelectContent>
@@ -190,9 +208,7 @@ export function AddGradeDialogWithSubject() {
               </div>
             </div>
             <DialogFooter>
-              <DialogClose>
-                <Button type="submit">Add Subject</Button>
-              </DialogClose>
+              <Button type="submit">Add Subject</Button>
             </DialogFooter>
           </form>
         </Form>
@@ -200,5 +216,3 @@ export function AddGradeDialogWithSubject() {
     </Dialog>
   );
 }
-
-
