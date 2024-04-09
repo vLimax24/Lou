@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/convex/_generated/api';
 import { useConvexAuth, useQuery } from 'convex/react';
 //components
-import DashboardHeader from './dashboard/components/header';
-import DashboardSidebar from './dashboard/components/sidebar';
+import DashboardHeader from '@/components/dashboard/Layout/header';
+import DashboardSidebar from '@/components/dashboard/Layout/sidebar';
 import { useEffect } from 'react';
 import useStoreUser from '@/hooks/auth/useStoreUser';
 

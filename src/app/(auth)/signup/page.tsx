@@ -1,5 +1,5 @@
 import Image from "next/image"
-import SignUpForm from "./signUp-form"
+import SignUpForm from "../../../components/auth/signUp-form"
 
 const SignUp = () => {
   return (

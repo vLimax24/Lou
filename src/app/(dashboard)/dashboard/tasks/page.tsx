@@ -10,14 +10,14 @@ import type {
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { useState } from 'react';
-import { AddTaskDialog } from './task-form';
+import { AddTaskDialog } from '../../../../components/dashboard/Dialogs/tasks/AddTaskDialog';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Id } from '@/convex/_generated/dataModel';
 import { Loader2 } from 'lucide-react';
-import { Draggable } from './Draggable';
-import { Droppable } from './Droppable';
+import { Draggable } from '../../../../components/dnd/Draggable';
+import { Droppable } from '../../../../components/dnd/Droppable';
 
 type TaskStatus = 'PENDING' | 'IN-PROGRESS' | 'COMPLETED';
 const taskTypes: Record<string, TaskStatus> = {

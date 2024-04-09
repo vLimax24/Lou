@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/card';
 import { Doc } from '@/convex/_generated/dataModel';
 import { Trash } from 'lucide-react';
-import { EditSubjectDialog } from './EditSubjectDialog';
+import { EditSubjectDialog } from '../dashboard/Dialogs/subjects/EditSubjectDialog';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 

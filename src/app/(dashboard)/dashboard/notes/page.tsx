@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { AddNoteDialog } from './AddNoteDialog'
-import { EditNoteDialog } from './EditNoteDialog'
+import { AddNoteDialog } from '@/components/dashboard/Dialogs/notes/AddNoteDialog'
+import { EditNoteDialog } from '@/components/dashboard/Dialogs/notes/EditNoteDialog'
 import { Trash, CalendarDays, Pencil } from 'lucide-react'
 import { api } from '@/convex/_generated/api';
 import { useConvexAuth, useMutation, useQuery } from 'convex/react';

@@ -1,5 +1,5 @@
 import React from 'react'
-import { DataTable } from '@/components/GradeSheet/Datatable'
+import { DataTable } from '@/components/dashboard/GradeSheet/Datatable'
 
 const page = () => {
   return (

@@ -2,13 +2,13 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 import { Id } from '@/convex/_generated/dataModel';
-import SubjectSection from './components/SubjectSection';
+import SubjectSection from '@/components/containers/SubjectSection';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { AddTaskDialog } from '../../tasks/task-form';
+import { AddTaskDialog } from '@/components/dashboard/Dialogs/tasks/AddTaskDialog';
 import { Loader2 } from 'lucide-react';
-import { AddNoteDialog } from '../../notes/AddNoteDialog';
-import { AddGradeDialog } from '../AddGradeDialog';
+import { AddNoteDialog } from '@/components/dashboard/Dialogs/notes/AddNoteDialog';
+import { AddGradeDialog } from '@/components/dashboard/Dialogs/grades/AddGradeDialog';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardFooter, CardHeader, CardContent } from '@/components/ui/card';
 import dayjs from 'dayjs'

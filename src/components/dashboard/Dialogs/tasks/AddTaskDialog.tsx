@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -28,7 +29,6 @@ import {
 } from '@/components/ui/select';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-import useStoreUser from '@/hooks/auth/useStoreUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'convex/react';
 import { useForm } from 'react-hook-form';
@@ -132,7 +132,9 @@ export function AddTaskDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Add Task</Button>
+              <DialogClose>
+                <Button type="submit">Add Task</Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>

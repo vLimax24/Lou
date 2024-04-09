@@ -4,8 +4,8 @@ import { api } from '@/convex/_generated/api';
 import { useQuery } from 'convex/react';
 import { Loader2 } from 'lucide-react';
 import React from 'react';
-import SubjectCard from './subject-card';
-import { AddSubjectDialog } from './AddSubjectDialog';
+import SubjectCard from '@/components/containers/subject-card';
+import { AddSubjectDialog } from '@/components/dashboard/Dialogs/subjects/AddSubjectDialog';
 import { Skeleton } from "@/components/ui/skeleton"
 
 function Subjects() {
