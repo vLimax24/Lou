@@ -8,7 +8,7 @@ export const getGrades = authQuery({
   
     const identity = await auth.getUserIdentity();
     if (!identity) {
-      throw new Error('you must be logged in to get your notes');
+      throw new Error('you must be logged in to get your grades');
     }
     const grades = await db
       .query('grades')

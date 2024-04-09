@@ -31,20 +31,20 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
 
   const sortedEvents = events?.slice(0).filter(event => {
     const eventDate = dayjs(event.date);
-    const currentDate = dayjs(); // Current date
+    const currentDate = dayjs();
     return eventDate.isSameOrAfter(currentDate, 'day');
   }).sort((a, b) => {
     const dateA = dayjs(a.date);
     const dateB = dayjs(b.date);
-    const currentDate = dayjs(); // Current date
-    const diffA = Math.abs(dateA.diff(currentDate, 'day')); // Difference in days
+    const currentDate = dayjs();
+    const diffA = Math.abs(dateA.diff(currentDate, 'day'));
     const diffB = Math.abs(dateB.diff(currentDate, 'day'));
     return diffA - diffB;
-  }).filter(event => event.description === "ASSIGNMENT").slice(0, 3);
+  }).filter(event => event.description === "ASSIGNMENT").slice(0, 3) || [];
   
   function convertToGermanDate(isoDate: any) {
     const germanDate: any = dayjs(isoDate).format('DD.MM.YYYY')
-    console.log(germanDate) // Convert to German format "dd.mm.yyyy"
+    console.log(germanDate)
     return germanDate;
   }
 
