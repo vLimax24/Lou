@@ -1,40 +1,12 @@
-"use client";
-
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Badge } from "@/components/ui/badge"
-import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, } from "@tanstack/react-table";
-
+import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Link from "next/link";
-
-export interface Subject {
-  _id: string;
-  name: string;
-  color: string;
-  addedByUser: boolean;
-  grades: Grade[];
-}
-
-export interface Grade {
-  id: string;
-  grade: number;
-  subject: string;
-  date: string;
-  type: string;
-  topic: string;
-  subjectId: string;
-}
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -50,8 +22,8 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => (
       <div className="flex">
         {row.original.grades && row.original.grades.length > 0 ? (
-          row.original.grades.map((grade: Grade, index: number) => (
-            <Badge key={grade.id} className="size-8 center mx-1 font-semibold" variant={'outline'}>
+          row.original.grades.map((grade: any, index: number) => (
+            <Badge key={index} className="size-8 center mx-1 font-semibold" variant={'outline'}>
               {grade.grade}
             </Badge>
           ))
@@ -101,26 +73,22 @@ export function DataTable() {
   const subjects = subjectsQuery ?? [];
   const grades = gradesQuery ?? [];
 
-  // Mapping grades to subjects based on subjectId
-  const subjectsWithGrades = subjects.map((subject) => {
-    const subjectGrades = grades.filter((grade) => grade.subjectId === subject._id);
-    const totalAverage = subjectGrades.reduce((total, grade) => total + Number(grade.grade), 0) / subjectGrades.length;
-    
-    return {
-      ...subject,
-      grades: subjectGrades,
-      totalAverage: isNaN(totalAverage) ? 0 : totalAverage, // Handle NaN case
-    };
-  });
-  
-  
+  const subjectsWithGrades = useMemo(() => {
+    return subjects.map((subject) => {
+      const subjectGrades = grades.filter((grade) => grade.subjectId === subject._id);
+      const totalAverage = subjectGrades.reduce((total, grade) => total + Number(grade.grade), 0) / subjectGrades.length;
 
+      return {
+        ...subject,
+        grades: subjectGrades,
+        totalAverage: isNaN(totalAverage) ? 0 : totalAverage,
+      };
+    });
+  }, [subjects, grades]);
 
   const table = useReactTable({
     data: subjectsWithGrades,
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -190,4 +158,3 @@ export function DataTable() {
     </div>
   );
 }
-
