@@ -26,7 +26,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
   );
   console.log(events)
 
-  const sortedEvents = events?.slice(0).filter(event => {
+  const sortedEvents:any = events?.slice(0).filter(event => {
     const eventDate = dayjs(event.date);
     const currentDate = dayjs(); // Current date
     return eventDate.isSameOrAfter(currentDate, 'day');
