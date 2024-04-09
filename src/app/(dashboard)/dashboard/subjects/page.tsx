@@ -19,7 +19,7 @@ function Subjects() {
       </div>
       <div className="grid grid-cols-5 gap-4">
         {!subjects ? (
-          <div className='grid grid-cols-3 w-full flex-1'>
+          <div className='grid grid-cols-3 w-full items-center'>
             <Skeleton className="h-20 w-76 rounded-md mx-2" />
             <Skeleton className="h-20 w-76 rounded-md mx-2" />
             <Skeleton className="h-20 w-76 rounded-md mx-2" />

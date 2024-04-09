@@ -20,6 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { api } from '@/convex/_generated/api';
 import { Doc, Id } from '@/convex/_generated/dataModel';
+import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from 'convex/react';
 import { Pencil } from 'lucide-react';
@@ -68,7 +69,10 @@ export function EditSubjectDialog({ name, color, id }: EditProps) {
       <DialogTrigger asChild>
         <Pencil
           size={20}
-          className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
+          className={cn(
+            "mx-1 duration-300 hover:cursor-pointer hover:text-green-500",
+            
+          )}
         />
       </DialogTrigger>
       <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">

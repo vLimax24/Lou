@@ -9,62 +9,94 @@ import { Doc } from '@/convex/_generated/dataModel';
 import { Trash } from 'lucide-react';
 import { EditSubjectDialog } from './EditSubjectDialog';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 const colorMappings = [
   {
-    name: "green-500",
-    fromColor: "from-green-500",
-    toColor: "to-green-600",
+    name: 'green-500',
+    fromColor: 'from-green-500',
+    toColor: 'to-green-600',
   },
   {
-    name: "indigo-500",
-    fromColor: "from-indigo-500",
-    toColor: "to-indigo-600",
+    name: 'indigo-500',
+    fromColor: 'from-indigo-500',
+    toColor: 'to-indigo-600',
   },
   {
-    name: "purple-500",
-    fromColor: "from-purple-500",
-    toColor: "to-purple-600",
+    name: 'purple-500',
+    fromColor: 'from-purple-500',
+    toColor: 'to-purple-600',
   },
   {
-    name: "teal-500",
-    fromColor: "from-teal-500",
-    toColor: "to-teal-600",
+    name: 'teal-500',
+    fromColor: 'from-teal-500',
+    toColor: 'to-teal-600',
   },
-  // Add more color mappings as needed
+  {
+    name: 'blue-500',
+    fromColor: 'from-blue-500',
+    toColor: 'to-blue-600',
+  },
+  {
+    name: 'yellow-500',
+    fromColor: 'from-yellow-500',
+    toColor: 'to-yellow-600',
+  },
+  {
+    name: 'pink-500',
+    fromColor: 'from-pink-500',
+    toColor: 'to-pink-600',
+  },
+  {
+    name: 'gray-500',
+    fromColor: 'from-gray-500',
+    toColor: 'to-gray-600',
+  },
+  {
+    name: 'orange-500',
+    fromColor: 'from-orange-500',
+    toColor: 'to-orange-600',
+  },
+  {
+    name: 'red-500',
+    fromColor: 'from-red-500',
+    toColor: 'to-red-600',
+  },
 ];
 
 export default function SubjectCard({ subject }: { subject: Doc<'subjects'> }) {
+  const colorMapping = colorMappings.find(
+    color => color.name === subject.color
+  );
 
-  const colorMapping = colorMappings.find((color) => color.name === subject.color);
-
-  if (!colorMapping) {
-    console.error(`Color mapping not found for ${subject.color}`);
-    return null;
-  }
-
-  const { fromColor, toColor } = colorMapping;
-
+  const { fromColor, toColor } = colorMapping || { fromColor: '', toColor: '' };
 
   return (
-    <Link
-    href={`/dashboard/subjects/${subject._id}`}
-    className=" text-gray-900 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
+    <Card
+      className={cn(
+        `w-76 transition-all duration-150 ease-linear hover:scale-105`,
+        subject.color && `bg-gradient-to-r ${fromColor} ${toColor}`
+      )}
     >
-    <Card className={`bg-gradient-to-r ${fromColor} ${toColor} hover:scale-105 ease-linear duration-150 transition-all w-76`}>
-      <CardHeader className="pb-6 w-76">
-
-          <CardTitle className="text-2xl font-bold text-white">{subject.name}</CardTitle>
-        
+      <CardHeader>
+        <Link
+          href={`/dashboard/subjects/${subject._id}`}
+          className="text-gray-900 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
+        >
+          <CardTitle
+            className={cn('text-2xl font-bold underline', subject.color && 'text-white')}
+          >
+            {subject.name}
+          </CardTitle>
+        </Link>
       </CardHeader>
-      {/* <CardFooter className='pb-12 px-0 '>
-        <div className="mt-auto flex w-full items-center justify-end border-t border-gray-200py-2 text-gray-700">
-          {subject.addedByUser && (
+      {subject.addedByUser && (
+        <CardContent className="p-0 px-2">
+          <div className="mt-auto flex w-full items-center justify-end border-gray-200 py-2 text-gray-700">
             <>
               <Trash
                 size={20}
                 className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
-                // onClick={() => handleDeleteNote(subject._id)}
               />
               <EditSubjectDialog
                 name={subject.name}
@@ -72,10 +104,9 @@ export default function SubjectCard({ subject }: { subject: Doc<'subjects'> }) {
                 id={subject._id}
               />
             </>
-          )}
-        </div>
-      </CardFooter> */}
+          </div>
+        </CardContent>
+      )}
     </Card>
-    </Link>
   );
 }
