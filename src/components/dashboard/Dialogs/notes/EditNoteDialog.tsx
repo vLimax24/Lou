@@ -34,7 +34,7 @@ import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   showInCalendar: z.boolean(),
-  date: z.string(),
+  date: z.date(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -47,13 +47,14 @@ export function EditNoteDialog({ id }: any) {
   const userId = useStoreUser();
   const editNote = useMutation(api.notes.editNote);
   const [showInCalendar, setShowInCalendar] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<any>(new Date());
   const [text, setText] = useState<string>('')
 
   useEffect(() => {
     if (note) {
       setShowInCalendar(note.showInCalendar);
-      setDate(note.date ? new Date(note.date) : undefined);
+      const parsedDate = note.date ? new Date(note.date) : new Date();
+      setDate(parsedDate);
       setText(note.text)
     }
   }, [note]);
@@ -63,7 +64,7 @@ export function EditNoteDialog({ id }: any) {
     defaultValues: {
       text: note?.text ?? '', // Set defaultValue to note's text
       showInCalendar: false,
-      date: '',
+      date: new Date(),
     },
   });
 
@@ -76,7 +77,7 @@ export function EditNoteDialog({ id }: any) {
         newShowInCalendar: showInCalendar,
         newDate: formattedDate,
       });
-      toast('Note edited successfully!');
+      toast.success('Note edited successfully!');
       form.reset();
     } catch (error) {
       toast('Error editing Note!');
