@@ -17,9 +17,9 @@ function Subjects() {
         <h1 className="text-4xl font-bold">Your Subjects</h1>
         <AddSubjectDialog />
       </div>
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         {!subjects ? (
-          <div className='grid grid-cols-3 w-full items-center'>
+          <div className='grid grid-cols-1 md:grid-cols-3 w-full items-center'>
             <Skeleton className="h-20 w-76 rounded-md mx-2" />
             <Skeleton className="h-20 w-76 rounded-md mx-2" />
             <Skeleton className="h-20 w-76 rounded-md mx-2" />
