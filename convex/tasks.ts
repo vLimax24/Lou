@@ -1,6 +1,7 @@
 import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { authMutation, authQuery } from './util';
+import { asyncMap } from 'convex-helpers';
 
 export const getTasks = authQuery({
   args: {},
@@ -10,11 +11,26 @@ export const getTasks = authQuery({
       throw new Error('you must be logged in to get your tasks');
     }
     const tasks = await db
-      .query('tasks')
-      .filter(q => q.eq(q.field('userId'), user?._id))
-      .collect();
+    .query('tasks')
+    .filter(q => q.eq(q.field('userId'), user?._id))
+    .collect();
 
-    return tasks;
+    const tasksWithSubjects = await asyncMap(tasks, async (task) => {
+      if(task.subjectId){
+        const subject = await db.get(task.subjectId)
+
+        return {
+          ...task,
+          subject: subject
+        }
+      }
+      return {
+        ...task,
+        subject: null
+      }
+    })
+
+    return tasksWithSubjects;
   },
 });
 
@@ -39,7 +55,7 @@ export const addTask = authMutation({
       text: args.text,
       status: args.status,
       userId: user?._id,
-      subjectId: args.subjectId,
+      subjectId: args.subjectId && args.subjectId
     });
     return newTask;
   },

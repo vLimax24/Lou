@@ -1,15 +1,23 @@
 'use client';
 
 import { api } from '@/convex/_generated/api';
+import type {
+  DragEndEvent,
+  DragOverEvent,
+  DragStartEvent,
+  Over,
+} from '@dnd-kit/core';
+import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { useConvexAuth, useMutation, useQuery } from 'convex/react';
+import { useState } from 'react';
 import { AddTaskDialog } from './task-form';
-import React, { useState } from 'react';
-import { DndContext } from '@dnd-kit/core';
-import type { DragEndEvent } from '@dnd-kit/core'
 
-import { Droppable } from './Droppable';
-import { Draggable } from './Draggable';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Id } from '@/convex/_generated/dataModel';
+import { Loader2 } from 'lucide-react';
+import { Draggable } from './Draggable';
+import { Droppable } from './Droppable';
 
 type TaskStatus = 'PENDING' | 'IN-PROGRESS' | 'COMPLETED';
 const taskTypes: Record<string, TaskStatus> = {
@@ -29,47 +37,70 @@ const Tasks = (): JSX.Element => {
     !isAuthenticated ? 'skip' : undefined
   );
   console.log(tasks);
-  
-  const updateTask = useMutation<typeof api.tasks.updateTaskStatus>(api.tasks.updateTaskStatus);
-  
+
+  const updateTask = useMutation<typeof api.tasks.updateTaskStatus>(
+    api.tasks.updateTaskStatus
+  );
+
   const containers: TaskStatus[] = Object.values(taskTypes);
-  const [parent, setParent] = useState<string | null>(null);
-  console.log(parent)
+  const [parent, setParent] = useState<Over['id'] | null>(null);
+  console.log(parent);
 
   async function handleDragEnd(event: DragEndEvent): Promise<void> {
     const { over, active } = event;
     if (!over) return; // No drop target
     const newStatus: TaskStatus = over.id as TaskStatus;
-    const taskId: Id<"tasks"> = active.id as Id<"tasks">;
-
+    const taskId: Id<'tasks'> = active.id as Id<'tasks'>;
+    setParent(over ? over.id : null);
     // Update task status
     await updateTask({ taskId, newStatus });
     setParent(null); // Reset parent
   }
 
+  async function handleDragStart(event: DragStartEvent): Promise<void> {
+    console.log('🚀 ~ handleDragStart ~ event:', event);
+    const { active } = event;
+    if (!active) return; // No drop target
+    setParent(active ? active.id : null);
+  }
+  async function handleDragOver(event: DragOverEvent): Promise<void> {
+    console.log('🚀 ~ handleDragOver ~ event:', event);
+  }
+
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <div className='w-full flex items-center justify-between mr-10 mb-6 p-4'>
-        <h1 className='text-4xl font-bold'>Your Tasks</h1>
+    <DndContext
+      onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+    >
+      <div className="mb-6 mr-10 flex w-full items-center justify-between p-4">
+        <h1 className="text-4xl font-bold">Your Tasks</h1>
         <AddTaskDialog />
       </div>
-      
-      <div className='flex w-full justify-between'>
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {containers.map((type: TaskStatus) => (
-          <div key={type} className="w-1/3 p-4">
-            <h2 className="text-lg font-bold mb-4">{capitalizeFirstLetter(type.replace('-', ' '))}</h2>
-            <Droppable key={type} id={type}>
-              {tasks
-                ?.filter((task) => task.status === type)
-                ?.map((task) => (
-                  <Draggable key={task._id} id={task._id}>
-                    <div className="bg-gray-100 p-2 rounded shadow mb-2">{task.text}</div>
-                  </Draggable>
-                ))}
-            </Droppable>
-          </div>
+          <Droppable key={type} id={type} status={type}>
+            {!tasks ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              tasks
+                .filter(task => task?.status === type)
+                .map(task => (
+                  <Draggable key={task?._id} id={task?._id} task={task} />
+                ))
+            )}
+          </Droppable>
         ))}
       </div>
+      <DragOverlay
+        dropAnimation={{
+          duration: 500,
+          easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+        }}
+      >
+ 
+      </DragOverlay>
     </DndContext>
   );
 };

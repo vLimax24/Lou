@@ -56,7 +56,7 @@ export function AddTaskDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
       await addTask({
         status: values.status,
         text: values.text,
-        subjectId: subjectId
+        subjectId: subjectId && subjectId
       });
       toast('Task Added.');
       form.reset();
