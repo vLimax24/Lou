@@ -77,11 +77,11 @@ export function DataTable() {
     return subjects.map((subject) => {
       const subjectGrades = grades.filter((grade) => grade.subjectId === subject._id);
       const totalAverage = subjectGrades.reduce((total, grade) => total + Number(grade.grade), 0) / subjectGrades.length;
-
+      const finalAverage = totalAverage.toFixed(2)
       return {
         ...subject,
         grades: subjectGrades,
-        totalAverage: isNaN(totalAverage) ? 0 : totalAverage,
+        totalAverage: finalAverage,
       };
     });
   }, [subjects, grades]);

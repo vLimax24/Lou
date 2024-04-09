@@ -17,7 +17,7 @@ export default function SiteLayout({
  
 
   return (
-      <main className='bg-foreground h-full w-full min-h-screen text-white'>
+      <main className='bg-[#264653] h-full w-full min-h-screen text-white'>
         <NavBar />
         {children}
         <Toaster />

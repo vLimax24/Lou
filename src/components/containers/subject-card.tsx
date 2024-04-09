@@ -84,7 +84,7 @@ export default function SubjectCard({ subject }: { subject: Doc<'subjects'> }) {
           className="text-gray-900 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
         >
           <CardTitle
-            className={cn('text-2xl font-bold underline', subject.color && 'text-white')}
+            className={cn('text-2xl font-bold', subject.color && 'text-white')}
           >
             {subject.name}
           </CardTitle>
@@ -92,7 +92,7 @@ export default function SubjectCard({ subject }: { subject: Doc<'subjects'> }) {
       </CardHeader>
       {subject.addedByUser && (
         <CardContent className="p-0 px-2">
-          <div className="mt-auto flex w-full items-center justify-end border-gray-200 py-2 text-gray-700">
+          <div className="mt-auto flex w-full items-center justify-end border-gray-200 py-2 text-white">
             <>
               <Trash
                 size={20}

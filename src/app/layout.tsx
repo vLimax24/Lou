@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-        <body className={`font-sans ${inter.variable}`}>
+        <body className={`font-sans ${inter.variable} bg-[#264653]`}>
           <ConvexProviderWithAuth client={convex} useAuth={useAuthFromNextAuth}>{children}</ConvexProviderWithAuth>
           <Toaster />
         </body>

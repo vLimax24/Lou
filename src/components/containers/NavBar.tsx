@@ -17,9 +17,9 @@ interface NavLink {
 }
 
 const links: NavLink[] = [
+  { name: 'Dashboard', link: '/dashboard' },
   { name: 'Help', link: '/help' },
   { name: 'Contact', link: '/contact' },
-  { name: 'Blog', link: '/blog' },
 ];
 
 export const NavBar: React.FC = () => {
@@ -56,7 +56,7 @@ export const NavBar: React.FC = () => {
   return (
     <>
       <nav
-        className={`bg-opacity-30} sticky left-0 right-0 top-0 z-10 border-b border-gray-200 border-b-[#2C3437] px-8 py-3 backdrop-blur-sm backdrop-filter`}
+        className={`bg-opacity-30 sticky left-0 right-0 top-0 z-10 border-b border-gray-200 border-b-[#8EA8C3] px-8 py-3 backdrop-blur-sm backdrop-filter`}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center">
