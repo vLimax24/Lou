@@ -1,4 +1,5 @@
 import { NavBar } from "@/components/containers/NavBar";
+import { Footer } from '@/components/containers/Footer'
 import { Toaster } from "@/components/ui/sonner";
 import "@/styles/globals.css";
 
@@ -17,10 +18,11 @@ export default function SiteLayout({
  
 
   return (
-      <main className='bg-foreground h-full w-full min-h-screen text-white'>
+      <main className={`font-open-sans bg-gradient-to-bl from-[#5A6471] to-[#243243] h-full w-full min-h-screen text-white`}>
         <NavBar />
         {children}
         <Toaster />
+        <Footer />
       </main>
       
   );

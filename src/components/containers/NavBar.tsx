@@ -56,19 +56,17 @@ export const NavBar: React.FC = () => {
   return (
     <>
       <nav
-        className={`bg-opacity-30 sticky left-0 right-0 top-0 z-10 border-b border-gray-200 border-b-[#8EA8C3] px-8 py-3 backdrop-blur-sm backdrop-filter`}
+        className={`bg-opacity-30 sticky left-0 right-0 top-0 z-10 border-b border-opacity-10 border-b-gray-200 px-8 py-3 backdrop-blur-sm backdrop-filter`}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center">
-            <Link href={'/'}>
-              <NodejsLight height={24} width={80} className="mr-10" />
+            <Link href={'/'} draggable='false' className='select-none'>
+              <h1 className='font-black text-xl'>STUDENTOS</h1>
             </Link>
-            <ul className="hidden md:flex">{renderedLinks}</ul>
+            
           </div>
+          <ul className="hidden md:flex mr-4">{renderedLinks}</ul>
           <div className="hidden items-center justify-center md:flex">
-            <IconLink href="https://github.com/vlimax24" className="mx-2">
-              <GitHub width={22} height={22} color="white" />
-            </IconLink>
             {session ? (
               <>
                 <Link href={'/dashboard'}>
@@ -111,7 +109,7 @@ export const NavBar: React.FC = () => {
         </div>
       </nav>
       {menuOpen && (
-        <div className="w-full border-b border-b-[#2C3437] px-4 py-4">
+        <div className="w-full border-b border-b-gray-200 border-opacity-10 px-4 py-4">
           <ul className="flex flex-col items-start">{renderedLinks}</ul>
         </div>
       )}

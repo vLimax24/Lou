@@ -40,7 +40,7 @@ export default function DashboardHeader() {
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
-              href="#"
+              href={'/'}
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Lightbulb className="h-6 w-6" />

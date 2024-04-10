@@ -55,7 +55,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
       </CardHeader>
       <CardContent className="grid gap-4 mt-2">
         <div className='flex flex-col'>
-          {sortedEvents ? (
+          {sortedEvents?.length < 0 ? (
             <div className="flex flex-col items-center justify-center">
               <PartyPopper size={56} className="mb-10"/>
               <p className="mt-[-1rem]">Hurray! You currently don&apos;t have any exams!</p>

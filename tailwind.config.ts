@@ -36,6 +36,7 @@ const config = {
       medium: '500',
       semibold: '600',
       bold: '700',
+      black: '900'
     },
     fontFamily: {
       'open-sans': ['var(--font-open-sans)'],
