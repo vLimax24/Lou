@@ -49,7 +49,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
     <Card className={cn("w-full md:w-1/5 mx-1", className)} {...props}>
       <CardHeader>
         <Link href={'/dashboard/calendar'}>
-          <CardTitle className='flex items-center justify-start'>Calendar <ArrowUpRightIcon className="ml-2 h-4 w-4 mt-1" /></CardTitle>
+          <CardTitle className='flex items-center justify-start'>Calendar</CardTitle>
         </Link>
         <CardDescription>Your upcoming Exams</CardDescription>
       </CardHeader>

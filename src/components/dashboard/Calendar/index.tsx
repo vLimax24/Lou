@@ -15,33 +15,34 @@ interface CalendarProps {
   initialDate?: dayjs.Dayjs;
 }
 
-type Events = Record<string, string[]>;
-
 const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const [currentMonth, setCurrentMonth] = useState(initialDate);
   const userId = useStoreUser();
   const addEvent = useMutation(api.events.addEvent);
 
   const { isAuthenticated } = useConvexAuth();
-  const events = useQuery(
+  const events: any = useQuery(
     api.events.getEvents,
     !isAuthenticated ? 'skip' : undefined
   );
-  const noteEvents = useQuery(
+  const noteEvents: any = useQuery(
     api.notes.getNotes,
     !isAuthenticated ? 'skip' : undefined
-  )
+  );
 
-  const filteredNoteEvents = noteEvents?.filter((note: any) => note.showInCalendar === true)
+  const filteredNoteEvents = noteEvents?.filter((note: any) => note.showInCalendar === true);
+  console.log(filteredNoteEvents)
 
-
-  
+  // Combine events and noteEvents into a single array
+  const combinedEvents: (Event | any)[] = events?.concat(filteredNoteEvents || []);
 
   const handleDate = (date: string) => {
     // This function could be used to handle clicking on a date cell in the calendar
     // For now, we're just logging the clicked date
     console.log('Clicked on date:', date);
   };
+
+  console.log(combinedEvents)
 
 
   async function handleCreateEvent(date: any, title: string, type: string, description: string) {
@@ -91,7 +92,7 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
       </div>
       <CalendarGrid
         currentMonth={currentMonth}
-        events={events}
+        events={combinedEvents}
         onClick={handleDate}
         onCreateEvent={handleCreateEvent}
       />

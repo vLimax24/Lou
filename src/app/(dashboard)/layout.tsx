@@ -30,7 +30,7 @@ export default function DashboardLayout({
   useEffect(() => {
     if (!subjects || !isAuthenticated) return;
     if (subjects.length <= 0) {
-      router.push('/dashboard/tutorial/subjects');
+      router.push('tutorial/subjects');
     }
   }, [subjects, isAuthenticated, router]);
 

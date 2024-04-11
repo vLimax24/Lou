@@ -7,9 +7,10 @@ import { Calendar } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Dropdown } from './Dropdown';
-import { CalendarDays, Text, Presentation, School, ClipboardCheck, Plus } from 'lucide-react';
+import { CalendarDays, Text, Presentation, School, ClipboardCheck, Plus, Pencil, Trash } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip"
+import { Separator } from "@/components/ui/separator"
 
 interface CalendarGridProps {
   currentMonth: dayjs.Dayjs;
@@ -51,12 +52,12 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
             e.stopPropagation()
           }}>
             <div className='bg-green-500 bg-opacity-50 w-full pl-2 my-0.5 rounded-sm hover:cursor-pointer hover:bg-green-600 hover:bg-opacity-50'>
-              {event.title}
+              {event.title || event.text}
             </div>
           </DialogTrigger>
           <DialogContent onClick={(e) => e.stopPropagation()}>
             <DialogHeader>
-              <DialogTitle className='font-bold text-xl'>{event.title}</DialogTitle>
+              <DialogTitle className='font-bold text-xl'>{event.title || event.text}</DialogTitle>
             </DialogHeader>
             <div className='flex items-center justify-between'>
               <div className='flex items-center'>
@@ -89,6 +90,36 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
               </div>
               <div className=''>
                 <p className='ml-9 my-1 text-muted-foreground'>{event.type}</p>
+              </div>
+            </div>
+            <Separator className="my-4" />
+            <div className='mb-2 flex items-center justify-between'>
+              <div className='center'>
+                <h2>Actions</h2>
+              </div>
+              <div className='flex'>
+                <TooltipProvider>
+                <div className='mx-2 hover:cursor-pointer'>
+                  <Tooltip delayDuration={50}>
+                    <TooltipTrigger asChild>
+                      <Pencil size={20}/>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Edit Event</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+                <div className='mx-2 hover:cursor-pointer'>
+                  <Tooltip delayDuration={50}>
+                    <TooltipTrigger asChild>
+                      <Trash size={20}/>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Delete Event</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+                </TooltipProvider>
               </div>
             </div>
           </DialogContent>

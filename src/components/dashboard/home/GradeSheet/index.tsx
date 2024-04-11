@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { subjectColors } from '@/utils/subjectColors';
+import Link from "next/link";
  
 const grades = [
     {
@@ -66,7 +67,9 @@ export default function GradeSheetCard({ className, ...props }: CardProps) {
   return (
     <Card className={cn("w-full md:w-3/5 md:h-96 md:max-h-96 mx-1", className)} {...props}>
       <CardHeader>
-        <CardTitle>Grades</CardTitle>
+      <Link href={'/dashboard/grade-sheet'}>
+          <CardTitle className='flex items-center justify-start'>Grades</CardTitle>
+        </Link>
         <CardDescription>Your current averages</CardDescription>
       </CardHeader>
       <CardContent className="grid">

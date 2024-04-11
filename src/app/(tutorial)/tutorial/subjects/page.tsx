@@ -63,7 +63,7 @@ const Page: React.FC = () => {
       startTransition(async () => {
         try {
           await assignSubjects({ subjectIds: selectedSubjects as Id<'subjects'>[] });
-          router.push('/dashboard/tutorial/grading-system')
+          router.push('tutorial/grading-system')
         } catch (error) {
           toast.error('Error Adding Students.');
         }
