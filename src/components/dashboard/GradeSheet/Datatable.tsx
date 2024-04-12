@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Badge } from "@/components/ui/badge"
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
@@ -73,18 +73,39 @@ export function DataTable() {
   const subjects = subjectsQuery ?? [];
   const grades = gradesQuery ?? [];
 
+  const addTotalAverage = useMutation(api.studentSubjects.addTotalAverage)
+  const studentSubjects = useQuery(api.studentSubjects.getStudentSubjects)
+  
+  const addTotalAverageToDB = async (totalAverage: string, subjectId: any) => {
+    let studentSubjectId:any
+      studentSubjects?.map((studentSubject) => {
+        if(subjectId === studentSubject.subjectId) {
+          studentSubjectId = studentSubject._id
+        }
+      })
+    await addTotalAverage({
+      totalAverage: totalAverage,
+      studentSubjectId: studentSubjectId,
+    })
+  }
+
   const subjectsWithGrades = useMemo(() => {
     return subjects.map((subject) => {
       const subjectGrades = grades.filter((grade) => grade.subjectId === subject._id);
       const totalAverage = subjectGrades.reduce((total, grade) => total + Number(grade.grade), 0) / subjectGrades.length;
       const finalAverage = totalAverage.toFixed(2)
+      const dbAverage = finalAverage.toString()
+      addTotalAverageToDB(dbAverage, subject._id)
+
       return {
         ...subject,
         grades: subjectGrades,
         totalAverage: finalAverage,
       };
     });
-  }, [subjects, grades]);
+  }, [subjects, grades])
+
+
 
   const table = useReactTable({
     data: subjectsWithGrades,

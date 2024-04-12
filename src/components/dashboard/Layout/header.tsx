@@ -132,7 +132,7 @@ export default function DashboardHeader() {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{session?.user?.email}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Link href={'/settings/profile'}>
+          <Link href={'/settings'}>
             <DropdownMenuItem>
                 Settings
             </DropdownMenuItem>

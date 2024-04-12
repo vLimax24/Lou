@@ -17,7 +17,23 @@ export const assignStudentSubjects = authMutation({
 
     return assignedSubjects;
   },
-});
+})
+
+export const getStudentSubjects = authQuery({
+  args:{},
+  handler: async ({ auth, db, user }) => {
+  
+    const identity = await auth.getUserIdentity()
+    if (!identity) {
+      throw new Error('you must be logged in to get your student subjects')
+    }
+    const studentSubjects = await db
+      .query('studentSubjects')
+      .filter(q => q.eq(q.field('userId'), user?._id))
+      .collect()
+    return studentSubjects
+  },
+})
 
 export const getUserSubjects = authQuery({
   args: {},
@@ -51,5 +67,13 @@ export const assignUserAddedSubject = internalMutation({
 
       return studentSubjectId
 
+  }
+})
+
+
+export const addTotalAverage = authMutation({
+  args: { totalAverage: v.string(), studentSubjectId: v.id("studentSubjects")},
+  handler: async(ctx, args) => {
+    await ctx.db.patch(args.studentSubjectId, {totalAverage: args.totalAverage})
   }
 })

@@ -46,7 +46,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const letterGrades = ['A', 'B', 'C', 'D', 'F']; // Add more detailed options if needed
-const numberGrades = Array.from({ length: 10 }, (_, i) => `${i + 1}`);
+const numberGrades = Array.from({ length: 6 }, (_, i) => `${i + 1}`);
 
 export function AddGradeDialogWithSubject() {
 
@@ -154,7 +154,7 @@ export function AddGradeDialogWithSubject() {
                                 </SelectGroup>
                               ) : (
                                 <SelectGroup>
-                                  <SelectLabel>Number Grades</SelectLabel>
+                                  <SelectLabel>Grades</SelectLabel>
                                   {numberGrades.map(grade => (
                                     <SelectItem key={grade} value={grade}>
                                       {grade}

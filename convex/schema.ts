@@ -49,6 +49,7 @@ export default defineSchema({
     // many to many relationship table
     userId: v.id('users'),
     subjectId: v.id('subjects'),
+    totalAverage: v.optional(v.string()),
   })
     .index('by_subjectId', ['subjectId'])
     .index('by_userId', ['userId']),

@@ -15,7 +15,6 @@ import { Separator } from "@/components/ui/separator"
 interface CalendarGridProps {
   currentMonth: dayjs.Dayjs;
   events: any;
-  onClick: (date: string) => void;
   onCreateEvent: (date: string, title: string, description: string, type: string) => void;
 }
 
@@ -27,14 +26,12 @@ const capitalizeFirstLetter = (string:any) => {
 const CalendarGrid: React.FC<CalendarGridProps> = ({
   currentMonth,
   events,
-  onClick,
   onCreateEvent,
 }) => {
   const [dropdownValue, setDropdownValue] = useState('OTHER');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
-  const [isSheetAllowed, setIsSheetAllowed] = useState(true);
 
   const handleCreateEvent = () => {
     onCreateEvent(selectedDate, title, description, dropdownValue);

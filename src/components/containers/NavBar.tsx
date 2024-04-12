@@ -1,14 +1,12 @@
 'use client';
 
-import NodejsLight from '@/components/Icons/Logos/NodejsLight';
 import { ActiveLink } from '@/components/common/ActiveLink';
-import { EmptyLink, IconLink } from '@/components/common/Link';
+import { EmptyLink } from '@/components/common/Link';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
-import GitHub from '../Icons/Social/GitHub';
 import { AvatarRounded } from '../common/Avatar';
 
 interface NavLink {

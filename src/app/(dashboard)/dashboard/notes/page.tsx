@@ -8,6 +8,7 @@ import { api } from '@/convex/_generated/api';
 import { useConvexAuth, useMutation, useQuery } from 'convex/react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { toast } from 'sonner';
+import Link from 'next/link'
 
 const Page = () => {
   const { isAuthenticated } = useConvexAuth();
@@ -59,7 +60,9 @@ const Page = () => {
                   <div>
                     <Tooltip delayDuration={50}>
                       <TooltipTrigger asChild>
-                          <CalendarDays size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300' />
+                          <Link href={'/dashboard/calendar'}>
+                            <CalendarDays size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300' />
+                          </Link>
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>View in Calendar</p>

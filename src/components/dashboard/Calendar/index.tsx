@@ -36,14 +36,6 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   // Combine events and noteEvents into a single array
   const combinedEvents: (Event | any)[] = events?.concat(filteredNoteEvents || []);
 
-  const handleDate = (date: string) => {
-    // This function could be used to handle clicking on a date cell in the calendar
-    // For now, we're just logging the clicked date
-    console.log('Clicked on date:', date);
-  };
-
-  console.log(combinedEvents)
-
 
   async function handleCreateEvent(date: any, title: string, type: string, description: string) {
     const formattedDate = moment(date).toISOString()
@@ -93,7 +85,6 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
       <CalendarGrid
         currentMonth={currentMonth}
         events={combinedEvents}
-        onClick={handleDate}
         onCreateEvent={handleCreateEvent}
       />
     </>
