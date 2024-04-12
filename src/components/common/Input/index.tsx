@@ -1,27 +1,27 @@
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { Input } from "@/components/ui/input"
+import React, { useState } from "react"
 
 enum InputTypes {
-    button = 'button',
-    checkbox = 'checkbox',
-    color = 'color',
-    date = 'date',
-    localDatetime = 'datetime-local',
-    email = 'email',
-    file = 'file',
-    hidden = 'hidden',
-    image = 'image',
-    month = 'month',
-    number = 'number',
-    password = 'password',
-    radio = 'radio',
-    range = 'range',
-    search = 'search',
-    tel = 'tel',
-    text = 'text',
-    time = 'time',
-    url = 'url',
-    week = 'week',
+    button = "button",
+    checkbox = "checkbox",
+    color = "color",
+    date = "date",
+    localDatetime = "datetime-local",
+    email = "email",
+    file = "file",
+    hidden = "hidden",
+    image = "image",
+    month = "month",
+    number = "number",
+    password = "password",
+    radio = "radio",
+    range = "range",
+    search = "search",
+    tel = "tel",
+    text = "text",
+    time = "time",
+    url = "url",
+    week = "week",
 }
 
 interface InputFieldProps {
@@ -33,13 +33,13 @@ interface InputFieldProps {
 }
 
 export const InputField: React.FC<InputFieldProps> = ({ placeholder, disabled, type, className, onValueChange }) => {
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>("")
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value
-        setValue(newValue);
-        onValueChange(newValue);
-    };
+        setValue(newValue)
+        onValueChange(newValue)
+    }
 
     return (
         <Input
@@ -50,5 +50,5 @@ export const InputField: React.FC<InputFieldProps> = ({ placeholder, disabled, t
             value={value}
             onChange={handleChange}
         />
-    );
-};
+    )
+}

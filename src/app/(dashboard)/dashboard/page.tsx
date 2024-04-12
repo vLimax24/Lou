@@ -1,12 +1,12 @@
-'use client'
-import AssignmentCard from '@/components/dashboard/home/Assignments';
-import CalendarCard from '@/components/dashboard/home/Calendar';
-import GradeSheetCard from '@/components/dashboard/home/GradeSheet';
-import NotesCard from '@/components/dashboard/home/Notes';
-import { useSession } from 'next-auth/react';
+"use client"
+import AssignmentCard from "@/components/dashboard/home/Assignments"
+import CalendarCard from "@/components/dashboard/home/Calendar"
+import GradeSheetCard from "@/components/dashboard/home/GradeSheet"
+import NotesCard from "@/components/dashboard/home/Notes"
+import { useSession } from "next-auth/react"
 
 export default function Dashboard() {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
   
   return (
     <main className="flex flex-col gap-4 lg:gap-6 lg:p-6">
@@ -24,5 +24,5 @@ export default function Dashboard() {
         </div>
       </div>
     </main>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const NodejsLight: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -11,7 +11,7 @@ const NodejsLight: FC<SVGProps<SVGSVGElement>> = props => (
   >
     <mask
       id="mask0_1803_3458"
-      style={{ maskType: 'luminance' }}
+      style={{ maskType: "luminance" }}
       maskUnits="userSpaceOnUse"
       x="0"
       y="0"
@@ -113,6 +113,6 @@ const NodejsLight: FC<SVGProps<SVGSVGElement>> = props => (
       </linearGradient>
     </defs>
   </svg>
-);
+)
 
-export default NodejsLight;
+export default NodejsLight

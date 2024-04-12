@@ -1,19 +1,19 @@
-import React from 'react';
-import { useDraggable } from '@dnd-kit/core';
-import type { UseDraggableArguments } from '@dnd-kit/core';
-import { Doc, Id } from '@/convex/_generated/dataModel';
-import { Badge } from '@/components/ui/badge';
-import { GripVertical } from 'lucide-react';
+import React from "react"
+import { useDraggable } from "@dnd-kit/core"
+import type { UseDraggableArguments } from "@dnd-kit/core"
+import { Id } from "@/convex/_generated/dataModel"
+import { Badge } from "@/components/ui/badge"
+import { GripVertical } from "lucide-react"
 
 interface Task {
-  _id: Id<'tasks'>;
+  _id: Id<"tasks">;
   _creationTime: number;
-  subjectId?: Id<'subjects'> | undefined;
+  subjectId?: Id<"subjects"> | undefined;
   status: string;
   text: string;
-  userId: Id<'users'>;
+  userId: Id<"users">;
   subject?: {
-    _id: Id<'subjects'>;
+    _id: Id<"subjects">;
     _creationTime: number;
     color?: string | undefined;
     addedByUser?: boolean | undefined;
@@ -29,13 +29,13 @@ interface DraggableProps {
 export function Draggable({id, task}: DraggableProps) {
   const { attributes, listeners, setNodeRef, transform, setActivatorNodeRef } = useDraggable({
     id: id,
-  } as UseDraggableArguments);
+  } as UseDraggableArguments)
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
         
       }
-    : undefined;
+    : undefined
 
   return (
     <div ref={setNodeRef} style={style} className="flex flex-row justify-between bg-background p-3 rounded-md items-center min-h-20">
@@ -50,5 +50,5 @@ export function Draggable({id, task}: DraggableProps) {
       </div>
       <button ref={setActivatorNodeRef} {...listeners} {...attributes}><GripVertical className='size-4'/></button>
     </div>
-  );
+  )
 }

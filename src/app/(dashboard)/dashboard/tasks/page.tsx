@@ -1,70 +1,64 @@
-'use client';
+"use client"
 
-import { api } from '@/convex/_generated/api';
+import { api } from "@/convex/_generated/api"
 import type {
   DragEndEvent,
   DragOverEvent,
   DragStartEvent,
   Over,
-} from '@dnd-kit/core';
-import { DndContext, DragOverlay } from '@dnd-kit/core';
-import { useConvexAuth, useMutation, useQuery } from 'convex/react';
-import { useState } from 'react';
-import { AddTaskDialog } from '../../../../components/dashboard/Dialogs/tasks/AddTaskDialog';
+} from "@dnd-kit/core"
+import { DndContext, DragOverlay } from "@dnd-kit/core"
+import { useConvexAuth, useMutation, useQuery } from "convex/react"
+import { useState } from "react"
+import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Id } from '@/convex/_generated/dataModel';
-import { Loader2 } from 'lucide-react';
-import { Draggable } from '../../../../components/dnd/Draggable';
-import { Droppable } from '../../../../components/dnd/Droppable';
+import type { Id } from "@/convex/_generated/dataModel"
+import { Loader2 } from "lucide-react"
+import { Draggable } from "@/components/dnd/Draggable"
+import { Droppable } from "@/components/dnd/Droppable"
 
-type TaskStatus = 'PENDING' | 'IN-PROGRESS' | 'COMPLETED';
+type TaskStatus = "PENDING" | "IN-PROGRESS" | "COMPLETED";
 const taskTypes: Record<string, TaskStatus> = {
-  todo: 'PENDING',
-  inProgress: 'IN-PROGRESS',
-  completed: 'COMPLETED',
-};
+  todo: "PENDING",
+  inProgress: "IN-PROGRESS",
+  completed: "COMPLETED",
+}
 
-const capitalizeFirstLetter = (str: string): string => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-};
-
-const Tasks = (): JSX.Element => {
-  const { isAuthenticated } = useConvexAuth();
+const Tasks = () => {
+  const { isAuthenticated } = useConvexAuth()
   const tasks = useQuery(
     api.tasks.getTasks,
-    !isAuthenticated ? 'skip' : undefined
-  );
-  console.log(tasks);
+    !isAuthenticated ? "skip" : undefined
+  )
+  console.log(tasks)
 
   const updateTask = useMutation<typeof api.tasks.updateTaskStatus>(
     api.tasks.updateTaskStatus
-  );
+  )
 
-  const containers: TaskStatus[] = Object.values(taskTypes);
-  const [parent, setParent] = useState<Over['id'] | null>(null);
-  console.log(parent);
+  const containers: TaskStatus[] = Object.values(taskTypes)
+  const [parent, setParent] = useState<Over["id"] | null>(null)
+  console.log(parent)
 
   async function handleDragEnd(event: DragEndEvent): Promise<void> {
-    const { over, active } = event;
-    if (!over) return; // No drop target
-    const newStatus: TaskStatus = over.id as TaskStatus;
-    const taskId: Id<'tasks'> = active.id as Id<'tasks'>;
-    setParent(over ? over.id : null);
+    const { over, active } = event
+    if (!over) return // No drop target
+    const newStatus: TaskStatus = over.id as TaskStatus
+    const taskId: Id<"tasks"> = active.id as Id<"tasks">
+    setParent(over ? over.id : null)
     // Update task status
-    await updateTask({ taskId, newStatus });
-    setParent(null); // Reset parent
+    await updateTask({ taskId, newStatus })
+    setParent(null) // Reset parent
   }
 
   async function handleDragStart(event: DragStartEvent): Promise<void> {
-    console.log('🚀 ~ handleDragStart ~ event:', event);
-    const { active } = event;
-    if (!active) return; // No drop target
-    setParent(active ? active.id : null);
+    console.log("🚀 ~ handleDragStart ~ event:", event)
+    const { active } = event
+    if (!active) return // No drop target
+    setParent(active ? active.id : null)
   }
   async function handleDragOver(event: DragOverEvent): Promise<void> {
-    console.log('🚀 ~ handleDragOver ~ event:', event);
+    console.log("🚀 ~ handleDragOver ~ event:", event)
   }
 
   return (
@@ -96,13 +90,13 @@ const Tasks = (): JSX.Element => {
       <DragOverlay
         dropAnimation={{
           duration: 500,
-          easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+          easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
         }}
       >
  
       </DragOverlay>
     </DndContext>
-  );
-};
+  )
+}
 
-export default Tasks;
+export default Tasks

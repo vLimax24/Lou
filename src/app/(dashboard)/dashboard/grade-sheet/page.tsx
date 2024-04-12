@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import React from 'react'
-import { DataTable } from '@/components/dashboard/GradeSheet/Datatable'
-import { AddGradeDialogWithSubject } from '@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject'
+import React from "react"
+import { DataTable } from "@/components/dashboard/GradeSheet/Datatable"
+import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
 
 const page = () => {
   return (

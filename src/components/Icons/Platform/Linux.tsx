@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Linux: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -964,6 +964,6 @@ const Linux: FC<SVGProps<SVGSVGElement>> = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default Linux;
+export default Linux

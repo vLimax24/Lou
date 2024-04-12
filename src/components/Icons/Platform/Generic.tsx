@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Generic: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -17,6 +17,6 @@ const Generic: FC<SVGProps<SVGSVGElement>> = props => (
       strokeLinejoin="round"
     />
   </svg>
-);
+)
 
-export default Generic;
+export default Generic

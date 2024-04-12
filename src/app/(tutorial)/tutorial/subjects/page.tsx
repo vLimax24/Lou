@@ -1,15 +1,15 @@
-'use client';
+"use client"
 
-import React, { useState, useTransition } from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { CircleAlert, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
-import { useMutation, useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { toast } from 'sonner';
-import { type Id } from '@/convex/_generated/dataModel';
+import React, { useState, useTransition } from "react"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { CircleAlert, Loader2 } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
+import { useMutation, useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import { toast } from "sonner"
+import { type Id } from "@/convex/_generated/dataModel"
 
 function AnimatedCheckIcon() {
   return (
@@ -29,49 +29,49 @@ function AnimatedCheckIcon() {
         d="M4.5 12.75l6 6 9-13.5"
       />
     </svg>
-  );
+  )
 }
 
 const Page: React.FC = () => {
-  const router = useRouter();
+  const router = useRouter()
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>(
     []
-  );
-  const [showWarning, setShowWarning] = useState(false);
+  )
+  const [showWarning, setShowWarning] = useState(false)
   const [pending, startTransition] = useTransition()
 
-  const subjects = useQuery(api.subjects.getAllSubjects);
-  const assignSubjects = useMutation(api.studentSubjects.assignStudentSubjects);
+  const subjects = useQuery(api.subjects.getAllSubjects)
+  const assignSubjects = useMutation(api.studentSubjects.assignStudentSubjects)
   const toggleSubject = (subjectId: string): void => {
     setSelectedSubjects(prevSelectedSubjects => {
       if (prevSelectedSubjects.includes(subjectId)) {
-        return prevSelectedSubjects.filter(_id => _id !== subjectId);
+        return prevSelectedSubjects.filter(_id => _id !== subjectId)
       } else {
-        return [...prevSelectedSubjects, subjectId];
+        return [...prevSelectedSubjects, subjectId]
       }
-    });
-  };
+    })
+  }
 
   const isSelected = (subjectId: string): boolean => {
-    return selectedSubjects.includes(subjectId);
-  };
+    return selectedSubjects.includes(subjectId)
+  }
 
   const handleFinish = () => {
     if (selectedSubjects.length === 0) {
-      setShowWarning(true);
+      setShowWarning(true)
     } else {
       startTransition(async () => {
         try {
-          await assignSubjects({ subjectIds: selectedSubjects as Id<'subjects'>[] });
-          router.push('tutorial/grading-system')
+          await assignSubjects({ subjectIds: selectedSubjects as Id<"subjects">[] })
+          router.push("tutorial/grading-system")
         } catch (error) {
-          toast.error('Error Adding Students.');
+          toast.error("Error Adding Students.")
         }
-      });
+      })
   
       // router.push('/dashboard/tutorial/grading-system')
     }
-  };
+  }
 
   return (
     <div className="rounded-2xl border border-gray-300 px-12">
@@ -90,13 +90,13 @@ const Page: React.FC = () => {
             subjects.map(subject => (
               <div
                 key={subject._id}
-                className={`relative h-24 rounded-md border p-2 transition-all duration-300 ease-in-out hover:cursor-pointer`}
+                className={"relative h-24 rounded-md border p-2 transition-all duration-300 ease-in-out hover:cursor-pointer"}
                 onClick={() => toggleSubject(subject._id)}
               >
                 <div
                   className={cn(
-                    'absolute inset-0 rounded-md transition-opacity duration-300 ease-in-out ',
-                    isSelected(subject._id) && 'bg-black bg-opacity-50'
+                    "absolute inset-0 rounded-md transition-opacity duration-300 ease-in-out ",
+                    isSelected(subject._id) && "bg-black bg-opacity-50"
                   )}
                 ></div>
                 <h1 className="text-lg font-bold">{subject.name}</h1>
@@ -120,7 +120,7 @@ const Page: React.FC = () => {
           )}
           <Button
             className="h-12 w-1/2"
-            variant={'outline'}
+            variant={"outline"}
             onClick={handleFinish}
             disabled={pending}
           >
@@ -129,7 +129,7 @@ const Page: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

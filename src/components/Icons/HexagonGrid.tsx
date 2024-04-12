@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const HexagonGrid: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -9,7 +9,7 @@ const HexagonGrid: FC<SVGProps<SVGSVGElement>> = props => (
   >
     <mask
       id="mask0_91_8"
-      style={{ maskType: 'alpha' }}
+      style={{ maskType: "alpha" }}
       maskUnits="userSpaceOnUse"
       width="1216"
       height="726"
@@ -1426,6 +1426,6 @@ const HexagonGrid: FC<SVGProps<SVGSVGElement>> = props => (
       </radialGradient>
     </defs>
   </svg>
-);
+)
 
-export default HexagonGrid;
+export default HexagonGrid

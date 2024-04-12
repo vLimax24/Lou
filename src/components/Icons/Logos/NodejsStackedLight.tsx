@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const NodejsStackedLight: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -12,7 +12,7 @@ const NodejsStackedLight: FC<SVGProps<SVGSVGElement>> = props => (
     <g clipPath="url(#clip0_337_7901)">
       <mask
         id="mask0_337_7901"
-        style={{ maskType: 'luminance' }}
+        style={{ maskType: "luminance" }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -118,6 +118,6 @@ const NodejsStackedLight: FC<SVGProps<SVGSVGElement>> = props => (
       </clipPath>
     </defs>
   </svg>
-);
+)
 
-export default NodejsStackedLight;
+export default NodejsStackedLight

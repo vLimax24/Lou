@@ -1,14 +1,13 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -16,7 +15,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form"
 import {
   Select,
   SelectContent,
@@ -25,64 +24,63 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Calendar } from '@/components/ui/calendar';
-import { Input } from '@/components/ui/input';
-import { api } from '@/convex/_generated/api';
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
-import { useMutation, useQuery } from 'convex/react';
+} from "@/components/ui/select"
+import { Calendar } from "@/components/ui/calendar"
+import { Input } from "@/components/ui/input"
+import { api } from "@/convex/_generated/api"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
+import { useMutation, useQuery } from "convex/react"
 
 const formSchema = z.object({
   topic: z.string().min(2).max(50),
   grade: z.string(),
   date: z.date(),
   subjectId: z.any(),
-});
+})
 
 type FormData = z.infer<typeof formSchema>;
 
-const letterGrades = ['A', 'B', 'C', 'D', 'F']; // Add more detailed options if needed
-const numberGrades = Array.from({ length: 6 }, (_, i) => `${i + 1}`);
+const letterGrades = ["A", "B", "C", "D", "F"] // Add more detailed options if needed
+const numberGrades = Array.from({ length: 6 }, (_, i) => `${i + 1}`)
 
 export function AddGradeDialogWithSubject() {
 
-  const addGrade = useMutation(api.grades.addGrade);
-  const subjects = useQuery(api.studentSubjects.getUserSubjects);
-  const user = useQuery(api.users.getMyUser);
+  const addGrade = useMutation(api.grades.addGrade)
+  const subjects = useQuery(api.studentSubjects.getUserSubjects)
+  const user = useQuery(api.users.getMyUser)
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      topic: '',
-      grade: '',
+      topic: "",
+      grade: "",
       date: new Date(),
-      subjectId: '',
+      subjectId: "",
     },
-  });
+  })
 
   async function onSubmit(values: FormData) {
-    const formattedDate = values.date.toISOString();
+    const formattedDate = values.date.toISOString()
     try {
       await addGrade({
         topic: values.topic,
         date: formattedDate,
         subjectId: values.subjectId,
         grade: values.grade,
-      });
-      toast(`Grade ${values.grade} added!`);
-      form.reset();
+      })
+      toast(`Grade ${values.grade} added!`)
+      form.reset()
     } catch (error) {
-      toast('Error Adding Grade!');
+      toast("Error Adding Grade!")
     }
   }
 
   return (
     <Dialog>
-      <DialogTrigger className={buttonVariants({ variant: 'outline' })}>
+      <DialogTrigger className={buttonVariants({ variant: "outline" })}>
         Add Grade
       </DialogTrigger>
       <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
@@ -143,7 +141,7 @@ export function AddGradeDialogWithSubject() {
                               <SelectValue placeholder="Select a grade" />
                             </SelectTrigger>
                             <SelectContent>
-                              {user?.gradingSystem === 'letter' ? (
+                              {user?.gradingSystem === "letter" ? (
                                 <SelectGroup>
                                   <SelectLabel>Letter Grades</SelectLabel>
                                   {letterGrades.map(grade => (
@@ -214,5 +212,5 @@ export function AddGradeDialogWithSubject() {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

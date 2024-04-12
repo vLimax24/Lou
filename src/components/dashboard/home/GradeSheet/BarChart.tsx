@@ -1,8 +1,7 @@
-import { BarChart, Card } from '@tremor/react'
-import { useState } from 'react'
-import { CardTitle, CardDescription } from '@/components/ui/card'
-import { useQuery } from 'convex/react'
-import { api } from '@/convex/_generated/api'
+import { BarChart, Card } from "@tremor/react"
+import { CardTitle, CardDescription } from "@/components/ui/card"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 
 
 export function GradeBarChart() {
@@ -15,8 +14,8 @@ export function GradeBarChart() {
     return studentSubjects?.map((studentSubject) => {
       if (subject._id === studentSubject.subjectId) {
         return {
-          'subjectName': subject.name,
-          'Total Average': Number(studentSubject?.totalAverage),
+          "subjectName": subject.name,
+          "Total Average": Number(studentSubject?.totalAverage),
         }
       }
       return null
@@ -34,9 +33,9 @@ console.log(subjectData)
           data={subjectData}
           index="subjectName"
           categories={
-            ['Total Average']
+            ["Total Average"]
           }
-          colors={['blue']}
+          colors={["blue"]}
           yAxisWidth={32}
           className="mt-6 block h-60"
         />

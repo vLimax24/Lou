@@ -5,14 +5,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import Link from 'next/link'
-import { ScrollText, Home, CalendarDays, ArrowRight, PartyPopper } from 'lucide-react'
-import { ArrowUpRightIcon } from '@heroicons/react/24/solid'
+import * as React from "react"
+import Link from "next/link"
+import { ScrollText, Home, CalendarDays, ArrowRight, PartyPopper } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { api } from '@/convex/_generated/api'
-import { useConvexAuth, useMutation, useQuery } from 'convex/react'
-import dayjs from 'dayjs'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import { api } from "@/convex/_generated/api"
+import { useConvexAuth, useQuery } from "convex/react"
+import dayjs from "dayjs"
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
 dayjs.extend(isSameOrAfter)
 
 
@@ -22,25 +22,25 @@ export default function CalendarCard({ className, ...props }: CardProps) {
   const { isAuthenticated } = useConvexAuth()
   const events = useQuery(
     api.events.getEvents,
-    !isAuthenticated ? 'skip' : undefined
+    !isAuthenticated ? "skip" : undefined
   )
   console.log(events)
 
   const sortedEvents:any = events?.slice(0).filter(event => {
     const eventDate = dayjs(event.date)
     const currentDate = dayjs() // Current date
-    return eventDate.isSameOrAfter(currentDate, 'day')
+    return eventDate.isSameOrAfter(currentDate, "day")
   }).sort((a, b) => {
     const dateA = dayjs(a.date)
     const dateB = dayjs(b.date)
     const currentDate = dayjs() // Current date
-    const diffA = Math.abs(dateA.diff(currentDate, 'day'))// Difference in days
-    const diffB = Math.abs(dateB.diff(currentDate, 'day'))
+    const diffA = Math.abs(dateA.diff(currentDate, "day"))// Difference in days
+    const diffB = Math.abs(dateB.diff(currentDate, "day"))
     return diffA - diffB
   }).filter(event => event.description === "EXAM").slice(0, 3)
   
   function convertToGermanDate(isoDate: any) {
-    const germanDate: any = dayjs(isoDate).format('DD.MM.YYYY')
+    const germanDate: any = dayjs(isoDate).format("DD.MM.YYYY")
     console.log(germanDate) // Convert to German format "dd.mm.yyyy"
     return germanDate
   }
@@ -48,7 +48,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
   return (
     <Card className={cn("w-full md:w-1/5 mx-1", className)} {...props}>
       <CardHeader>
-        <Link href={'/dashboard/calendar'}>
+        <Link href={"/dashboard/calendar"}>
           <CardTitle className='flex items-center justify-start'>Calendar</CardTitle>
         </Link>
         <CardDescription>Your upcoming Exams</CardDescription>
@@ -71,7 +71,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
                     <div>
                       {event.type === "EXAM" ? (
                         <ScrollText size={20} className='mr-5 ml-2'/>
-                      ) : event.type === 'ASSIGNMENT' ? (
+                      ) : event.type === "ASSIGNMENT" ? (
                         <Home size={20} className='mr-5 ml-2'/>
                       ) : (
                         <CalendarDays size={20} className='mr-5 ml-2'/>

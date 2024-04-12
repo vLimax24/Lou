@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const LinkedIn: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -27,6 +27,6 @@ const LinkedIn: FC<SVGProps<SVGSVGElement>> = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default LinkedIn;
+export default LinkedIn

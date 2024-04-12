@@ -63,6 +63,7 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.29.4",
     "embla-carousel-react": "^8.0.0",
+    "eslint-plugin-unused-imports": "^3.1.0",
     "framer-motion": "^11.0.24",
     "input-otp": "^1.2.3",
     "lucide-react": "^0.363.0",
@@ -85,6 +86,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@savvywombat/tailwindcss-grid-areas": "^4.0.0",
     "@tailwindcss/forms": "^0.5.7",
     "@types/better-sqlite3": "^7.6.9",
@@ -93,7 +95,7 @@
     "@types/react": "^18.2.57",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18.2.19",
-    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.1.1",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
@@ -104,7 +106,8 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.6.0"
   },
   "ct3aMetadata": {
     "initVersion": "7.30.0"

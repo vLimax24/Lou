@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
   Dialog,
   DialogClose,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -17,55 +17,55 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'convex/react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import { api } from "@/convex/_generated/api"
+import { Id } from "@/convex/_generated/dataModel"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "convex/react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   showInCalendar: z.boolean(),
   date: z.date(),
-});
+})
 
 type FormData = z.infer<typeof formSchema>;
 
-export function AddNoteDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
-  const addNote = useMutation(api.notes.addNote);
+export function AddNoteDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
+  const addNote = useMutation(api.notes.addNote)
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      text: '',
+      text: "",
       showInCalendar: false,
       date: new Date(),
     },
-  });
+  })
 
   async function onSubmit(values: FormData) {
     try {
-      const formattedDate = values.date.toISOString();
+      const formattedDate = values.date.toISOString()
 
       await addNote({
         text: values.text,
         showInCalendar: values.showInCalendar,
         date: formattedDate,
         subjectId: subjectId,
-      });
-      toast('Note added!');
-      form.reset();
+      })
+      toast("Note added!")
+      form.reset()
     } catch (error) {
-      toast('Error Adding Note!');
+      toast("Error Adding Note!")
     }
 
-    console.log(values);
+    console.log(values)
   }
 
   return (
@@ -149,5 +149,5 @@ export function AddNoteDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

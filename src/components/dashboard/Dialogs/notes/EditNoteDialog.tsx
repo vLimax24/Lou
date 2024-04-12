@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
+import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react"
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -17,25 +17,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import { Calendar } from '@/components/ui/calendar';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
-import { Pencil } from 'lucide-react'
-import { Label } from '@/components/ui/label';
-import { api } from '@/convex/_generated/api';
-import useStoreUser from '@/hooks/auth/useStoreUser';
-import { useConvexAuth, useMutation, useQuery } from 'convex/react';
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Switch } from "@/components/ui/switch"
+import { Calendar } from "@/components/ui/calendar"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
+import { Pencil } from "lucide-react"
+import { Label } from "@/components/ui/label"
+import { api } from "@/convex/_generated/api"
+import { useMutation, useQuery } from "convex/react"
 
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   showInCalendar: z.boolean(),
   date: z.date(),
-});
+})
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -43,30 +42,27 @@ export function EditNoteDialog({ id }: any) {
   const note = useQuery(
     api.notes.getSpecificNote,
     { noteId: id }
-  );
-  const userId = useStoreUser();
-  const editNote = useMutation(api.notes.editNote);
-  const [showInCalendar, setShowInCalendar] = useState(false);
-  const [date, setDate] = useState<any>(new Date());
-  const [text, setText] = useState<string>('')
+  )
+  const editNote = useMutation(api.notes.editNote)
+  const [showInCalendar, setShowInCalendar] = useState(false)
+  const [date, setDate] = useState<any>(new Date())
 
   useEffect(() => {
     if (note) {
-      setShowInCalendar(note.showInCalendar);
-      const parsedDate = note.date ? new Date(note.date) : new Date();
-      setDate(parsedDate);
-      setText(note.text)
+      setShowInCalendar(note.showInCalendar)
+      const parsedDate = note.date ? new Date(note.date) : new Date()
+      setDate(parsedDate)
     }
-  }, [note]);
+  }, [note])
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      text: note?.text ?? '', // Set defaultValue to note's text
+      text: note?.text ?? "", // Set defaultValue to note's text
       showInCalendar: false,
       date: new Date(),
     },
-  });
+  })
 
   async function onSubmit(values: FormData) {
     try {
@@ -76,11 +72,11 @@ export function EditNoteDialog({ id }: any) {
         newText: values.text,
         newShowInCalendar: showInCalendar,
         newDate: formattedDate,
-      });
-      toast.success('Note edited successfully!');
-      form.reset();
+      })
+      toast.success("Note edited successfully!")
+      form.reset()
     } catch (error) {
-      toast('Error editing Note!');
+      toast("Error editing Note!")
     }
   }
 
@@ -166,5 +162,5 @@ export function EditNoteDialog({ id }: any) {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

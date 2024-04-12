@@ -1,13 +1,13 @@
-'use client';
+"use client"
 
-import { ActiveLink } from '@/components/common/ActiveLink';
-import { EmptyLink } from '@/components/common/Link';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import React, { useMemo, useState } from 'react';
-import { AvatarRounded } from '../common/Avatar';
+import { ActiveLink } from "@/components/common/ActiveLink"
+import { EmptyLink } from "@/components/common/Link"
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import React, { useMemo, useState } from "react"
+import { AvatarRounded } from "../common/Avatar"
 
 interface NavLink {
   name: string;
@@ -15,20 +15,20 @@ interface NavLink {
 }
 
 const links: NavLink[] = [
-  { name: 'Dashboard', link: '/dashboard' },
-  { name: 'Help', link: '/help' },
-  { name: 'Contact', link: '/contact' },
-];
+  { name: "Dashboard", link: "/dashboard" },
+  { name: "Help", link: "/help" },
+  { name: "Contact", link: "/contact" },
+]
 
 export const NavBar: React.FC = () => {
-  const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const { data: session } = useSession();
-  console.log('🚀 ~ session:', session);
+  const pathname = usePathname()
+  const [menuOpen, setMenuOpen] = useState<boolean>(false)
+  const { data: session } = useSession()
+  console.log("🚀 ~ session:", session)
 
   const toggleMenu = () => {
-    setMenuOpen(prevState => !prevState);
-  };
+    setMenuOpen(prevState => !prevState)
+  }
 
   const renderedLinks = useMemo(() => {
     return links.map(link => (
@@ -48,17 +48,17 @@ export const NavBar: React.FC = () => {
           />
         )}
       </li>
-    ));
-  }, [pathname]);
+    ))
+  }, [pathname])
 
   return (
     <>
       <nav
-        className={`bg-opacity-30 sticky left-0 right-0 top-0 z-10 border-b border-opacity-10 border-b-gray-200 px-8 py-3 backdrop-blur-sm backdrop-filter`}
+        className={"bg-opacity-30 sticky left-0 right-0 top-0 z-10 border-b border-opacity-10 border-b-gray-200 px-8 py-3 backdrop-blur-sm backdrop-filter"}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center">
-            <Link href={'/'} draggable='false' className='select-none'>
+            <Link href={"/"} draggable='false' className='select-none'>
               <h1 className='font-black text-xl'>STUDENTOS</h1>
             </Link>
             
@@ -67,7 +67,7 @@ export const NavBar: React.FC = () => {
           <div className="hidden items-center justify-center md:flex">
             {session ? (
               <>
-                <Link href={'/dashboard'}>
+                <Link href={"/dashboard"}>
                   <AvatarRounded
                     src={`${session.user.image}`}
                     fallback="AZ"
@@ -80,14 +80,14 @@ export const NavBar: React.FC = () => {
             ) : (
               <>
                 <EmptyLink
-                  href={'/login'}
-                  text={'Login'}
+                  href={"/login"}
+                  text={"Login"}
                   showArrow={false}
                   className="mx-1 text-[15px]"
                 />
                 <EmptyLink
-                  href={'/signup'}
-                  text={'Sign Up'}
+                  href={"/signup"}
+                  text={"Sign Up"}
                   showArrow={false}
                   className="mx-1 text-[15px]"
                 />
@@ -112,5 +112,5 @@ export const NavBar: React.FC = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}

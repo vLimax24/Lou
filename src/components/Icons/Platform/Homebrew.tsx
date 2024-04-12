@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Homebrew: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -64,6 +64,6 @@ const Homebrew: FC<SVGProps<SVGSVGElement>> = props => (
       </clipPath>
     </defs>
   </svg>
-);
+)
 
-export default Homebrew;
+export default Homebrew

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC } from "react"
 
 const JsIconWhite: FC = props => (
   <svg
@@ -30,6 +30,6 @@ const JsIconWhite: FC = props => (
       </clipPath>
     </defs>
   </svg>
-);
+)
 
-export default JsIconWhite;
+export default JsIconWhite

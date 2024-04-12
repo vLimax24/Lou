@@ -2,11 +2,11 @@ import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
-} from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import GoogleProvider from "next-auth/providers/google";
+} from "next-auth"
+import DiscordProvider from "next-auth/providers/discord"
+import GoogleProvider from "next-auth/providers/google"
 
-import { env } from "@/env";
+import { env } from "@/env"
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -38,15 +38,15 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: ({ token, account }) => {
       if (account?.id_token) {
-        token.id_token = account.id_token;
+        token.id_token = account.id_token
       }
       if (account?.refresh_token) {
-        token.refresh_token = account.refresh_token;
+        token.refresh_token = account.refresh_token
       }
-      return token;
+      return token
     },
     session: ({ session }) => {
-      return session;
+      return session
     },
   },
   providers: [
@@ -69,11 +69,11 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
-};
+}
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions);
+export const getServerAuthSession = () => getServerSession(authOptions)

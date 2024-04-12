@@ -1,7 +1,7 @@
-import React from 'react';
-import type { ReactNode } from 'react';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import React from "react"
+import type { ReactNode } from "react"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 
 interface EmptyLinkProps {
@@ -20,11 +20,11 @@ interface IconLinkProps {
 export const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, className }) => {
   return (
     <Link href={href} className={cn(
-      'flex items-center justify-center hover:bg-gray-500 hover:bg-opacity-30 py-1.5 px-3 rounded-md',
+      "flex items-center justify-center hover:bg-gray-500 hover:bg-opacity-30 py-1.5 px-3 rounded-md",
       className
     )}>
       <div className='flex items-center justify-center'>
-        <p className={`flex items-center justify-center text-white ${showArrow ? 'mr-2' : ''}`}>
+        <p className={`flex items-center justify-center text-white ${showArrow ? "mr-2" : ""}`}>
             {text}
         </p>
         {showArrow && (
@@ -36,13 +36,13 @@ export const EmptyLink: React.FC<EmptyLinkProps> = ({ href, text, showArrow, cla
         )}
       </div>
     </Link>
-  );
-};
+  )
+}
 
 export const IconLink: React.FC<IconLinkProps> = ({ href, className, children }) => {
   return (
     <Link href={href} className={`flex items-center justify-center hover:bg-gray-500 hover:bg-opacity-30 p-2 rounded-md ${className}`} target='_blank'>
       {children}
     </Link>
-  );
-};
+  )
+}

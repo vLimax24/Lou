@@ -1,42 +1,35 @@
-import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-import { subjectColors } from '@/utils/subjectColors'
-import { api } from '@/convex/_generated/api'
-import { useConvexAuth, useMutation, useQuery } from 'convex/react'
-import dayjs from 'dayjs'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
-import Link from 'next/link'
+import { api } from "@/convex/_generated/api"
+import { useConvexAuth, useQuery } from "convex/react"
+import dayjs from "dayjs"
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
+import Link from "next/link"
 dayjs.extend(isSameOrAfter)
-
-type CardProps = React.ComponentProps<typeof Card>;
-
-export default function AssignmentCard({ className, ...props }: CardProps) {
-  const [remainingTime, setRemainingTime] = useState<(number | string)[]>([])
+export default function AssignmentCard({ className, ...props }: any) {
 
   const { isAuthenticated } = useConvexAuth()
   const events = useQuery(
     api.events.getEvents,
-    !isAuthenticated ? 'skip' : undefined
+    !isAuthenticated ? "skip" : undefined
   )
   console.log(events)
 
   const sortedEvents = events?.slice(0).filter(event => {
     const eventDate = dayjs(event.date)
     const currentDate = dayjs()
-    return eventDate.isSameOrAfter(currentDate, 'day')
+    return eventDate.isSameOrAfter(currentDate, "day")
   }).sort((a, b) => {
     const dateA = dayjs(a.date)
     const dateB = dayjs(b.date)
     const currentDate = dayjs()
-    const diffA = Math.abs(dateA.diff(currentDate, 'day'))
-    const diffB = Math.abs(dateB.diff(currentDate, 'day'))
+    const diffA = Math.abs(dateA.diff(currentDate, "day"))
+    const diffB = Math.abs(dateB.diff(currentDate, "day"))
     return diffA - diffB
   }).filter(event => event.description === "ASSIGNMENT").slice(0, 3) || []
 
   const convertToDate = (isoDate: any) => {
-    const germanDate: any = dayjs(isoDate).format('DD.MM.YYYY')
+    const germanDate: any = dayjs(isoDate).format("DD.MM.YYYY")
     console.log(germanDate)
     return germanDate
   }
@@ -44,20 +37,20 @@ export default function AssignmentCard({ className, ...props }: CardProps) {
   const calculateRemainingDays = (eventDate: string) => {
     const today = dayjs()
     const endDate = dayjs(eventDate)
-    const diffHours = endDate.diff(today, 'hour')
+    const diffHours = endDate.diff(today, "hour")
     if (diffHours < 0) {
       return "Expired"
     } else if (diffHours < 24) {
       return diffHours + " hours"
     } else {
-      const diffDays = endDate.diff(today, 'day') + 1
+      const diffDays = endDate.diff(today, "day") + 1
       return diffDays + " days"
     }
   }
   return (
     <Card className={cn("w-full my-2 md:my-0 md:w-4/5 mx-1", className)} {...props}>
       <CardHeader>
-        <Link href={'/dashboard/calendar'}>
+        <Link href={"/dashboard/calendar"}>
           <CardTitle className='flex items-center justify-start'>Assignments</CardTitle>
         </Link>
         <CardDescription>Your upcoming Assignments</CardDescription>

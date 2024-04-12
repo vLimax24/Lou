@@ -1,6 +1,6 @@
-'use client';
+"use client"
 // component
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,26 +8,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { useSession } from 'next-auth/react';
-import { CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, Search, Menu, CircleUser } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { useSession } from "next-auth/react"
+import { CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, Search, Menu, CircleUser } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card"
 // functions
-import { signOut } from 'next-auth/react';
-import Link from 'next/link';
-import { env } from '@/env';
+import { signOut } from "next-auth/react"
+import Link from "next/link"
+import { env } from "@/env"
 
 export default function DashboardHeader() {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet>
@@ -40,7 +40,7 @@ export default function DashboardHeader() {
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
-              href={'/'}
+              href={"/"}
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Lightbulb className="h-6 w-6" />
@@ -132,7 +132,7 @@ export default function DashboardHeader() {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{session?.user?.email}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Link href={'/settings'}>
+          <Link href={"/settings"}>
             <DropdownMenuItem>
                 Settings
             </DropdownMenuItem>
@@ -149,5 +149,5 @@ export default function DashboardHeader() {
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
-  );
+  )
 }

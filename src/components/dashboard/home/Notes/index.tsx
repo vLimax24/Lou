@@ -5,24 +5,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import Link from 'next/link';
+import Link from "next/link"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowUpRightIcon } from '@heroicons/react/24/solid';
 import { cn } from "@/lib/utils"
-import { api } from '@/convex/_generated/api';
-import { useConvexAuth, useMutation, useQuery } from 'convex/react';
-import { toast } from 'sonner';
-import { CircleHelp } from "lucide-react";
-import { Button } from "@/components/ui/button"
- 
+import { api } from "@/convex/_generated/api"
+import { useConvexAuth, useMutation, useQuery } from "convex/react"
+import { toast } from "sonner"
+import { CircleHelp } from "lucide-react"
+import * as React from "react"
+
 type CardProps = React.ComponentProps<typeof Card>
 
 export default function NotesCard({ className, ...props }: CardProps) {
-  const { isAuthenticated } = useConvexAuth();
+  const { isAuthenticated } = useConvexAuth()
   const notes:any = useQuery(
     api.notes.getNotes,
-    !isAuthenticated ? 'skip' : undefined
-  );
+    !isAuthenticated ? "skip" : undefined
+  )
 
   const deleteNote = useMutation(api.notes.deleteNote)
 
@@ -30,17 +29,17 @@ export default function NotesCard({ className, ...props }: CardProps) {
     try {
       await deleteNote({
         id: id,
-      });
-      toast('Note deleted!');
+      })
+      toast("Note deleted!")
     } catch (error) {
-      toast('Error deleting Note!');
+      toast("Error deleting Note!")
     }
   }
   
   return (
       <Card className={cn("w-full md:w-2/5 mx-1 my-2 md:my-0", className)} {...props}>
       <CardHeader>
-        <Link href={'/dashboard/notes'}>
+        <Link href={"/dashboard/notes"}>
           <CardTitle className='flex items-center justify-start'>Notes</CardTitle>
         </Link>
         <CardDescription>Your latest notes</CardDescription>
@@ -51,7 +50,7 @@ export default function NotesCard({ className, ...props }: CardProps) {
             <div className="text-black w-full flex flex-col items-center justify-center">
               <CircleHelp size={56} className="mt-10"/>
               <p className="mt-2">No notes were found!</p>
-              <Link href={'/dashboard/notes'} className="underline mt-3">
+              <Link href={"/dashboard/notes"} className="underline mt-3">
                 Click here to create your first note!
               </Link>
             </div>
@@ -78,6 +77,6 @@ export default function NotesCard({ className, ...props }: CardProps) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
 

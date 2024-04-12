@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -21,17 +21,17 @@ export const Dropdown: React.FC<DropdownProps> = ({ setValue }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40">
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => setValue('ASSIGNMENT')}>
+          <DropdownMenuItem onClick={() => setValue("ASSIGNMENT")}>
             Assignment
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setValue('EXAM')}>
+          <DropdownMenuItem onClick={() => setValue("EXAM")}>
             Exam
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setValue('OTHER')}>
+          <DropdownMenuItem onClick={() => setValue("OTHER")}>
             Other
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
+  )
+}

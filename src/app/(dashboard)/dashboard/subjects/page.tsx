@@ -1,15 +1,14 @@
-'use client';
+"use client"
 
-import { api } from '@/convex/_generated/api';
-import { useQuery } from 'convex/react';
-import { Loader2 } from 'lucide-react';
-import React from 'react';
-import SubjectCard from '@/components/containers/subject-card';
-import { AddSubjectDialog } from '@/components/dashboard/Dialogs/subjects/AddSubjectDialog';
+import { api } from "@/convex/_generated/api"
+import { useQuery } from "convex/react"
+import React from "react"
+import SubjectCard from "@/components/containers/subject-card"
+import { AddSubjectDialog } from "@/components/dashboard/Dialogs/subjects/AddSubjectDialog"
 import { Skeleton } from "@/components/ui/skeleton"
 
 function Subjects() {
-  const subjects = useQuery(api.studentSubjects.getUserSubjects);
+  const subjects = useQuery(api.studentSubjects.getUserSubjects)
 
   return (
     <div className="p-5">
@@ -31,8 +30,8 @@ function Subjects() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default Subjects;
+export default Subjects
 

@@ -9,4 +9,4 @@ export const subjectColors: Record<string, string> = {
   ComputerScience: "bg-pink-500", // Adding pink for Computer Science
   Geography: "bg-teal-500", // Adding teal for Geography
   Economics: "bg-gray-500" // Adding gray for Economics
-};
+}

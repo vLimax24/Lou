@@ -1,66 +1,66 @@
-import { v } from 'convex/values';
-import { mutation, query } from './_generated/server';
-import { authMutation, authQuery } from './util';
+import { v } from "convex/values"
+import { mutation } from "./_generated/server"
+import { authMutation, authQuery } from "./util"
 
 export const getGrades = authQuery({
   args:{},
-  handler: async ({ auth, db, user }) => {
+  handler: async ({ db, user }) => {
   
     // const identity = await auth.getUserIdentity();
     // if (!identity) {
     //   throw new Error('you must be logged in to get your grades');
     // }
     const grades = await db
-      .query('grades')
-      .filter(q => q.eq(q.field('userId'), user?._id))
-      .collect();
+      .query("grades")
+      .filter(q => q.eq(q.field("userId"), user?._id))
+      .collect()
 
-    return grades;
+    return grades
   },
-});
+})
 
 export const getSubjectGrades = authQuery({
-  args: { subjectId: v.id('subjects')},
+  args: { subjectId: v.id("subjects")},
   handler: async ({ auth, db }, args) => {
-    const identity = await auth.getUserIdentity();
+    const identity = await auth.getUserIdentity()
     if (!identity) {
-      throw new Error('you must be logged in to get your grades');
+      throw new Error("you must be logged in to get your grades")
     }
     const subjectGrades = await db
-      .query('grades')
-      .filter(q => q.eq(q.field('subjectId'), args.subjectId))
-      .collect();
+      .query("grades")
+      .filter(q => q.eq(q.field("subjectId"), args.subjectId))
+      .collect()
 
-    return subjectGrades;
+    return subjectGrades
   },
-});
+})
 
 export const addGrade = authMutation({
   args: {
     grade: v.string(),
     topic: v.string(),
     date: v.string(),
-    subjectId: v.id('subjects')
+    subjectId: v.id("subjects")
   },
   handler: async ({ auth, db, user }, args) => {
     // const user = await auth.getUserIdentity();
     if (!auth) {
-      throw new Error('you must be logged in to create a note');
+      throw new Error("you must be logged in to create a note")
     }
-    const newGrade = await db.insert('grades', {
+    const newGrade = await db.insert("grades", {
         grade: args.grade,
         topic: args.topic,
         date: args.date,
         userId: user._id,
         subjectId: args.subjectId
-    });
-    return newGrade;
+    })
+    return newGrade
   },
-});
+})
 
 export const deleteNote = mutation({
   args: { id: v.id("notes") },
   handler: async (ctx, args) => {
-    await ctx.db.delete(args.id);
+    await ctx.db.delete(args.id)
   },
-});
+})

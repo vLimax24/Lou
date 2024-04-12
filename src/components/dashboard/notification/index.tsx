@@ -1,10 +1,10 @@
 // NotificationDialog.js
-import React from 'react';
+import React from "react"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { Button } from '@/components/ui/button';
-import { Bell } from 'lucide-react';
+import { Button } from "@/components/ui/button"
+import { Bell } from "lucide-react"
 
 const NotificationDialog = () => {
   return (
@@ -41,7 +41,7 @@ const NotificationDialog = () => {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NotificationDialog;
+export default NotificationDialog

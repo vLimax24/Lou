@@ -1,16 +1,16 @@
-'use client';
+"use client"
 
-import React from 'react';
+import React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { signIn } from 'next-auth/react';
-import { env } from '@/env';
-import { useSession } from 'next-auth/react';
+import { signIn } from "next-auth/react"
+import { env } from "@/env"
+import { useSession } from "next-auth/react"
 
 const SignUpForm = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
   const signUp = async () => {
-    await signIn('google', { callbackUrl: env.NEXT_PUBLIC_URL })
+    await signIn("google", { callbackUrl: env.NEXT_PUBLIC_URL })
 
     console.log(session)
 
@@ -53,13 +53,13 @@ const SignUpForm = () => {
         </Button>
       </div>
       <div className="mt-4 text-center text-sm">
-        Already have an Account?{' '}
+        Already have an Account?{" "}
         <Link href="/login" className="underline">
           Login
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignUpForm;
+export default SignUpForm

@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Microsoft: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -14,6 +14,6 @@ const Microsoft: FC<SVGProps<SVGSVGElement>> = props => (
     <path fill="#80BC06" d="M17 5h10v10H17z" />
     <path fill="#F25325" d="M5 5h10v10H5z" />
   </svg>
-);
+)
 
-export default Microsoft;
+export default Microsoft

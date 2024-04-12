@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Twitter: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -14,6 +14,6 @@ const Twitter: FC<SVGProps<SVGSVGElement>> = props => (
       fill="#47ACDF"
     />
   </svg>
-);
+)
 
-export default Twitter;
+export default Twitter

@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import LoginForm from '../../../components/auth/login-form';
+import Image from "next/image"
+import LoginForm from "../../../components/auth/login-form"
 
 const Login = () => {
   return (
@@ -18,7 +18,7 @@ const Login = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

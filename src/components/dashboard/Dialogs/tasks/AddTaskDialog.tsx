@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -16,8 +16,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -26,30 +26,30 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'convex/react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
+} from "@/components/ui/select"
+import { api } from "@/convex/_generated/api"
+import { Id } from "@/convex/_generated/dataModel"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "convex/react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const formSchema = z.object({
   text: z.string().min(2).max(50),
-  status: z.enum(['PENDING', 'IN-PROGRESS', 'COMPLETED']).default('PENDING'),
-});
+  status: z.enum(["PENDING", "IN-PROGRESS", "COMPLETED"]).default("PENDING"),
+})
 
-export function AddTaskDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
-  const addTask = useMutation(api.tasks.addTask);
+export function AddTaskDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
+  const addTask = useMutation(api.tasks.addTask)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      text: '',
-      status: 'PENDING',
+      text: "",
+      status: "PENDING",
     },
-  });
+  })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -57,14 +57,14 @@ export function AddTaskDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
         status: values.status,
         text: values.text,
         subjectId: subjectId && subjectId
-      });
-      toast('Task Added.');
-      form.reset();
+      })
+      toast("Task Added.")
+      form.reset()
     } catch (error) {
-      toast('Error Adding Task');
+      toast("Error Adding Task")
     }
 
-    console.log(values);
+    console.log(values)
   }
 
   return (
@@ -140,5 +140,5 @@ export function AddTaskDialog({ subjectId }: { subjectId?: Id<'subjects'> }) {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

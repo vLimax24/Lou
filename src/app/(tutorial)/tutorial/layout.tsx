@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner"
 import "@/styles/globals.css"
+import * as React from "react"
 
 export const metadata = {
   title: "StudentOS",
@@ -16,7 +17,7 @@ export default function SiteLayout({
  
 
   return (
-      <main className={`font-open-sans antialiased`}>
+      <main className={"font-open-sans antialiased"}>
         {children}
         <Toaster />
       </main>

@@ -1,36 +1,36 @@
-import { useEffect } from 'react';
+import { useEffect } from "react"
 
-type KeyboardCommand = 'cmd-k' | 'escape' | 'down' | 'up' | 'enter';
+type KeyboardCommand = "cmd-k" | "escape" | "down" | "up" | "enter";
 
 type KeyboardCommandCallback = (key: KeyboardCommand) => void;
 
 const useKeyboardCommands = (fn: KeyboardCommandCallback) => {
   useEffect(() => {
-    document.addEventListener('keydown', event => {
+    document.addEventListener("keydown", event => {
       // Detect ⌘ + k on Mac, Ctrl + k on Windows
-      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
-        event.preventDefault();
-        fn('cmd-k');
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault()
+        fn("cmd-k")
       }
 
       switch (event.key) {
-        case 'Escape':
-          fn('escape');
-          break;
-        case 'Enter':
-          fn('enter');
-          break;
-        case 'ArrowDown':
-          fn('down');
-          break;
-        case 'ArrowUp':
-          fn('up');
-          break;
+        case "Escape":
+          fn("escape")
+          break
+        case "Enter":
+          fn("enter")
+          break
+        case "ArrowDown":
+          fn("down")
+          break
+        case "ArrowUp":
+          fn("up")
+          break
       }
-    });
+    })
 
-    return () => document.removeEventListener('keydown', () => {console.log('test')});
-  }, [fn]);
-};
+    return () => document.removeEventListener("keydown", () => {console.log("test")})
+  }, [fn])
+}
 
-export default useKeyboardCommands;
+export default useKeyboardCommands

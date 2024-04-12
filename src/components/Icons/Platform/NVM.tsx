@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const NVM: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -58,6 +58,6 @@ const NVM: FC<SVGProps<SVGSVGElement>> = props => (
       </clipPath>
     </defs>
   </svg>
-);
+)
 
-export default NVM;
+export default NVM

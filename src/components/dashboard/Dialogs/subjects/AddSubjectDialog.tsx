@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Dialog,
   DialogClose,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -16,47 +16,47 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { api } from '@/convex/_generated/api';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useAction } from 'convex/react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { api } from "@/convex/_generated/api"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useAction } from "convex/react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
-});
+})
 
 type FormData = z.infer<typeof formSchema>;
 
 export function AddSubjectDialog() {
-  const addSubject = useAction(api.users.addUserSubjectAction);
+  const addSubject = useAction(api.users.addUserSubjectAction)
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
+      name: "",
     },
-  });
+  })
 
   async function onSubmit(values: FormData) {
     try {
       await addSubject({
         name: values.name,
-      });
+      })
 
-      toast('Subject added!');
-      form.reset();
+      toast("Subject added!")
+      form.reset()
     } catch (error) {
-      toast('Error Adding Subject!');
+      toast("Error Adding Subject!")
     }
   }
 
   return (
     <Dialog>
-      <DialogTrigger className={buttonVariants({ variant: 'outline' })}>
+      <DialogTrigger className={buttonVariants({ variant: "outline" })}>
         Add Subject
       </DialogTrigger>
       <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
@@ -93,5 +93,5 @@ export function AddSubjectDialog() {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

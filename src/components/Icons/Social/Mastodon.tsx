@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Mastodon: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -23,6 +23,6 @@ const Mastodon: FC<SVGProps<SVGSVGElement>> = props => (
       </clipPath>
     </defs>
   </svg>
-);
+)
 
-export default Mastodon;
+export default Mastodon

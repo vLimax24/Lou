@@ -1,7 +1,7 @@
-'use client';
+"use client"
 
-import React, { useState, useTransition } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useTransition } from "react"
+import { motion } from "framer-motion"
 import {
   Card,
   CardContent,
@@ -9,13 +9,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { CircleAlert, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { toast } from 'sonner';
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { CircleAlert, Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useMutation } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import { toast } from "sonner"
 
 function AnimatedCheckIcon() {
   return (
@@ -35,43 +35,43 @@ function AnimatedCheckIcon() {
         d="M4.5 12.75l6 6 9-13.5"
       />
     </svg>
-  );
+  )
 }
 
 const Page = () => {
-  const router = useRouter();
+  const router = useRouter()
   const [selectedGradingSystem, setSelectedGradingSystem] = useState<
     string | null
-  >(null);
-  const [showWarning, setShowWarning] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  >(null)
+  const [showWarning, setShowWarning] = useState(false)
+  const [isPending, startTransition] = useTransition()
 
-  const updateGradeSystem = useMutation(api.users.updateGradeSystem);
+  const updateGradeSystem = useMutation(api.users.updateGradeSystem)
 
   const toggleGradingSystem = (system: string) => {
     setSelectedGradingSystem(prevSystem =>
       prevSystem === system ? null : system
-    );
-  };
+    )
+  }
 
   const isGradingSystemSelected = (system: string) => {
-    return selectedGradingSystem === system;
-  };
+    return selectedGradingSystem === system
+  }
 
   const handleFinish = () => {
     if (!selectedGradingSystem) {
-      setShowWarning(true);
+      setShowWarning(true)
     } else {
       startTransition(async () => {
         try {
-          await updateGradeSystem({ gradeSystem: selectedGradingSystem });
-          router.push('/dashboard')
+          await updateGradeSystem({ gradeSystem: selectedGradingSystem })
+          router.push("/dashboard")
         } catch (error) {
-            toast.error('Error updating grade system.')
+            toast.error("Error updating grade system.")
         }
-      });
+      })
     }
-  };
+  }
 
   return (
     <div className="rounded-2xl border border-gray-300 px-12">
@@ -86,8 +86,8 @@ const Page = () => {
         <div className="flex w-full items-stretch justify-center">
           <div className="mx-2 w-1/3">
             <Card
-              className={`relative flex h-full flex-col hover:cursor-pointer ${isGradingSystemSelected('letter') ? 'bg-black bg-opacity-30' : ''}`}
-              onClick={() => toggleGradingSystem('letter')}
+              className={`relative flex h-full flex-col hover:cursor-pointer ${isGradingSystemSelected("letter") ? "bg-black bg-opacity-30" : ""}`}
+              onClick={() => toggleGradingSystem("letter")}
             >
               <CardHeader>
                 <CardTitle>Letter Based Grading System</CardTitle>
@@ -95,7 +95,7 @@ const Page = () => {
               </CardHeader>
               <CardContent>
                 <p>
-                  Popular Countries with a Letter based Grading System: <br />{' '}
+                  Popular Countries with a Letter based Grading System: <br />{" "}
                 </p>
                 <p className="text-muted-foreground">
                   <br />
@@ -110,7 +110,7 @@ const Page = () => {
                   Found your country? Then click this card!
                 </h2>
               </CardFooter>
-              {isGradingSystemSelected('letter') && (
+              {isGradingSystemSelected("letter") && (
                 <div className="absolute inset-0 flex scale-[0.17] items-center justify-center text-white">
                   <AnimatedCheckIcon />
                 </div>
@@ -119,8 +119,8 @@ const Page = () => {
           </div>
           <div className="mx-2 w-1/3">
             <Card
-              className={`relative flex h-full flex-col hover:cursor-pointer ${isGradingSystemSelected('number') ? 'bg-black bg-opacity-30' : ''}`}
-              onClick={() => toggleGradingSystem('number')}
+              className={`relative flex h-full flex-col hover:cursor-pointer ${isGradingSystemSelected("number") ? "bg-black bg-opacity-30" : ""}`}
+              onClick={() => toggleGradingSystem("number")}
             >
               <CardHeader>
                 <CardTitle>Number Based Grading System</CardTitle>
@@ -128,7 +128,7 @@ const Page = () => {
               </CardHeader>
               <CardContent>
                 <p>
-                  Popular Countries with a Letter based Grading System: <br />{' '}
+                  Popular Countries with a Letter based Grading System: <br />{" "}
                 </p>
                 <p className="text-muted-foreground">
                   <br />
@@ -143,7 +143,7 @@ const Page = () => {
                   Found your country? Then click this card!
                 </h2>
               </CardFooter>
-              {isGradingSystemSelected('number') && (
+              {isGradingSystemSelected("number") && (
                 <div className="absolute inset-0 flex scale-[0.17] items-center justify-center text-white">
                   <AnimatedCheckIcon />
                 </div>
@@ -163,7 +163,7 @@ const Page = () => {
           )}
           <Button
             className="h-12 w-1/2"
-            variant={'outline'}
+            variant={"outline"}
             onClick={handleFinish}
             disabled={isPending}
             >
@@ -172,7 +172,7 @@ const Page = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

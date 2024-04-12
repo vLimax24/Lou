@@ -1,21 +1,21 @@
-'use client'
+"use client"
 
-import React from 'react'
-import { AddNoteDialog } from '@/components/dashboard/Dialogs/notes/AddNoteDialog'
-import { EditNoteDialog } from '@/components/dashboard/Dialogs/notes/EditNoteDialog'
-import { Trash, CalendarDays, Pencil } from 'lucide-react'
-import { api } from '@/convex/_generated/api';
-import { useConvexAuth, useMutation, useQuery } from 'convex/react';
+import React from "react"
+import { AddNoteDialog } from "@/components/dashboard/Dialogs/notes/AddNoteDialog"
+import { EditNoteDialog } from "@/components/dashboard/Dialogs/notes/EditNoteDialog"
+import { Trash, CalendarDays } from "lucide-react"
+import { api } from "@/convex/_generated/api"
+import { useConvexAuth, useMutation, useQuery } from "convex/react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { toast } from 'sonner';
-import Link from 'next/link'
+import { toast } from "sonner"
+import Link from "next/link"
 
 const Page = () => {
-  const { isAuthenticated } = useConvexAuth();
+  const { isAuthenticated } = useConvexAuth()
   const notes = useQuery(
     api.notes.getNotes,
-    !isAuthenticated ? 'skip' : undefined
-  );
+    !isAuthenticated ? "skip" : undefined
+  )
 
   const deleteNote = useMutation(api.notes.deleteNote)
 
@@ -23,19 +23,19 @@ const Page = () => {
     try {
       await deleteNote({
         id: id,
-      });
-      toast('Note deleted!');
+      })
+      toast("Note deleted!")
     } catch (error) {
-      toast('Error deleting Note!');
+      toast("Error deleting Note!")
     }
   }
 
-  console.log(notes);
+  console.log(notes)
   
   const formatDate = (dateString: any) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('de-DE');
-  };
+    const date = new Date(dateString)
+    return date.toLocaleDateString("de-DE")
+  }
 
   return (
     <div className='p-5'>
@@ -60,7 +60,7 @@ const Page = () => {
                   <div>
                     <Tooltip delayDuration={50}>
                       <TooltipTrigger asChild>
-                          <Link href={'/dashboard/calendar'}>
+                          <Link href={"/dashboard/calendar"}>
                             <CalendarDays size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300' />
                           </Link>
                       </TooltipTrigger>

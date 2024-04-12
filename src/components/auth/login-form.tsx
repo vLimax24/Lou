@@ -1,16 +1,16 @@
-'use client';
+"use client"
 
-import Link from 'next/link';
+import Link from "next/link"
 
-import { Button } from '@/components/ui/button';
-import { signIn } from 'next-auth/react';
-import { env } from '@/env';
-import { EmptyLink } from '@/components/common/Link';
+import { Button } from "@/components/ui/button"
+import { signIn } from "next-auth/react"
+import { env } from "@/env"
+import { EmptyLink } from "@/components/common/Link"
 
 export default function LoginForm() {
   return (
     <div className="mx-auto grid w-[350px] gap-6">
-       <EmptyLink href={'/'}  text='Home' showArrow className='bg-gray-900'/>
+       <EmptyLink href={"/"}  text='Home' showArrow className='bg-gray-900'/>
       <div className="grid gap-2 text-center">
         <h1 className="text-3xl font-bold">Login</h1>
         <p className="text-balance text-muted-foreground">
@@ -41,18 +41,18 @@ export default function LoginForm() {
           variant="outline"
           className="w-full"
           onClick={() =>
-            signIn('google', { callbackUrl: env.NEXT_PUBLIC_URL })
+            signIn("google", { callbackUrl: env.NEXT_PUBLIC_URL })
           }
         >
           Login with Google
         </Button>
       </div>
       <div className="mt-4 text-center text-sm">
-        Don&apos;t have an account?{' '}
+        Don&apos;t have an account?{" "}
         <Link href="/signup" className="underline">
           Sign up
         </Link>
       </div>
     </div>
-  );
+  )
 }

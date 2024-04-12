@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Choco: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -73,6 +73,6 @@ const Choco: FC<SVGProps<SVGSVGElement>> = props => (
       </g>
     </g>
   </svg>
-);
+)
 
-export default Choco;
+export default Choco

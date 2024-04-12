@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Slack: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -26,6 +26,6 @@ const Slack: FC<SVGProps<SVGSVGElement>> = props => (
       d="M9.375 3.437A1.562 1.562 0 1 0 7.813 5h1.562V3.437Zm0 4.376c0-.863-.7-1.563-1.563-1.563H3.438a1.563 1.563 0 0 0 0 3.125h4.374c.863 0 1.563-.7 1.563-1.563Z"
     />
   </svg>
-);
+)
 
-export default Slack;
+export default Slack

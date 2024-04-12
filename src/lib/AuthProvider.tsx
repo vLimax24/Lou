@@ -9,6 +9,6 @@ interface AuthProviderProps {
   session: Session | null
 }
 
-export function AuthProvider({ children, session }: AuthProviderProps): JSX.Element {
+export function AuthProvider({ children, session }: AuthProviderProps) {
   return <SessionProvider session={session}>{children}</SessionProvider>
 }

@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import React from 'react';
-import LandingDashboard from '@/components/Icons/Logos/LandingDashboard';
+import React from "react"
+import LandingDashboard from "@/components/Icons/Logos/LandingDashboard"
 import { Button } from "@/components/ui/button"
-import { ScrollText, Home, FileDigit } from 'lucide-react';
-import { GraduationCap } from 'lucide-react';
+import { ScrollText, Home, FileDigit } from "lucide-react"
+import { GraduationCap } from "lucide-react"
 export default function HomePage() {
 
   return (
@@ -108,5 +108,5 @@ export default function HomePage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

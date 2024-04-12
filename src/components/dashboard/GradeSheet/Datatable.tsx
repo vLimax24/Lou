@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useMutation, useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
+import { useMemo, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { useMutation, useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 import { Badge } from "@/components/ui/badge"
-import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import Link from "next/link";
+import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
+import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import Link from "next/link"
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -23,7 +23,7 @@ export const columns: ColumnDef<any>[] = [
       <div className="flex">
         {row.original.grades && row.original.grades.length > 0 ? (
           row.original.grades.map((grade: any, index: number) => (
-            <Badge key={index} className="size-8 center mx-1 font-semibold" variant={'outline'}>
+            <Badge key={index} className="size-8 center mx-1 font-semibold" variant={"outline"}>
               {grade.grade}
             </Badge>
           ))
@@ -37,62 +37,62 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "totalAverage",
     header: () => <div className="text-right">Total Average</div>,
     cell: ({ row }) => {
-      const totalAverage = parseFloat(row.getValue("totalAverage"));
+      const totalAverage = parseFloat(row.getValue("totalAverage"))
 
-      return <div className="text-right font-medium">{totalAverage}</div>;
+      return <div className="text-right font-medium">{totalAverage}</div>
     },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const subject = row.original;
+      const subject = row.original
 
       return (
         <div className="flex justify-end items-center">
           <Link href={`/dashboard/subjects/${subject._id}`}>
-            <Button variant={'outline'} className="ml-2">
+            <Button variant={"outline"} className="ml-2">
               View All
             </Button>
           </Link>
         </div>
-      );
+      )
     },
   },
-];
+]
 
 export function DataTable() {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
+  const [sorting] = useState<SortingState>([])
+  const [columnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
 
-  const subjectsQuery = useQuery(api.studentSubjects.getUserSubjects);
-  const gradesQuery = useQuery(api.grades.getGrades);
-
-  const subjects = subjectsQuery ?? [];
-  const grades = gradesQuery ?? [];
+  const subjectsQuery = useQuery(api.studentSubjects.getUserSubjects)
+  const gradesQuery = useQuery(api.grades.getGrades)
 
   const addTotalAverage = useMutation(api.studentSubjects.addTotalAverage)
   const studentSubjects = useQuery(api.studentSubjects.getStudentSubjects)
-  
-  const addTotalAverageToDB = async (totalAverage: string, subjectId: any) => {
-    let studentSubjectId:any
+
+  const subjectsWithGrades = useMemo(() => {
+    const subjects = subjectsQuery ?? []
+    const grades = gradesQuery ?? []
+
+    const addTotalAverageToDB = async (totalAverage: string, subjectId: any) => {
+      let studentSubjectId: any
       studentSubjects?.map((studentSubject) => {
-        if(subjectId === studentSubject.subjectId) {
+        if (subjectId === studentSubject.subjectId) {
           studentSubjectId = studentSubject._id
         }
       })
-    await addTotalAverage({
-      totalAverage: totalAverage,
-      studentSubjectId: studentSubjectId,
-    })
-  }
+      await addTotalAverage({
+        totalAverage: totalAverage,
+        studentSubjectId: studentSubjectId,
+      })
+    }
 
-  const subjectsWithGrades = useMemo(() => {
     return subjects.map((subject) => {
-      const subjectGrades = grades.filter((grade) => grade.subjectId === subject._id);
-      const totalAverage = subjectGrades.reduce((total, grade) => total + Number(grade.grade), 0) / subjectGrades.length;
+      const subjectGrades = grades.filter((grade) => grade.subjectId === subject._id)
+      const totalAverage = subjectGrades.reduce((total, grade) => total + Number(grade.grade), 0) / subjectGrades.length
       const finalAverage = totalAverage.toFixed(2)
       const dbAverage = finalAverage.toString()
       addTotalAverageToDB(dbAverage, subject._id)
@@ -101,11 +101,9 @@ export function DataTable() {
         ...subject,
         grades: subjectGrades,
         totalAverage: finalAverage,
-      };
-    });
-  }, [subjects, grades])
-
-
+      }
+    })
+  }, [subjectsQuery, gradesQuery, addTotalAverage, studentSubjects])
 
   const table = useReactTable({
     data: subjectsWithGrades,
@@ -122,7 +120,7 @@ export function DataTable() {
       columnVisibility,
       rowSelection,
     },
-  });
+  })
 
   return (
     <div className="w-full">
@@ -141,7 +139,7 @@ export function DataTable() {
                             header.getContext()
                           )}
                     </TableHead>
-                  );
+                  )
                 })}
               </TableRow>
             ))}
@@ -177,5 +175,5 @@ export function DataTable() {
         </Table>
       </div>
     </div>
-  );
+  )
 }

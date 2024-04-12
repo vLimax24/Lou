@@ -1,16 +1,11 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card"
+import * as React from "react"
 
 type SectionProps = {
   children: React.ReactNode;
   title: string;
   description: string;
-  addDialog?: JSX.Element 
+  addDialog?: any
 };
 
 export default function SubjectSection({
@@ -30,5 +25,5 @@ export default function SubjectSection({
       </CardHeader>
       <CardContent>{children}</CardContent>
     </Card>
-  );
+  )
 }

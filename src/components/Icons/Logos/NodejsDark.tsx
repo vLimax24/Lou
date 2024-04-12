@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const NodejsDark: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -11,7 +11,7 @@ const NodejsDark: FC<SVGProps<SVGSVGElement>> = props => (
   >
     <mask
       id="mask0_1804_2337"
-      style={{ maskType: 'luminance' }}
+      style={{ maskType: "luminance" }}
       maskUnits="userSpaceOnUse"
       x="0"
       y="0"
@@ -113,6 +113,6 @@ const NodejsDark: FC<SVGProps<SVGSVGElement>> = props => (
       </linearGradient>
     </defs>
   </svg>
-);
+)
 
-export default NodejsDark;
+export default NodejsDark

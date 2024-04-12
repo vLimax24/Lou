@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from "react"
 
 const Apple: FC<SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -18,6 +18,6 @@ const Apple: FC<SVGProps<SVGSVGElement>> = props => (
       fill="#fff"
     />
   </svg>
-);
+)
 
-export default Apple;
+export default Apple

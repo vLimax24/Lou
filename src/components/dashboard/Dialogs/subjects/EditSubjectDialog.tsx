@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogClose,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -16,39 +16,39 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { api } from '@/convex/_generated/api';
-import { Doc, Id } from '@/convex/_generated/dataModel';
-import { cn } from '@/lib/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useAction } from 'convex/react';
-import { Pencil } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { api } from "@/convex/_generated/api"
+import { Id } from "@/convex/_generated/dataModel"
+import { cn } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useAction } from "convex/react"
+import { Pencil } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
-});
+})
 
 type FormData = z.infer<typeof formSchema>;
 
 type EditProps = {
     name: string,
     color?: string,
-    id: Id<'subjects'>
+    id: Id<"subjects">
 }
 
-export function EditSubjectDialog({ name, color, id }: EditProps) {
-  const editSubject = useAction(api.users.editUserSubjectAction);
+export function EditSubjectDialog({ name, id }: EditProps) {
+  const editSubject = useAction(api.users.editUserSubjectAction)
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: name,
     },
-  });
+  })
 
   async function onSubmit(values: FormData) {
     try {
@@ -56,11 +56,11 @@ export function EditSubjectDialog({ name, color, id }: EditProps) {
         name: values.name,
         subjectId: id,
       }).then(() => {
-        toast('Subject edited!');
-        form.reset();
-      });
+        toast("Subject edited!")
+        form.reset()
+      })
     } catch (error) {
-      toast('Error editing Subject!');
+      toast("Error editing Subject!")
     }
   }
 
@@ -111,5 +111,5 @@ export function EditSubjectDialog({ name, color, id }: EditProps) {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

@@ -1,40 +1,40 @@
-'use client'
+"use client"
 
-import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
-import CalendarGrid from './CalendarGrid';
-import { ChevronRight, ChevronLeft } from 'lucide-react'
-import { useMutation, useQuery, useConvexAuth } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { toast } from 'sonner';
+import React, { useState } from "react"
+import dayjs from "dayjs"
+import CalendarGrid from "./CalendarGrid"
+import { ChevronRight, ChevronLeft } from "lucide-react"
+import { useMutation, useQuery, useConvexAuth } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import { toast } from "sonner"
 
-import useStoreUser from '@/hooks/auth/useStoreUser';
-import moment from 'moment';
+import useStoreUser from "@/hooks/auth/useStoreUser"
+import moment from "moment"
 
 interface CalendarProps {
   initialDate?: dayjs.Dayjs;
 }
 
 const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
-  const [currentMonth, setCurrentMonth] = useState(initialDate);
-  const userId = useStoreUser();
-  const addEvent = useMutation(api.events.addEvent);
+  const [currentMonth, setCurrentMonth] = useState(initialDate)
+  const userId = useStoreUser()
+  const addEvent = useMutation(api.events.addEvent)
 
-  const { isAuthenticated } = useConvexAuth();
+  const { isAuthenticated } = useConvexAuth()
   const events: any = useQuery(
     api.events.getEvents,
-    !isAuthenticated ? 'skip' : undefined
-  );
+    !isAuthenticated ? "skip" : undefined
+  )
   const noteEvents: any = useQuery(
     api.notes.getNotes,
-    !isAuthenticated ? 'skip' : undefined
-  );
+    !isAuthenticated ? "skip" : undefined
+  )
 
-  const filteredNoteEvents = noteEvents?.filter((note: any) => note.showInCalendar === true);
+  const filteredNoteEvents = noteEvents?.filter((note: any) => note.showInCalendar === true)
   console.log(filteredNoteEvents)
 
   // Combine events and noteEvents into a single array
-  const combinedEvents: (Event | any)[] = events?.concat(filteredNoteEvents || []);
+  const combinedEvents: (Event | any)[] = events?.concat(filteredNoteEvents || [])
 
 
   async function handleCreateEvent(date: any, title: string, type: string, description: string) {
@@ -47,31 +47,31 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
         date: formattedDate,
         type: type,
         userId: userId!,
-      });
-      toast('Event added!');
+      })
+      toast("Event added!")
     } catch (error) {
-      toast('Error Adding Event!');
+      toast("Error Adding Event!")
     }
   }
 
 
 
   const goToCurrentDay = () => {
-    setCurrentMonth(dayjs());
-  };
+    setCurrentMonth(dayjs())
+  }
 
   const goToPreviousMonth = () => {
-    setCurrentMonth((prevMonth) => prevMonth.subtract(1, 'month'));
-  };
+    setCurrentMonth((prevMonth) => prevMonth.subtract(1, "month"))
+  }
 
   const goToNextMonth = () => {
-    setCurrentMonth((prevMonth) => prevMonth.add(1, 'month'));
-  };
+    setCurrentMonth((prevMonth) => prevMonth.add(1, "month"))
+  }
 
   return (
     <>
       <div className="flex justify-between items-center mb-4">
-        <h2 className='font-bold text-2xl'>{currentMonth.format('MMMM YYYY')}</h2>
+        <h2 className='font-bold text-2xl'>{currentMonth.format("MMMM YYYY")}</h2>
         <div className='flex items-center justify-center mr-2'>
           <button onClick={goToPreviousMonth} className='hover:bg-gray-100 p-1.5 rounded-full'>
             <ChevronLeft size={20}/>
@@ -88,7 +88,7 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
         onCreateEvent={handleCreateEvent}
       />
     </>
-  );
-};
+  )
+}
 
-export default Calendar;
+export default Calendar
