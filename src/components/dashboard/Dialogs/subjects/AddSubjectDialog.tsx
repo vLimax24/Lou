@@ -1,7 +1,6 @@
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -21,6 +20,7 @@ import { Input } from "@/components/ui/input"
 import { api } from "@/convex/_generated/api"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAction } from "convex/react"
+import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -31,9 +31,11 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+
+
 export function AddSubjectDialog() {
   const addSubject = useAction(api.users.addUserSubjectAction)
-
+  const [openAddModal, setOpenAddModel] = useState(false)
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,13 +51,14 @@ export function AddSubjectDialog() {
 
       toast("Subject added!")
       form.reset()
+      setOpenAddModel(false)
     } catch (error) {
       toast("Error Adding Subject!")
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={openAddModal} onOpenChange={setOpenAddModel}>
       <DialogTrigger className={buttonVariants({ variant: "outline" })}>
         Add Subject
       </DialogTrigger>
@@ -85,9 +88,7 @@ export function AddSubjectDialog() {
               </div>
             </div>
             <DialogFooter>
-              <DialogClose>
-                <Button type="submit">Add Subject</Button>
-              </DialogClose>
+              <Button type="submit">Add Subject</Button>
             </DialogFooter>
           </form>
         </Form>
