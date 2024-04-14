@@ -24,9 +24,9 @@ const Page = () => {
       await deleteNote({
         id: id,
       })
-      toast("Note deleted!")
+      toast.success("Note deleted!")
     } catch (error) {
-      toast("Error deleting Note!")
+      toast.error("Error deleting Note!")
     }
   }
 

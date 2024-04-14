@@ -65,6 +65,7 @@ const Page = () => {
       startTransition(async () => {
         try {
           await updateGradeSystem({ gradeSystem: selectedGradingSystem })
+          toast.success("Thank you.")
           router.push("/dashboard")
         } catch (error) {
             toast.error("Error updating grade system.")

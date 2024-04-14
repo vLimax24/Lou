@@ -59,10 +59,10 @@ export function AddNoteDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
         date: formattedDate,
         subjectId: subjectId,
       })
-      toast("Note added!")
+      toast.success("Note added!")
       form.reset()
     } catch (error) {
-      toast("Error Adding Note!")
+      toast.error("Error Adding Note!")
     }
 
     console.log(values)

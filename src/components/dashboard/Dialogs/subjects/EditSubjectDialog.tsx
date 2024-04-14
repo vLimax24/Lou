@@ -56,11 +56,11 @@ export function EditSubjectDialog({ name, id }: EditProps) {
         name: values.name,
         subjectId: id,
       }).then(() => {
-        toast("Subject edited!")
+        toast.success("Subject edited!")
         form.reset()
       })
     } catch (error) {
-      toast("Error editing Subject!")
+      toast.error("Error editing Subject!")
     }
   }
 

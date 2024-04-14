@@ -49,11 +49,11 @@ export function AddSubjectDialog() {
         name: values.name,
       })
 
-      toast("Subject added!")
+      toast.success("Subject added!")
       form.reset()
       setOpenAddModel(false)
     } catch (error) {
-      toast("Error Adding Subject!")
+      toast.error("Error Adding Subject!")
     }
   }
 

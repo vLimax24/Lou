@@ -1,8 +1,7 @@
-import { NavBar } from "@/components/containers/NavBar"
 import { Footer } from "@/components/containers/Footer"
-import { Toaster } from "@/components/ui/sonner"
-import * as React from "react"
+import { NavBar } from "@/components/containers/NavBar"
 import "@/styles/globals.css"
+import * as React from "react"
 
 export const metadata = {
   title: "StudentOS",
@@ -22,7 +21,6 @@ export default function SiteLayout({
       <main className={"font-open-sans bg-gradient-to-bl from-[#5A6471] to-[#243243] h-full w-full min-h-screen text-white"}>
         <NavBar />
         {children}
-        <Toaster />
         <Footer />
       </main>
       

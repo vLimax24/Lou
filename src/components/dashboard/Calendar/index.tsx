@@ -46,9 +46,9 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
         type: type,
         userId: userId!,
       })
-      toast("Event added!")
+      toast.success("Event added!")
     } catch (error) {
-      toast("Error Adding Event!")
+      toast.error("Error Adding Event!")
     }
   }
 

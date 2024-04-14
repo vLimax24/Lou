@@ -68,7 +68,7 @@ export function AddGradeDialog({ subjectId }:any) {
       toast.success(`Grade ${values.grade} added!`)
       form.reset()
     } catch (error) {
-      toast("Error Adding Grade!")
+      toast.error("Error Adding Grade!")
     }
   }
 

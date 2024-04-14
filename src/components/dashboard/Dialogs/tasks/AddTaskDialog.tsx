@@ -58,10 +58,10 @@ export function AddTaskDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
         text: values.text,
         subjectId: subjectId && subjectId
       })
-      toast("Task Added.")
+      toast.success("Task Added.")
       form.reset()
     } catch (error) {
-      toast("Error Adding Task")
+      toast.error("Error Adding Task")
     }
 
     console.log(values)

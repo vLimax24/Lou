@@ -76,7 +76,7 @@ export function EditNoteDialog({ id }: any) {
       toast.success("Note edited successfully!")
       form.reset()
     } catch (error) {
-      toast("Error editing Note!")
+      toast.error("Error editing Note!")
     }
   }
 

@@ -31,7 +31,7 @@ export default function RootLayout({
       <SessionProvider>
         <body className={`font-sans ${inter.variable}`}>
           <ConvexProviderWithAuth client={convex} useAuth={useAuthFromNextAuth}>{children}</ConvexProviderWithAuth>
-          <Toaster />
+          <Toaster richColors/>
         </body>
       </SessionProvider>
     </html>
