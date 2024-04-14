@@ -13,8 +13,7 @@ export default function AssignmentCard({ className, ...props }: any) {
     api.events.getEvents,
     !isAuthenticated ? "skip" : undefined
   )
-  console.log(events)
-
+  
   const sortedEvents = events?.slice(0).filter(event => {
     const eventDate = dayjs(event.date)
     const currentDate = dayjs()
@@ -30,7 +29,6 @@ export default function AssignmentCard({ className, ...props }: any) {
 
   const convertToDate = (isoDate: any) => {
     const germanDate: any = dayjs(isoDate).format("DD.MM.YYYY")
-    console.log(germanDate)
     return germanDate
   }
 

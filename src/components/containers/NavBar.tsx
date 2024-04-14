@@ -24,7 +24,6 @@ export const NavBar: React.FC = () => {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
   const { data: session } = useSession()
-  console.log("🚀 ~ session:", session)
 
   const toggleMenu = () => {
     setMenuOpen(prevState => !prevState)

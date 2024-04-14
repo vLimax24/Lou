@@ -65,7 +65,6 @@ export function AddNoteDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
       toast.error("Error Adding Note!")
     }
 
-    console.log(values)
   }
 
   return (

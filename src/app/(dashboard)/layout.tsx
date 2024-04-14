@@ -7,6 +7,7 @@ import DashboardHeader from "@/components/dashboard/Layout/header"
 import DashboardSidebar from "@/components/dashboard/Layout/sidebar"
 import { useEffect } from "react"
 import useStoreUser from "@/hooks/auth/useStoreUser"
+import { useSession } from "next-auth/react"
 
 export default function DashboardLayout({
   children,
@@ -16,8 +17,9 @@ export default function DashboardLayout({
   useStoreUser()
   const router = useRouter()
   const { isAuthenticated, isLoading: AuthLoading } = useConvexAuth()
-
-  if (!isAuthenticated && !AuthLoading) {
+  const { status } = useSession()
+ 
+  if (status === "unauthenticated") {
     router.push("/login")
   }
 

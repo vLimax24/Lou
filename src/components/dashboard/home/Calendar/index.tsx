@@ -24,8 +24,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
     api.events.getEvents,
     !isAuthenticated ? "skip" : undefined
   )
-  console.log(events)
-
+  
   const sortedEvents:any = events?.slice(0).filter(event => {
     const eventDate = dayjs(event.date)
     const currentDate = dayjs() // Current date
@@ -41,7 +40,6 @@ export default function CalendarCard({ className, ...props }: CardProps) {
   
   function convertToGermanDate(isoDate: any) {
     const germanDate: any = dayjs(isoDate).format("DD.MM.YYYY")
-    console.log(germanDate) // Convert to German format "dd.mm.yyyy"
     return germanDate
   }
   

@@ -30,7 +30,7 @@ const Page = () => {
     }
   }
 
-  console.log(notes)
+
   
   const formatDate = (dateString: any) => {
     const date = new Date(dateString)

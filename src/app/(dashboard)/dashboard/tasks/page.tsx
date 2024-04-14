@@ -30,7 +30,7 @@ const Tasks = () => {
     api.tasks.getTasks,
     !isAuthenticated ? "skip" : undefined
   )
-  console.log(tasks)
+ 
 
   const updateTask = useMutation<typeof api.tasks.updateTaskStatus>(
     api.tasks.updateTaskStatus
@@ -38,8 +38,7 @@ const Tasks = () => {
 
   const containers: TaskStatus[] = Object.values(taskTypes)
   const [parent, setParent] = useState<Over["id"] | null>(null)
-  console.log(parent)
-
+ 
   async function handleDragEnd(event: DragEndEvent): Promise<void> {
     const { over, active } = event
     if (!over) return // No drop target
@@ -52,7 +51,7 @@ const Tasks = () => {
   }
 
   async function handleDragStart(event: DragStartEvent): Promise<void> {
-    console.log("🚀 ~ handleDragStart ~ event:", event)
+    
     const { active } = event
     if (!active) return // No drop target
     setParent(active ? active.id : null)

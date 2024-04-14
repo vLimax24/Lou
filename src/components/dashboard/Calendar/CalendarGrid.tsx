@@ -112,7 +112,6 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
             <DialogTrigger
               className="z-10 w-full text-left"
               onClick={e => {
-                console.log("click")
                 e.stopPropagation()
               }}
             >

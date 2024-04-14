@@ -23,7 +23,6 @@ export function GradeBarChart() {
   }).flat() || []
 
 
-console.log(subjectData)
   return (
     <>
       <Card className="w-full ml-1">

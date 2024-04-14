@@ -64,7 +64,6 @@ export function AddTaskDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
       toast.error("Error Adding Task")
     }
 
-    console.log(values)
   }
 
   return (

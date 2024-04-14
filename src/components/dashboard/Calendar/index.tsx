@@ -37,7 +37,6 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
 
   async function handleCreateEvent(date: any, title: string, description: string, type: string) {
     const formattedDate = moment(date).toISOString()
-    console.log(formattedDate)
     try {
       await addEvent({
         title: title,

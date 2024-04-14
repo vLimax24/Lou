@@ -12,8 +12,6 @@ const SignUpForm = () => {
   const signUp = async () => {
     await signIn("google", { callbackUrl: env.NEXT_PUBLIC_URL })
 
-    console.log(session)
-
 
   }
   return (
