@@ -37,7 +37,7 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const combinedEvents: (Event | any)[] = events?.concat(filteredNoteEvents || [])
 
 
-  async function handleCreateEvent(date: any, title: string, type: string, description: string) {
+  async function handleCreateEvent(date: any, title: string, description: string, type: string) {
     const formattedDate = moment(date).toISOString()
     console.log(formattedDate)
     try {

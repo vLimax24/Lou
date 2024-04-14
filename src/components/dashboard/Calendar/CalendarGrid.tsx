@@ -161,10 +161,8 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                   </div>
                 </SheetTrigger>
         <SheetContent>
-          <SheetTitle>
-            <h1 className="font-bold text-xl font-open-sans">
+          <SheetTitle className="font-bold text-xl font-open-sans">
               Create an Event - {selectedDate}
-            </h1>
           </SheetTitle>
           <div className="mt-2 flex flex-col">
             <div className="mb-5">
