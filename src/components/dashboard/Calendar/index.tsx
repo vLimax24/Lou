@@ -1,12 +1,12 @@
 "use client"
 
-import React, { useState } from "react"
-import dayjs from "dayjs"
-import CalendarGrid from "./CalendarGrid"
-import { ChevronRight, ChevronLeft } from "lucide-react"
-import { useMutation, useQuery, useConvexAuth } from "convex/react"
 import { api } from "@/convex/_generated/api"
+import { useConvexAuth, useMutation, useQuery } from "convex/react"
+import dayjs from "dayjs"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import React, { useState } from "react"
 import { toast } from "sonner"
+import CalendarGrid from "./CalendarGrid"
 
 import useStoreUser from "@/hooks/auth/useStoreUser"
 import moment from "moment"
@@ -21,20 +21,18 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const addEvent = useMutation(api.events.addEvent)
 
   const { isAuthenticated } = useConvexAuth()
-  const events: any = useQuery(
+  const events = useQuery(
     api.events.getEvents,
     !isAuthenticated ? "skip" : undefined
   )
-  const noteEvents: any = useQuery(
-    api.notes.getNotes,
+  const noteEvents = useQuery(
+    api.notes.getCalendarNotes,
     !isAuthenticated ? "skip" : undefined
   )
 
-  const filteredNoteEvents = noteEvents?.filter((note: any) => note.showInCalendar === true)
-  console.log(filteredNoteEvents)
-
   // Combine events and noteEvents into a single array
-  const combinedEvents: (Event | any)[] = events?.concat(filteredNoteEvents || [])
+  const combinedEvents = events && noteEvents ? [...events, ...noteEvents] : [];
+  // const combinedEvents = events?.concat(filteredNoteEvents || [])
 
 
   async function handleCreateEvent(date: any, title: string, description: string, type: string) {

@@ -19,6 +19,27 @@ export const getNotes = authQuery({
   },
 })
 
+export const getCalendarNotes = authQuery({
+  args:{},
+  handler: async ({ auth, db, user }) => {
+  
+    const identity = await auth.getUserIdentity()
+    if (!identity) {
+      throw new Error("you must be logged in to get your notes")
+    }
+
+    if(!user) return false
+
+    const notes = await db
+      .query("notes")
+      .withIndex("by_userId", q => q.eq("userId", user._id))
+      .filter(q => q.eq(q.field("showInCalendar"), true))
+      .collect()
+
+    return notes
+  },
+})
+
 export const getSpecificNote = authQuery({
   args: { noteId: v.id("notes") },
   handler: async ({ auth, db }, args) => {
