@@ -33,6 +33,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { useMutation, useQuery } from "convex/react"
+import { convertLetterToGPA, convertNumberToGPA, convertPercentageToGPA } from "@/utils/gpaCalculation"
 
 const formSchema = z.object({
   topic: z.string().min(2).max(50),
@@ -43,14 +44,15 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const letterGrades = ["A", "B", "C", "D", "F"] // Add more detailed options if needed
-const numberGrades = Array.from({ length: 6 }, (_, i) => `${i + 1}`)
+
 
 export function AddGradeDialogWithSubject() {
 
   const addGrade = useMutation(api.grades.addGrade)
   const subjects = useQuery(api.studentSubjects.getUserSubjects)
-  const user = useQuery(api.users.getMyUser)
+  const user:any = useQuery(api.users.getMyUser)
+
+  const country:any = useQuery(api.countries.getSpecificCountry, { countryId: user?.country })
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -64,12 +66,23 @@ export function AddGradeDialogWithSubject() {
 
   async function onSubmit(values: FormData) {
     const formattedDate = values.date.toISOString()
+    const baseGPA = 4
+    const gpaIncrement = baseGPA / (country?.possibleGrades.length - 1)
+    const gradingSystem = country?.system
+    let gpa:any
+    if (gradingSystem === "Number") {
+      gpa = convertNumberToGPA(Number(values.grade), baseGPA, gpaIncrement)
+    } else if (gradingSystem === "Letter") {
+      gpa = convertLetterToGPA(values.grade, baseGPA, gpaIncrement)
+    } else if (gradingSystem === "Percentage") {
+      gpa = convertPercentageToGPA(Number(values.grade))
+    }
     try {
       await addGrade({
         topic: values.topic,
         date: formattedDate,
         subjectId: values.subjectId,
-        grade: values.grade,
+        grade: gpa.toString(),
       })
       toast.success(`Grade ${values.grade} added!`)
       form.reset()
@@ -141,25 +154,14 @@ export function AddGradeDialogWithSubject() {
                               <SelectValue placeholder="Select a grade" />
                             </SelectTrigger>
                             <SelectContent>
-                              {user?.gradingSystem === "letter" ? (
-                                <SelectGroup>
-                                  <SelectLabel>Letter Grades</SelectLabel>
-                                  {letterGrades.map(grade => (
-                                    <SelectItem key={grade} value={grade}>
-                                      {grade}
-                                    </SelectItem>
-                                  ))}
-                                </SelectGroup>
-                              ) : (
-                                <SelectGroup>
-                                  <SelectLabel>Grades</SelectLabel>
-                                  {numberGrades.map(grade => (
-                                    <SelectItem key={grade} value={grade}>
-                                      {grade}
-                                    </SelectItem>
-                                  ))}
-                                </SelectGroup>
-                              )}
+                              <SelectGroup>
+                                <SelectLabel>Grades</SelectLabel>
+                                {country?.possibleGrades.map((grade: string) => (
+                                  <SelectItem key={grade} value={grade}>
+                                    {grade}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
                             </SelectContent>
                           </Select>
                         </div>

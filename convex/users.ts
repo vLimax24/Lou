@@ -49,9 +49,9 @@ export const store = mutation({
 })
 
 export const updateGradeSystem = authMutation({
-  args: { gradeSystem: v.string() },
+  args: { gradeSystem: v.id("gradingSystems") },
   handler: async ({ db, user }, { gradeSystem }) => {
-    await db.patch(user._id, { gradingSystem: gradeSystem })
+    await db.patch(user._id, { country: gradeSystem })
   },
 })
 

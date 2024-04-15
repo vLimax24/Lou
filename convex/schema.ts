@@ -8,6 +8,12 @@ export default defineSchema({
     userId: v.id("users"),
     subjectId: v.optional(v.id("subjects"))
   }).index("by_subjectId", ["subjectId"]).index("by_userId", ["userId"]),
+  gradingSystems: defineTable({
+    countryName: v.string(),
+    countryCode: v.string(),
+    system: v.string(),
+    possibleGrades: v.array(v.string())
+  }),
   notes: defineTable({
     showInCalendar: v.boolean(),
     text: v.string(),
@@ -21,7 +27,7 @@ export default defineSchema({
     email: v.optional(v.string()),
     pictureUrl: v.optional(v.string()),
     tokenIdentifier: v.string(),
-    gradingSystem: v.optional(v.string())
+    country: v.optional(v.id("gradingSystems"))
   }).index("by_token", ["tokenIdentifier"]).index("by_userId", ["subject"]),
   subjects: defineTable({
     name: v.string(),

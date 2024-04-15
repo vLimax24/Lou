@@ -7,6 +7,7 @@ import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
+import { convertGPAToLetter, convertGPAToNumber, convertGPAToPercentage, calculateGPAStatistics } from "@/utils/gpaCalculation"
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -24,7 +25,7 @@ export const columns: ColumnDef<any>[] = [
         {row.original.grades && row.original.grades.length > 0 ? (
           row.original.grades.map((grade: any, index: number) => (
             <Badge key={index} className="size-8 center mx-1 font-semibold" variant={"outline"}>
-              {grade.grade}
+              {grade.convertedGrade}
             </Badge>
           ))
         ) : (
@@ -39,7 +40,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
       const totalAverage = parseFloat(row.getValue("totalAverage"))
 
-      return <div className="text-right font-medium">{totalAverage}</div>
+      return <div className="text-right font-medium">{totalAverage || "-"}</div>
     },
   },
   {
@@ -73,9 +74,35 @@ export function DataTable() {
   const addTotalAverage = useMutation(api.studentSubjects.addTotalAverage)
   const studentSubjects = useQuery(api.studentSubjects.getStudentSubjects)
 
+  const user = useQuery(api.users.getMyUser)
+  const countryId:any = user?.country
+  const country:any = useQuery(api.countries.getSpecificCountry, { countryId })
+
   const subjectsWithGrades = useMemo(() => {
     const subjects = subjectsQuery ?? []
     const grades = gradesQuery ?? []
+
+    const convertedGrades = grades.map((grade) => {
+      let convertedGrade: any
+      const baseGPA = 4
+      const gpaIncrement = baseGPA / (country?.possibleGrades?.length - 1)
+      
+      if (country?.system === "Number") {
+        convertedGrade = convertGPAToNumber(Number(grade.grade), baseGPA, gpaIncrement, country.possibleGrades)
+      } else if (country?.system === "Letter") {
+        convertedGrade = convertGPAToLetter(Number(grade.grade), baseGPA, gpaIncrement, country.possibleGrades)
+      } else if (country?.system === "Percentage") {
+        convertedGrade = convertGPAToPercentage(Number(grade.grade))
+      }
+    
+      return {
+        topic: grade.topic,
+        date: grade.date,
+        subjectId: grade.subjectId,
+        userId: grade.userId,
+        convertedGrade: convertedGrade
+      }
+    })    
 
     const addTotalAverageToDB = async (totalAverage: string, subjectId: any) => {
       let studentSubjectId: any
@@ -91,10 +118,24 @@ export function DataTable() {
     }
 
     return subjects.map((subject) => {
-      const subjectGrades = grades.filter((grade) => grade.subjectId === subject._id)
-      const totalAverage = subjectGrades.reduce((total, grade) => total + Number(grade.grade), 0) / subjectGrades.length
-      const finalAverage = totalAverage.toFixed(2)
-      const dbAverage = finalAverage.toString()
+      const subjectGrades = convertedGrades.filter((grade) => grade.subjectId === subject._id)
+      const unconvertedSubjectGrades = grades.filter((grade) => grade.subjectId === subject._id)
+      const gradeFiltered = unconvertedSubjectGrades.map((grade) => {
+        return Number(Number(grade.grade).toFixed(2))
+      })
+      const totalAverage = calculateGPAStatistics(gradeFiltered)
+      let finalAverage:any = totalAverage.averageGPA
+      const baseGPA = 4
+      const gpaIncrement = baseGPA / (country?.possibleGrades?.length - 1)
+      if (country?.system === "Number") {
+        finalAverage = convertGPAToNumber(totalAverage.averageGPA, baseGPA, gpaIncrement, country.possibleGrades)
+        console.log(finalAverage)
+      } else if (country?.system === "Letter") {
+        finalAverage = convertGPAToLetter(totalAverage.averageGPA, baseGPA, gpaIncrement, country.possibleGrades)
+      } else if (country?.system === "Percentage") {
+        finalAverage = convertGPAToPercentage(totalAverage.averageGPA)
+      }
+      const dbAverage = finalAverage?.toString()
       addTotalAverageToDB(dbAverage, subject._id)
 
       return {
@@ -103,7 +144,7 @@ export function DataTable() {
         totalAverage: finalAverage,
       }
     })
-  }, [subjectsQuery, gradesQuery, addTotalAverage, studentSubjects])
+  }, [subjectsQuery, gradesQuery, addTotalAverage, studentSubjects, country?.possibleGrades, country?.system])
 
   const table = useReactTable({
     data: subjectsWithGrades,

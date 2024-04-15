@@ -33,7 +33,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { useMutation } from "convex/react"
+import { useMutation, useQuery } from "convex/react"
 
 const formSchema = z.object({
   topic: z.string().min(2).max(50),
@@ -43,9 +43,12 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function AddGradeDialog({ subjectId }:any) {
+export function AddGradeDialog({ subjectId, countryId }:any) {
 
   const addNote = useMutation(api.grades.addGrade)
+
+  const country = useQuery(api.countries.getSpecificCountry, { countryId: countryId })
+  console.log(country)
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),

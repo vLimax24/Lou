@@ -72,7 +72,7 @@ export const assignUserAddedSubject = internalMutation({
 
 
 export const addTotalAverage = authMutation({
-  args: { totalAverage: v.string(), studentSubjectId: v.id("studentSubjects")},
+  args: { totalAverage: v.optional(v.string()), studentSubjectId: v.id("studentSubjects")},
   handler: async(ctx, args) => {
     await ctx.db.patch(args.studentSubjectId, {totalAverage: args.totalAverage})
   }
