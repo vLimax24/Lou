@@ -13,12 +13,10 @@ export const convertLetterToGPA = (letterGrade: string, baseGPA: number, gpaIncr
     return Number(gpa.toFixed(2))
 }
 
-export const calculateGPAStatistics = (gpas: number[]): { averageGPA: number } => {
+export const calculateGPAStatistics = (gpas: number[]): number => {
     const totalGPA: number = gpas.reduce((sum, gpa) => sum + gpa, 0)
-    
     const averageGPA: number = totalGPA / gpas.length
-    
-    return { averageGPA }
+    return Number(averageGPA.toFixed(2))
 }
 
 export const convertGPAToPercentage = (gpa: number): number => {
@@ -33,6 +31,6 @@ export const convertGPAToLetter = <T>(gpa: number, baseGPA: number, gpaDecrement
 
 
 export const convertGPAToNumber = <T>(gpa: number, baseGPA: number, gpaIncrement: number, grades: T[]): T | undefined => {
-    const germanGrade: any = Math.round(((baseGPA - gpa) / gpaIncrement) + 1).toFixed(2)
-    return grades[Math.max(1, Math.min(grades.length, germanGrade)) - 1]
+    const convertedGrade: any = Math.round(((baseGPA - gpa) / gpaIncrement) + 1).toFixed(2)
+    return grades[Math.max(1, Number(Math.min(grades.length, convertedGrade).toFixed(2))) - 1]
 }

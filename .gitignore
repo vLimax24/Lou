@@ -42,6 +42,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 #convex
-/convex/_generated
+./convex/_generated
 
 .env.local

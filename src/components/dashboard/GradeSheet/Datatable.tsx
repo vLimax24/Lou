@@ -38,9 +38,9 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "totalAverage",
     header: () => <div className="text-right">Total Average</div>,
     cell: ({ row }) => {
-      const totalAverage = parseFloat(row.getValue("totalAverage"))
+      const totalAverage:any = row.getValue("totalAverage")
 
-      return <div className="text-right font-medium">{totalAverage || "-"}</div>
+      return <div className="text-right font-medium">{totalAverage || ""}</div>
     },
   },
   {
@@ -124,16 +124,16 @@ export function DataTable() {
         return Number(Number(grade.grade).toFixed(2))
       })
       const totalAverage = calculateGPAStatistics(gradeFiltered)
-      let finalAverage:any = totalAverage.averageGPA
+      let finalAverage:any = totalAverage
       const baseGPA = 4
       const gpaIncrement = baseGPA / (country?.possibleGrades?.length - 1)
       if (country?.system === "Number") {
-        finalAverage = convertGPAToNumber(totalAverage.averageGPA, baseGPA, gpaIncrement, country.possibleGrades)
-        console.log(finalAverage)
+        finalAverage = convertGPAToNumber(totalAverage, baseGPA, gpaIncrement, country.possibleGrades)
+        
       } else if (country?.system === "Letter") {
-        finalAverage = convertGPAToLetter(totalAverage.averageGPA, baseGPA, gpaIncrement, country.possibleGrades)
+        finalAverage = convertGPAToLetter(totalAverage, baseGPA, gpaIncrement, country.possibleGrades)
       } else if (country?.system === "Percentage") {
-        finalAverage = convertGPAToPercentage(totalAverage.averageGPA)
+        finalAverage = convertGPAToPercentage(totalAverage)
       }
       const dbAverage = finalAverage?.toString()
       addTotalAverageToDB(dbAverage, subject._id)
