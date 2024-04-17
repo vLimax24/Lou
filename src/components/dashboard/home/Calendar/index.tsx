@@ -18,7 +18,7 @@ dayjs.extend(isSameOrAfter)
 
 type CardProps = React.ComponentProps<typeof Card>
 
-export default function CalendarCard({ className, ...props }: CardProps) {
+const CalendarCard = ({ className, ...props }: CardProps) => {
   const { isAuthenticated } = useConvexAuth()
   const events = useQuery(
     api.events.getEvents,
@@ -38,7 +38,7 @@ export default function CalendarCard({ className, ...props }: CardProps) {
     return diffA - diffB
   }).filter(event => event.description === "EXAM").slice(0, 3)
   
-  function convertToGermanDate(isoDate: any) {
+  const convertToGermanDate = (isoDate: any) => {
     const germanDate: any = dayjs(isoDate).format("DD.MM.YYYY")
     return germanDate
   }
@@ -96,3 +96,5 @@ export default function CalendarCard({ className, ...props }: CardProps) {
     </Card>
   )
 }
+
+export default CalendarCard

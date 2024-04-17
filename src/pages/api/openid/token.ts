@@ -2,10 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import { getToken } from "next-auth/jwt"
 import { env } from "@/env"
 
-export default async function handler(
+const handler = async (
   req: NextApiRequest,
   res: NextApiResponse
-) {
+) => {
   if (req.method === "GET") {
     const token = await getToken({ req, secret: env.NEXTAUTH_SECRET })
     if (token) {
@@ -17,3 +17,5 @@ export default async function handler(
     return res.status(404).send("not found")
   }
 }
+
+export default handler

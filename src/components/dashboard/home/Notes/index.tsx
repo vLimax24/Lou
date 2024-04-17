@@ -16,7 +16,7 @@ import * as React from "react"
 
 type CardProps = React.ComponentProps<typeof Card>
 
-export default function NotesCard({ className, ...props }: CardProps) {
+const NotesCard = ({ className, ...props }: CardProps) => {
   const { isAuthenticated } = useConvexAuth()
   const notes:any = useQuery(
     api.notes.getNotes,
@@ -25,7 +25,7 @@ export default function NotesCard({ className, ...props }: CardProps) {
 
   const deleteNote = useMutation(api.notes.deleteNote)
 
-  async function handleDeleteNote(id: any) {
+  const handleDeleteNote = async (id: any) => {
     try {
       await deleteNote({
         id: id,
@@ -80,3 +80,4 @@ export default function NotesCard({ className, ...props }: CardProps) {
   )
 }
 
+export default NotesCard

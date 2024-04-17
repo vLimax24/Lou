@@ -6,7 +6,8 @@
   "plugins": [
     "@typescript-eslint",
     "drizzle",
-    "unused-imports"
+    "unused-imports",
+    "prefer-arrow"
   ],
   "extends": [
     "next/core-web-vitals", 
@@ -26,6 +27,14 @@
     "quotes": [
       "warn",
       "double"
+    ],
+    "prefer-arrow/prefer-arrow-functions": [
+      "warn",
+      {
+        "disallowPrototype": true,
+        "singleReturnOnly": false,
+        "classPropertiesAllowed": false
+      }
     ],
     "unused-imports/no-unused-imports-ts": "warn"
   }

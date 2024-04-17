@@ -9,14 +9,14 @@ import { useEffect } from "react"
 import useStoreUser from "@/hooks/auth/useStoreUser"
 import { useSession } from "next-auth/react"
 
-export default function DashboardLayout({
+const DashboardLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   useStoreUser()
   const router = useRouter()
-  const { isAuthenticated, isLoading: AuthLoading } = useConvexAuth()
+  const { isAuthenticated } = useConvexAuth()
   const { status } = useSession()
  
   if (status === "unauthenticated") {
@@ -45,3 +45,5 @@ export default function DashboardLayout({
     </div>
   )
 }
+
+export default DashboardLayout

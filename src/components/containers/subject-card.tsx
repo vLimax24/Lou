@@ -63,7 +63,7 @@ const colorMappings = [
   },
 ]
 
-export default function SubjectCard({ subject }: { subject: Doc<"subjects"> }) {
+const SubjectCard = ({ subject }: { subject: Doc<"subjects"> }) => {
   const colorMapping = colorMappings.find(
     color => color.name === subject.color
   )
@@ -109,3 +109,5 @@ export default function SubjectCard({ subject }: { subject: Doc<"subjects"> }) {
     </Card>
   )
 }
+
+export default SubjectCard

@@ -37,7 +37,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function AddNoteDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
+export const AddNoteDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) =>{
   const addNote = useMutation(api.notes.addNote)
 
   const form = useForm<FormData>({
@@ -49,7 +49,7 @@ export function AddNoteDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
     },
   })
 
-  async function onSubmit(values: FormData) {
+  const onSubmit = async (values: FormData) => {
     try {
       const formattedDate = values.date.toISOString()
 

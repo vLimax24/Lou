@@ -40,7 +40,7 @@ const formSchema = z.object({
   status: z.enum(["PENDING", "IN-PROGRESS", "COMPLETED"]).default("PENDING"),
 })
 
-export function AddTaskDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
+export const AddTaskDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
   const addTask = useMutation(api.tasks.addTask)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,7 +51,7 @@ export function AddTaskDialog({ subjectId }: { subjectId?: Id<"subjects"> }) {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await addTask({
         status: values.status,

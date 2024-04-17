@@ -38,7 +38,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function EditNoteDialog({ id }: any) {
+export const EditNoteDialog = ({ id }: any) => {
   const note = useQuery(
     api.notes.getSpecificNote,
     { noteId: id }
@@ -64,7 +64,7 @@ export function EditNoteDialog({ id }: any) {
     },
   })
 
-  async function onSubmit(values: FormData) {
+  const onSubmit = async (values: FormData) => {
     try {
       const formattedDate = date?.toISOString()
       await editNote({

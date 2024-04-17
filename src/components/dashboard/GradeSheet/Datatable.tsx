@@ -62,7 +62,7 @@ export const columns: ColumnDef<any>[] = [
   },
 ]
 
-export function DataTable() {
+export const DataTable = () => {
   const [sorting] = useState<SortingState>([])
   const [columnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})

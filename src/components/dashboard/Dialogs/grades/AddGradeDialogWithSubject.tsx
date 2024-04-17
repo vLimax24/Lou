@@ -46,7 +46,7 @@ type FormData = z.infer<typeof formSchema>;
 
 
 
-export function AddGradeDialogWithSubject() {
+export const AddGradeDialogWithSubject = () => {
 
   const addGrade = useMutation(api.grades.addGrade)
   const subjects = useQuery(api.studentSubjects.getUserSubjects)
@@ -64,7 +64,7 @@ export function AddGradeDialogWithSubject() {
     },
   })
 
-  async function onSubmit(values: FormData) {
+  const onSubmit = async (values: FormData) => {
     const formattedDate = values.date.toISOString()
     const baseGPA = 4
     const gpaIncrement = baseGPA / (country?.possibleGrades.length - 1)

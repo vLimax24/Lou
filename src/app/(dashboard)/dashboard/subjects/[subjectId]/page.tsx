@@ -8,12 +8,12 @@ import { api } from "@/convex/_generated/api"
 import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
 import { Loader2 } from "lucide-react"
 import { AddNoteDialog } from "@/components/dashboard/Dialogs/notes/AddNoteDialog"
-import { AddGradeDialog } from "@/components/dashboard/Dialogs/grades/AddGradeDialog"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardFooter, CardHeader, CardContent } from "@/components/ui/card"
 import dayjs from "dayjs"
+import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
 
-export default function SubjectPage() {
+const SubjectPage = () => {
   const params = useParams<{ subjectId: Id<"subjects"> }>()
   const subjectId = params?.subjectId
   const subject = useQuery(api.subjects.getSubjectData, {
@@ -44,7 +44,7 @@ export default function SubjectPage() {
         <SubjectSection
           title="Grades"
           description="All your grades"
-          addDialog={<AddGradeDialog subjectId={subjectId}/>}
+          addDialog={<AddGradeDialogWithSubject/>}
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-5">   
             {!grades ? (
@@ -120,3 +120,5 @@ export default function SubjectPage() {
     </div>
   )
 }
+
+export default SubjectPage

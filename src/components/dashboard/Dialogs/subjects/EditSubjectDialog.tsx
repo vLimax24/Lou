@@ -40,7 +40,7 @@ type EditProps = {
     id: Id<"subjects">
 }
 
-export function EditSubjectDialog({ name, id }: EditProps) {
+export const EditSubjectDialog = ({ name, id }: EditProps) => {
   const editSubject = useAction(api.users.editUserSubjectAction)
 
   const form = useForm<FormData>({
@@ -50,7 +50,7 @@ export function EditSubjectDialog({ name, id }: EditProps) {
     },
   })
 
-  async function onSubmit(values: FormData) {
+  const onSubmit = async (values: FormData) => {
     try {
       await editSubject({
         name: values.name,

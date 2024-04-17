@@ -9,11 +9,11 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 }
 
-export default function SiteLayout({
+const SiteLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
 
  
 
@@ -26,3 +26,5 @@ export default function SiteLayout({
       
   )
 }
+
+export default SiteLayout

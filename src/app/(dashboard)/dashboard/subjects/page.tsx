@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/convex/_generated/api"
 import { useQuery } from "convex/react"
 
-function Subjects() {
+const Subjects = () => {
   const subjects = useQuery(api.studentSubjects.getUserSubjects)
   
 

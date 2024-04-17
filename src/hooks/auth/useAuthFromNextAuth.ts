@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react"
 import { useCallback, useMemo } from "react"
 
-export function useAuthFromNextAuth() {
+export const useAuthFromNextAuth = () => {
   const { data, status } = useSession()
 
   const fetchAccessToken = useCallback(

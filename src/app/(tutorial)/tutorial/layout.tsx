@@ -1,5 +1,5 @@
-import "@/styles/globals.css";
-import * as React from "react";
+import "@/styles/globals.css"
+import * as React from "react"
 
 export const metadata = {
   title: "StudentOS",
@@ -7,11 +7,11 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 }
 
-export default function SiteLayout({
+const SiteLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
 
  
 
@@ -22,3 +22,5 @@ export default function SiteLayout({
       
   )
 }
+
+export default SiteLayout

@@ -57,9 +57,7 @@ export const updateGradeSystem = authMutation({
 
 export const getMyUser = authQuery({
   args: {},
-  async handler(ctx) {
-    return ctx.user
-  },
+  handler: async(ctx) => ctx.user,
 })
 
 export const addUserSubjectAction = authAction({

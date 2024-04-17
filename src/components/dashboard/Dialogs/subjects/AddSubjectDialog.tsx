@@ -33,7 +33,7 @@ type FormData = z.infer<typeof formSchema>;
 
 
 
-export function AddSubjectDialog() {
+export const AddSubjectDialog = () => {
   const addSubject = useAction(api.users.addUserSubjectAction)
   const [openAddModal, setOpenAddModel] = useState(false)
   const form = useForm<FormData>({
@@ -43,7 +43,7 @@ export function AddSubjectDialog() {
     },
   })
 
-  async function onSubmit(values: FormData) {
+  const onSubmit = async (values: FormData) => {
     try {
       await addSubject({
         name: values.name,

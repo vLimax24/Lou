@@ -4,7 +4,7 @@ import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { convertLetterToGPA } from "@/utils/gpaCalculation"
 
-export function GradeBarChart() {
+export const GradeBarChart = () => {
   const studentSubjects = useQuery(api.studentSubjects.getStudentSubjects)
   const subjects = useQuery(api.studentSubjects.getUserSubjects)
   const user = useQuery(api.users.getMyUser)
@@ -51,7 +51,7 @@ export function GradeBarChart() {
           className="mt-6 block h-60"
         />
         {country?.system === "Letter" && (
-          <CardDescription>* Average is displayed in GPA insead of Letters</CardDescription>
+          <CardDescription>* Average is displayed in GPA instead of Letters</CardDescription>
         )}
       </Card>
     </>

@@ -5,10 +5,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { signIn } from "next-auth/react"
 import { env } from "@/env"
-import { useSession } from "next-auth/react"
 
 const SignUpForm = () => {
-  const { data: session } = useSession()
   const signUp = async () => {
     await signIn("google", { callbackUrl: env.NEXT_PUBLIC_URL })
 

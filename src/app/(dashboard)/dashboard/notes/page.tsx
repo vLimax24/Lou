@@ -19,7 +19,7 @@ const Page = () => {
 
   const deleteNote = useMutation(api.notes.deleteNote)
 
-  async function handleDeleteNote(id: any) {
+  const handleDeleteNote = async (id: any) => {
     try {
       await deleteNote({
         id: id,

@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next"
  
-export default function sitemap(): MetadataRoute.Sitemap {
+const sitemap = (): MetadataRoute.Sitemap =>{
   return [
     {
       url: "https://student-os.vercel.app",
@@ -22,3 +22,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 }
+
+export default sitemap

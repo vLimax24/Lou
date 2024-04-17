@@ -26,7 +26,7 @@ interface DraggableProps {
   task: Task | undefined;
 }
 
-export function Draggable({id, task}: DraggableProps) {
+export const Draggable = ({id, task}: DraggableProps) => {
   const { attributes, listeners, setNodeRef, transform, setActivatorNodeRef } = useDraggable({
     id: id,
   } as UseDraggableArguments)

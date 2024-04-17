@@ -31,11 +31,11 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   )
 
   // Combine events and noteEvents into a single array
-  const combinedEvents = events && noteEvents ? [...events, ...noteEvents] : [];
+  const combinedEvents = events && noteEvents ? [...events, ...noteEvents] : []
   // const combinedEvents = events?.concat(filteredNoteEvents || [])
 
 
-  async function handleCreateEvent(date: any, title: string, description: string, type: string) {
+  const handleCreateEvent = async (date: any, title: string, description: string, type: string) => {
     const formattedDate = moment(date).toISOString()
     try {
       await addEvent({

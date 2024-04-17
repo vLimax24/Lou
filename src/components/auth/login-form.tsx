@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react"
 import { env } from "@/env"
 import { EmptyLink } from "@/components/common/Link"
 
-export default function LoginForm() {
+const LoginForm = () => {
   return (
     <div className="mx-auto grid w-[350px] gap-6">
        <EmptyLink href={"/"}  text='Home' showArrow className='bg-gray-900'/>
@@ -56,3 +56,5 @@ export default function LoginForm() {
     </div>
   )
 }
+
+export default LoginForm

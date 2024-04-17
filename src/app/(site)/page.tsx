@@ -5,7 +5,7 @@ import LandingDashboard from "@/components/Icons/Logos/LandingDashboard"
 import { Button } from "@/components/ui/button"
 import { ScrollText, Home, FileDigit } from "lucide-react"
 import { GraduationCap } from "lucide-react"
-export default function HomePage() {
+const HomePage = () => {
 
   return (
     <div className='flex flex-col overflow-x-hidden'>
@@ -110,3 +110,5 @@ export default function HomePage() {
     </div>
   )
 }
+
+export default HomePage

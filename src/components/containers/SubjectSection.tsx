@@ -8,12 +8,12 @@ type SectionProps = {
   addDialog?: any
 };
 
-export default function SubjectSection({
+const SubjectSection = ({
   children,
   title,
   description,
   addDialog
-}: SectionProps) {
+}: SectionProps) => {
   return (
     <Card>
       <CardHeader>
@@ -27,3 +27,5 @@ export default function SubjectSection({
     </Card>
   )
 }
+
+export default SubjectSection

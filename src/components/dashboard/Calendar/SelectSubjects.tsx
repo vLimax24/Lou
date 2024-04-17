@@ -48,12 +48,12 @@ const FormSchema = z.object({
   }),
 })
 
-export function ComboboxForm() {
+export const ComboboxForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  const onSubmit = (data: z.infer<typeof FormSchema>) => {
     toast({
       title: "You submitted the following values:",
       description: (

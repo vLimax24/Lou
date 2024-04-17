@@ -10,8 +10,7 @@ import { useMutation, useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { toast } from "sonner"
 
-function AnimatedCheckIcon() {
-  return (
+const AnimatedCheckIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -29,7 +28,6 @@ function AnimatedCheckIcon() {
       />
     </svg>
   )
-}
 
 const Page = () => {
   const router = useRouter()

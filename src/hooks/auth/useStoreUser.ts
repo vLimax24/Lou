@@ -5,7 +5,7 @@ import { type Id } from "@/convex/_generated/dataModel"
 import { useSession } from "next-auth/react"
 import { api } from "@/convex/_generated/api"
 
-export default function useStoreUser() {
+const useStoreUser = () => {
   const { isAuthenticated } = useConvexAuth()
   const { data } = useSession()
   // When this state is set we know the server
@@ -22,7 +22,7 @@ export default function useStoreUser() {
     // Store the user in the database.
     // Recall that `storeUser` gets the user infor∏mation via the `auth`
     // object on the server. You don't need to pass anything manually here.
-    async function createUser() {
+    const createUser = async () => {
       const id = await storeUser()
       setUserId(id)
     }
@@ -33,3 +33,5 @@ export default function useStoreUser() {
   }, [isAuthenticated, storeUser, data?.user.id])
   return userId
 }
+
+export default useStoreUser

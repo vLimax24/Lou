@@ -39,7 +39,7 @@ const Tasks = () => {
   const containers: TaskStatus[] = Object.values(taskTypes)
   const [parent, setParent] = useState<Over["id"] | null>(null)
  
-  async function handleDragEnd(event: DragEndEvent): Promise<void> {
+  const handleDragEnd = async (event: DragEndEvent): Promise<void> => {
     const { over, active } = event
     if (!over) return // No drop target
     const newStatus: TaskStatus = over.id as TaskStatus
@@ -50,14 +50,15 @@ const Tasks = () => {
     setParent(null) // Reset parent
   }
 
-  async function handleDragStart(event: DragStartEvent): Promise<void> {
+  const handleDragStart = async (event: DragStartEvent): Promise<void> => {
     
     const { active } = event
     if (!active) return // No drop target
     setParent(active ? active.id : null)
   }
-  async function handleDragOver(event: DragOverEvent): Promise<void> {
+  const handleDragOver = async (event: DragOverEvent): Promise<void> => {
     console.log("🚀 ~ handleDragOver ~ event:", event)
+    console.log(parent)
   }
 
   return (

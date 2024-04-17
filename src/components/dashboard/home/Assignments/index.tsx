@@ -6,7 +6,7 @@ import dayjs from "dayjs"
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
 import Link from "next/link"
 dayjs.extend(isSameOrAfter)
-export default function AssignmentCard({ className, ...props }: any) {
+const AssignmentCard = ({ className, ...props }: any) => {
 
   const { isAuthenticated } = useConvexAuth()
   const events = useQuery(
@@ -84,3 +84,5 @@ export default function AssignmentCard({ className, ...props }: any) {
     </Card>
   )
 }
+
+export default AssignmentCard

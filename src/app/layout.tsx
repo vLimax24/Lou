@@ -17,11 +17,11 @@ export const revalidate = 0
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL)
 
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
  
 
  
@@ -37,3 +37,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export default RootLayout
