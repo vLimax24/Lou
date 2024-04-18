@@ -3,40 +3,23 @@ import * as React from "react"
 import dayjs from "dayjs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetTitle,
-  SheetFooter,
-  SheetClose,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetFooter, SheetClose } from "@/components/ui/sheet"
 import { Calendar } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Dropdown } from "./Dropdown"
-import {
-  CalendarDays,
-  Text,
-  Plus,
-  Pencil,
-  Trash,
-} from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Plus, Trash, X } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger, DialogClose } from "@/components/ui/dialog"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Separator } from "@/components/ui/separator"
 import { Id } from "@/convex/_generated/dataModel"
+import { api } from "@/convex/_generated/api"
+import { useMutation } from "convex/react"
+import { toast } from "sonner"
+import { EditNoteDialog } from "../Dialogs/notes/EditNoteDialog"
+import { EditEventDialog } from "../Dialogs/events/EditEventDialog"
+
 
 type NoteEvent = {
   _id: Id<"notes">;
@@ -93,6 +76,31 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
     setDescription("")
   }
 
+  const deleteEvent = useMutation(api.events.deleteEvent)
+  const deleteNote = useMutation(api.notes.deleteNote)
+
+  const handleDeleteEvent = async (id: any) => {
+    try {
+      await deleteEvent({
+        id: id,
+      })
+      toast.success("Event deleted!")
+    } catch (error) {
+      toast.error("Error deleting Event!")
+    }
+  }
+
+  const handleDeleteNote = async (id: any) => {
+    try {
+      await deleteNote({
+        id: id,
+      })
+      toast.success("Note deleted!")
+    } catch (error) {
+      toast.error("Error deleting Note!")
+    }
+  }
+
   const typeColors: { [key: string]: string } = {
     "OTHER": "bg-gray-300 text-gray-800",
     "EXAM": "bg-red-500 text-white",
@@ -119,30 +127,30 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                 {isNoteEvent(event) ? event.text : event.title}
               </div>
             </DialogTrigger>
-            <DialogContent onClick={e => e.stopPropagation()}>
-              <DialogHeader>
-                <DialogTitle className="text-xl font-bold">
-                  {isNoteEvent(event) ? event.text : event.title}
-                </DialogTitle>
+            <DialogContent onClick={e => e.stopPropagation()} className="px-8">
+              <DialogHeader className="flex flex-row justify-between items-center space-y-0">
+                <div className="text-3xl font-bold flex flex-col">
+                  <div className="flex items-center gap-4">
+                    <div className={`size-6 ${typeClass} rounded-md mt-0.5`}/>
+                    {isNoteEvent(event) ? event.text : event.title}
+                  </div>
+                </div>
+                <DialogClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                    <X className="size-4"/>
+                </DialogClose>
               </DialogHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <p>Type:</p>
-                  <div>{capitalizeFirstLetter((event as GeneralEvent).type)}</div>
+                <Badge className={`${typeClass}`}>
+                  {isNoteEvent(event) ? "Note" : capitalizeFirstLetter((event as GeneralEvent).type)}
+                </Badge>
                 </div>
               </div>
+              <div>{dayjs(event.date).format("dddd")} - {dayjs(event.date).format("DD.MM.YYYY")}</div>
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <CalendarDays size={20} className="mr-2" />
-                  <p>Date:</p>
-                  <div>{dayjs(event.date).format("DD.MM.YYYY")}</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Text size={20} className="mr-2" />
-                  <p>Description:</p>
-                  <div>{isNoteEvent(event) ? event.text : event.description}</div>
+                <div className="flex items-start">
+                  <p>Description: </p>
+                  <div className="ml-2"> {isNoteEvent(event) ? event.text : event.description}</div>
                 </div>
               </div>
               <Separator className="my-4" />
@@ -155,7 +163,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                     <div className="mx-2 hover:cursor-pointer">
                       <Tooltip delayDuration={50}>
                         <TooltipTrigger asChild>
-                          <Pencil size={20} />
+                        {isNoteEvent(event) ? (<EditNoteDialog id={event._id}/>) : (<EditEventDialog id={event._id} />)}
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>Edit Event</p>
@@ -164,7 +172,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                     </div>
                     <div className="mx-2 hover:cursor-pointer">
                       <Tooltip delayDuration={50}>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger asChild onClick={() => isNoteEvent(event) ? handleDeleteNote(event._id) : handleDeleteEvent(event._id)}>
                           <Trash size={20} />
                         </TooltipTrigger>
                         <TooltipContent>
@@ -184,24 +192,24 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
 
   const renderCalendarCell = (day: dayjs.Dayjs) => {
     const isCurrentDay = day.isSame(dayjs(), "day")
+    const formattedDate = day.format("YYYY-MM-DD")
 
     return (
-      <Sheet key={day.format("YYYY-MM-DD")}>
+      <Sheet key={formattedDate}>
         <SheetTrigger
           asChild
-          key={day.format("YYYY-MM-DD")}
-          onClick={() => console.log("clicked sheet")}
+          key={formattedDate}
         >
           <div
-            key={day.format("YYYY-MM-DD")}
-            className={`group relative flex h-24 items-center justify-center border border-gray-300 text-sm hover:cursor-default md:h-28 lg:h-32 ${
+            key={formattedDate}
+            className={`group relative flex h-24 items-center justify-center ${isCurrentDay ? "bg-blue-400 bg-opacity-50" : ""} border border-gray-300 text-sm hover:cursor-default md:h-28 lg:h-32 ${
               day.month() === currentMonth.month()
-                ? "bg-white"
+                ? ""
                 : "bg-gray-200 text-gray-500"
-            } ${isCurrentDay ? "bg-blue-200" : ""}`}
-            style={{ flexGrow: 1, width: "calc(100% / 7)" }} // Set a fixed width for the cell
+            } `}
+            style={{ flexGrow: 1, width: "calc(100% / 7)" }}
             onClick={() => {
-              setSelectedDate(day.format("YYYY-MM-DD"))
+              setSelectedDate(formattedDate)
             }}
           >
             <TooltipProvider>
@@ -218,13 +226,13 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
             </TooltipProvider>
             <div className="absolute right-0 top-0 m-1">{day.format("D")}</div>
             <div className="w-full px-2">
-              {getEventsForDate(day.format("YYYY-MM-DD"))}
+              {getEventsForDate(formattedDate)}
             </div>
           </div>
         </SheetTrigger>
         <SheetContent>
           <SheetTitle className="font-open-sans text-xl font-bold">
-            Create an Event - {selectedDate}
+            Create an Event - {formattedDate}
           </SheetTitle>
           <div className="mt-2 flex flex-col">
             <div className="mb-5">
@@ -247,8 +255,8 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                 </Label>
               </div>
               <div>
-                <p>{selectedDate}</p>
-                <input type="hidden" value={selectedDate} />
+                <p>{formattedDate}</p>
+                <input type="hidden" value={formattedDate} />
               </div>
             </div>
             <div className="mb-5">

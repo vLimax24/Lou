@@ -20,6 +20,22 @@ export const getEvents = authQuery({
     },
 })
 
+export const getSpecificEvent = authQuery({
+  args: { eventId: v.id("events") },
+  handler: async ({ auth, db }, args) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) {
+      throw new Error("you must be logged in to get your events")
+    }
+    const event = await db
+      .query("events")
+      .filter(q => q.eq(q.field("_id"), args.eventId))
+      .first()
+
+    return event
+  },
+})
+
 export const addEvent = mutation({
     args: {
         title: v.string(),
