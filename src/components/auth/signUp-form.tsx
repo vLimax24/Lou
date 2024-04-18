@@ -1,14 +1,11 @@
 "use client"
 
-import React from "react"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { signIn } from "next-auth/react"
-import { env } from "@/env"
+import Link from "next/link"
 
 const SignUpForm = () => {
   const signUp = async () => {
-    await signIn("google", { callbackUrl: env.NEXT_PUBLIC_URL })
+    alert("Add Login here.")
 
 
   }
