@@ -19,7 +19,7 @@ const Dashboard = () => {
           <AssignmentCard />
         </div>
         <div className='flex flex-1 pt-1 pb-0 flex-col md:flex-row'>
-          {/* <GradeSheetCard /> */}
+          <GradeSheetCard />
           <NotesCard />
         </div>
       </div>
