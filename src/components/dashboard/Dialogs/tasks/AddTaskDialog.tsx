@@ -131,9 +131,7 @@ export const AddTaskDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) => 
               </div>
             </div>
             <DialogFooter>
-              <DialogClose>
                 <Button type="submit">Add Task</Button>
-              </DialogClose>
             </DialogFooter>
           </form>
         </Form>

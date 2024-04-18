@@ -1,17 +1,16 @@
 "use client"
-import React from "react"
-import { useParams } from "next/navigation"
-import { Id } from "@/convex/_generated/dataModel"
 import SubjectSection from "@/components/containers/SubjectSection"
-import { useQuery } from "convex/react"
-import { api } from "@/convex/_generated/api"
-import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
-import { Loader2 } from "lucide-react"
+import { AddGradeDialog } from "@/components/dashboard/Dialogs/grades/AddGradeDialog"
 import { AddNoteDialog } from "@/components/dashboard/Dialogs/notes/AddNoteDialog"
+import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardFooter, CardHeader, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { api } from "@/convex/_generated/api"
+import { Id } from "@/convex/_generated/dataModel"
+import { useQuery } from "convex/react"
 import dayjs from "dayjs"
-import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
+import { Loader2 } from "lucide-react"
+import { useParams } from "next/navigation"
 
 const SubjectPage = () => {
   const params = useParams<{ subjectId: Id<"subjects"> }>()
@@ -44,7 +43,7 @@ const SubjectPage = () => {
         <SubjectSection
           title="Grades"
           description="All your grades"
-          addDialog={<AddGradeDialogWithSubject/>}
+          addDialog={<AddGradeDialog subjectId={subjectId}/>}
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-5">   
             {!grades ? (

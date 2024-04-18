@@ -23,9 +23,7 @@ export const getSubjectGrades = authQuery({
   args: { subjectId: v.id("subjects")},
   handler: async ({ auth, db }, args) => {
     const identity = await auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("you must be logged in to get your grades")
-    }
+    if (!identity) return false
     const subjectGrades = await db
       .query("grades")
       .filter(q => q.eq(q.field("subjectId"), args.subjectId))
