@@ -1,27 +1,20 @@
 "use client"
-import { useRouter } from "next/navigation"
-import * as React from "react"
-import { api } from "@/convex/_generated/api"
-import { useConvexAuth, useQuery } from "convex/react"
 import DashboardHeader from "@/components/dashboard/Layout/header"
 import DashboardSidebar from "@/components/dashboard/Layout/sidebar"
+import { api } from "@/convex/_generated/api"
+import { useConvexAuth, useQuery } from "convex/react"
+import { useRouter } from "next/navigation"
+import * as React from "react"
 import { useEffect } from "react"
-import useStoreUser from "@/hooks/auth/useStoreUser"
-import { useSession } from "next-auth/react"
 
 const DashboardLayout = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  useStoreUser()
   const router = useRouter()
   const { isAuthenticated } = useConvexAuth()
-  const { status } = useSession()
- 
-  if (status === "unauthenticated") {
-    router.push("/login")
-  }
+
 
   const subjects = useQuery(
     api.subjects.getUserSubjects,

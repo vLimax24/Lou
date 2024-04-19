@@ -1,12 +1,13 @@
 "use client"
-import { Toaster } from "@/components/ui/sonner"
-import { env } from "@/env"
 import * as React from "react"
-import { useAuthFromNextAuth } from "@/hooks/auth/useAuthFromNextAuth"
-import "@/styles/globals.css"
-import { ConvexProviderWithAuth, ConvexReactClient } from "convex/react"
-import { SessionProvider } from "next-auth/react"
+import { ConvexReactClient } from "convex/react"
+import { ConvexProviderWithClerk } from "convex/react-clerk"
+import { ClerkProvider, useAuth } from "@clerk/nextjs"
+import { env } from "@/env"
 import { Inter } from "next/font/google"
+import { Toaster } from "@/components/ui/sonner"
+import "@/styles/globals.css"
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -16,25 +17,18 @@ const inter = Inter({
 export const revalidate = 0
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL)
 
-
-const RootLayout = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
- 
-
- 
-
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
-      <SessionProvider>
+    <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+      <html lang="en">
         <body className={`font-sans ${inter.variable}`}>
-          <ConvexProviderWithAuth client={convex} useAuth={useAuthFromNextAuth}>{children}</ConvexProviderWithAuth>
-          <Toaster richColors/>
+          <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+            {children}
+          </ConvexProviderWithClerk>
+          <Toaster richColors />
         </body>
-      </SessionProvider>
-    </html>
+      </html>
+    </ClerkProvider>
   )
 }
 

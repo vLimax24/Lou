@@ -48,7 +48,7 @@ export const authAction = customAction(
   })
 )
 
-async function getUserOrThrow(ctx: QueryCtx | MutationCtx) {
+const getUserOrThrow = async (ctx: QueryCtx | MutationCtx) => {
   const userId = (await ctx.auth.getUserIdentity())?.subject
 
   if (!userId) {
@@ -57,7 +57,7 @@ async function getUserOrThrow(ctx: QueryCtx | MutationCtx) {
 
   const user = await ctx.db
     .query("users")
-    .filter(q => q.eq(q.field("subject"), userId))
+    .filter(q => q.eq(q.field("clerkId"), userId))
     .first()
 
   if (!user) {

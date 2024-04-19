@@ -3,8 +3,6 @@
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
-import { signIn } from "next-auth/react"
-import { env } from "@/env"
 import { EmptyLink } from "@/components/common/Link"
 
 const LoginForm = () => {
@@ -41,7 +39,7 @@ const LoginForm = () => {
           variant="outline"
           className="w-full"
           onClick={() =>
-            signIn("google", { callbackUrl: env.NEXT_PUBLIC_URL })
+            alert("Add login here")
           }
         >
           Login with Google

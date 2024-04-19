@@ -1,33 +1,32 @@
-"use client"
+'use client';
 // component
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { useSession } from "next-auth/react"
-import { CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, Search, Menu, CircleUser } from "lucide-react"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  BookA,
+  CalendarDays,
+  GraduationCap,
+  Home,
+  Lightbulb,
+  ListChecks,
+  Menu,
+  Search,
+  StickyNote,
+} from 'lucide-react';
 // functions
-import { signOut } from "next-auth/react"
-import Link from "next/link"
-import { env } from "@/env"
+import { UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 const DashboardHeader = () => {
-  const { data: session } = useSession()
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet>
@@ -40,7 +39,7 @@ const DashboardHeader = () => {
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
-              href={"/"}
+              href={'/'}
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Lightbulb className="h-6 w-6" />
@@ -122,34 +121,9 @@ const DashboardHeader = () => {
           </div>
         </form>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="secondary" size="icon" className="rounded-full">
-            <CircleUser className="h-5 w-5" />
-            <span className="sr-only">Toggle user menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>{session?.user?.email}</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <Link href={"/settings"}>
-            <DropdownMenuItem>
-                Settings
-            </DropdownMenuItem>
-          </Link>
-          <DropdownMenuItem>
-            Support
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => signOut({ callbackUrl: env.NEXT_PUBLIC_URL })}
-          >
-            Logout
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <UserButton afterSignOutUrl="/" />
     </header>
-  )
-}
+  );
+};
 
-export default DashboardHeader
+export default DashboardHeader;
