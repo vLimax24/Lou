@@ -1,6 +1,6 @@
 "use client"
 import SubjectSection from "@/components/containers/SubjectSection"
-import { AddGradeDialog } from "@/components/dashboard/Dialogs/grades/AddGradeDialog"
+import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
 import { AddNoteDialog } from "@/components/dashboard/Dialogs/notes/AddNoteDialog"
 import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
 import { Badge } from "@/components/ui/badge"
@@ -43,7 +43,7 @@ const SubjectPage = () => {
         <SubjectSection
           title="Grades"
           description="All your grades"
-          addDialog={<AddGradeDialog subjectId={subjectId}/>}
+          addDialog={<AddGradeDialogWithSubject subjectId={subjectId}/>}
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-5">   
             {!grades ? (

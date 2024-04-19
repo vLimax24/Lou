@@ -9,7 +9,7 @@ const Page = () => {
       <div className="flex items-center justify-between mb-6">
         <h1 className='text-4xl font-bold'>Your Grades</h1>
         {/* When Add Grade Dialog is added and you click on it, the site completelly freezes because of the datatable */}
-        <AddGradeDialogWithSubject/>
+        <AddGradeDialogWithSubject withSubjects/>
       </div>
       <DataTable />
     </div>
