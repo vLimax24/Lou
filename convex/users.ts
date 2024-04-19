@@ -18,7 +18,7 @@ export const getUserById = internalQuery({
 
 export const createUser = internalMutation({
   args: {
-    email: v.string(),
+    email: v.any(),
     clerkId: v.string(),
     name: v.string(),
     profileImage: v.string(),
@@ -29,7 +29,7 @@ export const createUser = internalMutation({
       .withIndex("by_clerkId", (q) => q.eq("clerkId", args.clerkId))
       .first()
 
-    if (user) return;
+    if (user) return
 
     await ctx.db.insert("users", {
       email: args.email,
