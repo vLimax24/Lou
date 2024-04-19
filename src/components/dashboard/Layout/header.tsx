@@ -1,16 +1,16 @@
-'use client';
+"use client"
 // component
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   BookA,
   CalendarDays,
@@ -21,10 +21,10 @@ import {
   Menu,
   Search,
   StickyNote,
-} from 'lucide-react';
+} from "lucide-react"
 // functions
-import { UserButton } from '@clerk/nextjs';
-import Link from 'next/link';
+import { UserButton } from "@clerk/nextjs"
+import Link from "next/link"
 
 const DashboardHeader = () => {
   return (
@@ -39,7 +39,7 @@ const DashboardHeader = () => {
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
-              href={'/'}
+              href={"/"}
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Lightbulb className="h-6 w-6" />
@@ -123,7 +123,7 @@ const DashboardHeader = () => {
       </div>
       <UserButton afterSignOutUrl="/" />
     </header>
-  );
-};
+  )
+}
 
-export default DashboardHeader;
+export default DashboardHeader

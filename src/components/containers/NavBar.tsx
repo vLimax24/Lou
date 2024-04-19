@@ -9,7 +9,7 @@ import React, { useMemo, useState } from "react"
 import { AvatarRounded } from "../common/Avatar"
 import { useConvexAuth } from "convex/react"
 import { Loader2 } from "lucide-react"
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs"
 
 interface NavLink {
   name: string;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 const LandingDashboard = () => {
   return (
@@ -509,7 +509,7 @@ const LandingDashboard = () => {
         </defs>
       </svg>
     </div>
-  );
-};
+  )
+}
 
-export default LandingDashboard;
+export default LandingDashboard
