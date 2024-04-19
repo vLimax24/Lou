@@ -14,7 +14,6 @@ const DashboardLayout = ({
 }) => {
   const router = useRouter()
   const { isAuthenticated } = useConvexAuth()
-  console.log("🚀 ~ isAuthenticated:", isAuthenticated)
 
 
   const subjects = useQuery(

@@ -23,12 +23,11 @@ export default defineSchema({
   }).index("by_subjectId", ["subjectId"]).index("by_userId", ["userId"]),
   users: defineTable({
     name: v.optional(v.string()),
-    subject: v.string(),
     email: v.optional(v.string()),
-    pictureUrl: v.optional(v.string()),
-    tokenIdentifier: v.string(),
+    profileImage: v.optional(v.string()),
+    clerkId: v.string(),
     country: v.optional(v.id("gradingSystems"))
-  }).index("by_token", ["tokenIdentifier"]).index("by_userId", ["subject"]),
+  }).index("by_clerkId", ["clerkId"]),
   subjects: defineTable({
     name: v.string(),
     color: v.optional(v.string()),
