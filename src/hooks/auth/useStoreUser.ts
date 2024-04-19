@@ -1,17 +1,12 @@
 import { useConvexAuth } from "convex/react"
 import { useEffect, useState } from "react"
-import { useMutation } from "convex/react"
 import { type Id } from "@/convex/_generated/dataModel"
-import { useSession } from "next-auth/react"
-import { api } from "@/convex/_generated/api"
 
 const useStoreUser = () => {
   const { isAuthenticated } = useConvexAuth()
-  const { data } = useSession()
   // When this state is set we know the server
   // has stored the user.
   const [userId, setUserId] = useState<Id<"users"> | null>(null)
-  const storeUser = useMutation(api.users.store)
   // Call the `storeUser` mutation function to store
   // the current user in the `users` table and return the `Id` value.
   useEffect(() => {
@@ -22,15 +17,10 @@ const useStoreUser = () => {
     // Store the user in the database.
     // Recall that `storeUser` gets the user infor∏mation via the `auth`
     // object on the server. You don't need to pass anything manually here.
-    const createUser = async () => {
-      const id = await storeUser()
-      setUserId(id)
-    }
-    void createUser()
     return () => setUserId(null)
     // Make sure the effect reruns if the user logs in with
     // a different identity
-  }, [isAuthenticated, storeUser, data?.user.id])
+  }, [isAuthenticated])
   return userId
 }
 
