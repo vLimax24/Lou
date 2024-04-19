@@ -36,18 +36,18 @@ export const getSpecificEvent = authQuery({
   },
 })
 
-export const addEvent = mutation({
+export const addEvent = authMutation({
     args: {
         title: v.string(),
         description: v.string(),
         // subject: v.optional(v.string()),
         type: v.string(),
         date: v.string(),
-        userId: v.id("users"),
+       
     },
-    handler: async ({ db }, args) => {
+    handler: async ({ db, user }, args) => {
       // const user = await auth.getUserIdentity();
-      if (!args.userId) {
+      if (!user) {
         throw new Error("you must be logged in to create an event!")
       }
       const newEvent = await db.insert("events", {
@@ -56,7 +56,7 @@ export const addEvent = mutation({
         // subjects: args.subject,
         type: args.type,
         date: args.date,
-        userId: args.userId
+        userId: user._id
       })
       return newEvent
     },

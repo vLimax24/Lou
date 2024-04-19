@@ -8,7 +8,6 @@ import React, { useState } from "react"
 import { toast } from "sonner"
 import CalendarGrid from "./CalendarGrid"
 
-import useStoreUser from "@/hooks/auth/useStoreUser"
 import moment from "moment"
 
 interface CalendarProps {
@@ -17,7 +16,6 @@ interface CalendarProps {
 
 const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const [currentMonth, setCurrentMonth] = useState(initialDate)
-  const userId = useStoreUser()
   const addEvent = useMutation(api.events.addEvent)
 
   const { isAuthenticated } = useConvexAuth()
@@ -34,8 +32,12 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
   const combinedEvents = events && noteEvents ? [...events, ...noteEvents] : []
   // const combinedEvents = events?.concat(filteredNoteEvents || [])
 
-
-  const handleCreateEvent = async (date: any, title: string, description: string, type: string) => {
+  const handleCreateEvent = async (
+    date: any,
+    title: string,
+    description: string,
+    type: string
+  ) => {
     const formattedDate = moment(date).toISOString()
     try {
       await addEvent({
@@ -43,7 +45,6 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
         description: description,
         date: formattedDate,
         type: type,
-        userId: userId!,
       })
       toast.success("Event added!")
     } catch (error) {
@@ -51,31 +52,39 @@ const Calendar: React.FC<CalendarProps> = ({ initialDate = dayjs() }) => {
     }
   }
 
-
-
   const goToCurrentDay = () => {
     setCurrentMonth(dayjs())
   }
 
   const goToPreviousMonth = () => {
-    setCurrentMonth((prevMonth) => prevMonth.subtract(1, "month"))
+    setCurrentMonth(prevMonth => prevMonth.subtract(1, "month"))
   }
 
   const goToNextMonth = () => {
-    setCurrentMonth((prevMonth) => prevMonth.add(1, "month"))
+    setCurrentMonth(prevMonth => prevMonth.add(1, "month"))
   }
 
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className='font-bold text-2xl'>{currentMonth.format("MMMM YYYY")}</h2>
-        <div className='flex items-center justify-center mr-2'>
-          <button onClick={goToPreviousMonth} className='hover:bg-gray-100 p-1.5 rounded-full'>
-            <ChevronLeft size={20}/>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-2xl font-bold">
+          {currentMonth.format("MMMM YYYY")}
+        </h2>
+        <div className="mr-2 flex items-center justify-center">
+          <button
+            onClick={goToPreviousMonth}
+            className="rounded-full p-1.5 hover:bg-gray-100"
+          >
+            <ChevronLeft size={20} />
           </button>
-          <button onClick={goToCurrentDay} className='pb-1 mx-2'>Today</button>
-          <button onClick={goToNextMonth} className='hover:bg-gray-100 p-1.5 rounded-full'>
-            <ChevronRight size={20}/>
+          <button onClick={goToCurrentDay} className="mx-2 pb-1">
+            Today
+          </button>
+          <button
+            onClick={goToNextMonth}
+            className="rounded-full p-1.5 hover:bg-gray-100"
+          >
+            <ChevronRight size={20} />
           </button>
         </div>
       </div>

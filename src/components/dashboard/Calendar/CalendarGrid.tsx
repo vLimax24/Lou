@@ -135,9 +135,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                     {isNoteEvent(event) ? event.text : event.title}
                   </div>
                 </div>
-                <DialogClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                    <X className="size-4"/>
-                </DialogClose>
+       
               </DialogHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
