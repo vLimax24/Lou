@@ -5,12 +5,7 @@ import { authMutation, authQuery } from "./util"
 export const getEvents = authQuery({
     args:{},
     handler: async (
-        { auth, db, user }) => {
-    
-      const identity = await auth.getUserIdentity()
-      if (!identity) {
-        throw new Error("you must be logged in to get your notes")
-      }
+        { db, user }) => {
       const events = await db
         .query("events")
         .filter(q => q.eq(q.field("userId"), user?._id))
@@ -22,11 +17,7 @@ export const getEvents = authQuery({
 
 export const getSpecificEvent = authQuery({
   args: { eventId: v.id("events") },
-  handler: async ({ auth, db }, args) => {
-    const identity = await auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("you must be logged in to get your events")
-    }
+  handler: async ({ db }, args) => {
     const event = await db
       .query("events")
       .filter(q => q.eq(q.field("_id"), args.eventId))
@@ -46,10 +37,6 @@ export const addEvent = authMutation({
        
     },
     handler: async ({ db, user }, args) => {
-      // const user = await auth.getUserIdentity();
-      if (!user) {
-        throw new Error("you must be logged in to create an event!")
-      }
       const newEvent = await db.insert("events", {
         title: args.title,
         description: args.description,

@@ -1,7 +1,7 @@
 "use client"
 import AssignmentCard from "@/components/dashboard/home/Assignments"
 import CalendarCard from "@/components/dashboard/home/Calendar"
-import GradeSheetCard from "@/components/dashboard/home/GradeSheet"
+// import GradeSheetCard from "@/components/dashboard/home/GradeSheet"
 import NotesCard from "@/components/dashboard/home/Notes"
 
 const Dashboard = () => {
@@ -17,7 +17,7 @@ const Dashboard = () => {
           <AssignmentCard />
         </div>
         <div className='flex flex-1 pt-1 pb-0 flex-col md:flex-row'>
-          <GradeSheetCard />
+          {/* <GradeSheetCard /> */}
           <NotesCard />
         </div>
       </div>

@@ -21,12 +21,7 @@ export const assignStudentSubjects = authMutation({
 
 export const getStudentSubjects = authQuery({
   args:{},
-  handler: async ({ auth, db, user }) => {
-  
-    const identity = await auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("you must be logged in to get your student subjects")
-    }
+  handler: async ({ db, user }) => {
     const studentSubjects = await db
       .query("studentSubjects")
       .filter(q => q.eq(q.field("userId"), user?._id))

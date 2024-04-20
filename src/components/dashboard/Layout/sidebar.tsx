@@ -19,7 +19,7 @@ const DashboardSidebar = () => {
   const pendingTasksCount = tasks?.filter((task) => task.status === "PENDING").length ?? 0
 
   return (
-    <div className="hidden border-r bg-muted/40 md:block">
+    <div className="hidden border-r bg-white md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -32,35 +32,35 @@ const DashboardSidebar = () => {
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
             <Link
               href="/dashboard"
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == "/dashboard" ? "bg-muted text-primary" : "bg-none text-muted-foreground"}`}
+              className={`font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <Home className="h-4 w-4" />
               Home
             </Link>
             <Link
               href="/dashboard/subjects"
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == "/dashboard/subjects" ? "bg-muted text-primary" : "bg-none text-muted-foreground"}`}
+              className={`font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/subjects" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <LibraryBig className="h-4 w-4" />
               Subjects
             </Link>
             <Link
               href="/dashboard/calendar"
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == "/dashboard/calendar" ? "bg-muted text-primary" : "bg-none text-muted-foreground"}`}
+              className={`font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/calendar" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <CalendarDays className="h-4 w-4" />
               Calendar
             </Link>
             <Link
               href="/dashboard/grade-sheet"
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == "/dashboard/grade-sheet" ? "bg-muted text-primary" : "bg-none text-muted-foreground"}`}
+              className={`font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/grade-sheet" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <GraduationCap className="h-4 w-4" />
               Grade Sheet
             </Link>
             <Link
               href="/dashboard/tasks"
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == "/dashboard/tasks" ? "bg-muted text-primary" : "bg-none text-muted-foreground"}`}
+              className={`font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/tasks" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <ListChecks className="h-4 w-4" />
               Tasks
@@ -72,14 +72,14 @@ const DashboardSidebar = () => {
             </Link>
             <Link
               href="/dashboard/notes"
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == "/dashboard/notes" ? "bg-muted text-primary" : "bg-none text-muted-foreground"}`}
+              className={`font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/notes" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <StickyNote className="h-4 w-4" />
               Notes{" "}
             </Link>
             <Link
               href="/dashboard/learn-resources"
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname == "/dashboard/learn-resources" ? "bg-muted text-primary" : "bg-none text-muted-foreground"}`}
+              className={`font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/learn-resources" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <BookA className="h-4 w-4" />
               Learn Resources

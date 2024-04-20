@@ -10,7 +10,7 @@ export const getCountries = query({
 })
 
 export const getSpecificCountry = query({
-    args: { countryId: v.id("gradingSystems") },
+    args: { countryId: v.optional(v.id("gradingSystems")) },
     handler: async (ctx, args) => {
       const country = await ctx.db
         .query("gradingSystems")

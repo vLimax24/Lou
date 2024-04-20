@@ -5,11 +5,6 @@ import { authMutation, authQuery } from "./util"
 export const getGrades = authQuery({
   args:{},
   handler: async ({ db, user }) => {
-  
-    // const identity = await auth.getUserIdentity();
-    // if (!identity) {
-    //   throw new Error('you must be logged in to get your grades');
-    // }
     const grades = await db
       .query("grades")
       .filter(q => q.eq(q.field("userId"), user?._id))
@@ -40,11 +35,7 @@ export const addGrade = authMutation({
     date: v.string(),
     subjectId: v.id("subjects")
   },
-  handler: async ({ auth, db, user }, args) => {
-    // const user = await auth.getUserIdentity();
-    if (!auth) {
-      throw new Error("you must be logged in to create a note")
-    }
+  handler: async ({ db, user }, args) => {
     const newGrade = await db.insert("grades", {
         grade: args.grade,
         topic: args.topic,

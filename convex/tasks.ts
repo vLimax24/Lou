@@ -4,11 +4,7 @@ import { asyncMap } from "convex-helpers"
 
 export const getTasks = authQuery({
   args: {},
-  handler: async ({ auth, db, user }) => {
-    const identity = await auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("you must be logged in to get your tasks")
-    }
+  handler: async ({ db, user }) => {
     const tasks = await db
     .query("tasks")
     .filter(q => q.eq(q.field("userId"), user?._id))
@@ -46,10 +42,7 @@ export const addTask = authMutation({
     status: v.string(),
     subjectId: v.optional(v.id("subjects")),
   },
-  handler: async ({ auth, db, user }, args) => {
-    if (!auth) {
-      throw new Error("you must be logged in to create a task")
-    }
+  handler: async ({ db, user }, args) => {
     const newTask = await db.insert("tasks", {
       text: args.text,
       status: args.status,

@@ -4,12 +4,7 @@ import { authMutation, authQuery } from "./util"
 
 export const getNotes = authQuery({
   args:{},
-  handler: async ({ auth, db, user }) => {
-  
-    const identity = await auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("you must be logged in to get your notes")
-    }
+  handler: async ({ db, user }) => {
     const notes = await db
       .query("notes")
       .filter(q => q.eq(q.field("userId"), user?._id))
@@ -21,12 +16,7 @@ export const getNotes = authQuery({
 
 export const getCalendarNotes = authQuery({
   args:{},
-  handler: async ({ auth, db, user }) => {
-  
-    const identity = await auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("you must be logged in to get your notes")
-    }
+  handler: async ({ db, user }) => {
 
     if(!user) return false
 
@@ -42,11 +32,7 @@ export const getCalendarNotes = authQuery({
 
 export const getSpecificNote = authQuery({
   args: { noteId: v.id("notes") },
-  handler: async ({ auth, db }, args) => {
-    const identity = await auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("you must be logged in to get your notes")
-    }
+  handler: async ({ db }, args) => {
     const note = await db
       .query("notes")
       .filter(q => q.eq(q.field("_id"), args.noteId))
@@ -70,11 +56,7 @@ export const addNote = authMutation({
     date: v.string(),
     subjectId: v.optional(v.id("subjects"))
   },
-  handler: async ({ auth, db, user }, args) => {
-    // const user = await auth.getUserIdentity();
-    if (!auth) {
-      throw new Error("you must be logged in to create a note")
-    }
+  handler: async ({ db, user }, args) => {
     const newNote = await db.insert("notes", {
       text: args.text,
       showInCalendar: args.showInCalendar,
