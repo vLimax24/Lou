@@ -2,31 +2,24 @@
 // component
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Menu, Search, CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, LibraryBig } from "lucide-react"
+import { api } from "@/convex/_generated/api"
+import { useConvexAuth, useQuery } from "convex/react"
+import { usePathname } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import {
-  BookA,
-  CalendarDays,
-  GraduationCap,
-  Home,
-  Lightbulb,
-  ListChecks,
-  Menu,
-  Search,
-  StickyNote,
-} from "lucide-react"
-// functions
 import { UserButton } from "@clerk/nextjs"
 import Link from "next/link"
 
 const DashboardHeader = () => {
+  const { isAuthenticated } = useConvexAuth()
+  const pathname = usePathname()
+  const tasks = useQuery(
+    api.tasks.getTasks,
+    !isAuthenticated ? "skip" : undefined
+  )
+
+  const pendingTasksCount = tasks?.filter((task) => task.status === "PENDING").length ?? 0
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet>
@@ -45,68 +38,70 @@ const DashboardHeader = () => {
               <Lightbulb className="h-6 w-6" />
               <span className="ml-5 text-black">StudentOS</span>
             </Link>
+            <nav className="grid items-start text-sm font-medium mr-6 mt-16">
             <Link
-              href="/dashboard/"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              href="/dashboard"
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
-              <Home className="h-5 w-5" />
+              <Home className="h-4 w-4" />
               Home
             </Link>
             <Link
-              href="/dashboard/calendar"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+              href="/dashboard/subjects"
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/subjects" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
-              <CalendarDays className="h-5 w-5" />
+              <LibraryBig className="h-4 w-4" />
+              Subjects
+            </Link>
+            <Link
+              href="/dashboard/calendar"
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/calendar" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+            >
+              <CalendarDays className="h-4 w-4" />
               Calendar
-              <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                6
-              </Badge>
             </Link>
             <Link
               href="/dashboard/grade-sheet"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/grade-sheet" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
-              <GraduationCap className="h-5 w-5" />
+              <GraduationCap className="h-4 w-4" />
               Grade Sheet
             </Link>
             <Link
               href="/dashboard/tasks"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/tasks" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
-              <ListChecks className="h-5 w-5" />
+              <ListChecks className="h-4 w-4" />
               Tasks
+              {pendingTasksCount > 0 && (
+                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primaryGray">
+                  {pendingTasksCount}
+                </Badge>
+              )}
             </Link>
             <Link
               href="/dashboard/notes"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/notes" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
-              <StickyNote className="h-5 w-5" />
-              Notes
+              <StickyNote className="h-4 w-4" />
+              Notes{" "}
             </Link>
             <Link
-              href="/dashboard/learn-ressources"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              href="/dashboard/learn-resources"
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/learn-resources" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
-              <BookA className="h-5 w-5" />
-              Learn Ressources
+              <BookA className="h-4 w-4" />
+              Learn Resources
             </Link>
           </nav>
-          <div className="mt-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle>Upgrade to Pro</CardTitle>
-                <CardDescription>
-                  Unlock all features and get unlimited access to our support
-                  team.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button size="sm" className="w-full">
-                  Upgrade
-                </Button>
-              </CardContent>
-            </Card>
+          <div className="mt-8 flex items-center">
+            <UserButton afterSignOutUrl="/" />
+            <div className="flex flex-col justify-center text-sm leading-4 ml-4">
+              <p className="text-primaryGray">John Doe</p>
+              <p className="text-mutedGray">Test@test.com</p>
+            </div>
           </div>
+          </nav>
         </SheetContent>
       </Sheet>
       <div className="w-full flex-1">

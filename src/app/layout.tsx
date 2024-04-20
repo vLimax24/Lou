@@ -8,10 +8,7 @@ import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
 import "@/styles/globals.css"
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
+const inter = Inter({ subsets: ["latin"] })
 
 // do not cache this layout
 export const revalidate = 0
@@ -21,7 +18,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en">
-        <body className={`font-sans ${inter.variable}`}>
+        <body className={inter.className}>
           <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
             {children}
           </ConvexProviderWithClerk>
