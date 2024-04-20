@@ -33,7 +33,7 @@ const DashboardLayout = ({
       <DashboardSidebar />
       <div className="flex flex-col">
         <DashboardHeader />
-        <div className="p-4">{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   )

@@ -111,6 +111,7 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primaryGray: "#303030",
+        primaryHoverGray: "#252525",
         mutedGray: "#C6C5C6",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -295,6 +296,7 @@ const config: Config = {
       {      
         pattern:        /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,    
       },  
+      ...["[#303030]"].flatMap((customColor) => [  `bg-${customColor}`,  `border-${customColor}`,  `hover:bg-${customColor}`,  `hover:border-${customColor}`,  `hover:text-${customColor}`,  `fill-${customColor}`,  `ring-${customColor}`,  `stroke-${customColor}`,  `text-${customColor}`,  `ui-selected:bg-${customColor}`,  `ui-selected:border-${customColor}`,  `ui-selected:text-${customColor}`,]),
     ],  
   plugins: [require("@headlessui/tailwindcss"), require("@tailwindcss/forms"), require("tailwindcss-animate")],
 } satisfies Config

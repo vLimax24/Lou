@@ -1,5 +1,5 @@
-import { BarChart, Card } from "@tremor/react"
-import { CardTitle, CardDescription } from "@/components/ui/card"
+import { BarChart } from "@tremor/react"
+import { Card, CardTitle, CardDescription } from "@/components/ui/card"
 import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { convertLetterToGPA } from "@/utils/gpaCalculation"
@@ -13,7 +13,6 @@ export const GradeBarChart = () => {
   const gradingSystem = country?.system
 
 
-  // Function to convert the Letter grade into GPA to display it corrctly in the bar chart
   const convertToGPA = (average: any) => {
     if (gradingSystem === "Letter") {
       if (!average) return 0
@@ -39,14 +38,13 @@ export const GradeBarChart = () => {
 
   return (
     <>
-      <Card className="w-full ml-1">
-        <CardTitle className='flex items-center justify-start'>Grades{country?.system === "Letter" && "*"}</CardTitle>
-        <CardDescription>View your current grade averages </CardDescription>
+      <Card className="w-full mr-5 mb-5 bg-white border-none p-6 ml-5">
+        <CardTitle className='flex items-center justify-start font-semibold ml-2 text-3xl'>Grades{country?.system === "Letter" && "*"}</CardTitle>
         <BarChart
           data={subjectData}
           index="subjectName"
           categories={["Total Average"]}
-          colors={["blue"]}
+          colors={["#303030"]}
           yAxisWidth={32}
           className="mt-6 block h-60"
         />

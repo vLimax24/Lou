@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
@@ -37,12 +31,11 @@ const NotesCard = ({ className, ...props }: CardProps) => {
   }
   
   return (
-      <Card className={cn("w-full md:w-2/5 mx-1 my-2 md:my-0", className)} {...props}>
+      <Card className={cn("w-full md:w-2/5 mt-5 md:my-0 border-none", className)} {...props}>
       <CardHeader>
         <Link href={"/dashboard/notes"}>
-          <CardTitle className='flex items-center justify-start'>Notes</CardTitle>
+          <CardTitle className='flex items-center justify-start font-semibold ml-2 text-3xl'>Notes</CardTitle>
         </Link>
-        <CardDescription>Your latest notes</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4 mt-2">
         <div>

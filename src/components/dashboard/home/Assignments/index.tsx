@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { api } from "@/convex/_generated/api"
 import { useConvexAuth, useQuery } from "convex/react"
@@ -25,7 +25,7 @@ const AssignmentCard = ({ className, ...props }: any) => {
     const diffA = Math.abs(dateA.diff(currentDate, "day"))
     const diffB = Math.abs(dateB.diff(currentDate, "day"))
     return diffA - diffB
-  }).filter(event => event.description === "ASSIGNMENT").slice(0, 3) || []
+  }).filter(event => event.type === "ASSIGNMENT").slice(0, 3) || []
 
   const convertToDate = (isoDate: any) => {
     const germanDate: any = dayjs(isoDate).format("DD.MM.YYYY")
@@ -46,12 +46,11 @@ const AssignmentCard = ({ className, ...props }: any) => {
     }
   }
   return (
-    <Card className={cn("w-full my-2 md:my-0 md:w-4/5 mx-1", className)} {...props}>
+    <Card className={cn("w-full mt-5 mr-5 md:my-0 md:w-4/5 border-none", className)} {...props}>
       <CardHeader>
         <Link href={"/dashboard/calendar"}>
-          <CardTitle className='flex items-center justify-start'>Assignments</CardTitle>
+          <CardTitle className='flex items-center justify-start font-semibold ml-2 text-3xl'>Assignments</CardTitle>
         </Link>
-        <CardDescription>Your upcoming Assignments</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div>

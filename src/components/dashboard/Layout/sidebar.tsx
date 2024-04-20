@@ -19,7 +19,7 @@ const DashboardSidebar = () => {
   const pendingTasksCount = tasks?.filter((task) => task.status === "PENDING").length ?? 0
 
   return (
-    <div className="hidden bg-white md:block pl-8 pt-4">
+    <div className="hidden bg-white md:block pl-8 pt-4 sticky top-0 h-screen overflow-y-hidden">
       <div className="flex h-full max-h-screen flex-col gap-2 justify-center mt-8">
         <div className="flex h-14 items-center lg:h-[60px] mr-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
