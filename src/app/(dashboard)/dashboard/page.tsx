@@ -8,7 +8,7 @@ import ActionBar from "@/components/dashboard/home/Search"
 const Dashboard = () => {
   
   return (
-    <main className="flex flex-col gap-4 lg:gap-6 lg:p-10 bg-[#FAFAFA] h-full w-full min-h-screen overflow-y-hidden">
+    
       <div className="flex flex-col rounded-lg justify-center">
         <div className='flex flex-col md:flex-row flex-1 pb-1'>
           <div className="center flex-col">
@@ -22,7 +22,7 @@ const Dashboard = () => {
           <NotesCard />
         </div>
       </div>
-    </main>
+
   )
 }
 
