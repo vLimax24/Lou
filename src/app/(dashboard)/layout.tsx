@@ -1,4 +1,5 @@
 "use client"
+import TutorialDialog from "@/components/dashboard/Dialogs/tutorial/TutorialDialog"
 import DashboardHeader from "@/components/dashboard/Layout/header"
 import DashboardSidebar from "@/components/dashboard/Layout/sidebar"
 import { api } from "@/convex/_generated/api"
@@ -14,7 +15,7 @@ const DashboardLayout = ({
 }) => {
   const router = useRouter()
   const { isAuthenticated } = useConvexAuth()
-
+  const [openDialog, setOpenDialog] = React.useState(false)
 
   const subjects = useQuery(
     api.subjects.getUserSubjects,
@@ -24,7 +25,7 @@ const DashboardLayout = ({
   useEffect(() => {
     if (!subjects || !isAuthenticated) return
     if (subjects.length <= 0) {
-      router.push("tutorial/subjects")
+      setOpenDialog(true)
     }
   }, [subjects, isAuthenticated, router])
 
@@ -33,7 +34,8 @@ const DashboardLayout = ({
       <DashboardSidebar />
       <div className="flex flex-col">
         <DashboardHeader />
-        <div>{children}</div>
+        <div className="p-4">{children}</div>
+        <TutorialDialog openDialog={openDialog} setOpenDialog={setOpenDialog}/>
       </div>
     </div>
   )
