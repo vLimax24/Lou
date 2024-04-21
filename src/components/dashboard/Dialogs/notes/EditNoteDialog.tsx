@@ -28,7 +28,11 @@ import { Pencil } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { api } from "@/convex/_generated/api"
 import { useMutation, useQuery } from "convex/react"
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   showInCalendar: z.boolean(),
@@ -38,10 +42,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export const EditNoteDialog = ({ id }: any) => {
-  const note = useQuery(
-    api.notes.getSpecificNote,
-    { noteId: id }
-  )
+  const note = useQuery(api.notes.getSpecificNote, { noteId: id })
   const editNote = useMutation(api.notes.editNote)
   const [showInCalendar, setShowInCalendar] = useState(false)
   const [date, setDate] = useState<any>(new Date())
@@ -81,13 +82,26 @@ export const EditNoteDialog = ({ id }: any) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Pencil size={20} className='hover:cursor-pointer mx-1 hover:text-green-500 duration-300'/>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] transition-all duration-300 ease-in-out">
+      <Tooltip delayDuration={50} >
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Pencil
+              size={20}
+              className="duration-300 hover:cursor-pointer hover:text-green-500"
+            />
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Edit Note</p>
+        </TooltipContent>
+      </Tooltip>
+
+      <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Note</DialogTitle>
-          <DialogDescription>Edit the parts of the note that you want to be changed!</DialogDescription>
+          <DialogDescription>
+            Edit the parts of the note that you want to be changed!
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -100,10 +114,7 @@ export const EditNoteDialog = ({ id }: any) => {
                     <FormItem>
                       <FormLabel>Note</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Clouds are white now"
-                          {...field}
-                        />
+                        <Input placeholder="Clouds are white now" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -114,14 +125,18 @@ export const EditNoteDialog = ({ id }: any) => {
                   name="showInCalendar"
                   render={() => (
                     <FormItem>
-                      <FormControl className='flex'> 
-                        <div className='flex items-center justify-between'>
-                            <Label htmlFor="showInCalendar">Show in Calendar</Label>
-                            <Switch
-                              id="showInCalendar"
-                              checked={showInCalendar}
-                              onCheckedChange={() => setShowInCalendar(!showInCalendar)}
-                            />
+                      <FormControl className="flex">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="showInCalendar">
+                            Show in Calendar
+                          </Label>
+                          <Switch
+                            id="showInCalendar"
+                            checked={showInCalendar}
+                            onCheckedChange={() =>
+                              setShowInCalendar(!showInCalendar)
+                            }
+                          />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -135,13 +150,13 @@ export const EditNoteDialog = ({ id }: any) => {
                     render={() => (
                       <FormItem>
                         <FormLabel>Pick a due date</FormLabel>
-                        <FormControl className='flex'> 
+                        <FormControl className="flex">
                           <div>
                             <Calendar
                               mode="single"
                               selected={date}
                               onSelect={setDate}
-                              className="rounded-md border w-full grid place-items-center"
+                              className="grid w-full place-items-center rounded-md border"
                             />
                           </div>
                         </FormControl>
@@ -153,7 +168,9 @@ export const EditNoteDialog = ({ id }: any) => {
               </div>
             </div>
             <DialogFooter>
-                <Button type="submit" className="w-full">Save</Button>
+              <Button type="submit" className="w-full">
+                Save
+              </Button>
             </DialogFooter>
           </form>
         </Form>

@@ -3,6 +3,7 @@ import SubjectSection from "@/components/containers/SubjectSection"
 import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
 import { AddNoteDialog } from "@/components/dashboard/Dialogs/notes/AddNoteDialog"
 import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
+import NoteCard from "@/components/dashboard/Notes/NoteCard"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { api } from "@/convex/_generated/api"
@@ -100,14 +101,7 @@ const SubjectPage = () => {
               <Loader2 className="h-12 w-12 animate-spin" />
             ) : (
               subject.subjectNotes.map(note => (
-                <Card key={note._id}>
-                  <CardHeader>
-                    <p>{note.text}</p>
-                  </CardHeader>
-                  <CardFooter>
-                    <Badge variant="outline">{note.date}</Badge>
-                  </CardFooter>
-                </Card>
+                <NoteCard note={note} key={note._id}/>
               ))
             )}
           </div>
