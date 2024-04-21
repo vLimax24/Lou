@@ -51,24 +51,6 @@ const Subjects = ({
     return selectedSubjects.includes(subjectId)
   }
 
-  // const handleFinish = () => {
-  //   if (selectedSubjects.length === 0) {
-  //     toast.error("You need to select atleast one subject.")
-  //     return
-  //   } else {
-  //     startTransition(async () => {
-  //       try {
-  //         //   await assignSubjects({ subjectIds: selectedSubjects as Id<"subjects">[] })
-  //         toast.success("Thank you.")
-  //         setFormStep(current => current + 1)
-  //       } catch (error) {
-  //         toast.error("Error Adding Students.")
-  //       }
-  //     })
-
-  //     // router.push('/dashboard/tutorial/grading-system')
-  //   }
-  // }
 
   return (
     <div>
