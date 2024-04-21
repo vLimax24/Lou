@@ -1,29 +1,29 @@
-'use client';
-import TutorialDialog from '@/components/dashboard/Dialogs/tutorial/TutorialDialog';
-import DashboardHeader from '@/components/dashboard/Layout/header';
-import DashboardSidebar from '@/components/dashboard/Layout/sidebar';
-import { api } from '@/convex/_generated/api';
-import { useConvexAuth, useQuery } from 'convex/react';
-import { useRouter } from 'next/navigation';
-import * as React from 'react';
-import { useEffect } from 'react';
+"use client"
+import TutorialDialog from "@/components/dashboard/Dialogs/tutorial/TutorialDialog"
+import DashboardHeader from "@/components/dashboard/Layout/header"
+import DashboardSidebar from "@/components/dashboard/Layout/sidebar"
+import { api } from "@/convex/_generated/api"
+import { useConvexAuth, useQuery } from "convex/react"
+import { useRouter } from "next/navigation"
+import * as React from "react"
+import { useEffect } from "react"
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
-  const { isAuthenticated } = useConvexAuth();
-  const [openDialog, setOpenDialog] = React.useState(false);
+  const router = useRouter()
+  const { isAuthenticated } = useConvexAuth()
+  const [openDialog, setOpenDialog] = React.useState(false)
 
   const subjects = useQuery(
     api.subjects.getUserSubjects,
-    !isAuthenticated ? 'skip' : undefined
-  );
+    !isAuthenticated ? "skip" : undefined
+  )
 
   useEffect(() => {
-    if (!subjects || !isAuthenticated) return;
+    if (!subjects) return
     if (subjects.length <= 0) {
-      setOpenDialog(true);
+      setOpenDialog(true)
     }
-  }, [subjects, isAuthenticated, router]);
+  }, [subjects])
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -36,7 +36,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         <TutorialDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DashboardLayout;
+export default DashboardLayout
