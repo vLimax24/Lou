@@ -70,7 +70,7 @@ export const AddNoteDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) =>{
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Note</Button>
+        <Button className="bg-primaryGray hover:bg-primaryHoverGray">Add Note</Button>
       </DialogTrigger>
       <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
         <DialogHeader>

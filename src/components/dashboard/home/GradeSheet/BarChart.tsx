@@ -38,7 +38,7 @@ export const GradeBarChart = () => {
 
   return (
     <>
-      <Card className="w-full mr-5 mb-5 bg-white border-none p-6 ml-5">
+      <Card className="w-full mr-5 mb-5 bg-white border-none p-6 ml-5 m-5">
         <CardTitle className='flex items-center justify-start font-semibold ml-2 text-3xl'>Grades{country?.system === "Letter" && "*"}</CardTitle>
         <BarChart
           data={subjectData}

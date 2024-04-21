@@ -10,8 +10,8 @@ const NotificationDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="ml-auto size-[3.45rem] border-none rounded-lg bg-primaryGray text-white hover:text-white hover:bg-primaryHoverGray">
-          <Bell className="size-6" />
+        <Button variant="outline" size="icon" className="ml-auto md:size-[3.45rem] size-12 border-none rounded-lg bg-primaryGray text-white hover:text-white hover:bg-primaryHoverGray">
+          <Bell className="size-5 md:size-6" />
           <span className="sr-only">Toggle notifications</span>
         </Button>
       </DialogTrigger>

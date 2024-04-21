@@ -1,34 +1,40 @@
-import { Card, CardContent, CardHeader, CardTitle, } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { api } from "@/convex/_generated/api"
 import { useConvexAuth, useQuery } from "convex/react"
 import dayjs from "dayjs"
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
 import Link from "next/link"
-dayjs.extend(isSameOrAfter)
-const AssignmentCard = ({ className, ...props }: any) => {
 
+dayjs.extend(isSameOrAfter)
+
+const AssignmentCard = ({ className, ...props }:any) => {
   const { isAuthenticated } = useConvexAuth()
   const events = useQuery(
     api.events.getEvents,
     !isAuthenticated ? "skip" : undefined
   )
-  
-  const sortedEvents = events?.slice(0).filter(event => {
-    const eventDate = dayjs(event.date)
-    const currentDate = dayjs()
-    return eventDate.isSameOrAfter(currentDate, "day")
-  }).sort((a, b) => {
-    const dateA = dayjs(a.date)
-    const dateB = dayjs(b.date)
-    const currentDate = dayjs()
-    const diffA = Math.abs(dateA.diff(currentDate, "day"))
-    const diffB = Math.abs(dateB.diff(currentDate, "day"))
-    return diffA - diffB
-  }).filter(event => event.type === "ASSIGNMENT").slice(0, 3) || []
 
-  const convertToDate = (isoDate: any) => {
-    const germanDate: any = dayjs(isoDate).format("DD.MM.YYYY")
+  const sortedEvents = events
+    ?.slice(0)
+    .filter((event) => {
+      const eventDate = dayjs(event.date)
+      const currentDate = dayjs()
+      return eventDate.isSameOrAfter(currentDate, "day")
+    })
+    .sort((a, b) => {
+      const dateA = dayjs(a.date)
+      const dateB = dayjs(b.date)
+      const currentDate = dayjs()
+      const diffA = Math.abs(dateA.diff(currentDate, "day"))
+      const diffB = Math.abs(dateB.diff(currentDate, "day"))
+      return diffA - diffB
+    })
+    .filter((event) => event.type === "ASSIGNMENT")
+    .slice(0, 3) || []
+
+  const convertToDate = (isoDate: string) => {
+    const germanDate = dayjs(isoDate).format("DD.MM.YYYY")
     return germanDate
   }
 
@@ -45,37 +51,51 @@ const AssignmentCard = ({ className, ...props }: any) => {
       return diffDays + " days"
     }
   }
+
   return (
-    <Card className={cn("w-full mt-5 mr-5 md:my-0 md:w-4/5 border-none", className)} {...props}>
+    <Card
+      className={cn(
+        "w-full mt-5 mr-5 md:my-0 md:w-4/5 border-none",
+        className
+      )}
+      {...props}
+    >
       <CardHeader>
         <Link href={"/dashboard/calendar"}>
-          <CardTitle className='flex items-center justify-start font-semibold ml-2 text-3xl'>Assignments</CardTitle>
+          <CardTitle className="flex items-center justify-start font-semibold ml-2 text-3xl text-primaryGray">
+            Assignments
+          </CardTitle>
         </Link>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div>
           {sortedEvents?.length > 0 ? (
-            <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {sortedEvents?.map((assignment, index) => (
                 <div
                   key={index}
-                  className="mb-0.5 w-full items-start p-4 border rounded-md hover:cursor-pointer transition-all duration-300 ease-linear"
+                  className="transition-all duration-150 ease-linear hover:scale-[1.03] mb-0.5 w-full items-start p-4 border rounded-xl hover:cursor-pointer bg-primaryGray"
                 >
                   <div className="space-y-1">
-                    <h1 className="text-sm font-semibold leading-none">
+                    <h1 className="text-sm font-semibold leading-none text-white">
                       {assignment.title}
                     </h1>
-                    <p className="text-sm text-muted-foreground">
-                    {`${convertToDate(assignment.date)} - ${calculateRemainingDays(assignment.date) === "Expired" ? "Expired" : calculateRemainingDays(assignment.date) + " left"}`}
+                    <p className="text-sm text-white">
+                      {`${convertToDate(assignment.date)} - ${
+                        calculateRemainingDays(assignment.date) === "Expired"
+                          ? "Expired"
+                          : calculateRemainingDays(assignment.date) + " left"
+                      }`}
                     </p>
-                    {/* <Badge className={`${subjectColors[assignment.subject]} text-sm text-white`}>{assignment.subject}</Badge> */}
                   </div>
                 </div>
               ))}
             </div>
           ) : (
             <div>
-              <h1 className='text-bold'>You currently don&apos;t have any assignments!</h1>
+              <h1 className="text-bold text-white">
+                You currently don&apos;t have any assignments!
+              </h1>
             </div>
           )}
         </div>
