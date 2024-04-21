@@ -4,12 +4,10 @@ import DashboardHeader from "@/components/dashboard/Layout/header"
 import DashboardSidebar from "@/components/dashboard/Layout/sidebar"
 import { api } from "@/convex/_generated/api"
 import { useConvexAuth, useQuery } from "convex/react"
-import { useRouter } from "next/navigation"
 import * as React from "react"
 import { useEffect } from "react"
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter()
   const { isAuthenticated } = useConvexAuth()
   const [openDialog, setOpenDialog] = React.useState(false)
 

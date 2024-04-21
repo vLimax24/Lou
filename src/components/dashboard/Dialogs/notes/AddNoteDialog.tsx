@@ -2,13 +2,12 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog"
 import {
   Form,
@@ -140,9 +139,7 @@ export const AddNoteDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) =>{
               </div>
             </div>
             <DialogFooter>
-              <DialogClose>
                 <Button type="submit">Add Note</Button>
-              </DialogClose>
             </DialogFooter>
           </form>
         </Form>

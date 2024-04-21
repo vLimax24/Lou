@@ -6,32 +6,36 @@ export default defineSchema({
     status: v.string(),
     text: v.string(),
     userId: v.id("users"),
-    subjectId: v.optional(v.id("subjects"))
-  }).index("by_subjectId", ["subjectId"]).index("by_userId", ["userId"]),
+    subjectId: v.optional(v.id("subjects")),
+  })
+    .index("by_subjectId", ["subjectId"])
+    .index("by_userId", ["userId"]),
   gradingSystems: defineTable({
     countryName: v.string(),
     countryCode: v.string(),
     system: v.string(),
-    possibleGrades: v.array(v.string())
+    possibleGrades: v.array(v.string()),
   }),
   notes: defineTable({
     showInCalendar: v.boolean(),
     text: v.string(),
     date: v.string(),
     userId: v.id("users"),
-    subjectId: v.optional(v.id("subjects"))
-  }).index("by_subjectId", ["subjectId"]).index("by_userId", ["userId"]),
+    subjectId: v.optional(v.id("subjects")),
+  })
+    .index("by_subjectId", ["subjectId"])
+    .index("by_userId", ["userId"]),
   users: defineTable({
     name: v.optional(v.string()),
     email: v.optional(v.string()),
     profileImage: v.optional(v.string()),
     clerkId: v.string(),
-    country: v.optional(v.id("gradingSystems"))
+    country: v.optional(v.id("gradingSystems")),
   }).index("by_clerkId", ["clerkId"]),
   subjects: defineTable({
     name: v.string(),
     color: v.optional(v.string()),
-    addedByUser: v.optional(v.boolean())
+    addedByUser: v.optional(v.boolean()),
   }),
   events: defineTable({
     title: v.string(),
@@ -40,15 +44,17 @@ export default defineSchema({
     type: v.string(),
     date: v.string(),
     userId: v.id("users"),
-    subjectId: v.optional(v.id("subjects"))
+    subjectId: v.optional(v.id("subjects")),
   }),
   grades: defineTable({
     userId: v.id("users"),
     subjectId: v.id("subjects"),
     grade: v.string(),
     topic: v.string(),
-    date: v.string()
-  }),
+    date: v.string(),
+  })
+    .index("by_subjectId", ["subjectId"])
+    .index("by_userId", ["userId"]),
   studentSubjects: defineTable({
     // many to many relationship table
     userId: v.id("users"),

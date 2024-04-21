@@ -16,11 +16,12 @@ export const getGrades = authQuery({
 
 export const getSubjectGrades = authQuery({
   args: { subjectId: v.id("subjects")},
-  handler: async ({ auth, db }, args) => {
-    const identity = await auth.getUserIdentity()
-    if (!identity) return false
+  handler: async ({ db, user }, args) => {
+    if (!user) return false
+    
     const subjectGrades = await db
       .query("grades")
+      .withIndex("by_userId", q => q.eq("userId", user._id))
       .filter(q => q.eq(q.field("subjectId"), args.subjectId))
       .collect()
 
