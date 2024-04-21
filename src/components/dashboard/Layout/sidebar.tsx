@@ -1,65 +1,77 @@
 "use client"
 import React from "react"
-import { CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, LibraryBig } from "lucide-react"
+import {
+  CalendarDays,
+  ListChecks,
+  StickyNote,
+  BookA,
+  Home,
+  GraduationCap,
+  Lightbulb,
+  LibraryBig,
+  Loader2,
+} from "lucide-react"
 import Link from "next/link"
 import { api } from "@/convex/_generated/api"
 import { useConvexAuth, useQuery } from "convex/react"
 import { Badge } from "@/components/ui/badge"
-import { UserButton } from "@clerk/nextjs"
+import { UserButton, useUser } from "@clerk/nextjs"
 import { usePathname } from "next/navigation"
 
 const DashboardSidebar = () => {
   const pathname = usePathname()
+  const { user, isLoaded } = useUser()
   const { isAuthenticated } = useConvexAuth()
   const tasks = useQuery(
     api.tasks.getTasks,
     !isAuthenticated ? "skip" : undefined
   )
 
-  const pendingTasksCount = tasks?.filter((task) => task.status === "PENDING").length ?? 0
+  const pendingTasksCount =
+    tasks?.filter(task => task.status === "PENDING").length ?? 0
 
   return (
-    <div className="hidden bg-white md:block pl-8 pt-4 sticky top-0 h-screen overflow-y-hidden">
-      <div className="flex h-full max-h-screen flex-col gap-2 justify-center mt-8">
-        <div className="flex h-14 items-center lg:h-[60px] mr-6">
+    <div className="sticky top-0 hidden h-screen overflow-y-hidden bg-white pl-8 pt-4 md:block">
+      <div className="mt-8 flex h-full max-h-screen flex-col justify-center gap-2">
+        <div className="mr-6 flex h-14 items-center lg:h-[60px]">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Lightbulb className="size-7" />
             <span className="text-xl font-bold">StudentOS</span>
           </Link>
         </div>
-        <div className="flex-1 mt-24">
-          <nav className="grid items-start text-sm font-medium mr-6">
+        <div className="mt-24 flex-1">
+          <nav className="mr-6 grid items-start text-sm font-medium">
             <Link
               href="/dashboard"
-              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <Home className="h-4 w-4" />
               Home
             </Link>
             <Link
               href="/dashboard/subjects"
-              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/subjects" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard/subjects" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <LibraryBig className="h-4 w-4" />
               Subjects
             </Link>
             <Link
               href="/dashboard/calendar"
-              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/calendar" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard/calendar" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <CalendarDays className="h-4 w-4" />
               Calendar
             </Link>
             <Link
               href="/dashboard/grade-sheet"
-              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/grade-sheet" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard/grade-sheet" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <GraduationCap className="h-4 w-4" />
               Grade Sheet
             </Link>
             <Link
               href="/dashboard/tasks"
-              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/tasks" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard/tasks" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <ListChecks className="h-4 w-4" />
               Tasks
@@ -71,14 +83,14 @@ const DashboardSidebar = () => {
             </Link>
             <Link
               href="/dashboard/notes"
-              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/notes" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard/notes" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <StickyNote className="h-4 w-4" />
               Notes{" "}
             </Link>
             <Link
               href="/dashboard/learn-resources"
-              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/learn-resources" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard/learn-resources" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <BookA className="h-4 w-4" />
               Learn Resources
@@ -87,9 +99,15 @@ const DashboardSidebar = () => {
         </div>
         <div className="mb-20 flex items-center">
           <UserButton afterSignOutUrl="/" />
-          <div className="flex flex-col justify-center text-sm leading-4 ml-4">
-            <p className="text-primaryGray">John Doe</p>
-            <p className="text-mutedGray">Test@test.com</p>
+          <div className="ml-4 flex flex-col justify-center text-sm leading-4">
+            {isLoaded ? (
+              <>
+                <p className="text-primaryGray">{user?.fullName}</p>
+                <p className="text-mutedGray">{user?.emailAddresses[0]?.emailAddress}</p>
+              </>
+            ) : (
+              <Loader2 className="h-2 w-2 animate-spin" />
+            )}
           </div>
         </div>
       </div>
