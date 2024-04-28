@@ -1,46 +1,43 @@
 "use client"
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import Tiptap from "@/components/textEditor/Tiptap"
-const TextEditor = () => {
-    const formSchema = z.object({
-        text: z.string().min(2)
-    })
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        mode: "onChange",
-        defaultValues: {
-            text: ""
-        },
-    })
+import { AddDocumentDialog } from "./AddDocumentDialog"
+import { useConvexAuth, useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import {
+  Card,
+  CardTitle,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values.text)
-    }
+const Page = () => {
+  const { isAuthenticated } = useConvexAuth()
+  const documents = useQuery(
+    api.documents.getDocuments,
+    !isAuthenticated ? "skip" : undefined
+  )
+
+
   return (
-    <main className="p-24">
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField 
-                    control={form.control}
-                    name="text"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Text</FormLabel>
-                            <FormControl>
-                                <Tiptap description={field.value} onChange={field.onChange} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </form>
-        </Form>
-    </main>
+    <div className="p-5">
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-4xl font-bold">Your Documents</h1>
+        <AddDocumentDialog />
+      </div>
+      <div>
+        {documents?.map((document) => (
+          <Card key={document._id} className="w-80 p-5 h-52 flex flex-col justify-between">
+            <CardTitle>{document.name}</CardTitle>
+              <Link href={`/dashboard/text-editor/doc/${document._id}`} className="w-full">
+                <Button className="w-full">
+                  Go to Document
+                </Button>
+              </Link>
+          </Card>
+        ))}
+      </div>
+    </div>
   )
 }
 
-export default TextEditor
+export default Page

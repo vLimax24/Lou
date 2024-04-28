@@ -7,6 +7,7 @@ import { env } from "@/env"
 import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
 import "@/styles/globals.css"
+import "@/styles/prosemirror.css"
 
 const inter = Inter({ subsets: ["latin"] })
 

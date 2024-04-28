@@ -16,6 +16,18 @@ export default defineSchema({
     system: v.string(),
     possibleGrades: v.array(v.string()),
   }),
+  documents: defineTable({
+    name: v.string(),
+    content: v.optional(v.any()),
+    lines: v.optional(v.number()),
+    users: v.optional(v.array(v.id("users"))),
+    lists: v.optional(v.array(v.object({
+      type: v.string(),
+      startLine: v.number(),
+      items: v.array(v.string()),
+    }))),
+    owner: v.id("users")
+  }),
   notes: defineTable({
     showInCalendar: v.boolean(),
     text: v.string(),
@@ -29,6 +41,7 @@ export default defineSchema({
     name: v.optional(v.string()),
     email: v.optional(v.string()),
     profileImage: v.optional(v.string()),
+    last_seen: v.optional(v.number()),
     clerkId: v.string(),
     country: v.optional(v.id("gradingSystems")),
   }).index("by_clerkId", ["clerkId"]),

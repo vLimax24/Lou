@@ -33,7 +33,7 @@ const Tiptap = ({
   return (
     <div className="flex flex-col justify-stretch min-h-[250px]">
         <Toolbar editor={editor}/>
-        <EditorContent editor={editor}/>
+        <EditorContent editor={editor} className="focus:outline-none"/>
     </div>
   )
 }

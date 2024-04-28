@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as clerk from "../clerk.js";
 import type * as countries from "../countries.js";
+import type * as documents from "../documents.js";
 import type * as events from "../events.js";
 import type * as grades from "../grades.js";
 import type * as http from "../http.js";
@@ -37,6 +38,7 @@ import type * as util from "../util.js";
 declare const fullApi: ApiFromModules<{
   clerk: typeof clerk;
   countries: typeof countries;
+  documents: typeof documents;
   events: typeof events;
   grades: typeof grades;
   http: typeof http;
