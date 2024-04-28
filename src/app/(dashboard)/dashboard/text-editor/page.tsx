@@ -24,9 +24,9 @@ const Page = () => {
         <h1 className="text-4xl font-bold">Your Documents</h1>
         <AddDocumentDialog />
       </div>
-      <div>
+      <div className="flex">
         {documents?.map((document) => (
-          <Card key={document._id} className="w-80 p-5 h-52 flex flex-col justify-between">
+          <Card key={document._id} className="w-80 p-5 h-52 flex flex-col justify-between m-4">
             <CardTitle>{document.name}</CardTitle>
               <Link href={`/dashboard/text-editor/doc/${document._id}`} className="w-full">
                 <Button className="w-full">
