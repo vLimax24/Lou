@@ -16,10 +16,12 @@ export const getDocuments = authQuery({
 export const addDocument = authMutation({
     args: {
         name: v.string(),
+        content: v.any()
     },
     handler: async ({ db, user }, args) => {
       const newDocument = await db.insert("documents", {
         name: args.name,
+        content: args.content,
         owner: user._id
       })
       return newDocument

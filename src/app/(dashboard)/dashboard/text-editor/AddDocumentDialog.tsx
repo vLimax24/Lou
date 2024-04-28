@@ -40,10 +40,18 @@ export const AddDocumentDialog = () =>{
     },
   })
 
+  const initialContent = {
+    content: [{ type: "paragraph" }, { type: "paragraph" }],
+    type: "doc",
+  }
+
+  
+
   const onSubmit = async (values: FormData) => {
     try {
       await addDocument({
-        name: values.name
+        name: values.name,
+        content: initialContent
       })
       toast.success("Document added!")
       form.reset()
