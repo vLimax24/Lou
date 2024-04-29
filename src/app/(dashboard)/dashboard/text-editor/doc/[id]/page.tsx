@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useMutation, useQuery } from "convex/react"
+import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import Editor from "@/components/editor/advanced-editor"
 import { useState, useEffect } from "react"
@@ -10,38 +10,24 @@ import { Skeleton } from "@/components/ui/skeleton"
 const TextEditor = () => {
     const params = useParams<any>()
     const docId = params.id
-    const updateDocument = useMutation(api.documents.updateContent)
     const documentQuery = useQuery(api.documents.getSpecificDocument, { documentId: docId })
     const [loading, setLoading] = useState(true)
     const [content, setContent] = useState("")
-    const [editedContent] = useState("")
+    const [editorKey, setEditorKey] = useState(0); // Add a state for the key
 
     useEffect(() => {
         if (documentQuery?.content !== undefined) {
             setContent(documentQuery?.content)
+            setEditorKey((prevKey) => prevKey + 1)
             setLoading(false)
         }
     }, [documentQuery?.content])
 
-    useEffect(() => {
-        const updateContent = async () => {
-            await updateDocument({
-                documentId: docId,
-                newContent: editedContent
-            })
-            console.log("Content updated ran successfully")
-        }
-
-        if (editedContent !== "") {
-            updateContent()
-        }
-    }, [editedContent, docId, updateDocument])
-
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <div className="flex flex-col p-6 border max-w-xl w-full gap-6 rounded-md bg-card">
+        <main className="flex flex-col items-center justify-between pr-10">
+            <div className="flex flex-col p-6 max-w-xl w-full gap-6 rounded-md bg-transparent">
                 <div className="flex justify-between">
-                    <h1 className="text-4xl font-semibold">{loading ? (<Skeleton className="w-64 h-12 rounded-md"/>) : documentQuery?.name}</h1>
+                    <h1 className="text-[3rem] font-semibold">{loading ? (<Skeleton className="w-64 h-12 rounded-md"/>) : documentQuery?.name}</h1>
                 </div>
                 {loading ? (
                     <div>
@@ -51,7 +37,7 @@ const TextEditor = () => {
                         <Skeleton className="w-56 h-8 rounded-md my-2"/>
                     </div>
                 ) : (
-                    <Editor textContent={content} docId={docId} />
+                    <Editor textContent={content} docId={docId} key={editorKey}/>
                 )}
             </div>
         </main>
