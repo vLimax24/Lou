@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/convex/_generated/api"
 import { useMutation, useQuery } from "convex/react"
 import { useParams } from "next/navigation"
-
+import ShareDocument from "./ShareDocument"
 import Tiptap from "@/components/TipTap/TipTap"
 import { useDebouncedCallback } from "use-debounce"
 
@@ -48,7 +48,7 @@ const TextEditor = () => {
   return (
     <main className="flex flex-col items-center justify-between pr-10">
       <div className="flex w-full max-w-xl flex-col gap-6 rounded-md border bg-card p-6">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <h1 className="text-[3rem] font-semibold">
             {!documentQuery ? (
               <Skeleton className="h-12 w-64 rounded-md" />
@@ -56,6 +56,9 @@ const TextEditor = () => {
               documentQuery?.name
             )}
           </h1>
+          <div>
+            <ShareDocument />
+          </div>
         </div>
         {!documentQuery ? (
           <div>

@@ -31,7 +31,7 @@ const DashboardSidebar = () => {
     tasks?.filter(task => task.status === "PENDING").length ?? 0
 
   return (
-    <div className="sticky top-0 hidden h-screen overflow-y-hidden bg-white pl-8 pt-4 md:block">
+    <div className="sticky top-0 hidden h-screen overflow-y-hidden bg-white pl-8 pt-4 md:block overflow-x-hidden">
       <div className="mt-8 flex h-full max-h-screen flex-col justify-center gap-2">
         <div className="mr-6 flex h-14 items-center lg:h-[60px]">
           <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -103,7 +103,7 @@ const DashboardSidebar = () => {
             {isLoaded ? (
               <>
                 <p className="text-primaryGray">{user?.fullName}</p>
-                <p className="text-mutedGray">{user?.emailAddresses[0]?.emailAddress}</p>
+                <p className="text-mutedGray text-[0.7rem]">{user?.emailAddresses[0]?.emailAddress}</p>
               </>
             ) : (
               <Loader2 className="h-2 w-2 animate-spin" />

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react"
 import { useSession } from "@clerk/nextjs"
 
 const colors = ["#958DF1", "#F98181", "#FBBC88", "#FAF594", "#70CFF8", "#94FADB", "#B9F18D"]
-const getRandomElement = list => list[Math.floor(Math.random() * list.length)]
+const getRandomElement = ( list:Array<string >) => list[Math.floor(Math.random() * list.length)]
 
 const getRandomColor = () => getRandomElement(colors)
 const doc = new Y.Doc()
@@ -20,7 +20,7 @@ const provider = new TiptapCollabProvider({
   name: "StudentOS.123w", // Unique document identifier for syncing. This is your document name.
   appId: "j9y886k1", // Your Cloud Dashboard AppID or `baseURL` for on-premises
   token:
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTQ1MTg1MjAsIm5iZiI6MTcxNDUxODUyMCwiZXhwIjoxNzE0NjA0OTIwLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJqOXk4ODZrMSJ9.TJRACww8IuPqo0f4UVgd2DQfeZh3TvzV48s5BGu8d0M", // Your JWT token
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTQ2NTkyNDUsIm5iZiI6MTcxNDY1OTI0NSwiZXhwIjoxNzE0NzQ1NjQ1LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJqOXk4ODZrMSJ9.MiBSVtw_mYC2B-JFfmFGedvu4qwuzXWwmJTzIZMaRHE", // Your JWT token
   document: doc,
   // onSynced: () => {
   //   if (!doc.getMap("config").get("initialContentLoaded") && editor) {
@@ -69,7 +69,7 @@ const Tiptap = ({
 
   useEffect(() => {
     // Update status changes
-    provider.on("status", event => {
+    provider.on("status", (event:any) => {
       setStatus(event.status)
     })
 
