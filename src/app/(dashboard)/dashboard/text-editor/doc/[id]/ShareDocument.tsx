@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
     Popover,
     PopoverContent,
@@ -12,54 +12,27 @@ import { Button } from "@/components/ui/button"
 import {
     EmailShareButton,
     FacebookShareButton,
-    GabShareButton,
-    HatenaShareButton,
-    InstapaperShareButton,
-    LineShareButton,
     LinkedinShareButton,
-    LivejournalShareButton,
-    MailruShareButton,
-    OKShareButton,
-    PinterestShareButton,
-    PocketShareButton,
     RedditShareButton,
     TelegramShareButton,
-    TumblrShareButton,
     TwitterShareButton,
-    ViberShareButton,
-    VKShareButton,
-    WhatsappShareButton,
-    WorkplaceShareButton,
-  } from "react-share"
-  import {
+} from "react-share"
+import {
     EmailIcon,
     FacebookIcon,
-    FacebookMessengerIcon,
-    GabIcon,
-    HatenaIcon,
-    InstapaperIcon,
-    LineIcon,
     LinkedinIcon,
-    LivejournalIcon,
-    MailruIcon,
-    OKIcon,
-    PinterestIcon,
-    PocketIcon,
     RedditIcon,
     TelegramIcon,
-    TumblrIcon,
     TwitterIcon,
-    ViberIcon,
-    VKIcon,
-    WeiboIcon,
-    WhatsappIcon,
-    WorkplaceIcon,
-    XIcon,
-  } from "react-share"
+} from "react-share"
 
 const ShareDocument = () => {
-    const currentURL = window.location.href
+    const [currentURL, setCurrentURL] = useState("")
     const [copySuccess, setCopySuccess] = useState(false)
+
+    useEffect(() => {
+        setCurrentURL(window.location.href)
+    }, [])
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(currentURL).then(() => {
@@ -77,7 +50,7 @@ const ShareDocument = () => {
                     <p className="mr-2">Share</p>
                     <Share2 size={20}/>
                 </PopoverTrigger>
-                <PopoverContent className="p-4 w-96 flex flex-col">
+                <PopoverContent className="p-4 sm:w-full mx-2 md:w-[30rem] flex flex-col">
                     <div className="flex items-center">
                         <Input value={currentURL} contentEditable="false" className="rounded-r-none focus:outline-none"/>
                         <Button className="size-10 p-3 bg-primaryGray hover:bg-primaryHoverGray rounded-l-none" onClick={copyToClipboard}>
@@ -111,3 +84,4 @@ const ShareDocument = () => {
 }
 
 export default ShareDocument
+

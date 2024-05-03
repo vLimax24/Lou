@@ -11,6 +11,7 @@ import { useDebouncedCallback } from "use-debounce"
 const TextEditor = () => {
   const params = useParams<any>()
   const docId = params.id
+  const user = useQuery(api.users.getMyUser)
   const documentQuery = useQuery(api.documents.getSpecificDocument, {
     documentId: docId,
   })
@@ -29,6 +30,8 @@ const TextEditor = () => {
 
     500
   )
+
+  const isOwner = documentQuery?.owner === user?._id
 
 //   const editor = useEditor({
 //     extensions: [StarterKit.configure({})],
@@ -56,9 +59,11 @@ const TextEditor = () => {
               documentQuery?.name
             )}
           </h1>
-          <div>
-            <ShareDocument />
-          </div>
+            {isOwner && user && (
+              <div>
+                <ShareDocument />
+              </div>
+            )}
         </div>
         {!documentQuery ? (
           <div>

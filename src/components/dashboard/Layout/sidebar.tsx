@@ -10,6 +10,7 @@ import {
   Lightbulb,
   LibraryBig,
   Loader2,
+  Bell
 } from "lucide-react"
 import Link from "next/link"
 import { api } from "@/convex/_generated/api"
@@ -33,11 +34,14 @@ const DashboardSidebar = () => {
   return (
     <div className="sticky top-0 hidden h-screen overflow-y-hidden bg-white pl-8 pt-4 md:block overflow-x-hidden">
       <div className="mt-8 flex h-full max-h-screen flex-col justify-center gap-2">
-        <div className="mr-6 flex h-14 items-center lg:h-[60px]">
+        <div className="mr-6 flex h-14 items-center lg:h-[60px] justify-between">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Lightbulb className="size-7" />
             <span className="text-xl font-bold">StudentOS</span>
           </Link>
+          <div className="rounded-full p-2 bg-primaryGray bg-opacity-15 text-primaryGray hover:cursor-pointer">
+            <Bell className="size-5"/>
+          </div>
         </div>
         <div className="mt-24 flex-1">
           <nav className="mr-6 grid items-start text-sm font-medium">

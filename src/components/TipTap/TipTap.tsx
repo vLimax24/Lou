@@ -20,7 +20,7 @@ const provider = new TiptapCollabProvider({
   name: "StudentOS.123w", // Unique document identifier for syncing. This is your document name.
   appId: "j9y886k1", // Your Cloud Dashboard AppID or `baseURL` for on-premises
   token:
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTQ2NTkyNDUsIm5iZiI6MTcxNDY1OTI0NSwiZXhwIjoxNzE0NzQ1NjQ1LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJqOXk4ODZrMSJ9.MiBSVtw_mYC2B-JFfmFGedvu4qwuzXWwmJTzIZMaRHE", // Your JWT token
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTQ3NjI0NDEsIm5iZiI6MTcxNDc2MjQ0MSwiZXhwIjoxNzE0ODQ4ODQxLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJqOXk4ODZrMSJ9.Eu0LbOjnpqY7acuLQ89aHaMTNf4bJ1z-A71S47qpcW8", // Your JWT token
   document: doc,
   // onSynced: () => {
   //   if (!doc.getMap("config").get("initialContentLoaded") && editor) {
@@ -31,7 +31,6 @@ const provider = new TiptapCollabProvider({
   // },
 })
 const Tiptap = ({
-  description,
   onChange,
 }: {
   description: string;

@@ -40,6 +40,7 @@ export default defineSchema({
   users: defineTable({
     name: v.optional(v.string()),
     email: v.optional(v.string()),
+    username: v.optional(v.string()),
     profileImage: v.optional(v.string()),
     last_seen: v.optional(v.number()),
     clerkId: v.string(),
