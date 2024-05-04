@@ -19,10 +19,13 @@ export const addDocument = authMutation({
         content: v.any()
     },
     handler: async ({ db, user }, args) => {
+      let arr = [user._id]
       const newDocument = await db.insert("documents", {
         name: args.name,
         content: args.content,
-        owner: user._id
+        owner: user._id,
+        accessType: "RESTRICTED",
+        allowedUsers: arr
       })
       return newDocument
     },
@@ -46,5 +49,41 @@ export const updateContent = authMutation({
     await ctx.db.patch(args.documentId, { content: args.newContent })
   }
 })
+
+export const updateAccessType = authMutation({
+  args: { documentId: v.id("documents"), newAccessType: v.string() },
+  handler: async(ctx, args) => {
+    await ctx.db.patch(args.documentId, { accessType: args.newAccessType })
+  }
+})
+
+// add user to allowedUsers array of document
+// documentation:
+// async function addElementToArray(ctx, id, field, value) {
+//   const doc = await ctx.db.get(id);
+//   const arr = doc[field];
+//   if (!Array.isArray(arr)) throw new Error("not an array!");
+//   arr.push(value);
+//   await ctx.db.patch(id, {[field]: arr});
+// }
+
+export const addUserToAllowedUsers = authMutation({
+  args: { documentId: v.id("documents"), userId: v.id("users") },
+  handler: async (ctx, args) => {
+    const doc = await ctx.db.get(args.documentId)
+    let arr = doc?.allowedUsers
+
+    // If allowedUsers array doesn't exist, create it with the userId
+    if (!Array.isArray(arr)) {
+      arr = [args.userId]
+    } else {
+      // If allowedUsers array exists, push the userId to it
+      arr.push(args.userId)
+    }
+
+    await ctx.db.patch(args.documentId, { allowedUsers: arr })
+  },
+})
+
 
 

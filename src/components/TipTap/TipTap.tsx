@@ -44,7 +44,7 @@ const Tiptap = ({
     extensions: [
       StarterKit.configure({ history: false,}),
       Collaboration.configure({
-        document: doc, // Configure Y.Doc for collaboration
+        document: doc,
       }),
       CollaborationCursor.configure({
         provider: provider,

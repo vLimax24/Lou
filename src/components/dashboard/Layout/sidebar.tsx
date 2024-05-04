@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useMemo } from "react"
 import {
   CalendarDays,
   ListChecks,
@@ -10,14 +10,24 @@ import {
   Lightbulb,
   LibraryBig,
   Loader2,
-  Bell
+  Bell,
+  CaseSensitive
 } from "lucide-react"
 import Link from "next/link"
 import { api } from "@/convex/_generated/api"
-import { useConvexAuth, useQuery } from "convex/react"
+import { useConvexAuth, useQuery, useMutation } from "convex/react"
 import { Badge } from "@/components/ui/badge"
 import { UserButton, useUser } from "@clerk/nextjs"
 import { usePathname } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import { Separator } from "@/components/ui/separator"
+import noNotificationSVG from "../../../../public/party-popper-svgrepo-com.svg"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 const DashboardSidebar = () => {
   const pathname = usePathname()
@@ -27,6 +37,17 @@ const DashboardSidebar = () => {
     api.tasks.getTasks,
     !isAuthenticated ? "skip" : undefined
   )
+  const deleteNotification = useMutation(api.notifications.deleteNotification)
+  const addUserToAllowedUsers = useMutation(api.documents.addUserToAllowedUsers)
+  const notifications = useQuery(api.notifications.getUserNotifications)
+  const notificationCount = useMemo(() => notifications?.length ?? 0, [notifications])
+
+  const handleAddUserToAllowedUsers = async (documentId:any, userId:any, notificationId:any) => {
+    await addUserToAllowedUsers({ documentId, userId })
+    await deleteNotification({ notificationId })
+  }
+
+
 
   const pendingTasksCount =
     tasks?.filter(task => task.status === "PENDING").length ?? 0
@@ -39,9 +60,49 @@ const DashboardSidebar = () => {
             <Lightbulb className="size-7" />
             <span className="text-xl font-bold">StudentOS</span>
           </Link>
-          <div className="rounded-full p-2 bg-primaryGray bg-opacity-15 text-primaryGray hover:cursor-pointer">
-            <Bell className="size-5"/>
-          </div>
+          <Popover>
+            <PopoverTrigger>
+              <div className="relative">
+                <Bell className="size-6" />
+                {notificationCount > 0 && (
+                  <Badge className="absolute -top-2 -right-2 rounded-full bg-red-600 hover:bg-red-700 text-[0.7rem] size-5 flex items-center justify-center">{notificationCount}</Badge>
+                )}
+              </div>
+            </PopoverTrigger>
+            <PopoverContent className="w-96">
+              <div className="flex flex-col">
+                <p className="font-bold text-xl">Notifications</p>
+                {notifications?.length === 0 ? (
+                  <div className="w-full h-full flex flex-col items-center justify-center mt-6">
+                    <Image src={noNotificationSVG} alt="no notifications" width={150} height={150} draggable={false} />
+                    <p className="mt-6 text-2xl font-bold text-primaryGray">Open the wine bottle</p>
+                    <p className="text-primaryGray">You have no notifications to worry about!</p>
+                  </div>
+                ) : (
+                  <div>
+                    <Separator className="my-2 w-full"/>
+                    {notifications?.map((notification: any) => (
+                      <div key={notification._id} className="flex flex-col">
+                        <div key={notification._id} className="flex my-1 items-start justify-between">
+                          <div className="mt-0.5 mr-2">
+                            <Image src={notification.senderImage} alt={"test"} width={48} height={48} className="rounded-full" />
+                          </div>
+                          <div className="flex flex-col items-start">
+                            <p className="text-sm text-gray-500">{notification.text}</p>
+                            <div className="flex items-center">
+                              <Button className="mr-2 h-6 text-sm w-16" onClick={() => handleAddUserToAllowedUsers(notification.documentId, notification.recieverUserId, notification._id)}>Accept</Button>
+                              <Button className="bg-gray-400 h-6 text-sm w-16" onClick={() => deleteNotification({ notificationId: notification._id })}>Decline</Button>
+                            </div>
+                          </div>
+                        </div>
+                        <Separator className="w-full my-2"/> 
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
         <div className="mt-24 flex-1">
           <nav className="mr-6 grid items-start text-sm font-medium">
@@ -98,6 +159,13 @@ const DashboardSidebar = () => {
             >
               <BookA className="h-4 w-4" />
               Learn Resources
+            </Link>
+            <Link
+              href="/dashboard/text-editor"
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard/learn-resources" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+            >
+              <CaseSensitive className="h-4 w-4" />
+              Collaboration Editor
             </Link>
           </nav>
         </div>

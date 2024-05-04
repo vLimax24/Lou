@@ -68,7 +68,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
-    "convex": "^1.10.0",
+    "convex": "^1.11.3",
     "convex-helpers": "^0.1.27",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",

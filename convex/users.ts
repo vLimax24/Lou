@@ -16,6 +16,17 @@ export const getUserById = internalQuery({
   },
 })
 
+export const getUser = authQuery({
+  args: { userId: v.id("users") },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .filter(q => q.eq(q.field("_id"), args.userId))
+      .first()
+    return user
+  },
+})
+
 export const createUser = internalMutation({
   args: {
     email: v.any(),
@@ -120,6 +131,13 @@ export const updateGradeSystem = authMutation({
   },
 })
 
+export const updateUsername = authMutation({
+  args: { username: v.string() },
+  handler: async ({ db, user }, { username }) => {
+    await db.patch(user._id, { username: username })
+  }
+})
+
 export const getMyUser = authQuery({
   args: {},
   handler: async(ctx) => ctx.user,
@@ -161,5 +179,21 @@ export const editUserSubjectAction = authAction({
     // if(!userSubject) throw new Error('Issue Editing Subject')
 
    
+  },
+})
+
+// give back 3 users with the closest result to the search term
+export const searchUsers = authQuery({
+  args: { searchTerm: v.string() },
+  handler: async (ctx, args) => {
+    if (!ctx.auth) throw new ConvexError("Not Authorized")
+    if (!ctx.user) throw new Error("Not User")
+      const users = await ctx.db
+    .query("users")
+    .withSearchIndex("search_username", (q) =>
+      q.search("username", args.searchTerm),
+    )
+    .take(2)
+    return users
   },
 })

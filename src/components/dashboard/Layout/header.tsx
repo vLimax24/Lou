@@ -2,7 +2,7 @@
 // component
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Menu, CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, LibraryBig } from "lucide-react"
+import { Menu, CalendarDays, ListChecks, StickyNote, BookA, Home, GraduationCap, Lightbulb, LibraryBig, CaseSensitive } from "lucide-react"
 import { api } from "@/convex/_generated/api"
 import { useConvexAuth, useQuery } from "convex/react"
 import { usePathname } from "next/navigation"
@@ -92,6 +92,13 @@ const DashboardHeader = () => {
             >
               <BookA className="h-4 w-4" />
               Learn Resources
+            </Link>
+            <Link
+              href="/dashboard/text-editor"
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/learn-resources" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+            >
+              <CaseSensitive className="h-4 w-4" />
+              Collaboration Editor
             </Link>
           </nav>
           <div className="mt-8 flex items-center">

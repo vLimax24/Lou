@@ -16,9 +16,20 @@ export default defineSchema({
     system: v.string(),
     possibleGrades: v.array(v.string()),
   }),
+  notifications: defineTable({
+    recieverUserId: v.id("users"),
+    senderUserId: v.optional(v.id("users")),
+    documentId: v.optional(v.id("documents")),
+    subjectId: v.optional(v.id("subjects")),
+    senderImage: v.optional(v.string()),
+    text: v.string(),
+    date: v.string(),
+  }),
   documents: defineTable({
     name: v.string(),
     content: v.optional(v.any()),
+    accessType: v.string(),
+    allowedUsers: v.optional(v.array(v.id("users"))),
     lines: v.optional(v.number()),
     users: v.optional(v.array(v.id("users"))),
     lists: v.optional(v.array(v.object({
@@ -45,6 +56,8 @@ export default defineSchema({
     last_seen: v.optional(v.number()),
     clerkId: v.string(),
     country: v.optional(v.id("gradingSystems")),
+  }).searchIndex("search_username", {
+    searchField: "username",
   }).index("by_clerkId", ["clerkId"]),
   subjects: defineTable({
     name: v.string(),

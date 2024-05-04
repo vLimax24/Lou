@@ -18,6 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import PersonalInformation from "../../Tutorial/PersonalInformation"
 
 type Props = {
   openDialog: boolean;
@@ -35,10 +36,14 @@ const TutorialDialog = ({ openDialog, setOpenDialog }: Props) => {
   const updateGradeSystem = useMutation(api.users.updateGradeSystem)
   const countries = useQuery(api.countries.getCountries)
 
+  // personal information
+  const [username, setUsername] = useState<any>(null)
+  const updateUsername = useMutation(api.users.updateUsername)
+
   //   component
   const [pending, startTransition] = useTransition()
   const [step, setStep] = useState<number>(1)
-  const totalSteps = 2
+  const totalSteps = 3
 
   const handleStep = () => {
     if (step === 1) {
@@ -68,6 +73,25 @@ const TutorialDialog = ({ openDialog, setOpenDialog }: Props) => {
           try {
             await updateGradeSystem({ gradeSystem: selectedCountry })
             toast.success("Thank you.")
+            if (step < totalSteps) {
+              toast.success("Thank you.")
+              setStep(current => current + 1)
+            }
+          } catch (error) {
+            toast.error("Error updating grade system.")
+          }
+        })
+      }
+    }
+    if (step === 3) {
+      if (!username) {
+        toast.error("Please enter your personal Information")
+        return
+      } else {
+        startTransition(async () => {
+          try {
+            await updateUsername({ username: username })
+            toast.success("Thank you.")
             setOpenDialog(false)
           } catch (error) {
             toast.error("Error updating grade system.")
@@ -83,6 +107,7 @@ const TutorialDialog = ({ openDialog, setOpenDialog }: Props) => {
         <div className="flex flex-row items-center justify-between">
           {step === 1 && <SubjectsHeader />}
           {step === 2 && <GradingSystemHeader />}
+          {step === 3 && <PersonalInformationHeader />}
           <p className="text-sm text-muted-foreground">
             Step {step}/{totalSteps}
           </p>
@@ -100,6 +125,12 @@ const TutorialDialog = ({ openDialog, setOpenDialog }: Props) => {
               countries={countries}
               selectedCountry={selectedCountry}
               setSelectedCountry={setSelectedCountry}
+            />
+          )}
+          {step === 3 && (
+            <PersonalInformation 
+              username={username}
+              setUsername={setUsername}
             />
           )}
         </ScrollArea>
@@ -140,6 +171,14 @@ const GradingSystemHeader = () => {
   return (
     <DialogHeader>
       <DialogTitle>Select your Country</DialogTitle>
+    </DialogHeader>
+  )
+}
+
+const PersonalInformationHeader = () => {
+  return (
+    <DialogHeader>
+      <DialogTitle>Enter your personal Information</DialogTitle>
     </DialogHeader>
   )
 }

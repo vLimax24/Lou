@@ -45,3 +45,5 @@ yarn-error.log*
 ./convex/_generated
 
 .env.local
+
+.env.local
