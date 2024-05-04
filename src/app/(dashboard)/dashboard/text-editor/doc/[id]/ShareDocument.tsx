@@ -6,7 +6,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { Share2, Clipboard, Check, ChevronDown, Globe, Lock } from "lucide-react"
+import { Share2, Link, Check, ChevronDown, Globe, Lock } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useParams } from "next/navigation"
@@ -88,7 +88,7 @@ const ShareDocument = ({ document } : { document: any }) => {
                     <p className="mr-2">Share</p>
                     <Share2 size={20}/>
                 </PopoverTrigger>
-                <PopoverContent className="p-4 sm:w-full mx-2 md:w-[30rem] flex flex-col">
+                <PopoverContent className="p-4 sm:w-full mx-2 md:w-[35rem] flex flex-col">
                     <h1 className="text-xl font-semibold mb-2">Share &quot;{databaseDocument.name}&quot;</h1>
                     <div className="flex flex-col mb-2">
                         <Input placeholder="Add People by Username" className="h-12" value={username} onChange={e => setUsername(e.target.value)}/>
@@ -122,41 +122,49 @@ const ShareDocument = ({ document } : { document: any }) => {
                             )}
                         </div>
                     </div>
-                    <div className="flex items-center justify-between my-4">                        
-                        <p>General Access</p>
-                        <DropdownMenu onOpenChange={() => setAccessDropdownOpen(!accessDropdownOpen)}>
-                            <DropdownMenuTrigger  className="flex bg-primaryGray text-white w-fit p-3 rounded-xl transition-all ease-linear duration-300">{capitalizeFirstLetter(databaseDocument.accessType)} <ChevronDown className={`size-6 ${accessDropdownOpen ? "rotate-180" : "rotate-0"}`}/></DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuLabel>Access Type</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="flex items-center" onClick={() => updateAccessType("RESTRICTED")}>
-                                    <div className="p-2 rounded-full mr-2">
-                                        
-                                        <Lock className="size-5"/>
-                                    </div>
-                                    <div className="flex flex-col items-start">
-                                        <h1 className="font-semibold">Restricted</h1>
-                                        <p className="text-sm">Only Users you invite can see the document</p>
-                                    </div>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="flex items-center" onClick={() => updateAccessType("EVERYONE")}>
-                                    <div className="p-2 rounded-full mr-2">
-                                        <Globe className="size-5"/>
-                                    </div>
-                                    <div className="flex flex-col items-start">
-                                        <h1 className="font-semibold">Everyone</h1>
-                                        <p className="text-sm">Everyone in the internet with the link can view it</p>
-                                    </div>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                    <div className="flex items-center justify-between">
+                        <div className="flex flex-col items-start justify-between my-4">                        
+                            <p className="mb-2">General Access</p>
+                            <DropdownMenu onOpenChange={() => setAccessDropdownOpen(!accessDropdownOpen)}>
+                                <DropdownMenuTrigger  className="flex bg-primaryGray text-white w-fit px-3 py-2 rounded-xl transition-all ease-linear duration-300">Select <ChevronDown className={`size-6 ml-2 ${accessDropdownOpen ? "rotate-180" : "rotate-0"}`}/></DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel>Access Type</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem className="flex items-center" onClick={() => updateAccessType("RESTRICTED")}>
+                                        <div className="p-2 rounded-full mr-2">
+                                            
+                                            <Lock className="size-5"/>
+                                        </div>
+                                        <div className="flex flex-col items-start">
+                                            <h1 className="font-semibold">Restricted</h1>
+                                            <p className="text-sm">Only Users you invite can see the document</p>
+                                        </div>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="flex items-center" onClick={() => updateAccessType("EVERYONE")}>
+                                        <div className="p-2 rounded-full mr-2">
+                                            <Globe className="size-5"/>
+                                        </div>
+                                        <div className="flex flex-col items-start">
+                                            <h1 className="font-semibold">Everyone</h1>
+                                            <p className="text-sm">Everyone in the internet with the link can view it</p>
+                                        </div>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                        <div className="flex items-center">
+                            <div className="flex flex-col items-end">
+                                <h1 className="font-semibold text-sm">{capitalizeFirstLetter(databaseDocument.accessType)}</h1>
+                                <p className="text-[0.7rem]">{databaseDocument.accessType === "EVERYONE" ? "Everyone in the internet with the link can view it" : "Only Users you invite can see the document"}</p>
+                            </div>
+                            {databaseDocument.accessType === "EVERYONE" ? (<Globe className="size-5 ml-2"/>) : (<Lock className="size-5 ml-2"/>)}
+                        </div>
                     </div>
                     {databaseDocument.accessType === "EVERYONE" && (
-                        <>
+                        <div className="flex items-center justify-between mt-4">
                             <div className="flex items-center">
-                                <Input value={currentURL} contentEditable="false" className="rounded-r-none focus:outline-none"/>
-                                <Button className="size-10 p-3 bg-primaryGray hover:bg-primaryHoverGray rounded-l-none" onClick={copyToClipboard}>
-                                    {copySuccess ? <Check /> : <Clipboard />}
+                                <Button className="rounded-2xl bg-primaryGray hover:bg-primaryHoverGray" onClick={copyToClipboard}>
+                                    {copySuccess ? (<div className="flex py-4"><p>Copied</p> <Check className="size-5 ml-2"/></div>) : (<div className="flex py-4"><p>Copy Link</p> <Link className="size-5 ml-2"/></div>)}
                                 </Button>
                             </div>
                             <div className="mt-2">
@@ -179,7 +187,7 @@ const ShareDocument = ({ document } : { document: any }) => {
                                     <TwitterIcon size={32} round={true} />
                                 </TwitterShareButton>
                             </div>
-                        </>
+                        </div>
                     )}
                 </PopoverContent>
             </Popover>
