@@ -2,16 +2,26 @@ import { v } from "convex/values"
 import { authMutation, authQuery } from "./util"
 
 export const getDocuments = authQuery({
-    args:{},
-    handler: async ({ db, user }) => {
-      const documents = await db
-        .query("documents")
-        .filter(q => q.eq(q.field("owner"), user?._id))
-        .collect()
-  
-      return documents
-    },
+  args: {},
+  handler: async ({ db, user }) => {
+    const documents = await db
+      .query("documents")
+      .collect()
+
+    const filteredDocuments = documents.filter(doc => {
+      return (
+        doc.owner === user?._id ||
+        (doc.allowedUsers && user?._id && doc.allowedUsers.includes(user._id))
+      )
+    })
+
+    console.log(documents)
+    console.log(filteredDocuments)
+
+    return filteredDocuments
+  },
 })
+
 
 export const addDocument = authMutation({
     args: {

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react"
 import {
     Popover,
     PopoverContent,
-    PopoverTrigger,
+    PopoverTrigger
 } from "@/components/ui/popover"
 import { Share2, Link, Check, ChevronDown, Globe, Lock } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -12,13 +12,14 @@ import { Button } from "@/components/ui/button"
 import { useParams } from "next/navigation"
 import { api } from "@/convex/_generated/api"
 import { useMutation, useQuery } from "convex/react"
+import { Id } from "@/convex/_generated/dataModel"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import {
     EmailShareButton,
@@ -26,7 +27,7 @@ import {
     LinkedinShareButton,
     RedditShareButton,
     TelegramShareButton,
-    TwitterShareButton,
+    TwitterShareButton
 } from "react-share"
 import {
     EmailIcon,
@@ -34,17 +35,19 @@ import {
     LinkedinIcon,
     RedditIcon,
     TelegramIcon,
-    TwitterIcon,
+    TwitterIcon
 } from "react-share"
 import Image from "next/image"
+import {toast} from "sonner"
 
-const ShareDocument = ({ document } : { document: any }) => {
+const ShareDocument = ({ document }: { document: any }) => {
     const [currentURL, setCurrentURL] = useState("")
     const [copySuccess, setCopySuccess] = useState(false)
     const [accessDropdownOpen, setAccessDropdownOpen] = useState(false)
     const [popoverOpen, setPopoverOpen] = useState(false) // New state for managing popover open/close
     const [username, setUsername] = useState<string>("")
-    
+    const [invitedUsers, setInvitedUsers] = useState<string[]>([])
+
     const params = useParams<any>()
     const docId = params.id
 
@@ -81,6 +84,35 @@ const ShareDocument = ({ document } : { document: any }) => {
         setPopoverOpen(!popoverOpen)
     }
 
+    const inviteUser = async (userId: Id<"users">) => {
+        switch (true) {
+            case userId === myUser?._id:
+                toast.error("You cannot invite yourself!")
+                console.log("You cannot invite yourself.")
+                return
+            case databaseDocument.allowedUsers.includes(userId):
+                toast.info("User is already in the document!")
+                console.log("User is already in the document.")
+                return
+            case invitedUsers.includes(userId):
+                toast.info("User has already been invited!")
+                console.log("User has already been invited.")
+                return
+            default:
+                await invitation({
+                    documentId: docId,
+                    recieverUserId: userId,
+                    senderUserId: myUser?._id,
+                    text: `${myUser?.username} invited you to join the document ${databaseDocument.name}`,
+                    date: new Date().toISOString(),
+                    senderImage: myUser?.profileImage
+                })
+                setInvitedUsers([...invitedUsers, userId])
+        }
+    }
+    
+    
+
     return (
         <div>
             <Popover open={popoverOpen} onOpenChange={togglePopover}>
@@ -106,10 +138,13 @@ const ShareDocument = ({ document } : { document: any }) => {
                                                 </div>
                                             </div>
                                             <div>
-                                            <Button className="font-small h-8 rounded-xl bg-primaryGray hover:bg-primaryHoverGray hover:cursor-pointer" onClick={async () => await invitation({ documentId: docId, recieverUserId: user._id, senderUserId: myUser?._id, text: `${myUser?.username} invited you to join the document ${databaseDocument.name}`, date: new Date().toISOString(), senderImage: user.profileImage })}>Invite</Button>
+                                                <Button className={`font-small h-8 rounded-xl ${invitedUsers.includes(user._id) ? "bg-green-500 hover:bg-green-600" : "bg-primaryGray hover:bg-primaryHoverGray"} hover:cursor-pointer`} onClick={() => inviteUser(user._id)}>
+                                                    {invitedUsers.includes(user._id) ? <Check className="w-4 h-4 mr-1" /> : null}
+                                                    {invitedUsers.includes(user._id) ? "Invited" : "Invite"}
+                                                </Button>
                                             </div>
                                         </div>
-                                ))}
+                                    ))}
                                 </div>
                             ) : (
                                 <>
@@ -196,5 +231,3 @@ const ShareDocument = ({ document } : { document: any }) => {
 }
 
 export default ShareDocument
-
-

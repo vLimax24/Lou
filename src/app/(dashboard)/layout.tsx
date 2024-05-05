@@ -6,6 +6,7 @@ import { api } from "@/convex/_generated/api"
 import { useConvexAuth, useQuery } from "convex/react"
 import * as React from "react"
 import { useEffect } from "react"
+import { Toaster } from "@/components/ui/sonner"
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useConvexAuth()
@@ -31,6 +32,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         <main className="flex h-full min-h-screen w-full flex-col gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6 lg:p-10">
           {children}
         </main>
+        <Toaster richColors />
         <TutorialDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
       </div>
     </div>
