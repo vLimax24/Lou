@@ -1,5 +1,8 @@
 import { v } from "convex/values"
 import { authMutation, authQuery } from "./util"
+import { useQuery } from "convex/react"
+import { api } from "./_generated/api"
+import { Id } from "./_generated/dataModel"
 
 export const getDocuments = authQuery({
   args: {},
@@ -14,9 +17,6 @@ export const getDocuments = authQuery({
         (doc.allowedUsers && user?._id && doc.allowedUsers.includes(user._id))
       )
     })
-
-    console.log(documents)
-    console.log(filteredDocuments)
 
     return filteredDocuments
   },
@@ -92,6 +92,36 @@ export const addUserToAllowedUsers = authMutation({
     }
 
     await ctx.db.patch(args.documentId, { allowedUsers: arr })
+  },
+})
+
+export const deleteDocument = authMutation({
+  args: { documentId: v.id("documents") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.documentId)
+  },
+})
+
+export const leaveDocument = authMutation({
+  args: { documentId: v.id("documents"), userId: v.id("users") },
+  handler: async (ctx, args) => {
+    const doc = await ctx.db.get(args.documentId)
+    let arr:any = doc?.allowedUsers
+    arr = arr.filter((id:any) => id !== args.userId)
+    await ctx.db.patch(args.documentId, { allowedUsers: arr })
+  },
+})
+
+export const getAllowedUsersProfileImages = authQuery({
+  args: { documentId: v.id("documents") },
+  handler: async (ctx, args) => {
+    const doc = await ctx.db.get(args.documentId)
+    let arr:any = doc?.allowedUsers
+    const allowedUsersProfileImages = await Promise.all(arr.map(async (id:Id<"users">) => {
+      const user = useQuery(api.users.getUser, { userId: id })
+      return user?.profileImage
+    }))
+    return allowedUsersProfileImages
   },
 })
 

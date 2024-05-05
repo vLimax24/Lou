@@ -95,7 +95,7 @@ const DashboardHeader = () => {
             </Link>
             <Link
               href="/dashboard/text-editor"
-              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/learn-resources" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+              className={`my-1 font-regular flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${pathname == "/dashboard/text-editor" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
             >
               <CaseSensitive className="h-4 w-4" />
               Collaboration Editor
