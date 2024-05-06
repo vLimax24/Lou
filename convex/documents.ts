@@ -1,7 +1,5 @@
 import { v } from "convex/values"
 import { authMutation, authQuery } from "./util"
-import { useQuery } from "convex/react"
-import { api } from "./_generated/api"
 import { Id } from "./_generated/dataModel"
 
 export const getDocuments = authQuery({
@@ -118,7 +116,7 @@ export const getAllowedUsersProfileImages = authQuery({
     const doc = await ctx.db.get(args.documentId)
     let arr:any = doc?.allowedUsers
     const allowedUsersProfileImages = await Promise.all(arr.map(async (id:Id<"users">) => {
-      const user = useQuery(api.users.getUser, { userId: id })
+      const user = await ctx.db.get(id)
       return user?.profileImage
     }))
     return allowedUsersProfileImages

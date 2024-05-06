@@ -16,28 +16,33 @@ const getRandomElement = ( list:Array<string >) => list[Math.floor(Math.random()
 
 const getRandomColor = () => getRandomElement(colors)
 const doc = new Y.Doc()
-const provider = new TiptapCollabProvider({
-  name: "StudentOS.123w", // Unique document identifier for syncing. This is your document name.
-  appId: "j9y886k1", // Your Cloud Dashboard AppID or `baseURL` for on-premises
-  token:
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTQ3NjI0NDEsIm5iZiI6MTcxNDc2MjQ0MSwiZXhwIjoxNzE0ODQ4ODQxLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJqOXk4ODZrMSJ9.Eu0LbOjnpqY7acuLQ89aHaMTNf4bJ1z-A71S47qpcW8", // Your JWT token
-  document: doc,
-  // onSynced: () => {
-  //   if (!doc.getMap("config").get("initialContentLoaded") && editor) {
-  //     doc.getMap("config").set("initialContentLoaded", true)
 
-  //     editor.commands.setContent(description)
-  //   }
-  // },
-})
 const Tiptap = ({
   onChange,
+  documentId
 }: {
   description: string;
   onChange: (richText: any) => void;
+  documentId: string;
 }) => {
   const [status, setStatus] = useState("connecting")
   const {session} = useSession()
+
+  const provider = new TiptapCollabProvider({
+    name: documentId,
+    appId: "6kpgeqkq",
+    token:
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTUwMDk4NjIsIm5iZiI6MTcxNTAwOTg2MiwiZXhwIjoxNzE1MDk2MjYyLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiI2a3BnZXFrcSJ9.pefyBhJgsarPA7cb6ngc-GbHd7jSh4sjFbDic3Q6JAk", // Your JWT token
+    document: doc,
+    // onSynced: () => {
+    //   if (!doc.getMap("config").get("initialContentLoaded") && editor) {
+    //     doc.getMap("config").set("initialContentLoaded", true)
+  
+    //     editor.commands.setContent(description)
+    //   }
+    // },
+  })
+
 
 
   const editor = useEditor({

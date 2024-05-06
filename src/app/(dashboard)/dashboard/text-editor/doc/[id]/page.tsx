@@ -80,7 +80,7 @@ return (
             <Skeleton className="my-2 h-8 w-56 rounded-md" />
           </div>
         ) : (
-          <Tiptap description={documentQuery.content} onChange={debouncedUpdates}/>
+          <Tiptap description={documentQuery.content} onChange={debouncedUpdates} documentId={documentQuery._id} />
         )}
       </div>
     </main>
@@ -122,7 +122,7 @@ return (
               <Skeleton className="my-2 h-8 w-56 rounded-md" />
             </div>
           ) : (
-            <Tiptap description={documentQuery.content} onChange={debouncedUpdates}/>
+            <Tiptap description={documentQuery.content} onChange={debouncedUpdates} documentId={documentQuery._id}/>
           )}
         </div>
       </main>

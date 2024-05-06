@@ -30,13 +30,7 @@ export default defineSchema({
     content: v.optional(v.any()),
     accessType: v.string(),
     allowedUsers: v.optional(v.array(v.id("users"))),
-    lines: v.optional(v.number()),
     users: v.optional(v.array(v.id("users"))),
-    lists: v.optional(v.array(v.object({
-      type: v.string(),
-      startLine: v.number(),
-      items: v.array(v.string()),
-    }))),
     owner: v.id("users")
   }),
   notes: defineTable({
