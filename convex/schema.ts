@@ -76,6 +76,17 @@ export default defineSchema({
   })
     .index("by_subjectId", ["subjectId"])
     .index("by_userId", ["userId"]),
+  labels: defineTable({
+    name: v.string(),
+    color: v.string(),
+  }).index("by_name", ["name"]),
+  // many to many relationship table
+  entityLabels: defineTable({
+    entityId: v.union(v.id("events"), v.id("notes"), v.id("documents")),
+    labelId: v.id("labels"),
+  })
+    .index("by_entityId", ["entityId"])
+    .index("by_labelId", ["labelId"]),
   studentSubjects: defineTable({
     // many to many relationship table
     userId: v.id("users"),
@@ -84,47 +95,4 @@ export default defineSchema({
   })
     .index("by_subjectId", ["subjectId"])
     .index("by_userId", ["userId"]),
-
-  // users: defineTable({
-  //   name: v.string(),
-  //   email: v.string(),
-  //   image: v.string(),
-  //   id: v.id("users"),
-  //   calendarEntry: v.object({
-  //     title: v.string(),
-  //     description: v.string(),
-  //     date: v.string(),
-  //     type: v.string(),
-  //     id: v.id("calendarEntry"),
-  //   }),
-  //   note: v.object({
-  //     title: v.string(),
-  //     description: v.string(),
-  //     subject: v.optional(v.string()),
-  //     dueDate: v.optional(v.string()),
-  //     showInCalender: v.boolean(),
-  //     id: v.id("note"),
-  //   }),
-  //   task: v.object({
-  //     title: v.string(),
-  //     description: v.string(),
-  //     subject: v.optional(v.string()),
-  //     dueDate: v.optional(v.string()),
-  //     showInCalender: v.boolean(),
-  //     id: v.id("task"),
-  //   }),
-  //   provider: v.optional(v.string()),
-  //   grade: v.object({
-  //     subject: v.object({
-  //       grade: v.object({
-  //         date: v.string(),
-  //         topic: v.string(),
-  //         type: v.string(),
-  //         id: v.id("grade"),
-  //       }),
-  //       subjectAverage: v.string()
-  //     }),
-  //     totalAverage: v.string(),
-  //   })
-  // }),
 })
