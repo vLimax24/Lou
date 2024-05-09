@@ -7,7 +7,13 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { LabelSelector } from "./LabelSelector"
+import { TagIcon } from "lucide-react"
 
 type Props = {
   entityId: any;
@@ -16,9 +22,19 @@ type Props = {
 export const LabelSelectorDialog = ({ entityId }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger>
-          Add Label
-      </DialogTrigger>
+      <Tooltip delayDuration={50} >
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <TagIcon
+              size={20}
+              className="duration-300 hover:cursor-pointer hover:text-green-500"
+            />
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Add Label</p>
+        </TooltipContent>
+      </Tooltip>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Label</DialogTitle>

@@ -16,13 +16,22 @@ import { CalendarDays, Trash } from "lucide-react"
 import { toast } from "sonner"
 import { LabelSelectorDialog } from "../Dialogs/Labels/LabelSelectorDialog"
 import LabelBadge from "@/components/common/LabelBadge"
-import { Card, CardFooter } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 
 type Note = {
   _id: Id<"notes">;
   _creationTime: number;
   subjectId?: Id<"subjects">;
   text: string;
+  description: string;
   userId: Id<"users">;
   date: string;
   showInCalendar: boolean;
@@ -53,59 +62,58 @@ const NoteCard = ({ note }: Props) => {
   }
 
   return (
-    <Card key={note._id}>
-      <div className="flex flex-col items-start justify-start p-4">
-        <p className="text-lg font-semibold">{note.text}</p>
-      </div>
-      <div className="flex items-center justify-between gap-2">
+    <Card key={note._id} >
+      <CardHeader className="min-h-[150px]">
+        <CardTitle className="flex items-center justify-between">
+          {note.text}
+          <p className="text-sm text-gray-500 mt-2">{formatDate(note.date)}</p>
+        </CardTitle>
+        <CardDescription>{note.description}</CardDescription>
+      </CardHeader>
+      <CardContent>
         <LabelBadge labels={note.labels} />
-      </div>
-
-      <CardFooter>
-        <div className="mt-auto flex w-full items-center justify-between border-t border-gray-200 px-4 py-2 text-gray-700">
-          <p className="text-sm text-gray-500">{formatDate(note.date)}</p>
-          <TooltipProvider>
-            <div className="flex items-center">
-              {note?.showInCalendar && (
-                <div>
-                  <Tooltip delayDuration={50}>
-                    <TooltipTrigger asChild>
-                      <Link href={"/dashboard/calendar"}>
-                        <CalendarDays
-                          size={20}
-                          className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
-                        />
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>View in Calendar</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              )}
+        
+      </CardContent>
+      <CardFooter className='justify-between'>
+        <TooltipProvider>
+            {note?.showInCalendar && (
               <div>
                 <Tooltip delayDuration={50}>
                   <TooltipTrigger asChild>
-                    <Trash
-                      size={20}
-                      className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
-                      onClick={() => handleDeleteNote(note._id)}
-                    />
+                    <Link href={"/dashboard/calendar"}>
+                      <CalendarDays
+                        size={20}
+                        className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
+                      />
+                    </Link>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Delete Note</p>
+                    <p>View in Calendar</p>
                   </TooltipContent>
                 </Tooltip>
               </div>
-              <div>
-                <EditNoteDialog id={note?._id} />
-              </div>
-              <div>
-                <LabelSelectorDialog entityId={note?._id} />
-              </div>
+            )}
+            <div>
+              <Tooltip delayDuration={50}>
+                <TooltipTrigger asChild>
+                  <Trash
+                    size={20}
+                    className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
+                    onClick={() => handleDeleteNote(note._id)}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Delete Note</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
-          </TooltipProvider>
-        </div>
+            <div>
+              <EditNoteDialog id={note?._id} />
+            </div>
+            <div>
+              <LabelSelectorDialog entityId={note?._id} />
+            </div>
+        </TooltipProvider>
       </CardFooter>
     </Card>
   )

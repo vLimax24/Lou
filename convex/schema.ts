@@ -36,6 +36,7 @@ export default defineSchema({
   notes: defineTable({
     showInCalendar: v.boolean(),
     text: v.string(),
+    description: v.string(),
     date: v.string(),
     userId: v.id("users"),
     subjectId: v.optional(v.id("subjects")),

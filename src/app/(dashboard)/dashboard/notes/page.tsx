@@ -23,7 +23,7 @@ const Page = () => {
       {!notes ? (
         <Loader2 className="h-6 w-6 animate-spin" />
       ) : (
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {notes.map((note, index) => (
             <NoteCard note={note} key={`${note._id}${index}`} />
           ))}

@@ -76,12 +76,14 @@ export const addNote = authMutation({
   args: {
     showInCalendar: v.boolean(),
     text: v.string(),
+    description: v.string(),
     date: v.string(),
     subjectId: v.optional(v.id("subjects")),
   },
   handler: async ({ db, user }, args) => {
     const newNote = await db.insert("notes", {
       text: args.text,
+      description: args.description,
       showInCalendar: args.showInCalendar,
       date: args.date,
       userId: user._id,

@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Dialog,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog"
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -16,60 +16,69 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { api } from "@/convex/_generated/api"
-import { Id } from "@/convex/_generated/dataModel"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "convex/react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from 'convex/react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
 const formSchema = z.object({
   text: z.string().min(2).max(50),
+  description: z.string().min(10).max(150),
   showInCalendar: z.boolean(),
   date: z.date(),
-})
+});
 
 type FormData = z.infer<typeof formSchema>;
 
-export const AddNoteDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) =>{
-  const addNote = useMutation(api.notes.addNote)
+export const AddNoteDialog = ({
+  subjectId,
+}: {
+  subjectId?: Id<'subjects'>;
+}) => {
+  const addNote = useMutation(api.notes.addNote);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      text: "",
+      text: '',
+      description: '',
       showInCalendar: false,
       date: new Date(),
     },
-  })
+  });
 
   const onSubmit = async (values: FormData) => {
     try {
-      const formattedDate = values.date.toISOString()
+      const formattedDate = values.date.toISOString();
 
       await addNote({
         text: values.text,
+        description: values.description,
         showInCalendar: values.showInCalendar,
         date: formattedDate,
         subjectId: subjectId,
-      })
-      toast.success("Note added!")
-      form.reset()
+      });
+      toast.success('Note added!');
+      form.reset();
     } catch (error) {
-      toast.error("Error Adding Note!")
+      toast.error('Error Adding Note!');
     }
-
-  }
+  };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-primaryGray hover:bg-primaryHoverGray">Add Note</Button>
+        <Button className="bg-primaryGray hover:bg-primaryHoverGray">
+          Add Note
+        </Button>
       </DialogTrigger>
       <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
         <DialogHeader>
@@ -95,8 +104,21 @@ export const AddNoteDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) =>{
                 />
                 <FormField
                   control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea  className="resize-none" placeholder="A brief description of the note" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="showInCalendar"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem>
                       <FormControl className="flex">
                         <div className="flex items-center justify-between">
@@ -118,7 +140,7 @@ export const AddNoteDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) =>{
                   <FormField
                     control={form.control}
                     name="date"
-                    render={({field}) => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Pick a due date</FormLabel>
                         <FormControl className="flex">
@@ -139,11 +161,11 @@ export const AddNoteDialog = ({ subjectId }: { subjectId?: Id<"subjects"> }) =>{
               </div>
             </div>
             <DialogFooter>
-                <Button type="submit">Add Note</Button>
+              <Button type="submit">Add Note</Button>
             </DialogFooter>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
