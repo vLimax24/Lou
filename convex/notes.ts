@@ -1,24 +1,38 @@
 import { v } from "convex/values"
 import { mutation } from "./_generated/server"
 import { authMutation, authQuery } from "./util"
+import { asyncMap } from "convex-helpers"
+import { getManyVia } from "convex-helpers/server/relationships"
 
 export const getNotes = authQuery({
-  args:{},
+  args: {},
   handler: async ({ db, user }) => {
+    if (!user) return false
+
     const notes = await db
       .query("notes")
-      .filter(q => q.eq(q.field("userId"), user?._id))
+      .withIndex("by_userId", q => q.eq("userId", user._id))
       .collect()
 
-    return notes
+    const notesWithLabels = await asyncMap(notes, async note => {
+      const labels = await getManyVia(
+        db,
+        "entityLabels",
+        "labelId",
+        "by_entityId",
+        note._id
+      )
+      return { ...note, labels }
+    })
+
+    return notesWithLabels
   },
 })
 
 export const getCalendarNotes = authQuery({
-  args:{},
+  args: {},
   handler: async ({ db, user }) => {
-
-    if(!user) return false
+    if (!user) return false
 
     const notes = await db
       .query("notes")
@@ -43,10 +57,19 @@ export const getSpecificNote = authQuery({
 })
 
 export const editNote = authMutation({
-  args: { noteId: v.id("notes"), newText: v.string(), newDate: v.string(), newShowInCalendar: v.boolean()},
-  handler: async(ctx, args) => {
-    await ctx.db.patch(args.noteId, {text: args.newText, showInCalendar: args.newShowInCalendar, date: args.newDate})
-  }
+  args: {
+    noteId: v.id("notes"),
+    newText: v.string(),
+    newDate: v.string(),
+    newShowInCalendar: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.noteId, {
+      text: args.newText,
+      showInCalendar: args.newShowInCalendar,
+      date: args.newDate,
+    })
+  },
 })
 
 export const addNote = authMutation({
@@ -54,7 +77,7 @@ export const addNote = authMutation({
     showInCalendar: v.boolean(),
     text: v.string(),
     date: v.string(),
-    subjectId: v.optional(v.id("subjects"))
+    subjectId: v.optional(v.id("subjects")),
   },
   handler: async ({ db, user }, args) => {
     const newNote = await db.insert("notes", {
@@ -62,7 +85,7 @@ export const addNote = authMutation({
       showInCalendar: args.showInCalendar,
       date: args.date,
       userId: user._id,
-      subjectId: args.subjectId
+      subjectId: args.subjectId,
     })
     return newNote
   },

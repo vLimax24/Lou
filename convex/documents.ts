@@ -1,12 +1,15 @@
 import { v } from "convex/values"
 import { authMutation, authQuery } from "./util"
 import { Id } from "./_generated/dataModel"
+import { asyncMap } from "convex-helpers"
+import { getManyVia } from "convex-helpers/server/relationships"
 
 export const getDocuments = authQuery({
   args: {},
   handler: async ({ db, user }) => {
     const documents = await db
       .query("documents")
+
       .collect()
 
     const filteredDocuments = documents.filter(doc => {
@@ -16,27 +19,40 @@ export const getDocuments = authQuery({
       )
     })
 
-    return filteredDocuments
+    const documentsWithLabels = await asyncMap(
+      filteredDocuments,
+      async document => {
+        const labels = await getManyVia(
+          db,
+          "entityLabels",
+          "labelId",
+          "by_entityId",
+          document._id
+        )
+        return { ...document, labels }
+      }
+    )
+
+    return documentsWithLabels
   },
 })
 
-
 export const addDocument = authMutation({
-    args: {
-        name: v.string(),
-        content: v.any()
-    },
-    handler: async ({ db, user }, args) => {
-      let arr = [user._id]
-      const newDocument = await db.insert("documents", {
-        name: args.name,
-        content: args.content,
-        owner: user._id,
-        accessType: "RESTRICTED",
-        allowedUsers: arr
-      })
-      return newDocument
-    },
+  args: {
+    name: v.string(),
+    content: v.any(),
+  },
+  handler: async ({ db, user }, args) => {
+    let arr = [user._id]
+    const newDocument = await db.insert("documents", {
+      name: args.name,
+      content: args.content,
+      owner: user._id,
+      accessType: "RESTRICTED",
+      allowedUsers: arr,
+    })
+    return newDocument
+  },
 })
 
 export const getSpecificDocument = authQuery({
@@ -53,16 +69,16 @@ export const getSpecificDocument = authQuery({
 
 export const updateContent = authMutation({
   args: { documentId: v.id("documents"), newContent: v.optional(v.any()) },
-  handler: async(ctx, args) => {
+  handler: async (ctx, args) => {
     await ctx.db.patch(args.documentId, { content: args.newContent })
-  }
+  },
 })
 
 export const updateAccessType = authMutation({
   args: { documentId: v.id("documents"), newAccessType: v.string() },
-  handler: async(ctx, args) => {
+  handler: async (ctx, args) => {
     await ctx.db.patch(args.documentId, { accessType: args.newAccessType })
-  }
+  },
 })
 
 // add user to allowedUsers array of document
@@ -104,8 +120,8 @@ export const leaveDocument = authMutation({
   args: { documentId: v.id("documents"), userId: v.id("users") },
   handler: async (ctx, args) => {
     const doc = await ctx.db.get(args.documentId)
-    let arr:any = doc?.allowedUsers
-    arr = arr.filter((id:any) => id !== args.userId)
+    let arr: any = doc?.allowedUsers
+    arr = arr.filter((id: any) => id !== args.userId)
     await ctx.db.patch(args.documentId, { allowedUsers: arr })
   },
 })
@@ -114,14 +130,13 @@ export const getAllowedUsersProfileImages = authQuery({
   args: { documentId: v.id("documents") },
   handler: async (ctx, args) => {
     const doc = await ctx.db.get(args.documentId)
-    let arr:any = doc?.allowedUsers
-    const allowedUsersProfileImages = await Promise.all(arr.map(async (id:Id<"users">) => {
-      const user = await ctx.db.get(id)
-      return user?.profileImage
-    }))
+    let arr: any = doc?.allowedUsers
+    const allowedUsersProfileImages = await Promise.all(
+      arr.map(async (id: Id<"users">) => {
+        const user = await ctx.db.get(id)
+        return user?.profileImage
+      })
+    )
     return allowedUsersProfileImages
   },
 })
-
-
-

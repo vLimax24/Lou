@@ -17,9 +17,11 @@ import type {
 import type * as clerk from "../clerk.js";
 import type * as countries from "../countries.js";
 import type * as documents from "../documents.js";
+import type * as entityLabels from "../entityLabels.js";
 import type * as events from "../events.js";
 import type * as grades from "../grades.js";
 import type * as http from "../http.js";
+import type * as labels from "../labels.js";
 import type * as notes from "../notes.js";
 import type * as notifications from "../notifications.js";
 import type * as studentSubjects from "../studentSubjects.js";
@@ -40,9 +42,11 @@ declare const fullApi: ApiFromModules<{
   clerk: typeof clerk;
   countries: typeof countries;
   documents: typeof documents;
+  entityLabels: typeof entityLabels;
   events: typeof events;
   grades: typeof grades;
   http: typeof http;
+  labels: typeof labels;
   notes: typeof notes;
   notifications: typeof notifications;
   studentSubjects: typeof studentSubjects;
