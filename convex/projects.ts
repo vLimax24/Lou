@@ -7,6 +7,7 @@ export const addProject = authMutation({
         name: v.string(),
         description: v.string(),
         subject: v.id("subjects"),
+        deadline: v.string(),
     },
     handler: async ({ db, user }, args) => {
         const newProject = await db.insert("projects", {
@@ -15,6 +16,7 @@ export const addProject = authMutation({
             subject: args.subject,
             owner: user._id,
             pinned: false,
+            deadline: args.deadline,
         })
         return newProject
     },

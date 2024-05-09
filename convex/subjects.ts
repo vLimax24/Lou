@@ -13,6 +13,15 @@ export const getAllSubjects = query({
   },
 })
 
+export const getSubject = authQuery({
+  args: { subjectId: v.id("subjects") },
+  handler: async (ctx, args) => {
+    const subject = await ctx.db.get(args.subjectId)
+
+    return subject
+  },
+})
+
 export const getSubjectData = authQuery({
   args: { subjectId: v.id("subjects") },
   handler: async (ctx, args) => {

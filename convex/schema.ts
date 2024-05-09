@@ -75,6 +75,7 @@ export default defineSchema({
     owner: v.id("users"),
     pinned: v.boolean(),
     icon: v.optional(v.string()),
+    deadline: v.string(),
     subject: v.id("subjects"),
     linkedDocuments: v.optional(v.array(v.id("documents"))),
     linkedNotes: v.optional(v.array(v.id("notes"))),
