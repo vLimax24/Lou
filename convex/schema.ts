@@ -50,6 +50,7 @@ export default defineSchema({
     last_seen: v.optional(v.number()),
     clerkId: v.string(),
     country: v.optional(v.id("gradingSystems")),
+    levelExperience: v.optional(v.number()),
   }).searchIndex("search_username", {
     searchField: "username",
   }).index("by_clerkId", ["clerkId"]),
@@ -69,16 +70,17 @@ export default defineSchema({
   }),
   projects: defineTable({
     name: v.string(),
+    description : v.string(),
     allowedUsers: v.optional(v.array(v.id("users"))),
     owner: v.id("users"),
     pinned: v.boolean(),
     icon: v.optional(v.string()),
+    subject: v.id("subjects"),
     linkedDocuments: v.optional(v.array(v.id("documents"))),
     linkedNotes: v.optional(v.array(v.id("notes"))),
     linkedTasks: v.optional(v.array(v.id("tasks"))),
     linkedGrades: v.optional(v.array(v.id("grades"))),
-    levelExperience: v.number(),
-  }),
+  }).index("by_owner", ["owner"]),
   teamProjectWorkItems: defineTable({
     projectId: v.id("projects"),
     name: v.string(),

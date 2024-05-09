@@ -24,6 +24,7 @@ import type * as http from "../http.js";
 import type * as labels from "../labels.js";
 import type * as notes from "../notes.js";
 import type * as notifications from "../notifications.js";
+import type * as projects from "../projects.js";
 import type * as studentSubjects from "../studentSubjects.js";
 import type * as subjects from "../subjects.js";
 import type * as tasks from "../tasks.js";
@@ -49,6 +50,7 @@ declare const fullApi: ApiFromModules<{
   labels: typeof labels;
   notes: typeof notes;
   notifications: typeof notifications;
+  projects: typeof projects;
   studentSubjects: typeof studentSubjects;
   subjects: typeof subjects;
   tasks: typeof tasks;

@@ -11,7 +11,8 @@ import {
   LibraryBig,
   Loader2,
   Bell,
-  CaseSensitive
+  CaseSensitive,
+  FolderKanban
 } from "lucide-react"
 import Link from "next/link"
 import { api } from "@/convex/_generated/api"
@@ -126,6 +127,13 @@ const DashboardSidebar = () => {
             >
               <CalendarDays className="h-4 w-4" />
               Calendar
+            </Link>
+            <Link
+              href="/dashboard/projects"
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == "/dashboard/projects" ? "bg-primaryGray text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryGray"}`}
+            >
+              <FolderKanban className="h-4 w-4" />
+              Projects
             </Link>
             <Link
               href="/dashboard/grade-sheet"
