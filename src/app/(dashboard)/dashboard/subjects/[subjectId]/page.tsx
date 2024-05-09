@@ -89,8 +89,8 @@ const SubjectPage = () => {
             {!subject.subjectNotes ? (
               <Loader2 className="h-12 w-12 animate-spin" />
             ) : (
-              subject.subjectNotes.map(note => (
-                <NoteCard note={note} key={note._id} />
+              subject.subjectNotes.map((note:any) => (
+                <NoteCard note={note} key={note._id}/>
               ))
             )}
           </div>
