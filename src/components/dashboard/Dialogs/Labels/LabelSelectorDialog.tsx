@@ -6,8 +6,8 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger
-} from "@/components/ui/dialog";
-import { LabelSelector } from "./LabelSelector";
+} from "@/components/ui/dialog"
+import { LabelSelector } from "./LabelSelector"
 
 type Props = {
   entityId: any;

@@ -1,4 +1,4 @@
-import { Id } from "@/convex/_generated/dataModel";
+import { Id } from "@/convex/_generated/dataModel"
 
 export type Label = {
     _id: Id<"labels">;

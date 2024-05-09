@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge";
-import { LabelsArray } from "@/types/label";
+import { Badge } from "@/components/ui/badge"
+import { LabelsArray } from "@/types/label"
 
 
 
