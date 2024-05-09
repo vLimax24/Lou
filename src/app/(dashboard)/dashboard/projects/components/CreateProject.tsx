@@ -15,7 +15,6 @@ import { Calendar } from "@/components/ui/calendar"
 const CreateProject = () => {
     const [selectedSubject, setSelectedSubject] = useState<any>(null)
     const [selectedSubjectId, setSelectedSubjectId] = useState<any>("")
-    console.log(selectedSubjectId)
     const [name, setName] = useState<string>("")
     const [deadline, setDeadline] = useState<Date>()
     const [description, setDescription] = useState<string>("")
@@ -24,7 +23,6 @@ const CreateProject = () => {
     const subjects = useQuery(api.studentSubjects.getUserSubjects)
 
     const formattedDate = deadline?.toISOString() || ""
-    console.log(formattedDate)
 
     return (
         <div className="w-full">
@@ -75,7 +73,14 @@ const CreateProject = () => {
                         </div>
                     </div>
                     <div className="mt-4 flex items-center w-full justify-end">
-                        <Button className=" bg-primaryGray hover:bg-primaryHoverGray" onClick={() => createNewProject({ name: name, description: description, subject: selectedSubjectId, deadline: formattedDate })}>Create Project</Button>
+                        <Button className=" bg-primaryGray hover:bg-primaryHoverGray" onClick={() => {
+                            createNewProject({ name: name, description: description, subject: selectedSubjectId, deadline: formattedDate })
+                            setName("")
+                            setDescription("")
+                            setSelectedSubjectId("")
+                            setSelectedSubject(null)
+                            setDeadline(new Date())
+                        }}>Create Project</Button>
                     </div>
                 </SheetContent>
             </Sheet>

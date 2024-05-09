@@ -7,10 +7,24 @@ import { Id } from "@/convex/_generated/dataModel"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Progress } from "@/components/ui/progress"
+import { MoreVertical } from "lucide-react"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu"
 
-const ProjectsBody = () => {
+const ProjectsBody = ({ searchQuery }:any) => {
 
     const projects = useQuery(api.projects.getProjects)
+
+    const filteredProjects = projects?.filter((project) =>
+        project.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    
 
     const calculatePercentagePassed = (creationDate: Date, deadline: Date) => {
         const currentDate = new Date()
@@ -55,7 +69,7 @@ const ProjectsBody = () => {
 
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
-            {projects?.map((project: any) => {
+            {filteredProjects?.map((project: any) => {
                 const deadline: Date = new Date(project.deadline)
                 const creationDate: Date = new Date(project._creationTime)
                 const formattedCreationDate = creationDate?.toLocaleDateString()
@@ -64,7 +78,6 @@ const ProjectsBody = () => {
                 const percentagePassed = calculatePercentagePassed(creationDate, deadline)
                 let progressValue = Math.min(percentagePassed, 100)
                 
-                // If percentagePassed is less than 5%, set progressValue to 5%
                 if (percentagePassed < 5) {
                     progressValue = 5
                 }
@@ -82,8 +95,20 @@ const ProjectsBody = () => {
                                         <GetUserSubject subjectId={project.subject} />
                                     </div>
                                 </div>
-                                <div className="flex items-center justify-center">
-                                    {/* actions dropdown */}
+                                <div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger>
+                                            <MoreVertical className="size-5" />
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem>Profile</DropdownMenuItem>
+                                            <DropdownMenuItem>Billing</DropdownMenuItem>
+                                            <DropdownMenuItem>Team</DropdownMenuItem>
+                                            <DropdownMenuItem>Subscription</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                             </div>
                             <div className="flex flex-col mt-4">
