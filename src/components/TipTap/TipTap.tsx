@@ -1,5 +1,6 @@
 "use client"
 import "./tiptap.style.css"
+import { useMemo } from "react"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Toolbar from "./Toolbar"
@@ -27,8 +28,8 @@ const Tiptap = ({
 }) => {
   const [status, setStatus] = useState("connecting")
   const {session} = useSession()
-
-  const provider = new TiptapCollabProvider({
+// wra[ provider in useMemo hook
+  const provider = useMemo(() => new TiptapCollabProvider({
     name: documentId,
     appId: "6kpgeqkq",
     token:
@@ -36,12 +37,13 @@ const Tiptap = ({
     document: doc,
     // onSynced: () => {
     //   if (!doc.getMap("config").get("initialContentLoaded") && editor) {
+      
     //     doc.getMap("config").set("initialContentLoaded", true)
-  
+      
     //     editor.commands.setContent(description)
     //   }
     // },
-  })
+  }), [documentId])
 
 
 
@@ -77,7 +79,7 @@ const Tiptap = ({
       setStatus(event.status)
     })
 
-  }, [])
+  }, [provider])
 
 
   return (

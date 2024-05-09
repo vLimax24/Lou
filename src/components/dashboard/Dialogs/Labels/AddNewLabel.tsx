@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { api } from "@/convex/_generated/api"
-import { Id } from "@/convex/_generated/dataModel"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "convex/react"
 import { useForm } from "react-hook-form"
@@ -32,10 +31,6 @@ const formSchema = z.object({
 })
 
 type FormData = z.infer<typeof formSchema>;
-
-type LabelFormProps = {
-  entityId?: Id<"notes"> | Id<"events"> | Id<"documents">;
-};
 
 export const AddLabelDialog = () => {
   const addLabel = useMutation(api.labels.addLabel)
