@@ -1,9 +1,9 @@
-import ProjectsHeader from "./components/ProjectsHeader"
+import ProjectsSection from "./components/ProjectsHeader"
 
 const page = () => {
   return (
     <>
-      <ProjectsHeader />
+      <ProjectsSection />
     </>
   )
 }

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import CreateProject from "./CreateProject"
 import { useState } from "react"
-import ProjectsBody from "./ProjectsBody"
+import ProjectsSection from "./ProjectsBody"
 
 const ProjectsHeader = () => {
   const [searchQuery, setSearchQuery] = useState("")
@@ -27,7 +27,7 @@ const ProjectsHeader = () => {
             <CreateProject/>
         </div>
     </div>
-    <ProjectsBody searchQuery={searchQuery}/>
+    <ProjectsSection searchQuery={searchQuery}/>
     </>
   )
 }

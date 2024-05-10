@@ -29,10 +29,30 @@ export const getProjects = authQuery({
             const projects = await db
             .query("projects")
             .withIndex("by_owner", q => q.eq("owner", user._id))
-            .filter(q => q.eq(q.field("pinned"), false))
             .collect()
 
             return projects
         }
     },
 })
+
+export const pinProject = authMutation({
+    args: {
+        projectId: v.id("projects"),
+        pinned: v.boolean(),
+    },
+    handler: async ({ db, user }, args) => {
+        const project = await db.get(args.projectId)
+        if (user._id === project?.owner) {
+            await db.patch(args.projectId, { pinned: args.pinned })
+        }
+    },
+})
+
+export const getSpecificProject = authQuery({
+    args: { projectId: v.id("projects") },
+    handler: async ({ db }, args) => {
+        const project = await db.get(args.projectId)
+        return project
+    },
+})  

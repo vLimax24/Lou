@@ -1,29 +1,37 @@
 "use client"
 
 import { api } from "@/convex/_generated/api"
-import { useQuery } from "convex/react"
+import { useQuery, useMutation } from "convex/react"
 import { Card, CardContent } from "@/components/ui/card"
+import { useState, useEffect } from "react"
 import { Id } from "@/convex/_generated/dataModel"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Progress } from "@/components/ui/progress"
-import { MoreVertical } from "lucide-react"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
+import { MoreVertical, Settings, Pin } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
-const ProjectsBody = ({ searchQuery }:any) => {
+const ProjectsSection = ({ searchQuery }:any) => {
 
     const projects = useQuery(api.projects.getProjects)
+    const pinProject = useMutation(api.projects.pinProject)
 
-    const filteredProjects = projects?.filter((project) =>
-        project.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    const [pinnedProjects, setPinnedProjects] = useState([])
+    const [unpinnedProjects, setUnpinnedProjects] = useState([])
+
+    const router = useRouter()
+
+    
+    useEffect(() => {
+        if (projects) {
+            const pinned:any = projects.filter((project) => project.pinned && project.name.toLowerCase().includes(searchQuery.toLowerCase()))
+            const unpinned:any = projects.filter((project) => !project.pinned && project.name.toLowerCase().includes(searchQuery.toLowerCase()))
+            setPinnedProjects(pinned)
+            setUnpinnedProjects(unpinned)
+        }
+    }, [projects, searchQuery])
     
 
     const calculatePercentagePassed = (creationDate: Date, deadline: Date) => {
@@ -67,64 +75,160 @@ const ProjectsBody = ({ searchQuery }:any) => {
         )
     }
 
-    return (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
-            {filteredProjects?.map((project: any) => {
-                const deadline: Date = new Date(project.deadline)
-                const creationDate: Date = new Date(project._creationTime)
-                const formattedCreationDate = creationDate?.toLocaleDateString()
-                const formattedDeadline = deadline?.toLocaleDateString()
-                
-                const percentagePassed = calculatePercentagePassed(creationDate, deadline)
-                let progressValue = Math.min(percentagePassed, 100)
-                
-                if (percentagePassed < 5) {
-                    progressValue = 5
-                }
 
-                return (
-                    <Card key={project._id} className="border-none pt-6 mx-4 lg:mx-0">
-                        <CardContent>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                    <div>
-                                        <Skeleton className="size-[3rem] rounded-md"/>
-                                    </div>
-                                    <div className="flex flex-col ml-4">
-                                        <p className="text-xl font-bold">{project.name}</p>
-                                        <GetUserSubject subjectId={project.subject} />
-                                    </div>
-                                </div>
-                                <div>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger>
-                                            <MoreVertical className="size-5" />
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem>Profile</DropdownMenuItem>
-                                            <DropdownMenuItem>Billing</DropdownMenuItem>
-                                            <DropdownMenuItem>Team</DropdownMenuItem>
-                                            <DropdownMenuItem>Subscription</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </div>
-                            </div>
-                            <div className="flex flex-col mt-4">
-                                <p className="text-md font-medium">Deadline</p>
-                                <div className="flex items-center justify-between mt-1">
-                                    <p className="text-sm text-gray-500">{formattedCreationDate}</p>
-                                    <p className="text-sm text-gray-500">{formattedDeadline}</p>
-                                </div>
-                            </div>
-                            <Progress value={progressValue} className="mt-1"/>
-                        </CardContent>
-                    </Card>
-                )
-            })}
+
+    return (
+        <div className="flex flex-col">
+            {pinnedProjects.length > 0 && (
+                <div className="flex flex-col">
+                    <h2 className="text-2xl font-bold mb-4 flex items-center justify-start mx-4 lg:mx-0"><Pin className="size-7 mr-1"/>Pinned Projects</h2>
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+                        {pinnedProjects?.map((project: any) => {
+                            const deadline: Date = new Date(project.deadline)
+                            const creationDate: Date = new Date(project._creationTime)
+                            const formattedCreationDate = creationDate?.toLocaleDateString()
+                            const formattedDeadline = deadline?.toLocaleDateString()
+
+                            const handlePinnedChange = async () => {
+                                if (project.pinned) {
+                                    await pinProject({ projectId: project._id, pinned: false })
+                                } else {
+                                    await pinProject({ projectId: project._id, pinned: true })
+                                }
+                            }
+                            
+                            const percentagePassed = calculatePercentagePassed(creationDate, deadline)
+                            let progressValue = Math.min(percentagePassed, 100)
+                            
+                            if (percentagePassed < 5) {
+                                progressValue = 5
+                            }
+
+                            return (
+                                <Card key={project._id} className="border-none pt-6 mx-4 lg:mx-0 hover:cursor-pointer" onClick={() => router.push(`/dashboard/projects/${project._id}`)}>
+                                    <CardContent>
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center">
+                                                <div>
+                                                    <Skeleton className="size-[3rem] rounded-md"/>
+                                                </div>
+                                                <div className="flex flex-col ml-4">
+                                                    <p className="text-xl font-bold">{project.name}</p>
+                                                    <GetUserSubject subjectId={project.subject} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger>
+                                                        <MoreVertical className="size-5" />
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent>
+                                                        <DropdownMenuItem className="flex items-center justify-start" onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            handlePinnedChange()
+                                                        }}><Pin className="size-4 mr-1"/> {project.pinned ? "Unpin" : "Pin"} Project</DropdownMenuItem>
+                                                        <Link href={`/dashboard/projects/${project._id}/settings`}>
+                                                            <DropdownMenuItem className="flex items-center justify-start"><Settings className="size-4 mr-1"/> Settings</DropdownMenuItem>
+                                                        </Link>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col mt-4">
+                                            <div className="flex items-center justify-start">
+                                                <p className="text-md font-medium">Deadline </p>
+                                                <p className="text-md font-semibold text-red-500 ml-2">{progressValue >= 100 && (<p className="text-md font-semibold text-red-500"> Expired</p>)}</p>
+                                            </div>
+                                            <div className="flex items-center justify-between mt-1">
+                                                <p className="text-sm text-gray-500">{formattedCreationDate}</p>
+                                                <p className="text-sm text-gray-500">{formattedDeadline}</p>
+                                            </div>
+                                        </div>
+                                        <Progress value={progressValue} className="mt-1"/>
+                                    </CardContent>
+                                </Card>
+                            )
+                        })}
+                    </div>
+                </div>
+            )}
+            
+
+            {unpinnedProjects.length > 0 && (
+                <div className="flex flex-col">
+                    <h2 className="text-2xl font-bold mb-4 mt-10 mx-4 lg:mx-0">Other Projects</h2>
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+                        {unpinnedProjects?.map((project: any) => {
+                            const deadline: Date = new Date(project.deadline)
+                            const creationDate: Date = new Date(project._creationTime)
+                            const formattedCreationDate = creationDate?.toLocaleDateString()
+                            const formattedDeadline = deadline?.toLocaleDateString()
+
+                            const handlePinnedChange = async () => {
+                                if (project.pinned) {
+                                    await pinProject({ projectId: project._id, pinned: false })
+                                } else {
+                                    await pinProject({ projectId: project._id, pinned: true })
+                                }
+                            }
+                            
+                            const percentagePassed = calculatePercentagePassed(creationDate, deadline)
+                            let progressValue = Math.min(percentagePassed, 100)
+                            
+                            if (percentagePassed < 5) {
+                                progressValue = 5
+                            }
+
+                            return (
+                                <Card key={project._id} className="border-none pt-6 mx-4 lg:mx-0 hover:cursor-pointer" onClick={() => router.push(`/dashboard/projects/${project._id}`)}>
+                                    <CardContent>
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center">
+                                                <div>
+                                                    <Skeleton className="size-[3rem] rounded-md"/>
+                                                </div>
+                                                <div className="flex flex-col ml-4">
+                                                    <p className="text-xl font-bold">{project.name}</p>
+                                                    <GetUserSubject subjectId={project.subject} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger>
+                                                        <MoreVertical className="size-5" />
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent>
+                                                        <DropdownMenuItem className="flex items-center justify-start" onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            handlePinnedChange()
+                                                        }}><Pin className="size-4 mr-1"/> {project.pinned ? "Unpin" : "Pin"} Project</DropdownMenuItem>
+                                                        <Link href={`/dashboard/projects/${project._id}/settings`}>
+                                                            <DropdownMenuItem className="flex items-center justify-start"><Settings className="size-4 mr-1"/> Settings</DropdownMenuItem>
+                                                        </Link>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col mt-4">
+                                            <div className="flex items-center justify-start">
+                                                <p className="text-md font-medium">Deadline </p>
+                                                <p className="text-md font-semibold text-red-500 ml-2">{progressValue >= 100 && (<p className="text-md font-semibold text-red-500">Expired</p>)}</p>
+                                            </div>
+                                            <div className="flex items-center justify-between mt-1">
+                                                <p className="text-sm text-gray-500">{formattedCreationDate}</p>
+                                                <p className="text-sm text-gray-500">{formattedDeadline}</p>
+                                            </div>
+                                        </div>
+                                        <Progress value={progressValue} className="mt-1"/>
+                                    </CardContent>
+                                </Card>
+                            )
+                        })}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
 
-export default ProjectsBody
+export default ProjectsSection
