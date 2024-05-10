@@ -20,6 +20,7 @@ import Link from "next/link"
 import { toast } from "sonner"
 import { AddDocumentDialog } from "./AddDocumentDialog"
 import LabelBadge from "@/components/common/LabelBadge"
+import { TooltipProvider } from "@radix-ui/react-tooltip"
 
 const Page = () => {
   const { isAuthenticated } = useConvexAuth()
@@ -88,6 +89,9 @@ const Page = () => {
                   Go
                 </Button>
               </Link>
+              <TooltipProvider>
+            
+            
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <MoreHorizontal className="ml-4 size-6 hover:cursor-pointer" />
@@ -126,6 +130,7 @@ const Page = () => {
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>
+              </TooltipProvider>
             </div>
           </Card>
         ))}
