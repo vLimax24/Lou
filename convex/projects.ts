@@ -56,3 +56,54 @@ export const getSpecificProject = authQuery({
         return project
     },
 })  
+
+export const updateProjectName = authMutation({
+    args: {
+        projectId: v.id("projects"),
+        name: v.string(),
+    },
+    handler: async ({ db, user }, args) => {
+        const project = await db.get(args.projectId)
+        if (user._id === project?.owner) {
+            await db.patch(args.projectId, { name: args.name })
+        }
+    },
+})
+
+export const updateProjectDescription = authMutation({
+    args: {
+        projectId: v.id("projects"),
+        description: v.string(),
+    },
+    handler: async ({ db, user }, args) => {
+        const project = await db.get(args.projectId)
+        if (user._id === project?.owner) {
+            await db.patch(args.projectId, { description: args.description })
+        }
+    },
+})
+
+export const updateDeadline = authMutation({
+    args: {
+        projectId: v.id("projects"),
+        deadline: v.string(),
+    },
+    handler: async ({ db, user }, args) => {
+        const project = await db.get(args.projectId)
+        if (user._id === project?.owner) {
+            await db.patch(args.projectId, { deadline: args.deadline })
+        }
+    },
+})
+
+export const deleteProject = authMutation({
+    args: {
+        projectId: v.id("projects"),
+    },
+    handler: async ({ db, user }, args) => {
+        const project = await db.get(args.projectId)
+        if (user._id === project?.owner) {
+            await db.delete(args.projectId)
+        }
+    },
+})

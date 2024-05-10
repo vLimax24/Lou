@@ -6,6 +6,11 @@ import { useParams } from "next/navigation"
 import { Id } from "@/convex/_generated/dataModel"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import SettingsTab from "./_components/SettingsTab"
+import OverviewTab from "./_components/OverviewTab"
+import WorkItemsTab from "./_components/WorkItemsTab"
+import DocumentsTab from "./_components/DocumentsTab"
+import RessourcesTab from "./_components/ResourcesTab"
 
 
 const Page = () => {
@@ -29,17 +34,31 @@ const Page = () => {
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
-        <div>
-        <Tabs defaultValue="account" className="w-full mt-10">
-            <TabsList>
-                <TabsTrigger value="account">Overview</TabsTrigger>
+        <div className="flex items-start justify-start">
+        <Tabs defaultValue="overview" className="w-full mt-10 transition-all ease-in-out duration-300 md:scale-100 md:mx-0" orientation="horizontal">
+            <TabsList className="max-w-full">
+                <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="workitems">Work Items</TabsTrigger>
                 <TabsTrigger value="documents">Documents</TabsTrigger>
                 <TabsTrigger value="ressources">Ressources</TabsTrigger>
+                <TabsTrigger value="collaborators">Collaborators</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
-            <TabsContent value="account">Make changes to your account here.</TabsContent>
-            <TabsContent value="password">Change your password here.</TabsContent>
+            <TabsContent value="overview">
+                <OverviewTab/>
+            </TabsContent>
+            <TabsContent value="workitems">
+                <WorkItemsTab/>
+            </TabsContent>
+            <TabsContent value="documents">
+                <DocumentsTab/>
+            </TabsContent>
+            <TabsContent value="ressources">
+                <RessourcesTab/>
+            </TabsContent>
+            <TabsContent value="settings">
+                <SettingsTab project={project}/>
+            </TabsContent>
         </Tabs>
         </div>
     </div>

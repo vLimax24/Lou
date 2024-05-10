@@ -40,7 +40,7 @@ const CreateProject = () => {
                             <Input id="name" type="text" placeholder="Project Name" required value={name} onChange={e => setName(e.target.value)}/>
                         </div>
                         <div className="flex flex-col items-start justify-between">
-                            <Label htmlFor="description" className="mb-1 text-md flex">Description <p className="text-red-500">*</p></Label>
+                            <Label htmlFor="description" className="mb-1 text-md flex">Task <p className="text-red-500">*</p></Label>
                             <Textarea id="description" placeholder="1 Minute Speech in Geography" required className="h-32" value={description} onChange={e => setDescription(e.target.value)}/>
                         </div>
                         <div className="flex flex-col items-start justify-between">
