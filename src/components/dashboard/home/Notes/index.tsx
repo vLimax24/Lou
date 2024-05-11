@@ -80,7 +80,7 @@ const NotesCard = ({ className, ...props }: CardProps) => {
             </div>
           ) : (
             <>
-              {notes?.map((note: any, index: any) => (
+              {notes && notes?.map((note: any, index: any) => (
                 !deletedNotes.includes(note._id) && (
                   <Card key={index} className="mb-3 flex">
                     <div className="py-3 px-5 flex items-center justify-center">

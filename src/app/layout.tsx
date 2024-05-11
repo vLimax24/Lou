@@ -16,6 +16,8 @@ export const revalidate = 0
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL)
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
+
+  
   return (
     <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en">

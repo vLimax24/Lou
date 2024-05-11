@@ -24,6 +24,29 @@ export const createDocumentInvitation = authMutation({
   }
 })
 
+export const createProjectInvitation = authMutation({
+  args: {
+    projectId: v.id("projects"),
+    text: v.string(),
+    date: v.string(),
+    recieverUserId: v.id("users"),
+    senderUserId: v.optional(v.id("users")),
+    senderImage: v.optional(v.string()),
+  },
+  handler: async ({ db }, args) => {
+    const invitation = await db.insert("notifications", {
+      text: args.text,
+      date: args.date,
+      recieverUserId: args.recieverUserId,
+      senderUserId: args.senderUserId,
+      projectId: args.projectId,
+      senderImage: args.senderImage,
+    })
+
+    return invitation
+  }
+})
+
 
 // get user notifications
 

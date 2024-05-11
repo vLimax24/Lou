@@ -11,12 +11,16 @@ import OverviewTab from "./_components/OverviewTab"
 import WorkItemsTab from "./_components/WorkItemsTab"
 import DocumentsTab from "./_components/DocumentsTab"
 import RessourcesTab from "./_components/ResourcesTab"
+import CollaboratorsTab from "./_components/CollaboratorsTab"
 
 
 const Page = () => {
   const params = useParams<{ projectId: Id<"projects"> }>()
   const projectId = params?.projectId
   const project = useQuery(api.projects.getSpecificProject, { projectId: projectId })
+  const user = useQuery(api.users.getMyUser)
+
+  const isOwner = project?.owner === user?._id
   return (
     <div className="flex flex-col">
         <Breadcrumb>
@@ -41,8 +45,8 @@ const Page = () => {
                 <TabsTrigger value="workitems">Work Items</TabsTrigger>
                 <TabsTrigger value="documents">Documents</TabsTrigger>
                 <TabsTrigger value="ressources">Ressources</TabsTrigger>
-                <TabsTrigger value="collaborators">Collaborators</TabsTrigger>
-                <TabsTrigger value="settings">Settings</TabsTrigger>
+                {isOwner && <TabsTrigger value="collaborators">Collaborators</TabsTrigger>}
+                {isOwner && <TabsTrigger value="settings">Settings</TabsTrigger>}
             </TabsList>
             <TabsContent value="overview">
                 <OverviewTab/>
@@ -55,6 +59,9 @@ const Page = () => {
             </TabsContent>
             <TabsContent value="ressources">
                 <RessourcesTab/>
+            </TabsContent>
+            <TabsContent value="collaborators">
+                <CollaboratorsTab project={project}/>
             </TabsContent>
             <TabsContent value="settings">
                 <SettingsTab project={project}/>

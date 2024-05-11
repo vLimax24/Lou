@@ -40,11 +40,17 @@ const DashboardSidebar = () => {
   )
   const deleteNotification = useMutation(api.notifications.deleteNotification)
   const addUserToAllowedUsers = useMutation(api.documents.addUserToAllowedUsers)
+  const addUserToAllowedUsersProject = useMutation(api.projects.addUserToAllowedUsers)
   const notifications = useQuery(api.notifications.getUserNotifications)
   const notificationCount = useMemo(() => notifications?.length ?? 0, [notifications])
 
-  const handleAddUserToAllowedUsers = async (documentId:any, userId:any, notificationId:any) => {
+  const handleAddUserToAllowedUsersDocument = async (documentId:any, userId:any, notificationId:any) => {
     await addUserToAllowedUsers({ documentId, userId })
+    await deleteNotification({ notificationId })
+  }
+
+  const handleAddUserToAllowedUsersProject = async (projectId:any, userId:any, notificationId:any) => {
+    await addUserToAllowedUsersProject({ projectId, userId })
     await deleteNotification({ notificationId })
   }
 
@@ -91,7 +97,11 @@ const DashboardSidebar = () => {
                           <div className="flex flex-col items-start">
                             <p className="text-sm text-gray-500">{notification.text}</p>
                             <div className="flex items-center">
-                              <Button className="mr-2 h-6 text-sm w-16" onClick={() => handleAddUserToAllowedUsers(notification.documentId, notification.recieverUserId, notification._id)}>Accept</Button>
+                              {notification.projectId ? (
+                                <Button className="mr-2 h-6 text-sm w-16" onClick={() => handleAddUserToAllowedUsersProject(notification.projectId, notification.recieverUserId, notification._id)}>Accept</Button>
+                              ) : (
+                                <Button className="mr-2 h-6 text-sm w-16" onClick={() => handleAddUserToAllowedUsersDocument(notification.documentId, notification.recieverUserId, notification._id)}>Accept</Button>
+                              )}
                               <Button className="bg-gray-400 h-6 text-sm w-16" onClick={() => deleteNotification({ notificationId: notification._id })}>Decline</Button>
                             </div>
                           </div>

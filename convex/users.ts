@@ -16,6 +16,7 @@ export const getUserById = internalQuery({
   },
 })
 
+
 export const getUser = authQuery({
   args: { userId: v.id("users") },
   handler: async (ctx, args) => {

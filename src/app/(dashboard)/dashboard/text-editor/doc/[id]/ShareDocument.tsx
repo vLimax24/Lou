@@ -44,7 +44,7 @@ const ShareDocument = ({ document }: { document: any }) => {
     const [currentURL, setCurrentURL] = useState("")
     const [copySuccess, setCopySuccess] = useState(false)
     const [accessDropdownOpen, setAccessDropdownOpen] = useState(false)
-    const [popoverOpen, setPopoverOpen] = useState(false) // New state for managing popover open/close
+    const [popoverOpen, setPopoverOpen] = useState(false)
     const [username, setUsername] = useState<string>("")
     const [invitedUsers, setInvitedUsers] = useState<string[]>([])
 

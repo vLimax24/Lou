@@ -20,6 +20,7 @@ export default defineSchema({
     recieverUserId: v.id("users"),
     senderUserId: v.optional(v.id("users")),
     documentId: v.optional(v.id("documents")),
+    projectId: v.optional(v.id("projects")),
     subjectId: v.optional(v.id("subjects")),
     senderImage: v.optional(v.string()),
     text: v.string(),

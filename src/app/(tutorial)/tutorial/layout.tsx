@@ -13,8 +13,6 @@ const SiteLayout = ({
   children: React.ReactNode;
 }) => {
 
- 
-
   return (
       <main className={"font-open-sans antialiased"}>
         {children}
