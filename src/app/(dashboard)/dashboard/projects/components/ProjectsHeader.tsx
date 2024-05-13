@@ -12,6 +12,8 @@ const ProjectsHeader = () => {
   const handleSearch = (event:any) => {
     setSearchQuery(event.target.value)
   }
+
+  
   return (
     <>
     <div className="flex items-center w-full justify-between m-4 pr-8 lg:pr-0 lg:m-0 max-w-[100vw]">

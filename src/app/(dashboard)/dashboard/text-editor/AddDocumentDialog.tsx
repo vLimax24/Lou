@@ -1,21 +1,6 @@
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { api } from "@/convex/_generated/api"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -30,7 +15,13 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export const AddDocumentDialog = () =>{
+export const AddDocumentDialog = ({
+  accessType,
+  className,
+}: {
+  accessType: string;
+  className?: string;
+}) => {
   const addDocument = useMutation(api.documents.addDocument)
 
   const form = useForm<FormData>({
@@ -51,7 +42,8 @@ export const AddDocumentDialog = () =>{
     try {
       await addDocument({
         name: values.name,
-        content: initialContent
+        content: initialContent,
+        accessType: accessType
       })
       toast.success("Document added!")
       form.reset()
@@ -62,40 +54,42 @@ export const AddDocumentDialog = () =>{
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="bg-primaryGray hover:bg-primaryHoverGray">Create</Button>
-      </DialogTrigger>
-      <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add Document</DialogTitle>
-          <DialogDescription>Add a new document for you and your friends.</DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-1 items-center gap-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Document Title</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Meeting Notes" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+    <div className={className}>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button className="bg-primaryGray hover:bg-primaryHoverGray">Create</Button>
+        </DialogTrigger>
+        <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Add Document</DialogTitle>
+            <DialogDescription>Add a new document for you and your friends.</DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Document Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Meeting Notes" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-            </div>
-            <DialogFooter>
-                <Button type="submit">Add Document</Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+              <DialogFooter>
+                  <Button type="submit">Add Document</Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+    </div>
   )
 }

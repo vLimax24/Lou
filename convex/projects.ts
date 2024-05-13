@@ -19,6 +19,8 @@ export const addProject = authMutation({
             pinned: false,
             deadline: args.deadline,
             allowedUsers: [],
+            linkedDocuments: [],
+            ressources: [],
         })
         return newProject
     },
@@ -153,5 +155,49 @@ export const removePersonFromProject = authMutation({
       let arr: any = doc?.allowedUsers
       arr = arr.filter((id: any) => id !== args.userId)
       await ctx.db.patch(args.projectId, { allowedUsers: arr })
+    },
+})
+
+export const linkDocument = authMutation({
+    args: { projectId: v.id("projects"), documentId: v.id("documents") },
+    handler: async (ctx, args) => {
+      const doc = await ctx.db.get(args.projectId)
+      let arr: any = doc?.linkedDocuments
+      arr.push(args.documentId)
+      await ctx.db.patch(args.projectId, { linkedDocuments: arr })
+    },
+})
+
+export const addLinkToRessource = authMutation({
+    args: { projectId: v.id("projects"), resource: v.string() },
+    handler: async (ctx, args) => {
+      const doc = await ctx.db.get(args.projectId)
+      let arr: string[] = doc?.ressources || []
+      arr.push(args.resource)
+      await ctx.db.patch(args.projectId, { ressources: arr })
+    },
+})
+
+export const removeResourceFromProject = authMutation({
+    args: { projectId: v.id("projects"), ressource: v.string() },
+    handler: async (ctx, args) => {
+        const doc = await ctx.db.get(args.projectId)
+        let arr: any = doc?.ressources
+        arr = arr.filter((id: any) => id !== args.ressource)
+        await ctx.db.patch(args.projectId, { ressources: arr })
+    },
+})
+
+export const searchRessources = authQuery({
+    args: { projectId: v.id("projects"), searchTerm: v.string() },
+    handler: async (ctx, args) => {
+        const doc = await ctx.db.get(args.projectId)
+        let arr: any = doc?.ressources
+        const filteredRessources = arr.filter((ressource: string) => {
+            return (
+                ressource.toLowerCase().includes(args.searchTerm.toLowerCase())
+            )
+        })
+        return filteredRessources
     },
 })

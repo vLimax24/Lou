@@ -41,6 +41,7 @@ export const addDocument = authMutation({
   args: {
     name: v.string(),
     content: v.any(),
+    accessType: v.string(),
   },
   handler: async ({ db, user }, args) => {
     let arr = [user._id]
@@ -48,7 +49,7 @@ export const addDocument = authMutation({
       name: args.name,
       content: args.content,
       owner: user._id,
-      accessType: "RESTRICTED",
+      accessType: args.accessType,
       allowedUsers: arr,
     })
     return newDocument
@@ -138,5 +139,17 @@ export const getAllowedUsersProfileImages = authQuery({
       })
     )
     return allowedUsersProfileImages
+  },
+})
+
+export const getEveryoneDocuments = authQuery({
+  args: {},
+  handler: async (ctx) => {
+    const documents = await ctx.db
+      .query("documents")
+      .withIndex("by_accessType", (q) => q.eq("accessType", "EVERYONE"))
+      .collect()
+
+    return documents
   },
 })

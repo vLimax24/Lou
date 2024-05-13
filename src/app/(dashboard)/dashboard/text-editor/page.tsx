@@ -67,7 +67,7 @@ const Page = () => {
     <div className="p-5">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-4xl font-bold">Your Documents</h1>
-        <AddDocumentDialog />
+        <AddDocumentDialog accessType="RESTRICTED" />
       </div>
       <div className="flex flex-col">
         {documents?.map(document => (
