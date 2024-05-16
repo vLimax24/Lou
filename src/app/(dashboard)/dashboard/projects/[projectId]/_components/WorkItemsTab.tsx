@@ -61,7 +61,7 @@ const WorkItemsTab = ({ project }: { project: any }) => {
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
     >
-      <div className="mb-6 flex w-full items-center justify-between p-4">
+      <div className="mb-6 flex w-full items-center justify-between py-4">
         <h1 className="text-4xl font-bold">Your Work Items</h1>
         <AddWorkItemDialog projectId={project._id} />
       </div>

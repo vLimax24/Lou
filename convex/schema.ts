@@ -99,6 +99,7 @@ export default defineSchema({
     userId: v.id("users"),
     subjectId: v.id("subjects"),
     grade: v.string(),
+    badges: v.optional(v.array(v.string())),
     topic: v.string(),
     date: v.string(),
   })

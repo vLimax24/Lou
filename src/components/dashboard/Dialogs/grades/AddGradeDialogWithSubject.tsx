@@ -1,30 +1,9 @@
 import { Button, buttonVariants } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Badge } from "@/components/ui/badge"
+import { useState } from "react"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem,FormLabel, FormMessage } from "@/components/ui/form"
+import { Select, SelectContent, SelectGroup,SelectItem, SelectLabel,SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { api } from "@/convex/_generated/api"
@@ -33,18 +12,16 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { useMutation, useQuery } from "convex/react"
-import {
-  convertLetterToGPA,
-  convertNumberToGPA,
-  convertPercentageToGPA,
-} from "@/utils/gpaCalculation"
+import { convertLetterToGPA, convertNumberToGPA, convertPercentageToGPA } from "@/utils/gpaCalculation"
 import { Id } from "@/convex/_generated/dataModel"
+import { X } from "lucide-react"
 
 const formSchema = z.object({
   topic: z.string().min(2).max(50),
   grade: z.string(),
   date: z.date(),
   subjectId: z.any(),
+  badges: z.array(z.string()).min(3).max(10),
 })
 
 type FormData = z.infer<typeof formSchema>;
@@ -73,8 +50,30 @@ export const AddGradeDialogWithSubject = ({
       grade: "",
       date: new Date(),
       subjectId: subjectId || "",
+      badges: [],
     },
   })
+
+  const [badgeInput, setBadgeInput] = useState("")
+
+  const handleAddBadge = () => {
+    if (badgeInput.trim().length >= 3 && form.getValues().badges.length < 3) {
+      form.setValue("badges", [...form.getValues().badges, badgeInput.trim()])
+      setBadgeInput("")
+    } else if (badgeInput.trim().length < 3) {
+      toast.error("Badge name must be at least 3 characters long.")
+    } else {
+      toast.error("You can only add 3 badges. Please remove some badges before adding more.")
+    }
+  }
+  
+
+  const handleBadgeInputKeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      handleAddBadge()
+    }
+  }
 
   const onSubmit = async (values: FormData) => {
     const formattedDate = values.date.toISOString()
@@ -95,12 +94,19 @@ export const AddGradeDialogWithSubject = ({
         date: formattedDate,
         subjectId: values.subjectId,
         grade: gpa.toString(),
+        badges: values.badges
       })
       toast.success(`Grade ${values.grade} added!`)
       form.reset()
     } catch (error) {
       toast.error("Error Adding Grade!")
     }
+  }
+
+  const removeBadge = (index: number) => {
+    const currentBadges = form.getValues().badges
+    currentBadges.splice(index, 1)
+    form.setValue("badges", currentBadges)
   }
 
   return (
@@ -221,10 +227,47 @@ export const AddGradeDialogWithSubject = ({
                     )}
                   />
                 )}
+
+               <FormField
+                  control={form.control}
+                  name="badges"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Badges</FormLabel>
+                      <FormControl>
+                        <div className="flex items-center justify-between">
+                          <Input
+                            type="text"
+                            placeholder="Type a badge"
+                            value={badgeInput}
+                            onChange={(e) => setBadgeInput(e.target.value)}
+                            onKeyDown={handleBadgeInputKeyPress}
+                          />
+                          <Button type="button" onClick={handleAddBadge} className="bg-primaryGray hover:bg-primaryHoverGray ml-2"> 
+                            Add
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <div className="flex items-center">
+                        {form.getValues().badges.map((badge, index) => (
+                          <Badge key={index} className="flex items-center w-fit group transition-all duration-200 ease-in-out mr-1">
+                            <p>{badge}</p>
+                            <X
+                              size={16}
+                              className="ml-2 cursor-pointer text-gray-300 hidden group-hover:block transition-all duration-200 ease-in-out"
+                              onClick={() => removeBadge(index)}
+                            />
+                          </Badge>
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Add Subject</Button>
+              <Button type="submit" className="bg-primaryGray hover:bg-primaryHoverGray">Add Subject</Button>
             </DialogFooter>
           </form>
         </Form>

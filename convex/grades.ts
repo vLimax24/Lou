@@ -34,7 +34,8 @@ export const addGrade = authMutation({
     grade: v.string(),
     topic: v.string(),
     date: v.string(),
-    subjectId: v.id("subjects")
+    subjectId: v.id("subjects"),
+    badges: v.array(v.string())
   },
   handler: async ({ db, user }, args) => {
     const newGrade = await db.insert("grades", {
@@ -42,7 +43,8 @@ export const addGrade = authMutation({
         topic: args.topic,
         date: args.date,
         userId: user._id,
-        subjectId: args.subjectId
+        subjectId: args.subjectId,
+        badges: args.badges
     })
     return newGrade
   },
