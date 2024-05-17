@@ -1,6 +1,6 @@
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem,FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectGroup,SelectItem, SelectLabel,SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -14,14 +14,14 @@ import { z } from "zod"
 import { useMutation, useQuery } from "convex/react"
 import { convertLetterToGPA, convertNumberToGPA, convertPercentageToGPA } from "@/utils/gpaCalculation"
 import { Id } from "@/convex/_generated/dataModel"
-import { X } from "lucide-react"
+import { X, Lightbulb } from "lucide-react"
 
 const formSchema = z.object({
   topic: z.string().min(2).max(50),
   grade: z.string(),
   date: z.date(),
   subjectId: z.any(),
-  badges: z.array(z.string()).min(3).max(10),
+  badges: z.array(z.string()),
 })
 
 type FormData = z.infer<typeof formSchema>;
@@ -30,6 +30,27 @@ type Props = {
   withSubjects?: boolean;
   subjectId?: Id<"subjects">;
 };
+
+const badgeColors = [
+  "#FFB6C1",  
+  "#87CEFA",
+  "#90EE90",
+  "#FFD700",
+  "#FF69B4", 
+  "#8A2BE2", 
+  "#FF4500", 
+  "#2E8B57", 
+  "#DAA520",
+  "#5F9EA0", 
+]
+
+const shuffleArray = (array: any) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]
+  }
+  return array
+}
 
 export const AddGradeDialogWithSubject = ({
   withSubjects = false,
@@ -55,15 +76,25 @@ export const AddGradeDialogWithSubject = ({
   })
 
   const [badgeInput, setBadgeInput] = useState("")
+  const [shuffledBadgeColors, setShuffledBadgeColors] = useState([])
+
+  useEffect(() => {
+    setShuffledBadgeColors(shuffleArray([...badgeColors]))
+  }, [])
 
   const handleAddBadge = () => {
-    if (badgeInput.trim().length >= 3 && form.getValues().badges.length < 3) {
-      form.setValue("badges", [...form.getValues().badges, badgeInput.trim()])
-      setBadgeInput("")
-    } else if (badgeInput.trim().length < 3) {
+    const trimmedBadge = badgeInput.trim()
+    if (trimmedBadge.length >= 3 && trimmedBadge.length <= 7) {
+      if (form.getValues().badges.length < 10) {
+        form.setValue("badges", [...form.getValues().badges, trimmedBadge])
+        setBadgeInput("")
+      } else {
+        toast.error("You can only add 10 badges. Please remove some badges before adding more.")
+      }
+    } else if (trimmedBadge.length < 3) {
       toast.error("Badge name must be at least 3 characters long.")
-    } else {
-      toast.error("You can only add 3 badges. Please remove some badges before adding more.")
+    } else if (trimmedBadge.length > 7) {
+      toast.error("Badge name must be at most 7 characters long.")
     }
   }
   
@@ -88,13 +119,18 @@ export const AddGradeDialogWithSubject = ({
     } else if (gradingSystem === "Percentage") {
       gpa = convertPercentageToGPA(Number(values.grade))
     }
+
+    const selectedSubject = subjects?.find(subject => subject._id === values.subjectId)
+    const subjectName = selectedSubject ? selectedSubject.name : ""
+
     try {
       await addGrade({
         topic: values.topic,
         date: formattedDate,
         subjectId: values.subjectId,
         grade: gpa.toString(),
-        badges: values.badges
+        badges: values.badges,
+        subjectName: subjectName,
       })
       toast.success(`Grade ${values.grade} added!`)
       form.reset()
@@ -248,13 +284,19 @@ export const AddGradeDialogWithSubject = ({
                           </Button>
                         </div>
                       </FormControl>
-                      <div className="flex items-center">
+                      {form.getValues().badges.length == 0 && (
+                      <div className="flex items-center text-sm text-gray-500">
+                        <Lightbulb />
+                        <p>Tip: Press ENTER to add a badge</p>
+                      </div>
+                      )}
+                      <div className="flex items-center transition-all duration-200 ease-in-out">
                         {form.getValues().badges.map((badge, index) => (
-                          <Badge key={index} className="flex items-center w-fit group transition-all duration-200 ease-in-out mr-1">
-                            <p>{badge}</p>
+                          <Badge key={index} className="flex items-center w-fit group mr-1 transition-all duration-200 ease-in-out" style={{ backgroundColor: shuffledBadgeColors[index % shuffledBadgeColors.length] }}>
+                            <p className="transition-all duration-200 ease-in-out">{badge}</p>
                             <X
                               size={16}
-                              className="ml-2 cursor-pointer text-gray-300 hidden group-hover:block transition-all duration-200 ease-in-out"
+                              className="ml-2 cursor-pointer text-white hidden group-hover:block transition-all duration-200 ease-in-out"
                               onClick={() => removeBadge(index)}
                             />
                           </Badge>

@@ -111,10 +111,12 @@ export const DataTable = () => {
           studentSubjectId = studentSubject._id
         }
       })
-      await addTotalAverage({
-        totalAverage: totalAverage,
-        studentSubjectId: studentSubjectId,
-      })
+      if (studentSubjectId) {
+        await addTotalAverage({
+          totalAverage: totalAverage,
+          studentSubjectId: studentSubjectId,
+        })
+      }
     }
 
     return subjects.map((subject) => {

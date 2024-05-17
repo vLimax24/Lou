@@ -101,6 +101,7 @@ export default defineSchema({
     grade: v.string(),
     badges: v.optional(v.array(v.string())),
     topic: v.string(),
+    subjectName: v.string(),
     date: v.string(),
   })
     .index("by_subjectId", ["subjectId"])
