@@ -2,11 +2,12 @@ import { Footer } from "@/components/containers/Footer"
 import { NavBar } from "@/components/containers/NavBar"
 import "@/styles/globals.css"
 import * as React from "react"
+import type { Metadata } from "next"
 
-export const metadata = {
-  title: "StudentOS",
-  description: "Created by vLimax24",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+export const metadata: Metadata = {
+  title: "Lou",
+  description: "Discover Lou, the ultimate platform for managing everything from team projects to lectures, exams, assignments, homework, notes, tasks, and more. Streamline your academic and professional life with intuitive tools, real-time updates, and personalized learning resources. Join Lou today and boost your productivity!",
+  icons: [{ rel: "icon", url: "/logo.svg" }],
 }
 
 const SiteLayout = ({
@@ -18,7 +19,7 @@ const SiteLayout = ({
  
 
   return (
-      <main className={"font-open-sans bg-gradient-to-bl from-[#5A6471] to-[#243243] h-full w-full min-h-screen text-white"}>
+      <main className={"w-full max-w-[1080px] mx-[auto] my-0"}>
         <NavBar />
         {children}
         <Footer />
