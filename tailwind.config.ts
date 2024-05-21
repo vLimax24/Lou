@@ -48,6 +48,8 @@ const config: Config = {
     },
     extend: {
       colors: {
+        primaryBlue: "#0089EC",
+        primaryHover: "#0082E0",
         tremor: {          
           brand: {            
             faint: colors.blue[50],            
