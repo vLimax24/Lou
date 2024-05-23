@@ -6,25 +6,22 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Lou",
-  description: "Discover Lou, the ultimate platform for managing everything from team projects to lectures, exams, assignments, homework, notes, tasks, and more. Streamline your academic and professional life with intuitive tools, real-time updates, and personalized learning resources. Join Lou today and boost your productivity!",
+  description:
+    "Discover Lou, the ultimate platform for managing everything from team projects to lectures, exams, assignments, homework, notes, tasks, and more. Streamline your academic and professional life with intuitive tools, real-time updates, and personalized learning resources. Join Lou today and boost your productivity!",
   icons: [{ rel: "icon", url: "/logo.svg" }],
 }
 
-const SiteLayout = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-
- 
-
+const SiteLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-      <main className={"w-full max-w-[1080px] mx-[auto] my-0"}>
+    <main>
+      <div className={"mx-[auto] my-0 w-full max-w-full lg:max-w-[1080px]"}>
         <NavBar />
         {children}
+      </div>
+      <div className="w-full bg-primaryBlue">
         <Footer />
-      </main>
-      
+      </div>
+    </main>
   )
 }
 

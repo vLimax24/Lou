@@ -6,12 +6,10 @@ import Logo from "../../../public/logo.svg"
 import React from "react"
 import { SignInButton, SignUpButton } from "@clerk/nextjs"
 
-
 export const NavBar: React.FC = () => {
   const [isSticky, setIsSticky] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isCloseToTop, setIsCloseToTop] = useState(false)
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,41 +36,57 @@ export const NavBar: React.FC = () => {
   return (
     <>
       {isSticky ? (
-          <div className={`fixed top-0 left-0 right-0 bg-white z-10 border-b border-b-[#e5e5e5] transition-all duration-300 transform ${isSticky && !isCloseToTop ? "translate-y-0" : "-translate-y-full"}`}>
-            <div className="max-w-[1080px] mx-auto flex items-center justify-between h-24 py-4 px-3 text-black">
-              <div className="flex items-center">
-                <Image src={Logo} alt="Lou" width={70} height={70} draggable={false} />
-                <h1 className="font-bold text-[2.3rem] ml-2">Lou</h1>
-              </div>
-              <div className="flex space-x-4">
-                <SignUpButton mode="modal">
-                  <Button className="px-16 rounded-3xl bg-primaryBlue text-lg text-white hover:bg-primaryHover font-bold h-12 w-48 transition-all duration-200 ease-in-out">
-                    Get Started
-                  </Button>
-                </SignUpButton>
-                <SignInButton mode="modal">
-                  <Button className="px-10 rounded-3xl bg-transparent text-lg text-black border-2 border-[#ADADAD] font-bold h-12 w-36 hover:bg-transparent hover:border-black transition-all duration-200 ease-in-out">
-                    Log in
-                  </Button>
-                </SignInButton>
-              </div>
+        <div
+          className={`fixed left-0 right-0 top-0 z-10 transform border-b border-b-[#e5e5e5] bg-white transition-all duration-300 ${isSticky && !isCloseToTop ? "translate-y-0" : "-translate-y-full"}`}
+        >
+          <div className="mx-auto flex h-24 max-w-[1080px] items-center justify-between px-3 py-4 text-black">
+            <div className="flex items-center">
+              <Image
+                src={Logo}
+                alt="Lou"
+                width={70}
+                height={70}
+                draggable={false}
+              />
+              <h1 className="ml-2 text-[2.3rem] font-bold">Lou</h1>
+            </div>
+            <div className="flex space-x-4">
+              <SignUpButton mode="modal">
+                <Button className="h-12 w-48 rounded-3xl bg-primaryBlue px-16 text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover">
+                  Get Started
+                </Button>
+              </SignUpButton>
+              <SignInButton mode="modal">
+                <Button className="h-12 w-36 rounded-3xl border-2 border-[#ADADAD] bg-transparent px-10 text-lg font-bold text-black transition-all duration-200 ease-in-out hover:border-black hover:bg-transparent">
+                  Log in
+                </Button>
+              </SignInButton>
             </div>
           </div>
+        </div>
       ) : (
-        <div>
-          <div className={"fixed top-0 left-0 right-0 bg-white z-10 transition-all duration-300"}>
-            <div className="max-w-[1080px] mx-auto flex items-center justify-between h-24 py-4 px-3 text-black">
-              <div className="flex items-center">
-                <Image src={Logo} alt="Lou" width={70} height={70} draggable={false} />
-                <h1 className="font-bold text-[2.3rem] ml-2">Lou</h1>
-              </div>
-              <div className="flex space-x-4">
-                <SignInButton mode="modal">
-                  <Button className="px-10 rounded-3xl bg-transparent text-lg text-black border-2 border-[#ADADAD] font-bold h-12 w-36 hover:bg-transparent hover:border-black transition-all duration-200 ease-in-out">
-                    Log in
-                  </Button>
-                </SignInButton>
-              </div>
+        <div
+          className={
+            "fixed left-0 right-0 top-0 z-10 mx-2 max-w-[100vw] bg-white transition-all duration-300 md:mx-auto md:max-w-[1080px]"
+          }
+        >
+          <div className="mx-2 flex h-24 max-w-[100vw] items-center justify-between overflow-hidden px-3 py-4 text-black md:mx-auto lg:max-w-[1080px]">
+            <div className="flex items-center">
+              <Image
+                src={Logo}
+                alt="Lou"
+                width={70}
+                height={70}
+                draggable={false}
+              />
+              <h1 className="ml-2 text-[2.3rem] font-bold">Lou</h1>
+            </div>
+            <div className="mr-6 flex md:mr-0">
+              <SignInButton mode="modal">
+                <Button className="h-12 w-36 rounded-3xl border-2 border-[#ADADAD] bg-transparent px-10 text-lg font-bold text-black transition-all duration-200 ease-in-out hover:border-black hover:bg-transparent">
+                  Log in
+                </Button>
+              </SignInButton>
             </div>
           </div>
         </div>
