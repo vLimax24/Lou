@@ -1,9 +1,32 @@
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Form, FormControl, FormField, FormItem,FormLabel, FormMessage } from "@/components/ui/form"
-import { Select, SelectContent, SelectGroup,SelectItem, SelectLabel,SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { api } from "@/convex/_generated/api"
@@ -12,7 +35,11 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { useMutation, useQuery } from "convex/react"
-import { convertLetterToGPA, convertNumberToGPA, convertPercentageToGPA } from "@/utils/gpaCalculation"
+import {
+  convertLetterToGPA,
+  convertNumberToGPA,
+  convertPercentageToGPA,
+} from "@/utils/gpaCalculation"
 import { Id } from "@/convex/_generated/dataModel"
 import { X, Lightbulb } from "lucide-react"
 
@@ -24,30 +51,30 @@ const formSchema = z.object({
   badges: z.array(z.string()),
 })
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<typeof formSchema>
 
 type Props = {
-  withSubjects?: boolean;
-  subjectId?: Id<"subjects">;
-};
+  withSubjects?: boolean
+  subjectId?: Id<"subjects">
+}
 
 const badgeColors = [
-  "#FFB6C1",  
+  "#FFB6C1",
   "#87CEFA",
   "#90EE90",
   "#FFD700",
-  "#FF69B4", 
-  "#8A2BE2", 
-  "#FF4500", 
-  "#2E8B57", 
+  "#FF69B4",
+  "#8A2BE2",
+  "#FF4500",
+  "#2E8B57",
   "#DAA520",
-  "#5F9EA0", 
+  "#5F9EA0",
 ]
 
 const shuffleArray = (array: any) => {
   for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
   }
   return array
 }
@@ -89,7 +116,9 @@ export const AddGradeDialogWithSubject = ({
         form.setValue("badges", [...form.getValues().badges, trimmedBadge])
         setBadgeInput("")
       } else {
-        toast.error("You can only add 10 badges. Please remove some badges before adding more.")
+        toast.error(
+          "You can only add 10 badges. Please remove some badges before adding more."
+        )
       }
     } else if (trimmedBadge.length < 3) {
       toast.error("Badge name must be at least 3 characters long.")
@@ -97,7 +126,6 @@ export const AddGradeDialogWithSubject = ({
       toast.error("Badge name must be at most 7 characters long.")
     }
   }
-  
 
   const handleBadgeInputKeyPress = (e: any) => {
     if (e.key === "Enter") {
@@ -120,7 +148,9 @@ export const AddGradeDialogWithSubject = ({
       gpa = convertPercentageToGPA(Number(values.grade))
     }
 
-    const selectedSubject = subjects?.find(subject => subject._id === values.subjectId)
+    const selectedSubject = subjects?.find(
+      subject => subject._id === values.subjectId
+    )
     const subjectName = selectedSubject ? selectedSubject.name : ""
 
     try {
@@ -166,7 +196,7 @@ export const AddGradeDialogWithSubject = ({
                     <FormItem>
                       <FormLabel>Topic</FormLabel>
                       <FormControl>
-                        <Input placeholder="Trigonometry " {...field} />
+                        <Input placeholder="Trigonometry" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -264,7 +294,7 @@ export const AddGradeDialogWithSubject = ({
                   />
                 )}
 
-               <FormField
+                <FormField
                   control={form.control}
                   name="badges"
                   render={() => (
@@ -276,27 +306,42 @@ export const AddGradeDialogWithSubject = ({
                             type="text"
                             placeholder="Type a badge"
                             value={badgeInput}
-                            onChange={(e) => setBadgeInput(e.target.value)}
+                            onChange={e => setBadgeInput(e.target.value)}
                             onKeyDown={handleBadgeInputKeyPress}
                           />
-                          <Button type="button" onClick={handleAddBadge} className="bg-primaryGray hover:bg-primaryHoverGray ml-2"> 
+                          <Button
+                            type="button"
+                            onClick={handleAddBadge}
+                            className="ml-2 bg-primaryGray hover:bg-primaryHoverGray"
+                          >
                             Add
                           </Button>
                         </div>
                       </FormControl>
                       {form.getValues().badges.length == 0 && (
-                      <div className="flex items-center text-sm text-gray-500">
-                        <Lightbulb />
-                        <p>Tip: Press ENTER to add a badge</p>
-                      </div>
+                        <div className="flex items-center text-sm text-gray-500">
+                          <Lightbulb />
+                          <p>Tip: Press ENTER to add a badge</p>
+                        </div>
                       )}
                       <div className="flex items-center transition-all duration-200 ease-in-out">
                         {form.getValues().badges.map((badge, index) => (
-                          <Badge key={index} className="flex items-center w-fit group mr-1 transition-all duration-200 ease-in-out" style={{ backgroundColor: shuffledBadgeColors[index % shuffledBadgeColors.length] }}>
-                            <p className="transition-all duration-200 ease-in-out">{badge}</p>
+                          <Badge
+                            key={index}
+                            className="group mr-1 flex w-fit items-center transition-all duration-200 ease-in-out"
+                            style={{
+                              backgroundColor:
+                                shuffledBadgeColors[
+                                  index % shuffledBadgeColors.length
+                                ],
+                            }}
+                          >
+                            <p className="transition-all duration-200 ease-in-out">
+                              {badge}
+                            </p>
                             <X
                               size={16}
-                              className="ml-2 cursor-pointer text-white hidden group-hover:block transition-all duration-200 ease-in-out"
+                              className="ml-2 hidden cursor-pointer text-white transition-all duration-200 ease-in-out group-hover:block"
                               onClick={() => removeBadge(index)}
                             />
                           </Badge>
@@ -309,7 +354,12 @@ export const AddGradeDialogWithSubject = ({
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" className="bg-primaryGray hover:bg-primaryHoverGray">Add Subject</Button>
+              <Button
+                type="submit"
+                className="bg-primaryGray hover:bg-primaryHoverGray"
+              >
+                Add Subject
+              </Button>
             </DialogFooter>
           </form>
         </Form>

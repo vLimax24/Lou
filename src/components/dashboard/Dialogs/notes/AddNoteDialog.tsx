@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -16,48 +16,48 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
-import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'convex/react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import { Textarea } from "@/components/ui/textarea"
+import { api } from "@/convex/_generated/api"
+import { Id } from "@/convex/_generated/dataModel"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "convex/react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const formSchema = z.object({
   text: z.string().min(2).max(50),
   description: z.string().min(10).max(150),
   showInCalendar: z.boolean(),
   date: z.date(),
-});
+})
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<typeof formSchema>
 
 export const AddNoteDialog = ({
   subjectId,
 }: {
-  subjectId?: Id<'subjects'>;
+  subjectId?: Id<"subjects">
 }) => {
-  const addNote = useMutation(api.notes.addNote);
+  const addNote = useMutation(api.notes.addNote)
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      text: '',
-      description: '',
+      text: "",
+      description: "",
       showInCalendar: false,
       date: new Date(),
     },
-  });
+  })
 
   const onSubmit = async (values: FormData) => {
     try {
-      const formattedDate = values.date.toISOString();
+      const formattedDate = values.date.toISOString()
 
       await addNote({
         text: values.text,
@@ -65,13 +65,13 @@ export const AddNoteDialog = ({
         showInCalendar: values.showInCalendar,
         date: formattedDate,
         subjectId: subjectId,
-      });
-      toast.success('Note added!');
-      form.reset();
+      })
+      toast.success("Note added!")
+      form.reset()
     } catch (error) {
-      toast.error('Error Adding Note!');
+      toast.error("Error Adding Note!")
     }
-  };
+  }
 
   return (
     <Dialog>
@@ -109,7 +109,11 @@ export const AddNoteDialog = ({
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea  className="resize-none" placeholder="A brief description of the note" {...field} />
+                        <Textarea
+                          className="resize-none"
+                          placeholder="A brief description of the note"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -167,5 +171,5 @@ export const AddNoteDialog = ({
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}

@@ -30,7 +30,7 @@ const formSchema = z.object({
   color: z.string().min(4).max(9).regex(/^#/),
 })
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<typeof formSchema>
 
 export const AddLabelDialog = () => {
   const addLabel = useMutation(api.labels.addLabel)
