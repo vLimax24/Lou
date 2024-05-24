@@ -18,14 +18,14 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { api } from "@/convex/_generated/api"
@@ -33,7 +33,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { useMutation } from "convex/react"
+import { useMutation, useQuery } from "convex/react"
 
 const formSchema = z.object({
   topic: z.string().min(2).max(50),
@@ -41,9 +41,12 @@ const formSchema = z.object({
   date: z.date(),
 })
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<typeof formSchema>
 
-export const AddGradeDialog = ({ subjectId }:any) => {
+export const AddGradeDialog = ({ subjectId }: any) => {
+  const getSubject: any = useQuery(api.subjects.getSubject, {
+    subjectId: subjectId,
+  })
 
   const addNote = useMutation(api.grades.addGrade)
 
@@ -52,7 +55,7 @@ export const AddGradeDialog = ({ subjectId }:any) => {
     defaultValues: {
       topic: "",
       grade: "",
-      date: new Date()
+      date: new Date(),
     },
   })
 
@@ -64,6 +67,8 @@ export const AddGradeDialog = ({ subjectId }:any) => {
         date: formattedDate,
         subjectId: subjectId,
         grade: values.grade,
+        badges: [],
+        subjectName: getSubject?.name,
       })
       toast.success(`Grade ${values.grade} added!`)
       form.reset()
@@ -88,7 +93,7 @@ export const AddGradeDialog = ({ subjectId }:any) => {
               <div className="grid grid-cols-1 items-center gap-4">
                 <FormField
                   control={form.control}
-                  name='topic'
+                  name="topic"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Topic</FormLabel>
@@ -101,7 +106,7 @@ export const AddGradeDialog = ({ subjectId }:any) => {
                 />
                 <FormField
                   control={form.control}
-                  name='date'
+                  name="date"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Date</FormLabel>
@@ -110,7 +115,7 @@ export const AddGradeDialog = ({ subjectId }:any) => {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          className="rounded-md border flex items-center justify-center"
+                          className="flex items-center justify-center rounded-md border"
                           {...field}
                         />
                       </FormControl>
@@ -120,12 +125,12 @@ export const AddGradeDialog = ({ subjectId }:any) => {
                 />
                 <FormField
                   control={form.control}
-                  name='grade'
+                  name="grade"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Grade</FormLabel>
                       <FormControl>
-                        <div className='flex items-center justify-between'>
+                        <div className="flex items-center justify-between">
                           <Select
                             onValueChange={field.onChange}
                             value={field.value}
@@ -164,5 +169,3 @@ export const AddGradeDialog = ({ subjectId }:any) => {
     </Dialog>
   )
 }
-
-
