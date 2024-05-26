@@ -24,21 +24,24 @@ const HomePage = () => {
   }
 
   return (
-    <div className="relative mx-auto mt-32 flex w-full max-w-[1080px] flex-col items-center justify-between">
-      <div className="z-1 mt-20">
-        <h1 className="w-3/5 break-words text-left text-[6rem] font-black leading-[6rem]">
+    <div className="relative mx-auto mt-16 flex w-full max-w-[1080px] flex-col items-center justify-between">
+      <div className="z-1 mt-12">
+        <h1 className="break-words text-3xl font-black md:w-3/5 md:text-left text-center md:text-[6rem] md:leading-[6rem]">
           Master your student life with Lou
         </h1>
+        <div className="flex items-center justify-center">
         <SignUpButton mode="modal">
           <Button
             className={`mt-10 w-72 rounded-[2rem] ${
               isPressed ? "cta-button-pressed" : "cta-button-shadow"
-            } h-[3.5rem] bg-primaryBlue text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover`}
+            } h-[3.5rem] bg-primaryBlue text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover `}
             onClick={handleClick}
           >
             Get Started
           </Button>
         </SignUpButton>
+        </div>
+
       </div>
       <Image
         src={Triangle}
@@ -47,7 +50,7 @@ const HomePage = () => {
         height={900}
         className="animate-slide-up absolute right-[-5.5rem] top-[-7rem] z-[-1] hidden md:block"
       />
-      <div className="mx-[auto] mt-72 flex w-full max-w-[1080px] items-center justify-between">
+      <div className="mx-[auto] mt-16 flex w-full max-w-[1080px] flex-col items-center justify-between gap-4 md:flex-row">
         <div className="flex flex-col items-center justify-center text-center">
           <h1 className="mb-[-1rem] text-[3.5rem] font-bold text-primaryBlue">
             10.000+
@@ -67,10 +70,12 @@ const HomePage = () => {
           <p className="text-2xl font-bold">Grade Increase</p>
         </div>
       </div>
-      <div className="mt-64 flex w-full flex-col items-center justify-between text-center">
-        <h1 className="text-[55px] font-black">Tired of messing up school?</h1>
-        <div className="mt-[3rem] flex w-[90%] items-center justify-between">
-          <div className="flex scale-[1.2] flex-col rounded-[24px] border-2 border-[#FF8B8B] bg-[#FFF5F5] p-4 text-start">
+      <div className="mt-16 flex w-full flex-col items-center justify-between text-center">
+        <h1 className="text-3xl font-black md:text-[55px]">
+          Tired of messing up school?
+        </h1>
+        <div className="mt-[4rem] flex w-[90%] flex-col items-center justify-between gap-8 md:flex-row">
+          <div className="flex flex-col rounded-[24px] border-2 border-[#FF8B8B] bg-[#FFF5F5] p-4 text-start">
             <h1 className="text-3xl font-bold">Without Lou</h1>
             <div className="mt-5 flex items-center justify-start">
               <div className="rounded-full border-[1.5px] border-[#FF1616] bg-[#FF7C7C] p-1.5 text-white">
@@ -105,7 +110,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="flex scale-[1.2] flex-col rounded-[24px] border-2 border-[#28C62F] bg-[#E3FFE4] p-4 text-start">
+          <div className="flex flex-col rounded-[24px] border-2 border-[#28C62F] bg-[#E3FFE4] p-4 text-start">
             <h1 className="text-3xl font-bold">With Lou</h1>
             <div className="mt-5 flex items-center justify-start">
               <div className="rounded-full border-[1.5px] border-[#00BD1F] bg-[#01BD1F] bg-opacity-50 p-1.5 text-white">
@@ -142,26 +147,26 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-64 w-full">
-        <div className="flex flex-col items-center justify-center text-center">
-          <h3 className="text-2xl font-bold text-primaryBlue">Features</h3>
-          <h1 className="text-[55px] font-black leading-[3rem]">
+      <div className="mt-16 w-full">
+        <div className="flex flex-col items-center justify-center text-center gap-8">
+          <h1 className="text-3xl font-bold text-primaryBlue">Features</h1>
+          <h2 className="text-2xl md:text-[55px] font-black leading-[3rem]">
             School mastery,
             <br />
             Effortlessly Within Reach
-          </h1>
+          </h2>
         </div>
-        <div className="mt-24 flex flex-col items-center justify-center">
-          <div className="mt-24 flex w-full items-center justify-between">
+        <div className="flex flex-col items-center justify-center">
+          <div className="mt-16 flex w-full items-center justify-center md:justify-between">
             <Image
               src={LumiPC}
               alt="LumiPC"
               width={300}
               height={300}
-              className="ml-10"
+              className="ml-10 hidden md:block"
             />
             <div className="flex w-[25rem] flex-col">
-              <h3 className="mb-[-0.5rem] text-[18px] font-medium text-primaryBlue">
+              <h3 className="text-[18px] font-medium text-primaryBlue">
                 Team Projects
               </h3>
               <h1 className="text-[26px] font-black text-black">
@@ -174,9 +179,9 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="mt-24 flex w-full items-center justify-between">
+          <div className="mt-16 flex w-full items-center justify-center md:justify-between">
             <div className="flex w-[25rem] flex-col">
-              <h3 className="mb-[-0.5rem] text-[18px] font-medium text-primaryBlue">
+              <h3 className="text-[18px] font-medium text-primaryBlue">
                 Grade Analytics
               </h3>
               <h1 className="w-[30rem] text-[26px] font-black text-black">
@@ -193,19 +198,19 @@ const HomePage = () => {
               alt="LumiAnalytics"
               width={300}
               height={300}
-              className="mr-10"
+              className="mr-10 hidden md:block"
             />
           </div>
-          <div className="mt-24 flex w-full items-center justify-between">
+          <div className="mt-16 flex w-full items-center justify-center md:justify-between">
             <Image
               src={LumiGraduate}
               alt="LumiGraduate"
               width={300}
               height={300}
-              className="ml-10"
+              className="ml-10 hidden md:block"
             />
             <div className="flex w-[25rem] flex-col">
-              <h3 className="mb-[-0.5rem] text-[18px] font-medium text-primaryBlue">
+              <h3 className="text-[18px] font-medium text-primaryBlue">
                 Learn Ressources
               </h3>
               <h1 className="text-[26px] font-black text-black">
@@ -220,14 +225,14 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-64 flex flex-col">
+      <div className="mt-16 flex flex-col">
         <div className="flex flex-col items-center justify-center text-center">
-          <h3 className="text-2xl font-bold text-primaryBlue">Pricing</h3>
-          <h1 className="text-[55px] font-black leading-[3rem]">
+          <h3 className="text-3xl font-bold text-primaryBlue">Pricing</h3>
+          <h1 className="text-2xl md:text-[55px] font-black leading-[3rem]">
             Finally get school under control!
           </h1>
         </div>
-        <div className="mx-auto mt-24 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 ">
           <div className="mr-10 flex w-64 flex-col justify-between rounded-3xl border p-6 text-left shadow-xl">
             <div>
               <h3 className="text-2xl font-semibold">Lou Free</h3>
@@ -245,7 +250,7 @@ const HomePage = () => {
             </Button>
           </div>
 
-          <div className="relative scale-125 rounded-3xl border bg-gray-100 p-6 text-left shadow-xl">
+          <div className="relative md:scale-125 rounded-3xl border bg-gray-100 p-6 text-left shadow-xl">
             <span className="absolute right-0 top-7 rounded-l-lg bg-primaryBlue px-3 py-1 text-xs font-bold text-white">
               Most Popular
             </span>
@@ -267,7 +272,7 @@ const HomePage = () => {
             </Button>
           </div>
 
-          <div className="ml-10 w-64 rounded-3xl border p-6 text-left shadow-xl">
+          <div className="md:ml-10 w-64 rounded-3xl border p-6 text-left shadow-xl">
             <h3 className="text-2xl font-semibold">Lou Elite</h3>
             <p className="my-4 text-4xl font-bold">
               $10 <span className="text-lg font-medium">usd / month</span>
@@ -287,9 +292,9 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-48 flex w-full items-center justify-between">
-        <div className="flex flex-col items-start justify-center text-left">
-          <h1 className="max-w-[37rem] text-[55px] font-black leading-[3rem]">
+      <div className="mt-32 flex flex-col md:flex-row w-full items-center justify-between gap-12">
+        <div className="flex flex-col md:items-start items-center justify-center text-center md:text-left">
+          <h1 className="md:max-w-[37rem] text-4xl font-black">
             Join over 10.000+ Students on Lou now!
           </h1>
           <SignUpButton mode="modal">

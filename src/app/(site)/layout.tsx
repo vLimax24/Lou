@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const SiteLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main>
-      <div className={"mx-[auto] my-0 w-full max-w-full lg:max-w-[1080px]"}>
+      <div className={"mx-[auto] my-0 w-full max-w-full lg:max-w-[1080px] overflow-x-hidden"}>
         <NavBar />
         {children}
       </div>

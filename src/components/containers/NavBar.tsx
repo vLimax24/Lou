@@ -67,10 +67,10 @@ export const NavBar: React.FC = () => {
       ) : (
         <div
           className={
-            "fixed left-0 right-0 top-0 z-10 mx-2 max-w-[100vw] bg-white transition-all duration-300 md:mx-auto md:max-w-[1080px]"
+            "bg-white transition-all duration-300 md:mx-auto md:max-w-[1080px]"
           }
         >
-          <div className="mx-2 flex h-24 max-w-[100vw] items-center justify-between overflow-hidden px-3 py-4 text-black md:mx-auto lg:max-w-[1080px]">
+          <div className="flex h-24 items-center justify-between overflow-hidden px-3 py-4 text-black md:mx-auto lg:max-w-[1080px]">
             <div className="flex items-center">
               <Image
                 src={Logo}
@@ -81,7 +81,7 @@ export const NavBar: React.FC = () => {
               />
               <h1 className="ml-2 text-[2.3rem] font-bold">Lou</h1>
             </div>
-            <div className="mr-6 flex md:mr-0">
+            <div className="flex md:mr-0">
               <SignInButton mode="modal">
                 <Button className="h-12 w-36 rounded-3xl border-2 border-[#ADADAD] bg-transparent px-10 text-lg font-bold text-black transition-all duration-200 ease-in-out hover:border-black hover:bg-transparent">
                   Log in

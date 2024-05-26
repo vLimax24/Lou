@@ -9,6 +9,7 @@ import { Bricolage_Grotesque } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
 import "@/styles/globals.css"
 import "@/styles/prosemirror.css"
+import { cn } from "@/lib/utils"
 
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
@@ -23,7 +24,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} afterSignInUrl="/dashboard" afterSignUpUrl="/dashboard">
       <html lang="en">
-        <body className={bricolage.className || inter.className}>
+        <body className={cn("min-h-screen",
+          bricolage.className ?? inter.className
+        )}>
           <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
             {children}
           </ConvexProviderWithClerk>
