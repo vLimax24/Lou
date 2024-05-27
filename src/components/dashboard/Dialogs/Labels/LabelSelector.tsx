@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import AnimatedCheckIcon from "@/components/common/AnimatedCheckIcon"
 import { Input } from "@/components/ui/input"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
@@ -37,21 +37,27 @@ export const LabelSelector = ({ entityId }: Props) => {
   )
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center gap-8">
       <Input
         placeholder="Label"
         onChange={e => setSearchTerm(e.target.value.toLowerCase())}
+        className="w-full rounded-lg bg-white py-4"
       />
-      <div className="flex h-full w-full flex-col items-center justify-center">
+      <div className="grid w-full grid-cols-1 gap-2">
         {filteredLabels ? (
           filteredLabels.map(label => (
-            <Button
-              key={label._id}
+
+            <div
+            key={label._id}
+              className={
+                "flex items-center justify-between rounded-lg bg-white p-4 transition-all duration-300 ease-in-out hover:cursor-pointer border"
+              }
               onClick={() => handleLabelClick(label._id)}
             >
-              {label.name}
-              {itemLabelIds.has(label._id) && " ✅"}
-            </Button>
+              <p className="text-lg font-bold">{label.name}</p>
+              {itemLabelIds.has(label._id) && <AnimatedCheckIcon />}
+            </div>
+         
           ))
         ) : (
           <Loader2 className="h-10 w-10 animate-spin" />

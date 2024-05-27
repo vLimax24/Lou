@@ -1,30 +1,10 @@
 "use client"
-import { motion } from "framer-motion"
 import { Loader2 } from "lucide-react"
 import React from "react"
 
 import { Doc } from "@/convex/_generated/dataModel"
+import AnimatedCheckIcon from "@/components/common/AnimatedCheckIcon";
 
-const AnimatedCheckIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    height={28}
-    width={28}
-  >
-    <motion.path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      initial={{ pathLength: 0 }}
-      animate={{ pathLength: 1 }}
-      transition={{ duration: 0.25 }}
-      d="M4.5 12.75l6 6 9-13.5"
-    />
-  </svg>
-)
 
 type Props = {
   setSelectedSubjects: React.Dispatch<React.SetStateAction<string[]>>;
