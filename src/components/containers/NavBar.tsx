@@ -48,16 +48,16 @@ export const NavBar: React.FC = () => {
                 height={70}
                 draggable={false}
               />
-              <h1 className="ml-2 text-[2.3rem] font-bold">Lou</h1>
+              <h1 className="ml-2 text-[2.3rem] hidden md:block font-bold">Lou</h1>
             </div>
             <div className="flex space-x-4">
               <SignUpButton mode="modal">
-                <Button className="h-12 w-48 rounded-3xl bg-primaryBlue px-16 text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover">
+                <Button className="h-12 md:w-48 rounded-3xl bg-primaryBlue px-16 text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover">
                   Get Started
                 </Button>
               </SignUpButton>
               <SignInButton mode="modal">
-                <Button className="h-12 w-36 rounded-3xl border-2 border-[#ADADAD] bg-transparent px-10 text-lg font-bold text-black transition-all duration-200 ease-in-out hover:border-black hover:bg-transparent">
+                <Button className="h-12 md:w-36 rounded-3xl border-2 border-[#ADADAD] bg-transparent px-10 text-lg font-bold text-black transition-all duration-200 ease-in-out hover:border-black hover:bg-transparent">
                   Log in
                 </Button>
               </SignInButton>
