@@ -24,8 +24,8 @@ const HomePage = () => {
   }
 
   return (
-    <div className="relative mx-auto mt-16 flex w-full max-w-[1080px] flex-col items-center justify-between">
-      <div className="z-1 mt-12">
+    <div className="relative mx-auto mt-16 md:mt-32 flex w-full max-w-[1080px] flex-col items-center justify-between">
+      <div className="z-1 mt-12 md:mt-">
         <h1 className="break-words text-3xl font-black md:w-3/5 md:text-left text-center md:text-[6rem] md:leading-[6rem]">
           Master your student life with Lou
         </h1>
@@ -50,7 +50,7 @@ const HomePage = () => {
         height={900}
         className="animate-slide-up absolute right-[-5.5rem] top-[-7rem] z-[-1] hidden md:block"
       />
-      <div className="mx-[auto] mt-16 flex w-full max-w-[1080px] flex-col items-center justify-between gap-4 md:flex-row">
+      <div className="mx-[auto] mt-16 md:mt-32 flex w-full max-w-[1080px] flex-col items-center justify-between gap-4 md:flex-row">
         <div className="flex flex-col items-center justify-center text-center">
           <h1 className="mb-[-1rem] text-[3.5rem] font-bold text-primaryBlue">
             10.000+
@@ -70,7 +70,7 @@ const HomePage = () => {
           <p className="text-2xl font-bold">Grade Increase</p>
         </div>
       </div>
-      <div className="mt-16 flex w-full flex-col items-center justify-between text-center">
+      <div className="mt-16 md:mt-32 flex w-full flex-col items-center justify-between text-center">
         <h1 className="text-3xl font-black md:text-[55px]">
           Tired of messing up school?
         </h1>
@@ -147,7 +147,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-16 w-full">
+      <div className="mt-16 md:mt-32 w-full">
         <div className="flex flex-col items-center justify-center text-center gap-8">
           <h1 className="text-3xl font-bold text-primaryBlue">Features</h1>
           <h2 className="text-2xl md:text-[55px] font-black leading-[3rem]">
@@ -225,15 +225,15 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-16 flex flex-col">
+      <div className="mt-16 md:mt-32 flex flex-col">
         <div className="flex flex-col items-center justify-center text-center">
           <h3 className="text-3xl font-bold text-primaryBlue">Pricing</h3>
           <h1 className="text-2xl md:text-[55px] font-black leading-[3rem]">
             Finally get school under control!
           </h1>
         </div>
-        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 ">
-          <div className="mr-10 flex w-64 flex-col justify-between rounded-3xl border p-6 text-left shadow-xl">
+        <div className="mt-16 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 ">
+          <div className="flex flex-col justify-between rounded-3xl border p-6 text-left shadow-xl">
             <div>
               <h3 className="text-2xl font-semibold">Lou Free</h3>
               <p className="my-4 text-4xl font-bold">Free</p>
@@ -250,7 +250,7 @@ const HomePage = () => {
             </Button>
           </div>
 
-          <div className="relative md:scale-125 rounded-3xl border bg-gray-100 p-6 text-left shadow-xl">
+          <div className="relative rounded-3xl border bg-gray-100 p-6 text-left shadow-xl">
             <span className="absolute right-0 top-7 rounded-l-lg bg-primaryBlue px-3 py-1 text-xs font-bold text-white">
               Most Popular
             </span>
@@ -272,7 +272,7 @@ const HomePage = () => {
             </Button>
           </div>
 
-          <div className="md:ml-10 w-64 rounded-3xl border p-6 text-left shadow-xl">
+          <div className="rounded-3xl border p-6 text-left shadow-xl">
             <h3 className="text-2xl font-semibold">Lou Elite</h3>
             <p className="my-4 text-4xl font-bold">
               $10 <span className="text-lg font-medium">usd / month</span>
