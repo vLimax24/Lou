@@ -6,19 +6,24 @@ import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Timer, BarChart, Play, Pause, RotateCw, Plus, Minus } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { ProgressCircle } from "@tremor/react"
+import { Timer, BarChart, Play, Pause } from "lucide-react"
 
 dayjs.extend(duration)
 dayjs.extend(customParseFormat)
 
-type CardProps = React.ComponentProps<typeof Card>;
+type CardProps = React.ComponentProps<typeof Card>
 
 const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
   const [isRunning, setIsRunning] = useState(false)
   const [isWorkTime, setIsWorkTime] = useState(true)
-  const [timeLeft, setTimeLeft] = useState(dayjs.duration({ minutes: 25 }).asMilliseconds())
-  const [workDuration, setWorkDuration] = useState(25)
-  const [breakDuration, setBreakDuration] = useState(5)
+  const [selectedTime, setSelectedTime] = useState("25")
+  const [timeLeft, setTimeLeft] = useState(
+    dayjs.duration({ minutes: 25 }).asMilliseconds()
+  )
+  const [workDuration] = useState(25)
+  const [breakDuration] = useState(5)
   const [sessionCount, setSessionCount] = useState(0)
 
   useEffect(() => {
@@ -39,15 +44,17 @@ const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
 
     if (isRunning) {
       timer = setInterval(() => {
-        setTimeLeft((prev) => {
+        setTimeLeft(prev => {
           if (prev <= 1000) {
-            setIsWorkTime((prev) => !prev)
+            setIsWorkTime(prev => !prev)
             if (isWorkTime) {
               const newCount = sessionCount + 1
               setSessionCount(newCount)
               localStorage.setItem("sessionCount", newCount.toString())
             }
-            return dayjs.duration({ minutes: isWorkTime ? breakDuration : workDuration }).asMilliseconds()
+            return dayjs
+              .duration({ minutes: isWorkTime ? breakDuration : workDuration })
+              .asMilliseconds()
           }
           return prev - 1000
         })
@@ -59,7 +66,14 @@ const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
         clearInterval(timer)
       }
     }
-  }, [isRunning, isWorkTime, timeLeft, workDuration, breakDuration, sessionCount])
+  }, [
+    isRunning,
+    isWorkTime,
+    timeLeft,
+    workDuration,
+    breakDuration,
+    sessionCount,
+  ])
 
   const handleStartPause = () => {
     setIsRunning(!isRunning)
@@ -68,6 +82,7 @@ const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
   const handleReset = () => {
     setIsRunning(false)
     setIsWorkTime(true)
+    setSelectedTime("25")
     setTimeLeft(dayjs.duration({ minutes: workDuration }).asMilliseconds())
   }
 
@@ -77,12 +92,15 @@ const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
     const totalCubes = 120
     return (
       <div className="flex flex-col items-center">
-        <p className="text-center mt-2">Total sessions today: <strong>{sessionCount}</strong> {sessionCount > 3 && "🔥"}</p>
-        <div className="grid grid-cols-10 mt-4">
+        <p className="mt-2 text-center">
+          Total sessions today: <strong>{sessionCount}</strong>{" "}
+          {sessionCount > 3 && "🔥"}
+        </p>
+        <div className="mt-4 grid grid-cols-12">
           {Array.from({ length: totalCubes }, (_, index) => (
             <div
               key={index}
-              className={`w-4 h-4 ${index < sessionCount ? "bg-blue-500" : "bg-gray-300"} m-1 rounded-sm`}
+              className={`h-4 w-4 ${index < sessionCount ? "bg-blue-500" : "bg-gray-300"} m-1 rounded-sm`}
             ></div>
           ))}
         </div>
@@ -90,111 +108,89 @@ const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
     )
   }
 
-  const increaseWorkDuration = () => {
-    const newDuration = workDuration + 1
-    setWorkDuration(newDuration)
-    if (isWorkTime) setTimeLeft(dayjs.duration({ minutes: newDuration }).asMilliseconds())
+  const handleSetTime = (minutes: number) => {
+    setSelectedTime(minutes.toString())
+    setTimeLeft(dayjs.duration({ minutes }).asMilliseconds())
   }
 
-  const decreaseWorkDuration = () => {
-    if (workDuration > 1) {
-      const newDuration = workDuration - 1
-      setWorkDuration(newDuration)
-      if (isWorkTime) setTimeLeft(dayjs.duration({ minutes: newDuration }).asMilliseconds())
-    }
-  }
-
-  const increaseBreakDuration = () => {
-    const newDuration = breakDuration + 1
-    setBreakDuration(newDuration)
-    if (!isWorkTime) setTimeLeft(dayjs.duration({ minutes: newDuration }).asMilliseconds())
-  }
-
-  const decreaseBreakDuration = () => {
-    if (breakDuration > 1) {
-      const newDuration = breakDuration - 1
-      setBreakDuration(newDuration)
-      if (!isWorkTime) setTimeLeft(dayjs.duration({ minutes: newDuration }).asMilliseconds())
-    }
-  }
+  const totalDuration = parseInt(selectedTime) * 60 * 1000
+  const progress = ((totalDuration - timeLeft) / totalDuration) * 100
 
   return (
-    <Card className={cn("p-6 ml-5 mb-5 border-none", className)} {...props}>
-      {/* <h2 className="text-2xl font-bold text-center mb-2">Pomodoro</h2> */}
-      <Tabs defaultValue="pomodoro" className="w-[250px]">
+    <Card className={cn("border-none shadow-none", className)} {...props}>
+      <Tabs defaultValue="pomodoro" className="max-h-[30vh] w-full">
         <TabsList className="w-full">
-          <TabsTrigger value="pomodoro" className="w-1/2 text-gray-500 flex items-center justify-center"><Timer className="size-5 text-gray-500 mr-0.5"/> Pomodoro</TabsTrigger>
-          <TabsTrigger value="stats" className="w-1/2 text-gray-500 flex items-center justify-center"><BarChart className="size-5 text-gray-500 mr-0.5"/> Stats</TabsTrigger>
+          <TabsTrigger
+            value="pomodoro"
+            className="flex w-1/2 items-center justify-center text-gray-500"
+          >
+            <Timer className="mr-0.5 size-5 text-gray-500" /> Pomodoro
+          </TabsTrigger>
+          <TabsTrigger
+            value="stats"
+            className="flex w-1/2 items-center justify-center text-gray-500"
+          >
+            <BarChart className="mr-0.5 size-5 text-gray-500" /> Stats
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="pomodoro">
-          <div className="text-center">
-            <p>{isWorkTime ? "Session" : "Break"}</p>
-            <span className="text-[3.5rem] font-mono my-[-1rem]">{formattedTimeLeft}</span>
-          </div>
-          <div className="flex justify-center mb-2.5">
-            <button
-              onClick={handleStartPause}
-              className="px-4 py-2 bg-primaryGray hover:bg-primaryHoverGray text-white rounded mr-2 w-1/2"
-            >
-              {isRunning ? (
-                <div className="flex items-center justify-center">
-                  <Pause />
-                  <span className="ml-1 text-sm">Pause</span>
+          <div className="flex flex-col">
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <div
+                className={`rounded-xl px-4 py-2 hover:cursor-pointer ${selectedTime === "5" ? "bg-[#184d6c] text-white" : "bg-[#b3b4b8] text-white"} transition-all duration-300 ease-in-out`}
+                onMouseDown={() => handleSetTime(5)}
+              >
+                5 mins
+              </div>
+              <div
+                className={`rounded-xl px-4 py-2 hover:cursor-pointer ${selectedTime === "10" ? "bg-[#184d6c] text-white" : "bg-[#b3b4b8] text-white"} transition-all duration-300 ease-in-out`}
+                onMouseDown={() => handleSetTime(10)}
+              >
+                10 mins
+              </div>
+              <div
+                className={`rounded-xl px-4 py-2 hover:cursor-pointer ${selectedTime === "25" ? "bg-[#184d6c] text-white" : "bg-[#b3b4b8] text-white"} transition-all duration-300 ease-in-out`}
+                onMouseDown={() => handleSetTime(25)}
+              >
+                25 mins
+              </div>
+            </div>
+            <div className="mt-4 grid grid-cols-2 rounded-[2rem] bg-primaryBlue p-4 text-white">
+              <div className="ml-5 mr-4 flex flex-col items-start justify-between md:mr-0">
+                <div className="mb-1 mt-2">
+                  <p>{isWorkTime ? "Session" : "Break"}</p>
+                  <h1 className="mt-2 text-[3rem] font-bold leading-[2.5rem]">
+                    {formattedTimeLeft}
+                  </h1>
                 </div>
-              ) : (
-                <div className="flex items-center justify-center">
-                  <Play />
-                  <span className="ml-1 text-sm">Play</span>
+                <Button
+                  onMouseDown={handleReset}
+                  className="mt-2 rounded-2xl bg-[#303030] px-10 hover:bg-[#272727]"
+                >
+                  Stop
+                </Button>
+              </div>
+              <div className="flex h-full w-full items-center justify-center rounded-3xl bg-[#184d6c]">
+                <div className="relative flex items-center justify-center">
+                  <ProgressCircle
+                    value={progress}
+                    radius={60}
+                    strokeWidth={14}
+                    className="my-4"
+                    color={"#0cdcf8"}
+                  />
+                  <Button
+                    onClick={handleStartPause}
+                    className="absolute z-10 size-18 rounded-full bg-black text-white"
+                  >
+                    {isRunning ? <Pause /> : <Play />}
+                  </Button>
                 </div>
-              )}
-            </button>
-            <button
-              onClick={handleReset}
-              className="px-4 py-2 bg-gray-500 text-white rounded w-1/2 flex items-center justify-center"
-            >
-              <RotateCw className="mr-1"/>
-              <span className="ml-1 text-sm">Reset</span>
-            </button>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col justify-center mb-4 space-y-2">
-  <div className="flex flex-col items-center mx-2 space-y-0.5">
-    <label htmlFor="work-duration" className="text-lg font-medium">Session Length</label>
-    <div className="flex items-center space-x-4">
-      <button 
-        onClick={increaseWorkDuration} 
-        className="p-2 bg-primaryGray text-white rounded-full flex items-center justify-center hover:bg-primaryHoverGray transition">
-        <Plus/>
-      </button>
-      <p className="text-3xl font-semibold">{workDuration}:00</p>
-      <button 
-        onClick={decreaseWorkDuration} 
-        className="p-2 bg-primaryGray text-white rounded-full flex items-center justify-center hover:bg-primaryHoverGray transition">
-        <Minus />
-      </button>
-    </div>
-  </div>
-  <div className="flex flex-col items-center mx-2 space-y-0.5">
-    <label htmlFor="break-duration" className="text-lg font-medium">Break Length</label>
-    <div className="flex items-center space-x-4">
-      <button 
-        onClick={increaseBreakDuration} 
-        className="p-2 bg-primaryGray text-white rounded-full flex items-center justify-center hover:bg-primaryHoverGray transition">
-        <Plus/>
-      </button>
-      <p className="text-3xl font-semibold">{breakDuration}:00</p>
-      <button 
-        onClick={decreaseBreakDuration} 
-        className="p-2 bg-primaryGray text-white rounded-full flex items-center justify-center hover:bg-primaryHoverGray transition">
-        <Minus />
-      </button>
-    </div>
-  </div>
-</div>
-
         </TabsContent>
-        <TabsContent value="stats">
-          {renderCubes()}
-        </TabsContent>
+        <TabsContent value="stats">{renderCubes()}</TabsContent>
       </Tabs>
     </Card>
   )

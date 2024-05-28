@@ -30,7 +30,7 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
       <DashboardSidebar />
       <div className="flex flex-col">
         <DashboardHeader />
-        <main className="flex h-full min-h-screen w-full flex-col gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6 lg:p-10">
+        <main className="h-full w-full gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6 lg:p-10">
           {children}
         </main>
         <Toaster richColors />

@@ -1,25 +1,41 @@
 "use client"
-import AssignmentCard from "@/components/dashboard/home/Assignments"
-import NotesCard from "@/components/dashboard/home/Notes"
 import { GradeBarChart } from "@/components/dashboard/home/GradeSheet/BarChart"
+import EventsCard from "@/components/dashboard/home/Events"
 // import ActionBar from "@/components/dashboard/home/Search"
 import PomodoroTimerCard from "@/components/dashboard/home/PomodoroTimer"
+import ProjectsCard from "@/components/dashboard/home/Projects"
+import TasksCard from "@/components/dashboard/home/Tasks"
 
 const Dashboard = () => {
   return (
-    <div className="flex flex-col justify-center rounded-lg">
-      <div className="flex flex-1 flex-col pb-1 md:flex-row">
-        <div className="center flex-col">
-          {/* <ActionBar /> */}
-          <GradeBarChart />
+    <section className="flex items-center justify-center overflow-hidden p-10 md:p-5 lg:p-0">
+      <div className="h-full w-full">
+        <div className="h-full max-w-full text-gray-500">
+          <div className="relative h-full">
+            <div
+              className="relative z-10 grid h-full grid-cols-6 gap-3"
+              style={{ gridTemplateRows: "repeat(2, 1fr)" }}
+            >
+              <div className="relative col-span-full flex overflow-hidden rounded-xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900 lg:col-span-2">
+                <EventsCard />
+              </div>
+              <div className="relative col-span-full overflow-hidden rounded-xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900 sm:col-span-3 lg:col-span-2">
+                <TasksCard />
+              </div>
+              <div className="relative col-span-full overflow-hidden rounded-xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900 sm:col-span-3 lg:col-span-2">
+                <PomodoroTimerCard />
+              </div>
+              <div className="flex-items-c relative col-span-full overflow-hidden rounded-xl border border-gray-200 bg-white p-4 pr-12 dark:border-gray-800 dark:bg-gray-900 lg:col-span-3">
+                <GradeBarChart />
+              </div>
+              <div className="relative col-span-full overflow-hidden rounded-xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900 lg:col-span-3">
+                <ProjectsCard />
+              </div>
+            </div>
+          </div>
         </div>
-        <PomodoroTimerCard />
       </div>
-      <div className="flex flex-1 flex-col justify-center pb-0 pt-1 md:flex-row">
-        <AssignmentCard />
-        <NotesCard />
-      </div>
-    </div>
+    </section>
   )
 }
 

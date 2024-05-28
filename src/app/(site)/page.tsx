@@ -24,24 +24,23 @@ const HomePage = () => {
   }
 
   return (
-    <div className="relative mx-auto mt-16 md:mt-32 flex w-full max-w-[1080px] flex-col items-center justify-between">
-      <div className="z-1 mt-12 md:mt-">
-        <h1 className="break-words text-3xl font-black md:w-3/5 md:text-left text-center md:text-[6rem] md:leading-[6rem]">
+    <div className="relative mx-auto mt-16 flex w-full max-w-[1080px] flex-col items-center justify-between md:mt-32">
+      <div className="z-1 md:mt- mt-12">
+        <h1 className="break-words text-center text-[2rem] font-black md:w-3/5 md:text-left md:text-[6rem] md:leading-[6rem]">
           Master your student life with Lou
         </h1>
-        <div className="flex items-center justify-center">
-        <SignUpButton mode="modal">
-          <Button
-            className={`mt-10 w-72 rounded-[2rem] ${
-              isPressed ? "cta-button-pressed" : "cta-button-shadow"
-            } h-[3.5rem] bg-primaryBlue text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover `}
-            onClick={handleClick}
-          >
-            Get Started
-          </Button>
-        </SignUpButton>
+        <div className="flex items-center justify-center md:justify-start">
+          <SignUpButton mode="modal">
+            <Button
+              className={`mt-10 w-72 rounded-[2rem] ${
+                isPressed ? "cta-button-pressed" : "cta-button-shadow"
+              } h-[3.5rem] bg-primaryBlue text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover `}
+              onClick={handleClick}
+            >
+              Get Started
+            </Button>
+          </SignUpButton>
         </div>
-
       </div>
       <Image
         src={Triangle}
@@ -50,7 +49,7 @@ const HomePage = () => {
         height={900}
         className="animate-slide-up absolute right-[-5.5rem] top-[-7rem] z-[-1] hidden md:block"
       />
-      <div className="mx-[auto] mt-16 md:mt-32 flex w-full max-w-[1080px] flex-col items-center justify-between gap-4 md:flex-row">
+      <div className="mx-[auto] mt-16 flex w-full max-w-[1080px] flex-col items-center justify-between gap-4 md:mt-32 md:flex-row">
         <div className="flex flex-col items-center justify-center text-center">
           <h1 className="mb-[-1rem] text-[3.5rem] font-bold text-primaryBlue">
             10.000+
@@ -70,7 +69,7 @@ const HomePage = () => {
           <p className="text-2xl font-bold">Grade Increase</p>
         </div>
       </div>
-      <div className="mt-16 md:mt-32 flex w-full flex-col items-center justify-between text-center">
+      <div className="mt-16 flex w-full flex-col items-center justify-between text-center md:mt-32">
         <h1 className="text-3xl font-black md:text-[55px]">
           Tired of messing up school?
         </h1>
@@ -147,10 +146,10 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-16 md:mt-32 w-full">
-        <div className="flex flex-col items-center justify-center text-center gap-8">
+      <div className="mt-16 w-full md:mt-32">
+        <div className="flex flex-col items-center justify-center gap-8 text-center">
           <h1 className="text-3xl font-bold text-primaryBlue">Features</h1>
-          <h2 className="text-2xl md:text-[55px] font-black leading-[3rem]">
+          <h2 className="text-2xl font-black leading-[3rem] md:text-[55px]">
             School mastery,
             <br />
             Effortlessly Within Reach
@@ -225,10 +224,10 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-16 md:mt-32 flex flex-col">
+      <div className="mt-16 flex flex-col md:mt-32">
         <div className="flex flex-col items-center justify-center text-center">
           <h3 className="text-3xl font-bold text-primaryBlue">Pricing</h3>
-          <h1 className="text-2xl md:text-[55px] font-black leading-[3rem]">
+          <h1 className="text-2xl font-black leading-[3rem] md:text-[55px]">
             Finally get school under control!
           </h1>
         </div>
@@ -292,14 +291,14 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-32 flex flex-col md:flex-row w-full items-center justify-between gap-12">
-        <div className="flex flex-col md:items-start items-center justify-center text-center md:text-left">
-          <h1 className="md:max-w-[37rem] text-4xl font-black">
+      <div className="mt-32 flex w-full flex-col items-center justify-between gap-12 md:flex-row">
+        <div className="flex flex-col items-center justify-center text-center md:items-start md:text-left">
+          <h1 className="text-4xl font-black md:max-w-[37rem]">
             Join over 10.000+ Students on Lou now!
           </h1>
           <SignUpButton mode="modal">
             <Button
-              className={`mt-10 w-72 rounded-[2rem] ${
+              className={`mb-10 mt-10 w-72 rounded-[2rem] ${
                 isPressed ? "cta-button-pressed" : "cta-button-shadow"
               } h-[3.5rem] bg-primaryBlue text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover`}
               onClick={handleClick}
