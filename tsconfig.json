@@ -26,9 +26,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/convex/*": [
-        "./convex/*"
-      ],
+      "@/convex/*": ["./convex/*"]
     }
   },
   "include": [
@@ -38,7 +36,11 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
-, "src/components/dashboard/Calendar/Combobox.jsx", "src/components/dnd/Draggable.tsx", "src/components/dnd/Droppable.tsx", "src/app/(dashboard)/dashboard/tasks/page.tsx"  ],
+    ".next/types/**/*.ts",
+    "src/components/dashboard/Calendar/Combobox.jsx",
+    "src/components/dnd/Draggable.tsx",
+    "src/components/dnd/Droppable.tsx",
+    "src/app/[locale]/(dashboard)/dashboard/tasks/page.tsx"
+  ],
   "exclude": ["node_modules"]
 }

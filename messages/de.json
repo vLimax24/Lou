@@ -1,0 +1,97 @@
+{
+  "Landing": {
+    "title": "Meistere dein Schulleben mit Lou",
+    "ctaButton": "Jetzt loslegen",
+    "stats": {
+      "users": "Zufriedene Schüler",
+      "tasks": "Erledigte Aufgaben",
+      "grades": "Notenverbesserung",
+      "grades2": "Noten"
+    },
+    "comparison": {
+      "title": "Müde davon, die Schule zu vermasseln?",
+      "withoutLouTitle": "Ohne Lou",
+      "withLouTitle": "Mit Lou",
+      "withoutLouReason1": "Unorganisierte Testvorbereitung",
+      "withoutLouReason2": "Manuelle Notenberechnung",
+      "withoutLouReason3": "Chaotische Teamprojektkoordination",
+      "withoutLouReason4": "Zerstreute Lernzettel",
+      "withLouReason1": "Strukturierte Testvorbereitung",
+      "withLouReason2": "Automatisierte Notenberechnung",
+      "withLouReason3": "Effiziente Teamprojektkoordination",
+      "withLouReason4": "Optimierte Lernressourcen"
+    },
+    "features": {
+      "smallTitle": "Funktionen",
+      "title": "Schule meistern,",
+      "title2": "mühelos in Reichweite",
+      "feature1": {
+        "smallTitle": "Teamprojekte",
+        "title": "Effektives Projektmanagement",
+        "description": "Visuelle, interaktive Dashboards machen die Verwaltung von Teamprojekten einfach. Echtzeit-Updates und kollaborative Werkzeuge helfen Teams, organisiert und effizient zu bleiben."
+      },
+      "feature2": {
+        "smallTitle": "Notenanalyse",
+        "title": "Personalisierte akademische Nachverfolgung",
+        "description": "Verfolge mühelos deine Noten und akademischen Fortschritte. Unsere intuitive Benutzeroberfläche bietet Einblicke und Analysen, um dir zu helfen, deine akademischen Ziele zu erreichen."
+      },
+      "feature3": {
+        "smallTitle": "Lernressourcen",
+        "title": "Lernen und Wachsen",
+        "description": "Individuell abgestimmte Lernressourcen ermöglichen es dir, vorhandene Fähigkeiten zu verbessern oder neue zu erwerben. Ob Schüler oder Berufstätiger, Lou hilft dir, vorne zu bleiben."
+      }
+    },
+    "pricing": {
+      "smallTitle": "Preise",
+      "title": "Endlich die Schule unter Kontrolle bekommen!",
+      "category1": {
+        "title": "Lou Free",
+        "cost": "Kostenlos",
+        "currency": "",
+        "features": {
+          "feature1": "Kostenlose Funktion 1",
+          "feature2": "Kostenlose Funktion 2",
+          "feature3": "Kostenlose Funktion 3",
+          "feature4": "Kostenlose Funktion 4",
+          "feature5": "Kostenlose Funktion 5"
+        },
+        "ctaButton": "Anmelden"
+      },
+      "category2": {
+        "title": "Lou Plus",
+        "cost": "5€",
+        "currency": "Euro/Monat",
+        "features": {
+          "addition": "Alles im Free Plan und...",
+          "feature1": "Plus Funktion 1",
+          "feature2": "Plus Funktion 2",
+          "feature3": "Plus Funktion 3",
+          "feature4": "Plus Funktion 4",
+          "feature5": "Plus Funktion 5"
+        },
+        "ctaButton": "Jetzt starten"
+      },
+      "category3": {
+        "title": "Lou Elite",
+        "cost": "10€",
+        "currency": "Euro/Monat",
+        "features": {
+          "addition": "Alles im Plus Plan und...",
+          "feature1": "Elite Funktion 1",
+          "feature2": "Elite Funktion 2",
+          "feature3": "Elite Funktion 3",
+          "feature4": "Elite Funktion 4",
+          "feature5": "Elite Funktion 5",
+          "feature6": "Elite Funktion 6"
+        },
+        "ctaButton": "Jetzt starten"
+      }
+    },
+    "cta": {
+      "title": "Schließe dich jetzt über 10.000+ Studenten auf Lou an!",
+      "ctaButton": "Jetzt loslegen",
+      "googlePlayReviews": "10k+ Bewertungen",
+      "appStoreReviews": "10k+ Bewertungen"
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "Landing": {
+    "title": "Master your school life with Lou",
+    "ctaButton": "Get Started",
+    "stats": {
+      "users": "Happy Users",
+      "tasks": "Tasks Completed",
+      "grades": "Grade Increase",
+      "grades2": "Units"
+    },
+    "comparison": {
+      "title": "Tired of messing up school?",
+      "withoutLouTitle": "Without Lou",
+      "withLouTitle": "With Lou",
+      "withoutLouReason1": "Disorganized Exam Preparation",
+      "withoutLouReason2": "Manual Grade Calculation",
+      "withoutLouReason3": "Chaotic Team Project Coordination",
+      "withoutLouReason4": "Fragmented Learning Resources",
+      "withLouReason1": "Streamlined Exam Preparation",
+      "withLouReason2": "Automated Grade Calculation",
+      "withLouReason3": "Efficient Team Project Coordination",
+      "withLouReason4": "Enhanced Learning Resources"
+    },
+    "features": {
+      "smallTitle": "Features",
+      "title1": "School mastery,",
+      "title2": "effortlessly within reach",
+      "feature1": {
+        "smallTitle": "Team Projects",
+        "title": "Effective Project Management",
+        "description": "Visual, interactive dashboards make managing team projects straightforward. Real-time updates and collaborative tools help teams stay organized and efficient."
+      },
+      "feature2": {
+        "smallTitle": "Grade Analytics",
+        "title": "Personalized Academic Tracking",
+        "description": "Track your grades and academic progress effortlessly. Our intuitive interface provides insights and analytics to help you achieve your academic goals."
+      },
+      "feature3": {
+        "smallTitle": "Learn Ressources",
+        "title": "Learn and Grow",
+        "description": "Tailored learning resources allow you to hone existing skills or acquire new ones. Whether you&apos;re a student or a professional, Lou helps you stay ahead."
+      },
+      "pricing": {
+        "smallTitle": "Pricing",
+        "title": "Finally get school under control!",
+        "category1": {
+          "title": "Lou Free",
+          "cost": "Free",
+          "currency": "usd/month",
+          "features": {
+            "feature1": "Free Feature 1",
+            "feature2": "Free Feature 1",
+            "feature3": "Free Feature 1",
+            "feature4": "Free Feature 1",
+            "feature5": "Free Feature 1"
+          },
+          "ctaButton": "Sign in"
+        },
+        "category2": {
+          "title": "Lou Plus",
+          "cost": "$5",
+          "currency": "usd/month",
+          "features": {
+            "addition": "Everything in Free and...",
+            "feature1": "Plus Feature 1",
+            "feature2": "Plus Feature 2",
+            "feature3": "Plus Feature 3",
+            "feature4": "Plus Feature 4",
+            "feature5": "Plus Feature 5"
+          },
+          "ctaButton": "Start now"
+        },
+        "category3": {
+          "title": "Lou Elite",
+          "cost": "$10",
+          "currency": "usd/month",
+          "features": {
+            "addition": "Everything in Plus and...",
+            "feature1": "Elite Feature 1",
+            "feature2": "Elite Feature 2",
+            "feature3": "Elite Feature 3",
+            "feature4": "Elite Feature 4",
+            "feature5": "Elite Feature 5",
+            "feature6": "Elite Feature 6"
+          },
+          "ctaButton": "Start now"
+        }
+      },
+      "cta": {
+        "title": "Join over 10.000+ Students on Lou now!",
+        "ctaButton": "Get Started",
+        "googlePlayReviews": "10k+ Reviews",
+        "appStoreReviews": "10k+ Reviews"
+      }
+    }
+  }
+}

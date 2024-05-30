@@ -1,12 +1,11 @@
 import Image from "next/image"
-import LoginForm from "../../../components/auth/login-form"
+import SignUpForm from "../../../../components/auth/signUp-form"
 
-const Login = () => {
+const SignUp = () => {
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
       <div className="flex items-center justify-center py-12">
-     
-      <LoginForm />
+        <SignUpForm />
       </div>
       <div className="hidden bg-muted lg:block">
         <Image
@@ -21,4 +20,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default SignUp
