@@ -93,5 +93,23 @@
       "googlePlayReviews": "10k+ Bewertungen",
       "appStoreReviews": "10k+ Bewertungen"
     }
+  },
+  "Dashboard": {
+    "home": {
+      "events": {
+        "title": "Events",
+        "exam": "Test",
+        "assignment": "Hausaufgabe",
+        "other": "Sonstiges",
+        "viewMore": "Mehr anzeigen"
+      },
+      "tasks": {
+        "title": "Aufgaben",
+        "inProgress": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "toDo": "To-Do",
+        "viewMore": "Mehr anzeigen"
+      }
+    }
   }
 }

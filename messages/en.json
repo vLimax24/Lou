@@ -93,5 +93,25 @@
         "appStoreReviews": "10k+ Reviews"
       }
     }
+  },
+  "Dashboard": {
+    "home": {
+      "events": {
+        "title": "Events",
+        "exam": "Exam",
+        "assignment": "Assignment",
+        "other": "Other",
+        "noEvents": "No events yet",
+        "viewMore": "View more"
+      },
+      "tasks": {
+        "title": "Tasks",
+        "inProgress": "In Progress",
+        "completed": "Completed",
+        "toDo": "To-Do",
+        "noTasks": "No tasks yet",
+        "viewMore": "View more"
+      }
+    }
   }
 }
