@@ -101,6 +101,7 @@
         "exam": "Test",
         "assignment": "Hausaufgabe",
         "other": "Sonstiges",
+        "noEvents": "Noch keine Events",
         "viewMore": "Mehr anzeigen"
       },
       "tasks": {
@@ -108,8 +109,20 @@
         "inProgress": "In Bearbeitung",
         "completed": "Abgeschlossen",
         "toDo": "To-Do",
+        "noTasks": "Noch keine Aufgaben",
         "viewMore": "Mehr anzeigen"
       }
+    },
+    "sidebar": {
+      "home": "Home",
+      "calendar": "Kalendar",
+      "projects": "Teamprojekte",
+      "notes": "Notizen",
+      "subjects": "Schulfächer",
+      "learn-resources": "Lernressourcen",
+      "text-editor": "Texteditor",
+      "tasks": "Aufgaben",
+      "grades": "Noten"
     }
   }
 }

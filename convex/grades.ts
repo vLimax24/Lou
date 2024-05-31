@@ -3,7 +3,7 @@ import { mutation } from "./_generated/server"
 import { authMutation, authQuery } from "./util"
 
 export const getGrades = authQuery({
-  args:{},
+  args: {},
   handler: async ({ db, user }) => {
     const grades = await db
       .query("grades")
@@ -15,10 +15,10 @@ export const getGrades = authQuery({
 })
 
 export const getSubjectGrades = authQuery({
-  args: { subjectId: v.id("subjects")},
+  args: { subjectId: v.id("subjects") },
   handler: async ({ db, user }, args) => {
     if (!user) return false
-    
+
     const subjectGrades = await db
       .query("grades")
       .withIndex("by_userId", q => q.eq("userId", user._id))
@@ -36,17 +36,17 @@ export const addGrade = authMutation({
     date: v.string(),
     subjectId: v.id("subjects"),
     subjectName: v.string(),
-    badges: v.array(v.string())
+    badges: v.array(v.string()),
   },
   handler: async ({ db, user }, args) => {
     const newGrade = await db.insert("grades", {
-        grade: args.grade,
-        topic: args.topic,
-        date: args.date,
-        userId: user._id,
-        subjectId: args.subjectId,
-        badges: args.badges,
-        subjectName: args.subjectName
+      grade: args.grade,
+      topic: args.topic,
+      date: args.date,
+      userId: user._id,
+      subjectId: args.subjectId,
+      badges: args.badges,
+      subjectName: args.subjectName,
     })
     return newGrade
   },

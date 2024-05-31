@@ -112,6 +112,17 @@
         "noTasks": "No tasks yet",
         "viewMore": "View more"
       }
+    },
+    "sidebar": {
+      "home": "Home",
+      "calendar": "Calendar",
+      "projects": "Projects",
+      "notes": "Notes",
+      "subjects": "Subjects",
+      "learn-resources": "Learn Ressources",
+      "text-editor": "Text Editor",
+      "tasks": "Tasks",
+      "grades": "Notes"
     }
   }
 }
