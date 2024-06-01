@@ -1,5 +1,5 @@
 "use client"
-// component
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,7 +16,12 @@ import {
 import { api } from "@/convex/_generated/api"
 import { useConvexAuth, useQuery } from "convex/react"
 import { usePathname } from "next/navigation"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet"
 import { UserButton } from "@clerk/nextjs"
 import Link from "next/link"
 import Logo from "../../../../public/logo.svg"
@@ -69,67 +74,85 @@ const DashboardHeader = () => {
               <h1 className="ml-2 text-[1.4rem] font-bold">Lou</h1>
             </Link>
             <nav className="mr-6 mt-16 grid items-start text-sm font-medium">
-              <Link
-                href="/dashboard"
-                className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 pl-0 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
-              >
-                <Home className="h-4 w-4" />
-                Home
-              </Link>
-              <Link
-                href="/dashboard/subjects"
-                className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 pl-0 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/subjects` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
-              >
-                <LibraryBig className="h-4 w-4" />
-                Subjects
-              </Link>
-              <Link
-                href="/dashboard/calendar"
-                className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 pl-0 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/calendar` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
-              >
-                <CalendarDays className="h-4 w-4" />
-                Calendar
-              </Link>
-              <Link
-                href="/dashboard/grade-sheet"
-                className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 pl-0 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/grade-sheet` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
-              >
-                <GraduationCap className="h-4 w-4" />
-                Grade Sheet
-              </Link>
-              <Link
-                href="/dashboard/tasks"
-                className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 pl-0 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/tasks` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
-              >
-                <ListChecks className="h-4 w-4" />
-                Tasks
-                {pendingTasksCount > 0 && (
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primaryGray">
-                    {pendingTasksCount}
-                  </Badge>
-                )}
-              </Link>
-              <Link
-                href="/dashboard/notes"
-                className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 pl-0 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/notes` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
-              >
-                <StickyNote className="h-4 w-4" />
-                Notes{" "}
-              </Link>
-              <Link
-                href="/dashboard/learn-resources"
-                className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 pl-0 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/learn-resources` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
-              >
-                <BookA className="h-4 w-4" />
-                Learn Resources
-              </Link>
-              <Link
-                href="/dashboard/text-editor"
-                className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 pl-0 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/text-editor` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
-              >
-                <CaseSensitive className="h-4 w-4" />
-                Collaboration Editor
-              </Link>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <Home className="h-4 w-4" />
+                  Home
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard/subjects"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/subjects` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <LibraryBig className="h-4 w-4" />
+                  Subjects
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard/calendar"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/calendar` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <CalendarDays className="h-4 w-4" />
+                  Calendar
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard/grade-sheet"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/grade-sheet` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <GraduationCap className="h-4 w-4" />
+                  Grade Sheet
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard/tasks"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/tasks` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <ListChecks className="h-4 w-4" />
+                  Tasks
+                  {pendingTasksCount > 0 && (
+                    <Badge
+                      className={`ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primaryBlue ${pathname == `/${locale}/dashboard/tasks` ? "bg-white text-primaryBlue" : "text-white"}`}
+                    >
+                      {pendingTasksCount}
+                    </Badge>
+                  )}
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard/notes"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/notes` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <StickyNote className="h-4 w-4" />
+                  Notes{" "}
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard/learn-resources"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/learn-resources` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <BookA className="h-4 w-4" />
+                  Learn Resources
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard/text-editor"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/text-editor` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <CaseSensitive className="h-4 w-4" />
+                  Collaboration Editor
+                </Link>
+              </SheetClose>
             </nav>
             <div className="mt-8 flex items-center">
               <UserButton afterSignOutUrl="/" />
