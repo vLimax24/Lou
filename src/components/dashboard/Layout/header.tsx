@@ -12,6 +12,7 @@ import {
   GraduationCap,
   LibraryBig,
   CaseSensitive,
+  FolderKanban,
 } from "lucide-react"
 import { api } from "@/convex/_generated/api"
 import { useConvexAuth, useQuery } from "convex/react"
@@ -28,6 +29,7 @@ import Logo from "../../../../public/logo.svg"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
+import { useUser } from "@clerk/nextjs"
 
 const DashboardHeader = () => {
   const { isAuthenticated } = useConvexAuth()
@@ -36,6 +38,8 @@ const DashboardHeader = () => {
     api.tasks.getTasks,
     !isAuthenticated ? "skip" : undefined
   )
+
+  const { user } = useUser()
 
   const params = useParams()
   const locale = params.locale
@@ -80,7 +84,7 @@ const DashboardHeader = () => {
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <Home className="h-4 w-4" />
-                  Home
+                  {t("Dashboard.sidebar.home")}
                 </Link>
               </SheetClose>
               <SheetClose asChild>
@@ -89,7 +93,7 @@ const DashboardHeader = () => {
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/subjects` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <LibraryBig className="h-4 w-4" />
-                  Subjects
+                  {t("Dashboard.sidebar.subjects")}
                 </Link>
               </SheetClose>
               <SheetClose asChild>
@@ -98,7 +102,16 @@ const DashboardHeader = () => {
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/calendar` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <CalendarDays className="h-4 w-4" />
-                  Calendar
+                  {t("Dashboard.sidebar.calendar")}
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/dashboard"
+                  className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/projects` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+                >
+                  <FolderKanban className="h-4 w-4" />
+                  {t("Dashboard.sidebar.projects")}
                 </Link>
               </SheetClose>
               <SheetClose asChild>
@@ -107,7 +120,7 @@ const DashboardHeader = () => {
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/grade-sheet` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <GraduationCap className="h-4 w-4" />
-                  Grade Sheet
+                  {t("Dashboard.sidebar.grades")}
                 </Link>
               </SheetClose>
               <SheetClose asChild>
@@ -116,7 +129,7 @@ const DashboardHeader = () => {
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/tasks` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <ListChecks className="h-4 w-4" />
-                  Tasks
+                  {t("Dashboard.sidebar.tasks")}
                   {pendingTasksCount > 0 && (
                     <Badge
                       className={`ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primaryBlue ${pathname == `/${locale}/dashboard/tasks` ? "bg-white text-primaryBlue" : "text-white"}`}
@@ -132,7 +145,7 @@ const DashboardHeader = () => {
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/notes` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <StickyNote className="h-4 w-4" />
-                  Notes{" "}
+                  {t("Dashboard.sidebar.notes")}
                 </Link>
               </SheetClose>
               <SheetClose asChild>
@@ -141,7 +154,7 @@ const DashboardHeader = () => {
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/learn-resources` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <BookA className="h-4 w-4" />
-                  Learn Resources
+                  {t("Dashboard.sidebar.learn-resources")}
                 </Link>
               </SheetClose>
               <SheetClose asChild>
@@ -150,15 +163,14 @@ const DashboardHeader = () => {
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/text-editor` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <CaseSensitive className="h-4 w-4" />
-                  Collaboration Editor
+                  {t("Dashboard.sidebar.text-editor")}
                 </Link>
               </SheetClose>
             </nav>
             <div className="mt-8 flex items-center">
               <UserButton afterSignOutUrl="/" />
               <div className="ml-4 flex flex-col justify-center text-sm leading-4">
-                <p className="text-primaryGray">John Doe</p>
-                <p className="text-mutedGray">Test@test.com</p>
+                <p className="text-black">{user?.fullName}</p>
               </div>
             </div>
           </nav>

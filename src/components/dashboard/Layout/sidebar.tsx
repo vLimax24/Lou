@@ -133,7 +133,7 @@ const DashboardSidebar = () => {
           <div className="ml-4 flex flex-col justify-center text-sm leading-4">
             {isLoaded ? (
               <>
-                <p className="text-primaryGray">{user?.fullName}</p>
+                <p className="text-black">{user?.fullName}</p>
               </>
             ) : (
               <Loader2 className="h-2 w-2 animate-spin" />
