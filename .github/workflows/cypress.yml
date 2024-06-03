@@ -14,10 +14,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Load environment variables
-        uses: dotenv-actions/setup-dotenv@v2
+      - name: Dotenv Action
+        uses: falti/dotenv-action@v1.1.2
         with:
-          dotenv_path: .env
+          path: .env
       - name: Cypress run
         # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v6
