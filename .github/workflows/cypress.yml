@@ -17,7 +17,7 @@ jobs:
       - name: Dotenv Action
         uses: falti/dotenv-action@v1.1.2
         with:
-          path: .env
+          path:
       - name: Cypress run
         # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v6
