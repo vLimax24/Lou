@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "db:push": "drizzle-kit push:sqlite",
-    "db:studio": "drizzle-kit studio",
+    "cypress:open": "cypress open",
     "dev": "next dev",
     "lint": "next lint",
     "lint:fix": "npx eslint . --fix",
@@ -118,10 +117,12 @@
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.1.1",
     "clsx": "^2.1.1",
+    "cypress": "^13.10.0",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.1.3",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-cypress": "^3.3.0",
     "eslint-plugin-drizzle": "^0.2.3",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "framer-motion": "^11.2.6",
@@ -135,6 +136,11 @@
   },
   "ct3aMetadata": {
     "initVersion": "7.30.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:cypress/recommended"
+    ]
   },
   "packageManager": "npm@10.5.0"
 }

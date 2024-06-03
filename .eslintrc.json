@@ -5,9 +5,15 @@
     "@typescript-eslint",
     "drizzle",
     "unused-imports",
-    "prefer-arrow"
+    "prefer-arrow",
+    "cypress"
   ],
-  "extends": ["next/core-web-vitals", "prettier", "eslint:recommended"],
+  "extends": [
+    "next/core-web-vitals",
+    "prettier",
+    "eslint:recommended",
+    "cypress/recommended"
+  ],
   "settings": {
     "next/core-web-vitals": {
       "rootDir": "src/"
@@ -26,6 +32,13 @@
         "classPropertiesAllowed": false
       }
     ],
-    "unused-imports/no-unused-imports-ts": "warn"
+    "unused-imports/no-unused-imports-ts": "warn",
+    "cypress/no-assigning-return-values": "error",
+    "cypress/no-unnecessary-waiting": "error",
+    "cypress/assertion-before-screenshot": "warn",
+    "cypress/no-force": "warn",
+    "cypress/no-async-tests": "error",
+    "cypress/no-async-before": "error",
+    "cypress/no-pause": "error"
   }
 }
