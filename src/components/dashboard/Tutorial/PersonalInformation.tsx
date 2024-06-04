@@ -53,7 +53,7 @@ const PersonalInformation = ({ username, setUsername }: Props) => {
           </span>
         )}
       </div>
-      <button type="submit" className="submit-button" data-cy="submit">
+      <button type="submit" className="invisible hidden" data-cy="submit">
         Submit
       </button>
     </form>

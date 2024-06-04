@@ -23,7 +23,7 @@
     },
     "features": {
       "smallTitle": "Features",
-      "title1": "School mastery,",
+      "title": "School mastery,",
       "title2": "effortlessly within reach",
       "feature1": {
         "smallTitle": "Team Projects",
@@ -39,59 +39,59 @@
         "smallTitle": "Learn Ressources",
         "title": "Learn and Grow",
         "description": "Tailored learning resources allow you to hone existing skills or acquire new ones. Whether you&apos;re a student or a professional, Lou helps you stay ahead."
-      },
-      "pricing": {
-        "smallTitle": "Pricing",
-        "title": "Finally get school under control!",
-        "category1": {
-          "title": "Lou Free",
-          "cost": "Free",
-          "currency": "usd/month",
-          "features": {
-            "feature1": "Free Feature 1",
-            "feature2": "Free Feature 1",
-            "feature3": "Free Feature 1",
-            "feature4": "Free Feature 1",
-            "feature5": "Free Feature 1"
-          },
-          "ctaButton": "Sign in"
-        },
-        "category2": {
-          "title": "Lou Plus",
-          "cost": "$5",
-          "currency": "usd/month",
-          "features": {
-            "addition": "Everything in Free and...",
-            "feature1": "Plus Feature 1",
-            "feature2": "Plus Feature 2",
-            "feature3": "Plus Feature 3",
-            "feature4": "Plus Feature 4",
-            "feature5": "Plus Feature 5"
-          },
-          "ctaButton": "Start now"
-        },
-        "category3": {
-          "title": "Lou Elite",
-          "cost": "$10",
-          "currency": "usd/month",
-          "features": {
-            "addition": "Everything in Plus and...",
-            "feature1": "Elite Feature 1",
-            "feature2": "Elite Feature 2",
-            "feature3": "Elite Feature 3",
-            "feature4": "Elite Feature 4",
-            "feature5": "Elite Feature 5",
-            "feature6": "Elite Feature 6"
-          },
-          "ctaButton": "Start now"
-        }
-      },
-      "cta": {
-        "title": "Join over 10.000+ Students on Lou now!",
-        "ctaButton": "Get Started",
-        "googlePlayReviews": "10k+ Reviews",
-        "appStoreReviews": "10k+ Reviews"
       }
+    },
+    "pricing": {
+      "smallTitle": "Pricing",
+      "title": "Finally get school under control!",
+      "category1": {
+        "title": "Lou Free",
+        "cost": "Free",
+        "currency": "usd/month",
+        "features": {
+          "feature1": "Free Feature 1",
+          "feature2": "Free Feature 1",
+          "feature3": "Free Feature 1",
+          "feature4": "Free Feature 1",
+          "feature5": "Free Feature 1"
+        },
+        "ctaButton": "Sign in"
+      },
+      "category2": {
+        "title": "Lou Plus",
+        "cost": "$5",
+        "currency": "usd/month",
+        "features": {
+          "addition": "Everything in Free and...",
+          "feature1": "Plus Feature 1",
+          "feature2": "Plus Feature 2",
+          "feature3": "Plus Feature 3",
+          "feature4": "Plus Feature 4",
+          "feature5": "Plus Feature 5"
+        },
+        "ctaButton": "Start now"
+      },
+      "category3": {
+        "title": "Lou Elite",
+        "cost": "$10",
+        "currency": "usd/month",
+        "features": {
+          "addition": "Everything in Plus and...",
+          "feature1": "Elite Feature 1",
+          "feature2": "Elite Feature 2",
+          "feature3": "Elite Feature 3",
+          "feature4": "Elite Feature 4",
+          "feature5": "Elite Feature 5",
+          "feature6": "Elite Feature 6"
+        },
+        "ctaButton": "Start now"
+      }
+    },
+    "cta": {
+      "title": "Join over 10.000+ Students on Lou now!",
+      "ctaButton": "Get Started",
+      "googlePlayReviews": "10k+ Reviews",
+      "appStoreReviews": "10k+ Reviews"
     }
   },
   "Dashboard": {
