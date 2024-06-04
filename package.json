@@ -104,6 +104,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@clerk/testing": "^1.1.5",
     "@eslint/js": "^9.0.0",
     "@savvywombat/tailwindcss-grid-areas": "^4.0.0",
     "@tailwindcss/forms": "^0.5.7",

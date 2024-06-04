@@ -10,7 +10,6 @@ import { Toaster } from "@/components/ui/sonner"
 import "@/styles/globals.css"
 import "@/styles/prosemirror.css"
 import { cn } from "@/lib/utils"
-import { CSPostHogProvider } from "./providers"
 
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
@@ -27,19 +26,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       afterSignUpUrl="/dashboard"
     >
       <html lang="en">
-        <CSPostHogProvider>
-          <body
-            className={cn(
-              "min-h-screen",
-              bricolage.className ?? inter.className
-            )}
-          >
-            <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-              {children}
-            </ConvexProviderWithClerk>
-            <Toaster richColors />
-          </body>
-        </CSPostHogProvider>
+        <body
+          className={cn("min-h-screen", bricolage.className ?? inter.className)}
+        >
+          <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+            {children}
+          </ConvexProviderWithClerk>
+          <Toaster richColors />
+        </body>
       </html>
     </ClerkProvider>
   )

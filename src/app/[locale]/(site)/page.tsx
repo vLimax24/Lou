@@ -36,7 +36,7 @@ const HomePage = () => {
           {t("Landing.title")}
         </h1>
         <div className="flex items-center justify-center md:justify-start">
-          <SignUpButton mode="modal">
+          <SignUpButton mode="modal" data-cy="sign-up-button">
             <Button
               className={`mt-10 w-72 rounded-[2rem] ${
                 isPressed ? "cta-button-pressed" : "cta-button-shadow"

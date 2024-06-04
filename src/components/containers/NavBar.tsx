@@ -75,7 +75,7 @@ export const NavBar: React.FC = () => {
                       Get Started
                     </Button>
                   </SignUpButton>
-                  <SignInButton mode="modal">
+                  <SignInButton mode="modal" data-cy="sign-in-button">
                     <Button className="h-12 rounded-3xl border-2 border-[#ADADAD] bg-transparent px-10 text-lg font-bold text-black transition-all duration-200 ease-in-out hover:border-black hover:bg-transparent md:w-36">
                       Log in
                     </Button>

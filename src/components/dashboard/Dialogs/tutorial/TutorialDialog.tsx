@@ -21,9 +21,9 @@ import { Loader2 } from "lucide-react"
 import PersonalInformation from "../../Tutorial/PersonalInformation"
 
 type Props = {
-  openDialog: boolean;
-  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  openDialog: boolean
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 const TutorialDialog = ({ openDialog, setOpenDialog }: Props) => {
   // subjects
@@ -128,7 +128,7 @@ const TutorialDialog = ({ openDialog, setOpenDialog }: Props) => {
             />
           )}
           {step === 3 && (
-            <PersonalInformation 
+            <PersonalInformation
               username={username}
               setUsername={setUsername}
             />
@@ -140,6 +140,7 @@ const TutorialDialog = ({ openDialog, setOpenDialog }: Props) => {
             className="h-12 w-full"
             onClick={handleStep}
             disabled={pending}
+            data-cy="continue-button"
           >
             {pending ? (
               <Loader2 className="h-6 w-6 animate-spin" />
