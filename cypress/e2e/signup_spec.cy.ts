@@ -18,7 +18,7 @@ describe("Auth Flow", () => {
     cy.visit("/")
     cy.get("[data-cy=sign-up-button]").click()
     cy.get("input[type=email]").type(createRandomTestEmail())
-    cy.wait(300)
+    cy.wait(1000)
     cy.get("input[type=password]").type("Test123Password?")
     cy.get("[data-localization-key=formButtonPrimary]").click()
 
