@@ -32,48 +32,10 @@ import {
   convertGPAToPercentage,
   calculateGPAStatistics,
 } from "@/utils/gpaCalculation"
-
-export const columns: ColumnDef<any>[] = [
-  {
-    accessorKey: "name",
-    header: "Subject",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "grades",
-    header: "Grades",
-    cell: ({ row }) => (
-      <div className="grid w-fit grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-        {row.original.grades && row.original.grades.length > 0 ? (
-          row.original.grades.map((grade: any, index: number) => (
-            <Badge
-              key={index}
-              className="center size-6 text-[0.7rem] font-semibold md:size-8 md:text-[0.9rem]"
-              variant={"outline"}
-            >
-              {grade.convertedGrade}
-            </Badge>
-          ))
-        ) : (
-          <div>No grades yet</div>
-        )}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "totalAverage",
-    header: () => <div className="text-left">Total Average</div>,
-    cell: ({ row }) => {
-      const totalAverage: any = row.getValue("totalAverage")
-
-      return (
-        <div className="w-fit text-right font-medium">{totalAverage || ""}</div>
-      )
-    },
-  },
-]
+import { useTranslations } from "next-intl"
 
 export const DataTable = () => {
+  const t = useTranslations()
   const [sorting] = useState<SortingState>([])
   const [columnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -191,6 +153,62 @@ export const DataTable = () => {
     country?.possibleGrades,
     country?.system,
   ])
+
+  const columns: ColumnDef<any>[] = [
+    {
+      accessorKey: "name",
+      header: () => (
+        <div className="text-left">
+          {t("Dashboard.grades.progress.dataTable.tableHeadSubjects")}
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("name")}</div>
+      ),
+    },
+    {
+      accessorKey: "grades",
+      header: () => (
+        <div className="text-left">
+          {t("Dashboard.grades.progress.dataTable.tableHeadGrades")}
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="grid w-fit grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+          {row.original.grades && row.original.grades.length > 0 ? (
+            row.original.grades.map((grade: any, index: number) => (
+              <Badge
+                key={index}
+                className="center size-6 text-[0.7rem] font-semibold md:size-8 md:text-[0.9rem]"
+                variant={"outline"}
+              >
+                {grade.convertedGrade}
+              </Badge>
+            ))
+          ) : (
+            <div>{t("Dashboard.grades.progress.noGrades")}</div>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "totalAverage",
+      header: () => (
+        <div className="text-left">
+          {t("Dashboard.grades.progress.dataTable.tableHeadTotalAverage")}
+        </div>
+      ),
+      cell: ({ row }) => {
+        const totalAverage: any = row.getValue("totalAverage")
+
+        return (
+          <div className="w-fit text-right font-medium">
+            {totalAverage || ""}
+          </div>
+        )
+      },
+    },
+  ]
 
   const table = useReactTable({
     data: subjectsWithGrades,

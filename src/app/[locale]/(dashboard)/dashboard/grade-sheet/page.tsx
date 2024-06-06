@@ -5,21 +5,23 @@ import { DataTable } from "@/components/dashboard/GradeSheet/Datatable"
 import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ProgressSection from "./_components/ProgressSection"
+import { useTranslations } from "next-intl"
 
 const Page = () => {
+  const t = useTranslations()
   return (
     <div className="flex flex-col p-5">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-4xl font-bold">Your Grades</h1>
+        <h1 className="text-4xl font-bold">{t("Dashboard.grades.title")}</h1>
         <AddGradeDialogWithSubject withSubjects />
       </div>
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="w-full lg:w-[500px]">
           <TabsTrigger value="overview" className="w-1/2">
-            Progress
+            {t("Dashboard.grades.tabs.progress")}
           </TabsTrigger>
           <TabsTrigger value="statistics" className="w-1/2">
-            Statistics
+            {t("Dashboard.grades.tabs.statistics")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="overview">

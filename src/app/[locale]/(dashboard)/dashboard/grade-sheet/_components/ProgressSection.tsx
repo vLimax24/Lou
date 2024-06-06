@@ -413,7 +413,9 @@ const ProgressSection = () => {
         </div>
       </div>
       <Card className="ml-0 flex w-full flex-col border-none bg-transparent p-5 pl-0 shadow-none md:ml-5 md:w-2/5 md:pl-5">
-        <CardTitle className="mb-2">Filter graph by badges</CardTitle>
+        <CardTitle className="mb-2">
+          {t("Dashboard.grades.statistics.filterTitle")}
+        </CardTitle>
         <div className="flex flex-col">
           <div className="mt-3 grid grid-cols-3 gap-3 md:grid-cols-2 2xl:grid-cols-3">
             {uniqueBadges.map(badge => (
