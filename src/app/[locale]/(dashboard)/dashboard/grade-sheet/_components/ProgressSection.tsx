@@ -134,8 +134,8 @@ const ProgressSection = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="w-full md:w-3/5">
+    <div className="grid grid-cols-5">
+      <div className="w-full md:col-span-3">
         {chartData.length > 0 && (
           <LineChart
             data={chartData}
@@ -178,241 +178,8 @@ const ProgressSection = () => {
             {t("Dashboard.grades.statistics.clickTip")}
           </p>
         )}
-        <div className="mt-8 flex flex-col items-start justify-between">
-          <h1 className="text-3xl font-bold text-primaryGray">
-            {value?.categoryClicked && (
-              <>
-                {JSON.stringify(value?.categoryClicked)
-                  .replace(/"/g, "")
-                  .replace("Total Average ", "")}
-              </>
-            )}
-          </h1>
-          <p>{formatDate(removeQuotes(JSON.stringify(value?.month)))}</p>
-          {value && value.categoryClicked && (
-            <div className="mt-4">
-              {chartData.length > 0 && (
-                <>
-                  <p>
-                    {t("Dashboard.grades.statistics.stats.grade", {
-                      grade:
-                        chartData.find(
-                          (data: any) =>
-                            data.month ===
-                            removeQuotes(JSON.stringify(value?.month))
-                        )?.[value.categoryClicked] || 0,
-                    })}
-                  </p>
-                  {chartData.length > 1 && (
-                    <>
-                      {chartData.findIndex(
-                        (data: any) =>
-                          data.month ===
-                          removeQuotes(JSON.stringify(value?.month))
-                      ) > 0 && (
-                        <>
-                          <p>
-                            {t(
-                              "Dashboard.grades.statistics.stats.previousGrade",
-                              {
-                                previousGrade:
-                                  chartData[
-                                    chartData.findIndex(
-                                      (data: any) =>
-                                        data.month ===
-                                        removeQuotes(
-                                          JSON.stringify(value?.month)
-                                        )
-                                    ) - 1
-                                  ][value.categoryClicked] || 0,
-                              }
-                            )}
-                          </p>
-                          <p>
-                            {chartData.find(
-                              (data: any) =>
-                                data.month ===
-                                removeQuotes(JSON.stringify(value?.month))
-                            ) &&
-                            chartData[
-                              chartData.findIndex(
-                                (data: any) =>
-                                  data.month ===
-                                  removeQuotes(JSON.stringify(value?.month))
-                              ) - 1
-                            ] &&
-                            parseFloat(
-                              chartData.find(
-                                (data: any) =>
-                                  data.month ===
-                                  removeQuotes(JSON.stringify(value?.month))
-                              )?.[value.categoryClicked] || 0
-                            ) >
-                              parseFloat(
-                                chartData[
-                                  chartData.findIndex(
-                                    (data: any) =>
-                                      data.month ===
-                                      removeQuotes(JSON.stringify(value?.month))
-                                  ) - 1
-                                ][value.categoryClicked] || 0
-                              ) ? (
-                              <>
-                                {t(
-                                  "Dashboard.grades.statistics.stats.gradeImprovement",
-                                  {
-                                    gradeImprovement: parseFloat(
-                                      chartData.find(
-                                        (data: any) =>
-                                          data.month ===
-                                          removeQuotes(
-                                            JSON.stringify(value?.month)
-                                          )
-                                      )?.[value.categoryClicked] || 0
-                                    ),
-                                  }
-                                )}
-                              </>
-                            ) : (
-                              <>
-                                {t(
-                                  "Dashboard.grades.statistics.stats.gradeDisimprovement",
-                                  {
-                                    gradeDisimprovement:
-                                      parseFloat(
-                                        chartData[
-                                          chartData.findIndex(
-                                            (data: any) =>
-                                              data.month ===
-                                              removeQuotes(
-                                                JSON.stringify(value?.month)
-                                              )
-                                          ) - 1
-                                        ][value.categoryClicked] || 0
-                                      ) -
-                                      parseFloat(
-                                        chartData.find(
-                                          (data: any) =>
-                                            data.month ===
-                                            removeQuotes(
-                                              JSON.stringify(value?.month)
-                                            )
-                                        )?.[value.categoryClicked] || 0
-                                      ),
-                                  }
-                                )}
-                              </>
-                            )}
-                          </p>
-                          <p>
-                            {chartData.find(
-                              (data: any) =>
-                                data.month ===
-                                removeQuotes(JSON.stringify(value?.month))
-                            ) &&
-                            chartData[
-                              chartData.findIndex(
-                                (data: any) =>
-                                  data.month ===
-                                  removeQuotes(JSON.stringify(value?.month))
-                              ) - 1
-                            ] &&
-                            parseFloat(
-                              chartData.find(
-                                (data: any) =>
-                                  data.month ===
-                                  removeQuotes(JSON.stringify(value?.month))
-                              )?.[value.categoryClicked] || 0
-                            ) ===
-                              Math.max(
-                                ...chartData.map((data: any) =>
-                                  parseFloat(data[value.categoryClicked] || 0)
-                                )
-                              ) ? (
-                              <>
-                                {t(
-                                  "Dashboard.grades.statistics.stats.bestMonth",
-                                  {
-                                    subject: removeQuotes(
-                                      value.categoryClicked
-                                    ),
-                                  }
-                                )}
-                              </>
-                            ) : parseFloat(
-                                chartData.find(
-                                  (data: any) =>
-                                    data.month ===
-                                    removeQuotes(JSON.stringify(value?.month))
-                                )?.[value.categoryClicked] || 0
-                              ) ===
-                              Math.min(
-                                ...chartData.map((data: any) =>
-                                  parseFloat(data[value.categoryClicked] || 0)
-                                )
-                              ) ? (
-                              <>
-                                {t(
-                                  "Dashboard.grades.statistics.stats.worstMonth",
-                                  {
-                                    subject: removeQuotes(
-                                      value.categoryClicked
-                                    ),
-                                  }
-                                )}
-                              </>
-                            ) : (
-                              <>
-                                {t(
-                                  "Dashboard.grades.statistics.stats.averageMonth",
-                                  {
-                                    subject: removeQuotes(
-                                      value.categoryClicked
-                                    ),
-                                  }
-                                )}
-                              </>
-                            )}
-                          </p>
-                          <p>
-                            {t(
-                              "Dashboard.grades.statistics.stats.gradeMonthCount",
-                              {
-                                monthCount: chartData.length,
-                                subject: removeQuotes(value.categoryClicked),
-                              }
-                            )}
-                          </p>
-
-                          <p>
-                            {t(
-                              "Dashboard.grades.statistics.stats.averageGrade",
-                              {
-                                subject: removeQuotes(value.categoryClicked),
-                                averageGrade: (
-                                  chartData.reduce(
-                                    (acc: any, data: any) =>
-                                      acc +
-                                      parseFloat(
-                                        data[value.categoryClicked] || 0
-                                      ),
-                                    0
-                                  ) / chartData.length
-                                ).toFixed(2),
-                              }
-                            )}
-                          </p>
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-        </div>
       </div>
-      <Card className="ml-0 flex w-full flex-col border-none bg-transparent p-5 pl-0 shadow-none md:ml-5 md:w-2/5 md:pl-5">
+      <Card className="ml-0 flex h-fit w-full flex-col border-none bg-transparent p-5 pl-0 shadow-none md:col-span-2 md:ml-5 md:pl-5">
         <CardTitle className="mb-2">
           {t("Dashboard.grades.statistics.filterTitle")}
         </CardTitle>
@@ -435,6 +202,226 @@ const ProgressSection = () => {
           </div>
         </div>
       </Card>
+      <div className="col-span-5 mt-5 flex w-full flex-col items-start justify-between">
+        <h1 className="text-3xl font-bold text-primaryGray">
+          {value?.categoryClicked && (
+            <>
+              {JSON.stringify(value?.categoryClicked)
+                .replace(/"/g, "")
+                .replace("Total Average ", "")}
+            </>
+          )}
+        </h1>
+        <p>{formatDate(removeQuotes(JSON.stringify(value?.month)))}</p>
+        {value && value.categoryClicked && (
+          <div className="mt-2">
+            {chartData.length > 0 && (
+              <>
+                <p>
+                  {t("Dashboard.grades.statistics.stats.grade", {
+                    grade:
+                      chartData.find(
+                        (data: any) =>
+                          data.month ===
+                          removeQuotes(JSON.stringify(value?.month))
+                      )?.[value.categoryClicked] || 0,
+                  })}
+                </p>
+                {chartData.length > 1 && (
+                  <>
+                    {chartData.findIndex(
+                      (data: any) =>
+                        data.month ===
+                        removeQuotes(JSON.stringify(value?.month))
+                    ) > 0 && (
+                      <>
+                        <p>
+                          {t(
+                            "Dashboard.grades.statistics.stats.previousGrade",
+                            {
+                              previousGrade:
+                                chartData[
+                                  chartData.findIndex(
+                                    (data: any) =>
+                                      data.month ===
+                                      removeQuotes(JSON.stringify(value?.month))
+                                  ) - 1
+                                ][value.categoryClicked] || 0,
+                            }
+                          )}
+                        </p>
+                        <p>
+                          {chartData.find(
+                            (data: any) =>
+                              data.month ===
+                              removeQuotes(JSON.stringify(value?.month))
+                          ) &&
+                          chartData[
+                            chartData.findIndex(
+                              (data: any) =>
+                                data.month ===
+                                removeQuotes(JSON.stringify(value?.month))
+                            ) - 1
+                          ] &&
+                          parseFloat(
+                            chartData.find(
+                              (data: any) =>
+                                data.month ===
+                                removeQuotes(JSON.stringify(value?.month))
+                            )?.[value.categoryClicked] || 0
+                          ) >
+                            parseFloat(
+                              chartData[
+                                chartData.findIndex(
+                                  (data: any) =>
+                                    data.month ===
+                                    removeQuotes(JSON.stringify(value?.month))
+                                ) - 1
+                              ][value.categoryClicked] || 0
+                            ) ? (
+                            <>
+                              {t(
+                                "Dashboard.grades.statistics.stats.gradeImprovement",
+                                {
+                                  gradeImprovement: parseFloat(
+                                    chartData.find(
+                                      (data: any) =>
+                                        data.month ===
+                                        removeQuotes(
+                                          JSON.stringify(value?.month)
+                                        )
+                                    )?.[value.categoryClicked] || 0
+                                  ),
+                                }
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              {t(
+                                "Dashboard.grades.statistics.stats.gradeDisimprovement",
+                                {
+                                  gradeDisimprovement:
+                                    parseFloat(
+                                      chartData[
+                                        chartData.findIndex(
+                                          (data: any) =>
+                                            data.month ===
+                                            removeQuotes(
+                                              JSON.stringify(value?.month)
+                                            )
+                                        ) - 1
+                                      ][value.categoryClicked] || 0
+                                    ) -
+                                    parseFloat(
+                                      chartData.find(
+                                        (data: any) =>
+                                          data.month ===
+                                          removeQuotes(
+                                            JSON.stringify(value?.month)
+                                          )
+                                      )?.[value.categoryClicked] || 0
+                                    ),
+                                }
+                              )}
+                            </>
+                          )}
+                        </p>
+                        <p>
+                          {chartData.find(
+                            (data: any) =>
+                              data.month ===
+                              removeQuotes(JSON.stringify(value?.month))
+                          ) &&
+                          chartData[
+                            chartData.findIndex(
+                              (data: any) =>
+                                data.month ===
+                                removeQuotes(JSON.stringify(value?.month))
+                            ) - 1
+                          ] &&
+                          parseFloat(
+                            chartData.find(
+                              (data: any) =>
+                                data.month ===
+                                removeQuotes(JSON.stringify(value?.month))
+                            )?.[value.categoryClicked] || 0
+                          ) ===
+                            Math.max(
+                              ...chartData.map((data: any) =>
+                                parseFloat(data[value.categoryClicked] || 0)
+                              )
+                            ) ? (
+                            <>
+                              {t(
+                                "Dashboard.grades.statistics.stats.bestMonth",
+                                {
+                                  subject: removeQuotes(value.categoryClicked),
+                                }
+                              )}
+                            </>
+                          ) : parseFloat(
+                              chartData.find(
+                                (data: any) =>
+                                  data.month ===
+                                  removeQuotes(JSON.stringify(value?.month))
+                              )?.[value.categoryClicked] || 0
+                            ) ===
+                            Math.min(
+                              ...chartData.map((data: any) =>
+                                parseFloat(data[value.categoryClicked] || 0)
+                              )
+                            ) ? (
+                            <>
+                              {t(
+                                "Dashboard.grades.statistics.stats.worstMonth",
+                                {
+                                  subject: removeQuotes(value.categoryClicked),
+                                }
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              {t(
+                                "Dashboard.grades.statistics.stats.averageMonth",
+                                {
+                                  subject: removeQuotes(value.categoryClicked),
+                                }
+                              )}
+                            </>
+                          )}
+                        </p>
+                        <p>
+                          {t(
+                            "Dashboard.grades.statistics.stats.gradeMonthCount",
+                            {
+                              monthCount: chartData.length,
+                              subject: removeQuotes(value.categoryClicked),
+                            }
+                          )}
+                        </p>
+
+                        <p>
+                          {t("Dashboard.grades.statistics.stats.averageGrade", {
+                            subject: removeQuotes(value.categoryClicked),
+                            averageGrade: (
+                              chartData.reduce(
+                                (acc: any, data: any) =>
+                                  acc +
+                                  parseFloat(data[value.categoryClicked] || 0),
+                                0
+                              ) / chartData.length
+                            ).toFixed(2),
+                          })}
+                        </p>
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
