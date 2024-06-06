@@ -6,6 +6,7 @@ import { api } from "@/convex/_generated/api"
 import { useEffect, useState } from "react"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useTranslations } from "next-intl"
 
 interface Grade {
   date: string
@@ -26,6 +27,8 @@ const ProgressSection = () => {
   const [uniqueBadges, setUniqueBadges] = useState<string[]>([])
   const [value, setValue] = useState<EventProps>(null)
   const [selectedBadges, setSelectedBadges] = useState<string[]>([])
+
+  const t = useTranslations()
 
   useEffect(() => {
     if (!grades || grades.length === 0) return
@@ -108,7 +111,7 @@ const ProgressSection = () => {
         return ""
       }
       const monthName = months[monthIndex]
-      return `${monthName} ${year}`
+      return `${t(`Dashboard.grades.statistics.months.${monthName}`)} ${year}`
     }
     return ""
   }
@@ -132,7 +135,7 @@ const ProgressSection = () => {
 
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="w-4/5 md:w-3/5">
+      <div className="w-full md:w-3/5">
         {chartData.length > 0 && (
           <LineChart
             data={chartData}
@@ -170,9 +173,20 @@ const ProgressSection = () => {
             showAnimation={true}
           />
         )}
+        {!value && (
+          <p className="text-sm text-gray-500">
+            {t("Dashboard.grades.statistics.clickTip")}
+          </p>
+        )}
         <div className="mt-8 flex flex-col items-start justify-between">
           <h1 className="text-3xl font-bold text-primaryGray">
-            {removeQuotes(JSON.stringify(value?.categoryClicked))}
+            {value?.categoryClicked && (
+              <>
+                {JSON.stringify(value?.categoryClicked)
+                  .replace(/"/g, "")
+                  .replace("Total Average ", "")}
+              </>
+            )}
           </h1>
           <p>{formatDate(removeQuotes(JSON.stringify(value?.month)))}</p>
           {value && value.categoryClicked && (
@@ -180,12 +194,14 @@ const ProgressSection = () => {
               {chartData.length > 0 && (
                 <>
                   <p>
-                    🎓 Grade:{" "}
-                    {chartData.find(
-                      (data: any) =>
-                        data.month ===
-                        removeQuotes(JSON.stringify(value?.month))
-                    )?.[value.categoryClicked] || 0}
+                    {t("Dashboard.grades.statistics.stats.grade", {
+                      grade:
+                        chartData.find(
+                          (data: any) =>
+                            data.month ===
+                            removeQuotes(JSON.stringify(value?.month))
+                        )?.[value.categoryClicked] || 0,
+                    })}
                   </p>
                   {chartData.length > 1 && (
                     <>
@@ -196,14 +212,21 @@ const ProgressSection = () => {
                       ) > 0 && (
                         <>
                           <p>
-                            ⬅️ Previous Grade:{" "}
-                            {chartData[
-                              chartData.findIndex(
-                                (data: any) =>
-                                  data.month ===
-                                  removeQuotes(JSON.stringify(value?.month))
-                              ) - 1
-                            ][value.categoryClicked] || 0}
+                            {t(
+                              "Dashboard.grades.statistics.stats.previousGrade",
+                              {
+                                previousGrade:
+                                  chartData[
+                                    chartData.findIndex(
+                                      (data: any) =>
+                                        data.month ===
+                                        removeQuotes(
+                                          JSON.stringify(value?.month)
+                                        )
+                                    ) - 1
+                                  ][value.categoryClicked] || 0,
+                              }
+                            )}
                           </p>
                           <p>
                             {chartData.find(
@@ -233,9 +256,53 @@ const ProgressSection = () => {
                                       removeQuotes(JSON.stringify(value?.month))
                                   ) - 1
                                 ][value.categoryClicked] || 0
-                              )
-                              ? `📈 You got better by ${parseFloat(chartData.find((data: any) => data.month === removeQuotes(JSON.stringify(value?.month)))?.[value.categoryClicked] || 0) - parseFloat(chartData[chartData.findIndex((data: any) => data.month === removeQuotes(JSON.stringify(value?.month))) - 1][value.categoryClicked] || 0)} GPA points than the previous month.`
-                              : `📉 You got worse by ${parseFloat(chartData[chartData.findIndex((data: any) => data.month === removeQuotes(JSON.stringify(value?.month))) - 1][value.categoryClicked] || 0) - parseFloat(chartData.find((data: any) => data.month === removeQuotes(JSON.stringify(value?.month)))?.[value.categoryClicked] || 0)} GPA points than the previous month.`}
+                              ) ? (
+                              <>
+                                {t(
+                                  "Dashboard.grades.statistics.stats.gradeImprovement",
+                                  {
+                                    gradeImprovement: parseFloat(
+                                      chartData.find(
+                                        (data: any) =>
+                                          data.month ===
+                                          removeQuotes(
+                                            JSON.stringify(value?.month)
+                                          )
+                                      )?.[value.categoryClicked] || 0
+                                    ),
+                                  }
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                {t(
+                                  "Dashboard.grades.statistics.stats.gradeDisimprovement",
+                                  {
+                                    gradeDisimprovement:
+                                      parseFloat(
+                                        chartData[
+                                          chartData.findIndex(
+                                            (data: any) =>
+                                              data.month ===
+                                              removeQuotes(
+                                                JSON.stringify(value?.month)
+                                              )
+                                          ) - 1
+                                        ][value.categoryClicked] || 0
+                                      ) -
+                                      parseFloat(
+                                        chartData.find(
+                                          (data: any) =>
+                                            data.month ===
+                                            removeQuotes(
+                                              JSON.stringify(value?.month)
+                                            )
+                                        )?.[value.categoryClicked] || 0
+                                      ),
+                                  }
+                                )}
+                              </>
+                            )}
                           </p>
                           <p>
                             {chartData.find(
@@ -261,72 +328,79 @@ const ProgressSection = () => {
                                 ...chartData.map((data: any) =>
                                   parseFloat(data[value.categoryClicked] || 0)
                                 )
-                              )
-                              ? `🔥 Congratulations! This is the best month for ${removeQuotes(value.categoryClicked)} so far.`
-                              : parseFloat(
-                                    chartData.find(
-                                      (data: any) =>
-                                        data.month ===
-                                        removeQuotes(
-                                          JSON.stringify(value?.month)
-                                        )
-                                    )?.[value.categoryClicked] || 0
-                                  ) ===
-                                  Math.min(
-                                    ...chartData.map((data: any) =>
+                              ) ? (
+                              <>
+                                {t(
+                                  "Dashboard.grades.statistics.stats.bestMonth",
+                                  {
+                                    subject: removeQuotes(
+                                      value.categoryClicked
+                                    ),
+                                  }
+                                )}
+                              </>
+                            ) : parseFloat(
+                                chartData.find(
+                                  (data: any) =>
+                                    data.month ===
+                                    removeQuotes(JSON.stringify(value?.month))
+                                )?.[value.categoryClicked] || 0
+                              ) ===
+                              Math.min(
+                                ...chartData.map((data: any) =>
+                                  parseFloat(data[value.categoryClicked] || 0)
+                                )
+                              ) ? (
+                              <>
+                                {t(
+                                  "Dashboard.grades.statistics.stats.worstMonth",
+                                  {
+                                    subject: removeQuotes(
+                                      value.categoryClicked
+                                    ),
+                                  }
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                {t(
+                                  "Dashboard.grades.statistics.stats.averageMonth",
+                                  {
+                                    subject: removeQuotes(
+                                      value.categoryClicked
+                                    ),
+                                  }
+                                )}
+                              </>
+                            )}
+                          </p>
+                          <p>
+                            {t(
+                              "Dashboard.grades.statistics.stats.gradeMonthCount",
+                              {
+                                monthCount: chartData.length,
+                                subject: removeQuotes(value.categoryClicked),
+                              }
+                            )}
+                          </p>
+
+                          <p>
+                            {t(
+                              "Dashboard.grades.statistics.stats.averageGrade",
+                              {
+                                subject: removeQuotes(value.categoryClicked),
+                                averageGrade: (
+                                  chartData.reduce(
+                                    (acc: any, data: any) =>
+                                      acc +
                                       parseFloat(
                                         data[value.categoryClicked] || 0
-                                      )
-                                    )
-                                  )
-                                ? `⛔ Unfortunately, this is the worst month for ${removeQuotes(value.categoryClicked)} so far.`
-                                : `👍 This month's performance for ${removeQuotes(value.categoryClicked)} is within the range of previous months.`}
-                          </p>
-                          <p>
-                            ➡️ You have received grades for {chartData.length}{" "}
-                            months for {removeQuotes(value.categoryClicked)} so
-                            far.
-                          </p>
-                          <p>
-                            ⚖️ The average grade for{" "}
-                            {removeQuotes(value.categoryClicked)} over the
-                            available months is{" "}
-                            {(
-                              chartData.reduce(
-                                (acc: any, data: any) =>
-                                  acc +
-                                  parseFloat(data[value.categoryClicked] || 0),
-                                0
-                              ) / chartData.length
-                            ).toFixed(2)}{" "}
-                            GPA.
-                          </p>
-                          <p>
-                            📊 The standard deviation of grades for{" "}
-                            {removeQuotes(value.categoryClicked)} is{" "}
-                            {Math.sqrt(
-                              chartData.reduce(
-                                (acc: any, data: any) =>
-                                  acc +
-                                  Math.pow(
-                                    parseFloat(
-                                      data[value.categoryClicked] || 0
-                                    ) -
-                                      chartData.reduce(
-                                        (acc: any, data: any) =>
-                                          acc +
-                                          parseFloat(
-                                            data[value.categoryClicked] || 0
-                                          ),
-                                        0
-                                      ) /
-                                        chartData.length,
-                                    2
-                                  ),
-                                0
-                              ) / chartData.length
-                            ).toFixed(2)}
-                            .
+                                      ),
+                                    0
+                                  ) / chartData.length
+                                ).toFixed(2),
+                              }
+                            )}
                           </p>
                         </>
                       )}
@@ -338,14 +412,16 @@ const ProgressSection = () => {
           )}
         </div>
       </div>
-      <Card className="ml-5 flex w-2/5 flex-col border-none bg-transparent p-5 shadow-none">
-        <CardTitle className="mb-2">Filter graph by badges</CardTitle>
+      <Card className="ml-0 flex w-full flex-col border-none bg-transparent p-5 pl-0 shadow-none md:ml-5 md:w-2/5 md:pl-5">
+        <CardTitle className="mb-2">
+          {t("Dashboard.grades.statistics.filterTitle")}
+        </CardTitle>
         <div className="flex flex-col">
-          <div className="mt-3 flex">
+          <div className="mt-3 grid grid-cols-3 gap-3 md:grid-cols-2 2xl:grid-cols-3">
             {uniqueBadges.map(badge => (
               <div
                 key={badge}
-                className="mr-3 flex items-center rounded-3xl border border-primaryGray py-1.5 pl-2 pr-4 hover:cursor-pointer"
+                className="flex items-center rounded-3xl border border-primaryGray py-1.5 pl-2 pr-4 hover:cursor-pointer"
                 onClick={() => handleBadgeClick(badge)}
               >
                 <Checkbox

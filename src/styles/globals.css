@@ -34,7 +34,7 @@
 
     --radius: 0.5rem;
 
-    --drop-shadow: #0070C0;
+    --drop-shadow: #0070c0;
   }
 
   .dark {
@@ -78,7 +78,7 @@
 }
 
 .center {
-  @apply flex justify-center items-center;
+  @apply flex items-center justify-center;
 }
 
 @keyframes slide-up {
@@ -112,6 +112,6 @@
 }
 
 .cta-button-pressed {
-  transform: translateY(2px); /* Move the button 2px down */
-  box-shadow: none; /* Remove shadow when pressed */
+  transform: translateY(2px);
+  box-shadow: none;
 }

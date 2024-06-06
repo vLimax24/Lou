@@ -123,6 +123,53 @@
       "text-editor": "Texteditor",
       "tasks": "Aufgaben",
       "grades": "Noten"
+    },
+    "grades": {
+      "title": "Deine Noten",
+      "tabs": {
+        "progress": "Fortschritt",
+        "statistics": "Statistiken"
+      },
+      "progress": {
+        "title": "Dein Fortschritt",
+        "noGrades": "Noch keine Noten",
+        "dataTable": {
+          "tableHeadSubjects": "Fächer",
+          "tableHeadGrades": "Noten",
+          "tableHeadTotalAverage": "Gesamtdurchschnitt"
+        }
+      },
+      "statistics": {
+        "title": "Deine Statistiken",
+        "clickTip": "Tipp: Klicke auf eine Zeile, um spannende Statistiken zu sehen!",
+        "filterTitle": "Nach Abzeichen filtern",
+        "noBadges": "Noch keine Abzeichen",
+        "months": {
+          "January": "Januar",
+          "February": "Februar",
+          "March": "März",
+          "April": "April",
+          "May": "Mai",
+          "June": "Juni",
+          "July": "Juli",
+          "August": "August",
+          "September": "September",
+          "October": "Oktober",
+          "November": "November",
+          "December": "Dezember"
+        },
+        "stats": {
+          "grade": "🎓 Note: {grade}",
+          "previousGrade": "⬅️ Vorherige Note: {previousGrade}",
+          "gradeImprovement": "📈 Du hast dich um {gradeImprovement} GPA-Punkte im Vergleich zum Vormonat verbessert.",
+          "gradeDisimprovement": "📉 Du hast dich um {gradeDisimprovement} GPA-Punkte im Vergleich zum Vormonat verschlechtert.",
+          "bestMonth": "🔥 Herzlichen Glückwunsch! Dies ist der beste Monat für {subject} bisher.",
+          "worstMonth": "⛔ Leider ist dies der schlechteste Monat für {subject} bisher.",
+          "averageMonth": "👍 Die Leistung dieses Monats für {subject} liegt im Bereich der vorherigen Monate.",
+          "gradeMonthCount": "➡️ Du hast bisher Noten für {monthCount} Monate für {subject} erhalten.",
+          "averageGrade": "⚖️ Die Durchschnittsnote für {subject} über die verfügbaren Monate beträgt {averageGrade} GPA."
+        }
+      }
     }
   }
 }

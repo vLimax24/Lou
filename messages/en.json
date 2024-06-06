@@ -122,7 +122,54 @@
       "learn-resources": "Learn Ressources",
       "text-editor": "Text Editor",
       "tasks": "Tasks",
-      "grades": "Notes"
+      "grades": "Grades"
+    },
+    "grades": {
+      "title": "Your Grades",
+      "tabs": {
+        "progress": "Progress",
+        "statistics": "Statistics"
+      },
+      "progress": {
+        "title": "Your Progress",
+        "noGrades": "No grades yet",
+        "dataTable": {
+          "tableHeadSubjects": "Subjects",
+          "tableHeadGrades": "Grades",
+          "tableHeadTotalAverage": "Total Average"
+        }
+      },
+      "statistics": {
+        "title": "Your Statistics",
+        "clickTip": "Tip: Click on a line to see exciting statistics!",
+        "filterTitle": "Filter by badges",
+        "noBadges": "No badges yet",
+        "months": {
+          "January": "January",
+          "February": "February",
+          "March": "March",
+          "April": "April",
+          "May": "May",
+          "June": "June",
+          "July": "July",
+          "August": "August",
+          "September": "September",
+          "October": "October",
+          "November": "November",
+          "December": "December"
+        },
+        "stats": {
+          "grade": "🎓 Grade: {grade}",
+          "previousGrade": "⬅️ Previous Grade: {previousGrade}",
+          "gradeImprovement": "📈 You got better by {gradeImprovement} GPA points than the previous month.",
+          "gradeDisimprovement": "📉 You got worse by {gradeDisimprovement} GPA points than the previous month.",
+          "bestMonth": "🔥 Congratulations! This is the best month for {subject} so far.",
+          "worstMonth": "⛔ Unfortunately, this is the worst month for {subject} so far.",
+          "averageMonth": "👍 This month's performance for {subject} is within the range of previous months.",
+          "gradeMonthCount": "➡️ You have received grades for {monthCount} months for {subject} so far.",
+          "averageGrade": "⚖️ The average grade for {subject} over the available months is {averageGrade} GPA."
+        }
+      }
     }
   }
 }

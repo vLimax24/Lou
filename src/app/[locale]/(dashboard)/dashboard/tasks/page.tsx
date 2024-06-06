@@ -17,7 +17,7 @@ import { Loader2 } from "lucide-react"
 import { Draggable } from "@/components/dnd/Draggable"
 import { Droppable } from "@/components/dnd/Droppable"
 
-type TaskStatus = "PENDING" | "IN-PROGRESS" | "COMPLETED";
+type TaskStatus = "PENDING" | "IN-PROGRESS" | "COMPLETED"
 const taskTypes: Record<string, TaskStatus> = {
   todo: "PENDING",
   inProgress: "IN-PROGRESS",
@@ -30,7 +30,6 @@ const Tasks = () => {
     api.tasks.getTasks,
     !isAuthenticated ? "skip" : undefined
   )
- 
 
   const updateTask = useMutation<typeof api.tasks.updateTaskStatus>(
     api.tasks.updateTaskStatus
@@ -38,7 +37,7 @@ const Tasks = () => {
 
   const containers: TaskStatus[] = Object.values(taskTypes)
   const [parent, setParent] = useState<Over["id"] | null>(null)
- 
+
   const handleDragEnd = async (event: DragEndEvent): Promise<void> => {
     const { over, active } = event
     if (!over) return // No drop target
@@ -51,15 +50,11 @@ const Tasks = () => {
   }
 
   const handleDragStart = async (event: DragStartEvent): Promise<void> => {
-    
     const { active } = event
     if (!active) return // No drop target
     setParent(active ? active.id : null)
   }
-  const handleDragOver = async (event: DragOverEvent): Promise<void> => {
-    console.log("🚀 ~ handleDragOver ~ event:", event)
-    console.log(parent)
-  }
+  const handleDragOver = async (event: DragOverEvent): Promise<void> => {}
 
   return (
     <DndContext
@@ -67,7 +62,7 @@ const Tasks = () => {
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
     >
-      <div className="mb-6 mr-10 flex w-full items-center justify-between p-4">
+      <div className="mb-6 flex w-full items-center justify-between p-4">
         <h1 className="text-4xl font-bold">Your Tasks</h1>
         <AddTaskDialog />
       </div>
@@ -92,9 +87,7 @@ const Tasks = () => {
           duration: 500,
           easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
         }}
-      >
- 
-      </DragOverlay>
+      ></DragOverlay>
     </DndContext>
   )
 }
