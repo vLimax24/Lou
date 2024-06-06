@@ -29,9 +29,7 @@ const formSchema = z.object({
   name: z.string().min(2).max(50),
 })
 
-type FormData = z.infer<typeof formSchema>;
-
-
+type FormData = z.infer<typeof formSchema>
 
 export const AddSubjectDialog = () => {
   const addSubject = useAction(api.users.addUserSubjectAction)
@@ -53,7 +51,15 @@ export const AddSubjectDialog = () => {
       form.reset()
       setOpenAddModel(false)
     } catch (error) {
-      toast.error("Error Adding Subject!")
+      if (error instanceof Error) {
+        if (error.message === "Subject with this name already exists") {
+          toast.error("Subject with this name already exists!")
+        } else {
+          toast.error("Subject with this name already exists!")
+        }
+      } else {
+        toast.error("Subject with this name already exists!")
+      }
     }
   }
 

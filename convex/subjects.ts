@@ -1,9 +1,7 @@
 import { v } from "convex/values"
 import { internalMutation, query } from "./_generated/server"
 import { authQuery } from "./util"
-import {
-  getManyFrom,
-} from "convex-helpers/server/relationships"
+import { getManyFrom } from "convex-helpers/server/relationships"
 
 export const getAllSubjects = query({
   handler: async ctx => {
@@ -14,11 +12,22 @@ export const getAllSubjects = query({
 })
 
 export const getSubject = authQuery({
-  args: { subjectId: v.id("subjects") },
-  handler: async (ctx, args) => {
-    const subject = await ctx.db.get(args.subjectId)
+  args: {
+    subjectId: v.optional(v.id("subjects")),
+    subjectName: v.optional(v.string()),
+  },
+  handler: (ctx, args) => {
+    if (args.subjectId) {
+      const subject = ctx.db.get(args.subjectId)
 
-    return subject
+      return subject
+    } else if (args.subjectName) {
+      const subject = ctx.db
+        .query("subjects")
+        .filter(q => q.eq(q.field("name"), args.subjectName))
+
+      return subject
+    }
   },
 })
 
@@ -31,9 +40,10 @@ export const getSubjectData = authQuery({
     const userSubject = await ctx.db
       .query("studentSubjects")
       .withIndex("by_subjectId", q => q.eq("subjectId", args.subjectId))
-      .filter(q => q.eq(q.field("userId"), ctx.user._id)).first()
+      .filter(q => q.eq(q.field("userId"), ctx.user._id))
+      .first()
 
-    if(!userSubject) throw new Error("No associated subject found")
+    if (!userSubject) throw new Error("No associated subject found")
 
     const subject = await ctx.db.get(userSubject.subjectId)
 
@@ -74,6 +84,17 @@ export const getUserSubjects = authQuery({
 export const addSubject = internalMutation({
   args: { name: v.string(), addedByUser: v.optional(v.boolean()) },
   handler: async (ctx, args) => {
+    // Check if the subject already exists
+
+    const existingSubject = ctx.db
+      .query("subjects")
+      .filter(q => q.eq(q.field("name"), args.name))
+      .first()
+
+    if (existingSubject !== null) {
+      throw new Error("Subject with this name already exists")
+    }
+    // Subject does not exist, create a new one
     const subjectId = await ctx.db.insert("subjects", {
       name: args.name,
       addedByUser: args.addedByUser || false,
@@ -82,6 +103,7 @@ export const addSubject = internalMutation({
     return subjectId
   },
 })
+
 export const editSubject = internalMutation({
   args: { name: v.string(), subjectId: v.id("subjects") },
   handler: async (ctx, args) => {
