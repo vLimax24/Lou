@@ -135,7 +135,7 @@ const ProgressSection = () => {
 
   return (
     <div className="grid grid-cols-5">
-      <div className="w-full md:col-span-3">
+      <div className="col-span-5 w-full md:col-span-3">
         {chartData.length > 0 && (
           <LineChart
             data={chartData}
@@ -179,7 +179,7 @@ const ProgressSection = () => {
           </p>
         )}
       </div>
-      <Card className="ml-0 flex h-fit w-full flex-col border-none bg-transparent p-5 pl-0 shadow-none md:col-span-2 md:ml-5 md:pl-5">
+      <Card className="ml-0 flex h-fit w-full flex-col border-none bg-transparent p-5 pl-0 shadow-none col-span-5 md:col-span-2 md:ml-5 md:pl-5">
         <CardTitle className="mb-2">
           {t("Dashboard.grades.statistics.filterTitle")}
         </CardTitle>
