@@ -34,6 +34,9 @@ const DashboardSidebar = () => {
   const params = useParams()
   const locale = params.locale
 
+  const projectPathnameId =
+    pathname.split("/")[pathname.split("/").indexOf("projects") + 1]
+
   const t = useTranslations()
 
   const pendingTasksCount =
@@ -79,11 +82,12 @@ const DashboardSidebar = () => {
             </Link>
             <Link
               href="/dashboard/projects"
-              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/projects` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname === `/${locale}/dashboard/projects` || pathname === `/${locale}/dashboard/projects/${projectPathnameId}` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
             >
               <FolderKanban className="h-4 w-4" />
               {t("Dashboard.sidebar.projects")}
             </Link>
+
             <Link
               href="/dashboard/grade-sheet"
               className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/grade-sheet` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}

@@ -30,10 +30,7 @@ const ProjectsCard = () => {
       <CardTitle className="flex items-center justify-start text-3xl font-semibold">
         Team Projects
       </CardTitle>
-      <div
-        className="mb-5 mt-4 grid h-[60%] grid-cols-2 gap-4"
-        style={{ gridTemplateColumns: "repeat(2, 1fr)" }}
-      >
+      <div className="mb-5 mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2">
         {closestProjects && closestProjects?.length > 0 ? (
           closestProjects.map(project => {
             const deadline: Date = new Date(project.deadline)
@@ -94,16 +91,26 @@ const ProjectsCard = () => {
             )
           })
         ) : (
-          <p className="ml-2 text-gray-500">No upcoming projects.</p>
+          <div className="flex size-fit flex-col">
+            <p className=" text-gray-500">No upcoming projects.</p>
+            <Link
+              href={"/dashboard/projects"}
+              className="text-blue-500 hover:underline"
+            >
+              <p>+ create new project</p>
+            </Link>
+          </div>
         )}
       </div>
-      <Link
-        href={"/dashboard/projects"}
-        className="text-gray-400 hover:underline"
-        onClick={e => e.stopPropagation()}
-      >
-        View more
-      </Link>
+      {closestProjects && closestProjects?.length > 0 && (
+        <Link
+          href={"/dashboard/projects"}
+          className="text-gray-400 hover:underline"
+          onClick={e => e.stopPropagation()}
+        >
+          View more
+        </Link>
+      )}
     </Card>
   )
 }

@@ -107,7 +107,7 @@ const DashboardHeader = () => {
               </SheetClose>
               <SheetClose asChild>
                 <Link
-                  href="/dashboard"
+                  href="/dashboard/projects"
                   className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/projects` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
                 >
                   <FolderKanban className="h-4 w-4" />
