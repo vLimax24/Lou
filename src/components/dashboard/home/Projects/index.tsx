@@ -93,12 +93,6 @@ const ProjectsCard = () => {
         ) : (
           <div className="flex size-fit flex-col">
             <p className=" text-gray-500">No upcoming projects.</p>
-            <Link
-              href={"/dashboard/projects"}
-              className="text-blue-500 hover:underline"
-            >
-              <p>+ create new project</p>
-            </Link>
           </div>
         )}
       </div>

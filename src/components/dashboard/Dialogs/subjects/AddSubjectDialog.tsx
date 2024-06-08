@@ -24,12 +24,46 @@ import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import Image from "next/image"
+import { cn } from "@/lib/utils"
+import ChemistryTemplate from "../../../../../public/templates/chemistry_template.svg"
+import BiologyTemplate from "../../../../../public/templates/biology_template.svg"
+import PhysicsTemplate from "../../../../../public/templates/physics_template.svg"
+import HistoryTemplate from "../../../../../public/templates/history_tempalte.svg"
 
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
+  name: z.string().min(2).max(15),
+  template: z.string().min(2).max(50),
 })
 
 type FormData = z.infer<typeof formSchema>
+
+const templates = [
+  {
+    name: "chemistry",
+    url: ChemistryTemplate,
+  },
+  {
+    name: "biology",
+    url: BiologyTemplate,
+  },
+  {
+    name: "physics",
+    url: PhysicsTemplate,
+  },
+  {
+    name: "history",
+    url: HistoryTemplate,
+  },
+  {
+    name: "chemistry_2",
+    url: ChemistryTemplate,
+  },
+  {
+    name: "chemistry_3",
+    url: ChemistryTemplate,
+  },
+]
 
 export const AddSubjectDialog = () => {
   const addSubject = useAction(api.users.addUserSubjectAction)
@@ -38,13 +72,16 @@ export const AddSubjectDialog = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      template: "",
     },
   })
 
   const onSubmit = async (values: FormData) => {
+    console.log(values)
     try {
       await addSubject({
         name: values.name,
+        template: values.template,
       })
 
       toast.success("Subject added!")
@@ -90,7 +127,47 @@ export const AddSubjectDialog = () => {
                     </FormItem>
                   )}
                 />
-                {/* color picker implemenation remains */}
+                <FormField
+                  control={form.control}
+                  name="template"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Choose a template</FormLabel>
+                      <FormControl>
+                        <div className="grid grid-cols-2 gap-2">
+                          {templates.map((template, index) => (
+                            <div
+                              key={index}
+                              className={cn(
+                                "rounded-xl hover:cursor-pointer",
+                                field.value === template.name
+                                  ? "border-primaryBlue"
+                                  : ""
+                              )}
+                              onClick={() => {
+                                form.setValue("template", template.name)
+                              }}
+                            >
+                              <Image
+                                src={template.url}
+                                alt="test"
+                                width={300}
+                                height={300}
+                                className={cn(
+                                  "aspect-[143/40] rounded-md border border-gray-400 object-cover",
+                                  field.value === template.name
+                                    ? "border-primaryBlue"
+                                    : ""
+                                )}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
             <DialogFooter>

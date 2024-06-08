@@ -32,7 +32,7 @@ export default defineSchema({
     accessType: v.string(),
     allowedUsers: v.optional(v.array(v.id("users"))),
     users: v.optional(v.array(v.id("users"))),
-    owner: v.id("users")
+    owner: v.id("users"),
   }).index("by_accessType", ["accessType"]),
   notes: defineTable({
     showInCalendar: v.boolean(),
@@ -53,13 +53,16 @@ export default defineSchema({
     clerkId: v.string(),
     country: v.optional(v.id("gradingSystems")),
     levelExperience: v.optional(v.number()),
-  }).searchIndex("search_username", {
-    searchField: "username",
-  }).index("by_clerkId", ["clerkId"]),
+  })
+    .searchIndex("search_username", {
+      searchField: "username",
+    })
+    .index("by_clerkId", ["clerkId"]),
   subjects: defineTable({
     name: v.string(),
     color: v.optional(v.string()),
     addedByUser: v.optional(v.boolean()),
+    template: v.optional(v.string()),
   }),
   events: defineTable({
     title: v.string(),
@@ -72,7 +75,7 @@ export default defineSchema({
   }),
   projects: defineTable({
     name: v.string(),
-    description : v.string(),
+    description: v.string(),
     allowedUsers: v.optional(v.array(v.id("users"))),
     owner: v.id("users"),
     pinned: v.boolean(),

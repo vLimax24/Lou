@@ -82,7 +82,11 @@ export const getUserSubjects = authQuery({
 })
 
 export const addSubject = internalMutation({
-  args: { name: v.string(), addedByUser: v.optional(v.boolean()) },
+  args: {
+    name: v.string(),
+    addedByUser: v.optional(v.boolean()),
+    template: v.string(),
+  },
   handler: async (ctx, args) => {
     // Check if the subject already exists
 
@@ -98,6 +102,7 @@ export const addSubject = internalMutation({
     const subjectId = await ctx.db.insert("subjects", {
       name: args.name,
       addedByUser: args.addedByUser || false,
+      template: args.template,
     })
 
     return subjectId

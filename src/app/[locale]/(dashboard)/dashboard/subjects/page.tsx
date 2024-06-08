@@ -8,7 +8,6 @@ import { useQuery } from "convex/react"
 
 const Subjects = () => {
   const subjects = useQuery(api.studentSubjects.getUserSubjects)
-  
 
   return (
     <div className="p-5">
@@ -16,17 +15,17 @@ const Subjects = () => {
         <h1 className="text-4xl font-bold">Your Subjects</h1>
         <AddSubjectDialog />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {!subjects ? (
-          <div className='grid grid-cols-1 md:grid-cols-3 w-full items-center'>
-            <Skeleton className="h-20 w-76 rounded-md mx-2" />
-            <Skeleton className="h-20 w-76 rounded-md mx-2" />
-            <Skeleton className="h-20 w-76 rounded-md mx-2" />
+          <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <Skeleton className="h-20 w-full rounded-md" />
+            <Skeleton className="h-20 w-full rounded-md" />
+            <Skeleton className="h-20 w-full rounded-md" />
           </div>
         ) : (
-            subjects.map(subject => (
-              <SubjectCard subject={subject} key={subject._id} />
-            ))
+          subjects.map(subject => (
+            <SubjectCard subject={subject} key={subject._id} />
+          ))
         )}
       </div>
     </div>
@@ -34,4 +33,3 @@ const Subjects = () => {
 }
 
 export default Subjects
-
