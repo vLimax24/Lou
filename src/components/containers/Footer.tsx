@@ -8,7 +8,7 @@ import Instagram from "../../../public/instagram.svg"
 import Path from "../../../public/path.svg"
 export const Footer = () => {
   return (
-    <footer className="relative mx-[auto] my-0 mt-32 w-full max-w-[1080px] bg-primaryBlue pb-10 pt-10 text-gray-300 p-4">
+    <footer className="relative mx-[auto] my-0 mt-32 w-full max-w-[1080px] bg-primaryBlue p-4 pb-10 pt-10 text-gray-300">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-20">
         <div className="">
           <h1 className="max-w-48 text-3xl font-bold text-white">

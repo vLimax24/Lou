@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  return <DashboardClient>{children}</DashboardClient>
+  return <DashboardClient className="lg:p-10">{children}</DashboardClient>
 }
 
 export default DashboardLayout

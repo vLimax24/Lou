@@ -8,8 +8,15 @@ import { useConvexAuth, useQuery } from "convex/react"
 import * as React from "react"
 import { useEffect } from "react"
 import { Toaster } from "@/components/ui/sonner"
+import { cn } from "@/lib/utils"
 
-const DashboardClient = ({ children }: { children: React.ReactNode }) => {
+const DashboardClient = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}) => {
   const { isAuthenticated } = useConvexAuth()
   const [openDialog, setOpenDialog] = React.useState(false)
 
@@ -30,7 +37,12 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
       <DashboardSidebar />
       <div className="flex flex-col">
         <DashboardHeader />
-        <main className="h-full w-full gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6 lg:p-10">
+        <main
+          className={cn(
+            "h-full w-full gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6",
+            className
+          )}
+        >
           {children}
         </main>
         <Toaster richColors />

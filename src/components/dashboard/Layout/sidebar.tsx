@@ -47,13 +47,7 @@ const DashboardSidebar = () => {
       <div className="mt-8 flex h-full max-h-screen flex-col justify-between gap-2">
         <div className="mr-6 flex h-14 items-center justify-between lg:h-[60px]">
           <Link href="/" className="flex items-center gap-1 font-semibold">
-            <Image
-              src={Logo}
-              alt="Lou"
-              width={50}
-              height={50}
-              draggable={false}
-            />
+            <Image src={Logo} alt="" width={50} height={50} draggable={false} />
             <h1 className="ml-2 text-[1.7rem] font-bold">Lou</h1>
           </Link>
         </div>

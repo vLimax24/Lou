@@ -8,7 +8,6 @@ import { Inter } from "next/font/google"
 import { Bricolage_Grotesque } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
 import "@/styles/globals.css"
-import "@/styles/prosemirror.css"
 import { cn } from "@/lib/utils"
 
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"] })
