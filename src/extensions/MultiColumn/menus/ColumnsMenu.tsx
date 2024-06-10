@@ -8,6 +8,7 @@ import { getRenderContainer } from "@/lib/utils/getRenderContainer"
 import { Toolbar } from "@/components/tiptapUI/Toolbar"
 import { ColumnLayout } from "../Columns"
 import { Icon } from "@/components/tiptapUI/Icon"
+import { Columns } from "lucide-react"
 
 export const ColumnsMenu = ({ editor, appendTo }: MenuProps) => {
   const getReferenceClientRect = useCallback(() => {
@@ -70,7 +71,7 @@ export const ColumnsMenu = ({ editor, appendTo }: MenuProps) => {
           })}
           onClick={onColumnTwo}
         >
-          <Icon name="Columns" />
+          <Columns className="h-4 w-4" />
         </Toolbar.Button>
         <Toolbar.Button
           tooltip="Sidebar right"
