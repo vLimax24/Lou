@@ -12,6 +12,7 @@ import { FontSizePicker } from "./components/FontSizePicker"
 import { useTextmenuContentTypes } from "./hooks/useTextmenuContentTypes"
 import { ContentTypePicker } from "./components/ContentTypePicker"
 import { EditLinkPopover } from "./components/EditLinkPopover"
+import { Code2, MoreVertical } from "lucide-react"
 
 // We memorize the button so each button is not rerendered
 // on every editor state change
@@ -90,7 +91,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
           <Icon name="Code" />
         </MemoButton>
         <MemoButton tooltip="Code block" onClick={commands.onCodeBlock}>
-          <Icon name="Code2" />
+          <Code2 className="size-4" />
         </MemoButton>
         <EditLinkPopover onSetLink={commands.onLink} />
         <Popover.Root>
@@ -131,7 +132,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
         <Popover.Root>
           <Popover.Trigger asChild>
             <MemoButton tooltip="More options">
-              <Icon name="MoreVertical" />
+              <MoreVertical className="size-4" />
             </MemoButton>
           </Popover.Trigger>
           <Popover.Content side="top" asChild>
