@@ -30,12 +30,9 @@ export const EditorHeader = ({
 }: EditorHeaderProps) => {
   const pathname = usePathname()
 
-  console.log(isOwner)
-
   const segments = pathname.split("/")
   const documentIdStr = segments[segments.indexOf("doc") + 1]
 
-  // Ensure documentIdStr is defined and of the correct type
   if (!documentIdStr) {
     throw new Error("Document ID not found in the URL")
   }

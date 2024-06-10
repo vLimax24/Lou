@@ -120,19 +120,21 @@ export default function Document({ params }: { params: { room: string } }) {
           {documentQuery?.accessType === "RESTRICTED" &&
           (!documentQuery?.allowedUsers ||
             !documentQuery?.allowedUsers.includes(userId)) ? (
-            <div className="flex h-full w-full flex-col items-center justify-center">
-              <TriangleAlert size={200} />
-              <p className="mt-6 text-2xl font-bold text-primaryGray">
+            <div className="flex h-full w-full flex-col items-center justify-center ">
+              <TriangleAlert size={200} className="text-black" />
+              <p className="mt-6 text-2xl font-bold text-black">
                 You are not allowed to view this document
               </p>
               <div className="flex">
                 <Link
                   href={"/dashboard/text-editor"}
-                  className="mt-6 text-primaryGray"
+                  className="mt-6 text-black"
                 >
-                  <Button className="mx-2 w-40 bg-primaryGray transition-all duration-300 ease-linear hover:cursor-pointer hover:bg-primaryHoverGray">
+                  <Button className="mx-2 w-40 bg-black transition-all duration-300 ease-linear hover:cursor-pointer hover:bg-black">
                     Back
                   </Button>
+                </Link>
+                <Link href={"/dashboard"} className="mt-6 text-black">
                   <Button variant={"outline"} className="mx-2 w-40">
                     Home
                   </Button>

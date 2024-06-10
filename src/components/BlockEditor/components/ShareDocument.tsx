@@ -50,7 +50,7 @@ const ShareDocument = ({ document }: { document: any }) => {
   const [invitedUsers, setInvitedUsers] = useState<string[]>([])
 
   const params = useParams<any>()
-  const docId = params.id
+  const docId = params.room
 
   const updateAccess = useMutation(api.documents.updateAccessType)
   const searchUsers = useQuery(api.users.searchUsers, { searchTerm: username })
