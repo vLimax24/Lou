@@ -21,7 +21,7 @@ import { ContentItemMenu } from "../menus/ContentItemMenu"
 
 export const BlockEditor = ({ ydoc, provider, isOwner }: TiptapProps) => {
   const menuContainerRef = useRef(null)
-  const editorRef = useRef<PureEditorContent | null>(null)
+  const editorRef = useRef<any>(null)
 
   const { editor, users, characterCount, collabState, leftSidebar } =
     useBlockEditor({ ydoc, provider })
