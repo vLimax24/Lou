@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/react'
+import { Editor } from "@tiptap/react"
 
 export const getRenderContainer = (editor: Editor, nodeType: string) => {
   const {
@@ -8,20 +8,22 @@ export const getRenderContainer = (editor: Editor, nodeType: string) => {
     },
   } = editor
 
-  const elements = document.querySelectorAll('.has-focus')
+  const elements = document.querySelectorAll(".has-focus")
   const elementCount = elements.length
   const innermostNode = elements[elementCount - 1]
   const element = innermostNode
 
   if (
-    (element && element.getAttribute('data-type') && element.getAttribute('data-type') === nodeType) ||
+    (element &&
+      element.getAttribute("data-type") &&
+      element.getAttribute("data-type") === nodeType) ||
     (element && element.classList && element.classList.contains(nodeType))
   ) {
     return element
   }
 
   const node = view.domAtPos(from).node as HTMLElement
-  let container = node
+  let container: any = node
 
   if (!container.tagName) {
     container = node.parentElement
@@ -29,7 +31,10 @@ export const getRenderContainer = (editor: Editor, nodeType: string) => {
 
   while (
     container &&
-    !(container.getAttribute('data-type') && container.getAttribute('data-type') === nodeType) &&
+    !(
+      container.getAttribute("data-type") &&
+      container.getAttribute("data-type") === nodeType
+    ) &&
     !container.classList.contains(nodeType)
   ) {
     container = container.parentElement
