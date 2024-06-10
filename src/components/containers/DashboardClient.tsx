@@ -18,8 +18,6 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname()
   const locale = useLocale()
 
-  console.log(pathname)
-
   const subjects = useQuery(
     api.subjects.getUserSubjects,
     !isAuthenticated ? "skip" : undefined

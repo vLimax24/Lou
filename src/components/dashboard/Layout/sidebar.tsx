@@ -37,6 +37,9 @@ const DashboardSidebar = () => {
   const projectPathnameId =
     pathname.split("/")[pathname.split("/").indexOf("projects") + 1]
 
+  const textEditorPathname =
+    pathname.split("/")[pathname.split("/").indexOf("text-editor")]
+
   const t = useTranslations()
 
   const pendingTasksCount =
@@ -119,7 +122,7 @@ const DashboardSidebar = () => {
             </Link>
             <Link
               href="/dashboard/text-editor"
-              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/text-editor` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/text-editor` || `/${locale}/dashboard/text-editor/${textEditorPathname}` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
             >
               <CaseSensitive className="h-4 w-4" />
               {t("Dashboard.sidebar.text-editor")}

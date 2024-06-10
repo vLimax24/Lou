@@ -28,7 +28,6 @@ export default defineSchema({
   }),
   documents: defineTable({
     name: v.string(),
-    content: v.optional(v.any()),
     accessType: v.string(),
     allowedUsers: v.optional(v.array(v.id("users"))),
     users: v.optional(v.array(v.id("users"))),

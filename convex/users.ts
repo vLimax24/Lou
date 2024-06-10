@@ -184,7 +184,6 @@ export const searchUsers = authQuery({
   args: { searchTerm: v.string() },
   handler: async (ctx, args) => {
     if (!ctx.auth) throw new ConvexError("Not Authorized")
-    if (!ctx.user) throw new Error("Not User")
     const users = await ctx.db
       .query("users")
       .withSearchIndex("search_username", q =>

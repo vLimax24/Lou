@@ -47,7 +47,6 @@ export const addDocument = authMutation({
     let arr = [user._id]
     const newDocument = await db.insert("documents", {
       name: args.name,
-      content: args.content,
       owner: user._id,
       accessType: args.accessType,
       allowedUsers: arr,
@@ -65,13 +64,6 @@ export const getSpecificDocument = authQuery({
       .first()
 
     return document
-  },
-})
-
-export const updateContent = authMutation({
-  args: { documentId: v.id("documents"), newContent: v.optional(v.any()) },
-  handler: async (ctx, args) => {
-    await ctx.db.patch(args.documentId, { content: args.newContent })
   },
 })
 
@@ -144,10 +136,10 @@ export const getAllowedUsersProfileImages = authQuery({
 
 export const getEveryoneDocuments = authQuery({
   args: {},
-  handler: async (ctx) => {
+  handler: async ctx => {
     const documents = await ctx.db
       .query("documents")
-      .withIndex("by_accessType", (q) => q.eq("accessType", "EVERYONE"))
+      .withIndex("by_accessType", q => q.eq("accessType", "EVERYONE"))
       .collect()
 
     return documents

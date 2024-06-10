@@ -17,6 +17,13 @@ import { createPortal } from "react-dom"
 import { Surface } from "@/components/tiptapUI/Surface"
 import { Toolbar } from "@/components/tiptapUI/Toolbar"
 import { Icon } from "@/components/tiptapUI/Icon"
+import { api } from "@/convex/_generated/api"
+import { useQuery } from "convex/react"
+import { Id } from "@/convex/_generated/dataModel"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { TriangleAlert } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const useDarkmode = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(
@@ -52,10 +59,15 @@ export default function Document({ params }: { params: { room: string } }) {
   const [provider, setProvider] = useState<TiptapCollabProvider | null>(null)
   const [collabToken, setCollabToken] = useState<string | null>(null)
   const searchParams = useSearchParams()
-
-  const hasCollab = parseInt(searchParams.get("noCollab") as string) !== 1
-
   const { room } = params
+  const hasCollab = parseInt(searchParams.get("noCollab") as string) !== 1
+  const user = useQuery(api.users.getMyUser)
+  const documentQuery = useQuery(api.documents.getSpecificDocument, {
+    documentId: room as Id<"documents">,
+  })
+
+  const isOwner = documentQuery?.owner === user?._id
+  const userId: any = user?._id
 
   useEffect(() => {
     // fetch data
@@ -96,7 +108,58 @@ export default function Document({ params }: { params: { room: string } }) {
   if (hasCollab && (!collabToken || !provider)) return
   return (
     <>
-      <BlockEditor hasCollab={hasCollab} ydoc={ydoc} provider={provider} />
+      {documentQuery?.accessType === "EVERYONE" ? (
+        <BlockEditor
+          hasCollab={hasCollab}
+          ydoc={ydoc}
+          provider={provider}
+          isOwner={isOwner}
+        />
+      ) : (
+        <>
+          {documentQuery?.accessType === "RESTRICTED" &&
+          (!documentQuery?.allowedUsers ||
+            !documentQuery?.allowedUsers.includes(userId)) ? (
+            <div className="flex h-full w-full flex-col items-center justify-center">
+              <TriangleAlert size={200} />
+              <p className="mt-6 text-2xl font-bold text-primaryGray">
+                You are not allowed to view this document
+              </p>
+              <div className="flex">
+                <Link
+                  href={"/dashboard/text-editor"}
+                  className="mt-6 text-primaryGray"
+                >
+                  <Button className="mx-2 w-40 bg-primaryGray transition-all duration-300 ease-linear hover:cursor-pointer hover:bg-primaryHoverGray">
+                    Back
+                  </Button>
+                  <Button variant={"outline"} className="mx-2 w-40">
+                    Home
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <>
+              {!documentQuery ? (
+                <div>
+                  <Skeleton className="my-2 h-8 w-72 rounded-md" />
+                  <Skeleton className="my-2 h-8 w-48 rounded-md" />
+                  <Skeleton className="my-2 h-8 w-96 rounded-md" />
+                  <Skeleton className="my-2 h-8 w-56 rounded-md" />
+                </div>
+              ) : (
+                <BlockEditor
+                  hasCollab={hasCollab}
+                  ydoc={ydoc}
+                  provider={provider}
+                  isOwner={isOwner}
+                />
+              )}
+            </>
+          )}
+        </>
+      )}
     </>
   )
 }
