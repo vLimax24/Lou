@@ -170,6 +170,25 @@
           "averageGrade": "⚖️ The average grade for {subject} over the available months is {averageGrade} GPA."
         }
       }
+    },
+    "learningRessources": {
+      "title": "Your Learning Resources",
+      "creationSheet": {
+        "title": "Create new Learning Resource",
+        "topic": {
+          "label": "Topic",
+          "placeholder": "Enter a topic"
+        },
+        "subject": {
+          "label": "Subject",
+          "placeholder": "Enter a subject"
+        },
+        "question": {
+          "label": "Question",
+          "placeholderQuestion": "Enter a question",
+          "placeholderAnswer": "Enter an answer"
+        }
+      }
     }
   }
 }

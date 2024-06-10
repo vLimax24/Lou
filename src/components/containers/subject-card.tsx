@@ -37,12 +37,14 @@ const SubjectCard = ({ subject }: { subject: Doc<"subjects"> }) => {
           className="absolute inset-0 z-0"
         />
       )}
-      <CardHeader className="relative z-10 pl-[4.5rem] pt-8">
+      <CardHeader className="relative z-10 flex h-full items-center justify-center text-center">
         <Link
           href={`/dashboard/subjects/${subject._id}`}
           className=" text-gray-900 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
         >
-          <CardTitle className={cn("text-3xl font-bold text-black")}>
+          <CardTitle
+            className={cn("text-center text-3xl font-bold text-black")}
+          >
             {subject.name}
           </CardTitle>
         </Link>

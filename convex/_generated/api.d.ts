@@ -22,6 +22,7 @@ import type * as events from "../events.js";
 import type * as grades from "../grades.js";
 import type * as http from "../http.js";
 import type * as labels from "../labels.js";
+import type * as learningResources from "../learningResources.js";
 import type * as notes from "../notes.js";
 import type * as notifications from "../notifications.js";
 import type * as projects from "../projects.js";
@@ -49,6 +50,7 @@ declare const fullApi: ApiFromModules<{
   grades: typeof grades;
   http: typeof http;
   labels: typeof labels;
+  learningResources: typeof learningResources;
   notes: typeof notes;
   notifications: typeof notifications;
   projects: typeof projects;

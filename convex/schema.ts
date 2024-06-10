@@ -33,6 +33,16 @@ export default defineSchema({
     users: v.optional(v.array(v.id("users"))),
     owner: v.id("users"),
   }).index("by_accessType", ["accessType"]),
+  learningResources: defineTable({
+    userId: v.id("users"),
+    template: v.object({
+      topic: v.string(),
+      subject: v.string(),
+      questions: v.array(
+        v.object({ question: v.string(), answer: v.string() })
+      ),
+    }),
+  }).index("by_userId", ["userId"]),
   notes: defineTable({
     showInCalendar: v.boolean(),
     text: v.string(),

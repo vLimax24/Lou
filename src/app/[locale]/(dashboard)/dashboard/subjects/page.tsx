@@ -10,7 +10,7 @@ const Subjects = () => {
   const subjects = useQuery(api.studentSubjects.getUserSubjects)
 
   return (
-    <div className="p-5">
+    <>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-4xl font-bold">Your Subjects</h1>
         <AddSubjectDialog />
@@ -28,7 +28,7 @@ const Subjects = () => {
           ))
         )}
       </div>
-    </div>
+    </>
   )
 }
 
