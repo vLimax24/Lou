@@ -9,16 +9,16 @@ import * as React from "react"
 import { useEffect } from "react"
 import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
+import { usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
 
-const DashboardClient = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode
-  className?: string
-}) => {
+const DashboardClient = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useConvexAuth()
   const [openDialog, setOpenDialog] = React.useState(false)
+  const pathname = usePathname()
+  const locale = useLocale()
+
+  console.log(pathname)
 
   const subjects = useQuery(
     api.subjects.getUserSubjects,
@@ -32,6 +32,10 @@ const DashboardClient = ({
     }
   }, [subjects])
 
+  const isTextEditor = pathname.startsWith(
+    `/${locale}/dashboard/text-editor/doc`
+  )
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <DashboardSidebar />
@@ -40,7 +44,7 @@ const DashboardClient = ({
         <main
           className={cn(
             "h-full w-full gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6",
-            className
+            isTextEditor ? "p-0" : "p-10"
           )}
         >
           {children}
