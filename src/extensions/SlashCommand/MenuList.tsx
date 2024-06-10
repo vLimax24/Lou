@@ -6,7 +6,7 @@ import { Surface } from "@/components/tiptapUI/Surface"
 import { DropdownButton } from "@/components/tiptapUI/Dropdown"
 import { Icon } from "@/components/tiptapUI/Icon"
 
-export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
+export const MenuList = React.forwardRef((props: any, ref) => {
   const scrollContainer = useRef<HTMLDivElement>(null)
   const activeItem = useRef<HTMLButtonElement>(null)
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0)
@@ -21,7 +21,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
 
   const selectItem = useCallback(
     (groupIndex: number, commandIndex: number) => {
-      const command = props.items[groupIndex].commands[commandIndex]
+      const command: any = props.items[groupIndex].commands[commandIndex]
       props.command(command)
     },
     [props]
@@ -124,7 +124,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
       className="mb-8 max-h-[min(80vh,24rem)] flex-wrap overflow-auto p-2 text-black"
     >
       <div className="grid grid-cols-1 gap-0.5">
-        {props.items.map((group, groupIndex: number) => (
+        {props.items.map((group: any, groupIndex: number) => (
           <React.Fragment key={`${group.title}-wrapper`}>
             <div
               className="col-[1/-1] mx-2 mt-4 select-none text-[0.65rem] font-semibold uppercase tracking-wider text-neutral-500 first:mt-0.5"
