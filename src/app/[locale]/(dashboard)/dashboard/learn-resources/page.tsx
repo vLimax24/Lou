@@ -8,6 +8,9 @@ import { useTranslations } from "next-intl"
 
 const LearnRessources = () => {
   const t = useTranslations()
+
+  const learnResources = useQuery(api.learningResources.getLearningResources)
+
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
@@ -18,7 +21,16 @@ const LearnRessources = () => {
           <AddLearnResourceSheet />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {learnResources?.map(resource => {
+          const template = resource.template
+          return (
+            <>
+              <div>{template.topic}</div>
+            </>
+          )
+        })}
+      </div>
     </>
   )
 }

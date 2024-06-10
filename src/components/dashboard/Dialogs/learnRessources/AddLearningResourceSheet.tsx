@@ -11,7 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useTranslations } from "next-intl"
 import { api } from "@/convex/_generated/api"
-import { useMutation, useQuery } from "convex/react"
+import { useMutation } from "convex/react"
+import { toast } from "sonner"
 
 interface Question {
   question: string
@@ -21,6 +22,7 @@ interface Question {
 export const AddLearnResourceSheet = () => {
   const [subject, setSubject] = useState("")
   const [topic, setTopic] = useState("")
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [questions, setQuestions] = useState<Question[]>([
     { question: "", answer: "" },
   ])
@@ -53,8 +55,11 @@ export const AddLearnResourceSheet = () => {
 
   return (
     <div className="w-full">
-      <Sheet>
-        <SheetTrigger className="flex items-center whitespace-nowrap rounded-md bg-primaryGray px-4 py-2 text-white hover:bg-primaryHoverGray">
+      <Sheet
+        open={sidebarOpen}
+        onOpenChange={() => setSidebarOpen(!sidebarOpen)}
+      >
+        <SheetTrigger className="flex items-center whitespace-nowrap rounded-md border border-neutral-500 bg-transparent px-4 py-2 text-neutral-500 transition-all duration-300 ease-in-out hover:border-neutral-900 hover:text-neutral-900">
           <p>Add</p>
         </SheetTrigger>
         <SheetContent className="w-1/3 overflow-scroll pl-8 sm:max-w-full">
@@ -143,7 +148,13 @@ export const AddLearnResourceSheet = () => {
             <Button
               className="bg-primaryGray hover:bg-primaryHoverGray"
               onClick={async () => {
-                await addLearningResource({ template: learnTemplate })
+                try {
+                  await addLearningResource({ template: learnTemplate })
+                  toast.success("Learning Resource added!")
+                  setSidebarOpen(false)
+                } catch (error) {
+                  toast.error("Error Adding Learning Resource")
+                }
               }}
             >
               Create Project
