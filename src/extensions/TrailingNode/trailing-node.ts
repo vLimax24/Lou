@@ -1,9 +1,11 @@
-import { Extension } from '@tiptap/core'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Extension } from "@tiptap/core"
+import { Plugin, PluginKey } from "@tiptap/pm/state"
 
 // @ts-ignore
 function nodeEqualsType({ types, node }) {
-  return (Array.isArray(types) && types.includes(node.type)) || node.type === types
+  return (
+    (Array.isArray(types) && types.includes(node.type)) || node.type === types
+  )
 }
 
 /**
@@ -18,12 +20,12 @@ export interface TrailingNodeOptions {
 }
 
 export const TrailingNode = Extension.create<TrailingNodeOptions>({
-  name: 'trailingNode',
+  name: "trailingNode",
 
   addOptions() {
     return {
-      node: 'paragraph',
-      notAfter: ['paragraph'],
+      node: "paragraph",
+      notAfter: ["paragraph"],
     }
   },
 
@@ -40,7 +42,7 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
           const { doc, tr, schema } = state
           const shouldInsertNodeAtEnd = plugin.getState(state)
           const endPosition = doc.content.size
-          const type = schema.nodes[this.options.node]
+          const type: any = schema.nodes[this.options.node]
 
           if (!shouldInsertNodeAtEnd) {
             return
