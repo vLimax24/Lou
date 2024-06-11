@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://clerk.weftune.com",
+      domain: process.env.ISSUER_DOMAIN,
       applicationID: "convex",
     },
   ],
