@@ -1,10 +1,8 @@
 export default {
   providers: [
     {
-      domain: process.env.ISSUER_DOMAIN,
+      domain: "https://clerk.weftune.com",
       applicationID: "convex",
     },
   ],
 }
-
-// https://rare-quagga-15.clerk.accounts.dev/
