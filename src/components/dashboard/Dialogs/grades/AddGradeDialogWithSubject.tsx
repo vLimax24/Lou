@@ -321,7 +321,7 @@ export const AddGradeDialogWithSubject = ({
                       {form.getValues().badges.length == 0 && (
                         <div className="flex items-center text-sm text-gray-500">
                           <Lightbulb />
-                          <p>Tip: Press ENTER to add a badge</p>
+                          <p>Tip: Press ENTER to add a badge </p>
                         </div>
                       )}
                       <div className="flex items-center transition-all duration-200 ease-in-out">
