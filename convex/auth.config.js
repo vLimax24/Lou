@@ -1,10 +1,10 @@
 export default {
   providers: [
     {
-      domain: "https://rare-quagga-15.clerk.accounts.dev/",
+      domain: process.env.ISSUER_DOMAIN,
       applicationID: "convex",
     },
-  ]
+  ],
 }
 
 // https://rare-quagga-15.clerk.accounts.dev/

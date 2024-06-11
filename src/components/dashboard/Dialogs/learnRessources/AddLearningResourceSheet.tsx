@@ -140,7 +140,10 @@ export const AddLearnResourceSheet = () => {
                 />
               </div>
             ))}
-            <Button className="mt-4" onClick={handleAddQuestion}>
+            <Button
+              className="mt-1 border border-neutral-500 bg-transparent text-neutral-500 hover:border-neutral-900 hover:bg-transparent hover:text-neutral-900"
+              onClick={handleAddQuestion}
+            >
               Add Another Question
             </Button>
           </div>
