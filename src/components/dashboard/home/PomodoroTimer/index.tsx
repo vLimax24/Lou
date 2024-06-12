@@ -110,6 +110,7 @@ const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
 
   const handleSetTime = (minutes: number) => {
     setSelectedTime(minutes.toString())
+    setIsRunning(false)
     setTimeLeft(dayjs.duration({ minutes }).asMilliseconds())
   }
 
