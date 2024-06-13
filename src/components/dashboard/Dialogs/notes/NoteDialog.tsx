@@ -9,6 +9,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -21,6 +23,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   Tooltip,
   TooltipContent,
@@ -36,7 +43,6 @@ import { z } from "zod"
 import { Pencil } from "lucide-react"
 import { useState, useEffect } from "react"
 import { Plus } from "lucide-react"
-import usePress from "@/hooks/usePress"
 import { cn } from "@/lib/utils"
 
 const addFormSchema = z.object({
@@ -57,8 +63,8 @@ type EditFormData = z.infer<typeof editFormSchema>
 
 export const AddNote = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
   const addNote = useMutation(api.notes.addNote)
-  const [isPressed, handlePress] = usePress()
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [calendarPopoverOpen, setCalendarPopoverOpen] = useState(false)
 
   const form = useForm<AddFormData>({
     resolver: zodResolver(addFormSchema),
@@ -92,24 +98,23 @@ export const AddNote = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button
-          className={cn(
-            "flex items-center justify-center rounded-full bg-primaryBlue hover:bg-primaryHover",
-            isPressed ? "cta-button-pressed" : "cta-button-shadow"
-          )}
-          onClick={handlePress}
+          className="flex items-center justify-center rounded-full bg-primaryBlue hover:bg-primaryHover"
           data-cy="add-note-button"
         >
           <Plus className="size-5" />
           <p className="ml-1">Create Note</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
-        <DialogHeader>
+      <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/4">
+        <DialogHeader className="text-left">
           <DialogTitle>Add Note</DialogTitle>
           <DialogDescription>Add a new note for yourself.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col"
+          >
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-1 items-center gap-4">
                 <FormField
@@ -175,19 +180,48 @@ export const AddNote = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
                       control={form.control}
                       name="date"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Pick a due date</FormLabel>
-                          <FormControl className="flex">
-                            <div>
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Due Date</FormLabel>
+                          <Popover
+                            open={calendarPopoverOpen}
+                            onOpenChange={setCalendarPopoverOpen}
+                          >
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "font-normal w-full pl-3 text-left",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                  onKeyDown={() => {
+                                    setCalendarPopoverOpen(true)
+                                  }}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "PPP")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
                               <Calendar
                                 mode="single"
                                 selected={field.value}
                                 onSelect={field.onChange}
-                                className="grid w-full place-items-center rounded-md border"
-                                data-cy="calendar"
+                                onDayClick={() => {
+                                  setCalendarPopoverOpen(false)
+                                }}
+                                initialFocus
                               />
-                            </div>
-                          </FormControl>
+                            </PopoverContent>
+                          </Popover>
                           <FormMessage />
                         </FormItem>
                       )}
