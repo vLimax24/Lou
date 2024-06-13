@@ -40,6 +40,9 @@ const DashboardSidebar = () => {
   const textEditorPathname =
     pathname.split("/")[pathname.split("/").indexOf("doc") + 1]
 
+  const subjectPathname =
+    pathname.split("/")[pathname.split("/").indexOf("subjects") + 1]
+
   const t = useTranslations()
 
   const pendingTasksCount =
@@ -65,7 +68,7 @@ const DashboardSidebar = () => {
             </Link>
             <Link
               href="/dashboard/subjects"
-              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/subjects` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+              className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/subjects` || pathname == `/${locale}/dashboard/subjects/${subjectPathname}` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
             >
               <LibraryBig className="h-4 w-4" />
               {t("Dashboard.sidebar.subjects")}
