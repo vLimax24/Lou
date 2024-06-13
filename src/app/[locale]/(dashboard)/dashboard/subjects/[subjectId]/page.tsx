@@ -3,9 +3,8 @@ import { useParams } from "next/navigation"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { useQuery } from "convex/react"
-// 
 import { Loader2 } from "lucide-react"
-import { AddNoteDialog } from "@/components/dashboard/Dialogs/notes/AddNoteDialog"
+import { AddNote } from "@/components/dashboard/Dialogs/notes/NoteDialog"
 import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
 import GradeCard from "@/components/dashboard/Grades/GradeCard"
 import NoteCard from "@/components/dashboard/Notes/NoteCard"
@@ -13,7 +12,6 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardFooter, CardHeader } from "@/components/ui/card"
 import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
 import SubjectSection from "@/components/containers/SubjectSection"
-
 
 const SubjectPage = () => {
   const params = useParams<{ subjectId: Id<"subjects"> }>()
@@ -83,14 +81,14 @@ const SubjectPage = () => {
         <SubjectSection
           title="Notes"
           description="Notes for your subject"
-          addDialog={<AddNoteDialog subjectId={subject.subject._id} />}
+          addDialog={<AddNote subjectId={subject.subject._id} />}
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
             {!subject.subjectNotes ? (
               <Loader2 className="h-12 w-12 animate-spin" />
             ) : (
-              subject.subjectNotes.map((note:any) => (
-                <NoteCard note={note} key={note._id}/>
+              subject.subjectNotes.map((note: any) => (
+                <NoteCard note={note} key={note._id} />
               ))
             )}
           </div>

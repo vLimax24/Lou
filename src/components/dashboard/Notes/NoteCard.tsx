@@ -3,8 +3,6 @@ import Link from "next/link"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { useMutation } from "convex/react"
-
-import { EditNoteDialog } from "@/components/dashboard/Dialogs/notes/EditNoteDialog"
 import { EditNote } from "@/components/dashboard/Dialogs/notes/NoteDialog"
 import {
   Tooltip,
