@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Form,
   FormControl,
@@ -37,7 +38,7 @@ import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
-import { useForm } from "react-hook-form"
+import { useForm, useFieldArray } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { Pencil } from "lucide-react"
@@ -56,6 +57,7 @@ const editFormSchema = z.object({
   text: z.string().min(2).max(50),
   showInCalendar: z.boolean(),
   date: z.date(),
+  description: z.string().min(10).max(150),
 })
 
 type AddFormData = z.infer<typeof addFormSchema>
@@ -251,23 +253,28 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
   const editNote = useMutation(api.notes.editNote)
   const [showInCalendar, setShowInCalendar] = useState(false)
   const [date, setDate] = useState<Date>(new Date())
-
-  useEffect(() => {
-    if (note) {
-      setShowInCalendar(note.showInCalendar)
-      const parsedDate = note.date ? new Date(note.date) : new Date()
-      setDate(parsedDate)
-    }
-  }, [note])
+  const [calendarPopoverOpen, setCalendarPopoverOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const form = useForm<EditFormData>({
     resolver: zodResolver(editFormSchema),
     defaultValues: {
       text: note?.text ?? "",
       showInCalendar: false,
-      date: new Date(),
+      date: date,
+      description: note?.description ?? "",
     },
   })
+
+  useEffect(() => {
+    if (note) {
+      setShowInCalendar(note.showInCalendar)
+      const parsedDate = note.date ? new Date(note.date) : new Date()
+      setDate(parsedDate)
+      form.setValue("text", note.text)
+      form.setValue("description", note.description)
+    }
+  }, [note])
 
   const onSubmit = async (values: EditFormData) => {
     try {
@@ -277,16 +284,18 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
         newText: values.text,
         newShowInCalendar: showInCalendar,
         newDate: formattedDate,
+        newDescription: values.description,
       })
       toast.success("Note edited successfully!")
       form.reset()
+      setDialogOpen(false)
     } catch (error) {
       toast.error("Error editing Note!")
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <Tooltip delayDuration={50}>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
@@ -301,7 +310,7 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
         </TooltipContent>
       </Tooltip>
 
-      <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
+      <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/4">
         <DialogHeader>
           <DialogTitle>Edit Note</DialogTitle>
           <DialogDescription>
@@ -319,7 +328,34 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                     <FormItem>
                       <FormLabel>Note</FormLabel>
                       <FormControl>
-                        <Input placeholder="Clouds are white now" {...field} />
+                        {note ? (
+                          <Input
+                            placeholder="Clouds are white now"
+                            {...field}
+                          />
+                        ) : (
+                          <Skeleton className="h-10 w-full rounded-lg" />
+                        )}
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        {note ? (
+                          <Textarea
+                            placeholder="Description of your note"
+                            {...field}
+                          />
+                        ) : (
+                          <Skeleton className="h-10 w-full rounded-lg" />
+                        )}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -348,32 +384,67 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                     </FormItem>
                   )}
                 />
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="date"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>Pick a due date</FormLabel>
-                        <FormControl className="flex">
-                          <div>
-                            <Calendar
-                              mode="single"
-                              selected={date}
-                              onSelect={day => setDate(day ?? new Date())}
-                              className="grid w-full place-items-center rounded-md border"
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                {showInCalendar && (
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Due Date</FormLabel>
+                          <Popover
+                            open={calendarPopoverOpen}
+                            onOpenChange={setCalendarPopoverOpen}
+                          >
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "font-normal w-full pl-3 text-left",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                  onKeyDown={() => {
+                                    setCalendarPopoverOpen(true)
+                                  }}
+                                >
+                                  {date ? (
+                                    format(field.value, "PPP")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                onDayClick={() => {
+                                  setCalendarPopoverOpen(false)
+                                }}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                className="w-full bg-primaryBlue hover:bg-primaryHover"
+              >
                 Save
               </Button>
             </DialogFooter>

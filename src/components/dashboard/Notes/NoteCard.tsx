@@ -5,6 +5,7 @@ import { Id } from "@/convex/_generated/dataModel"
 import { useMutation } from "convex/react"
 
 import { EditNoteDialog } from "@/components/dashboard/Dialogs/notes/EditNoteDialog"
+import { EditNote } from "@/components/dashboard/Dialogs/notes/NoteDialog"
 import {
   Tooltip,
   TooltipContent,
@@ -106,7 +107,7 @@ const NoteCard = ({ note }: Props) => {
             </Tooltip>
           </div>
           <div>
-            <EditNoteDialog id={note?._id} />
+            <EditNote id={note?._id} />
           </div>
           <div>
             <LabelSelectorDialog entityId={note?._id} />

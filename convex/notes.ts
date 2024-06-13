@@ -62,12 +62,14 @@ export const editNote = authMutation({
     newText: v.string(),
     newDate: v.string(),
     newShowInCalendar: v.boolean(),
+    newDescription: v.string(),
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.noteId, {
       text: args.newText,
       showInCalendar: args.newShowInCalendar,
       date: args.newDate,
+      description: args.newDescription,
     })
   },
 })
