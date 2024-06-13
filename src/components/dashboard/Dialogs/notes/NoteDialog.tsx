@@ -349,7 +349,7 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t("Dashboard.dialog.notes.editNote.titleLabel")}
+                        {t("Dashboard.dialogs.notes.editNote.titleLabel")}
                       </FormLabel>
                       <FormControl>
                         {note ? (
@@ -424,7 +424,7 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
                           <FormLabel>
-                            {t("Dashboard.dialogs.notes.editNote.dateLabel")}
+                            {t("Dashboard.dialogs.notes.editNote.dueDateLabel")}
                           </FormLabel>
                           <Popover
                             open={calendarPopoverOpen}
