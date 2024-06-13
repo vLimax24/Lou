@@ -256,7 +256,7 @@ export const AddNote = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
                 className="w-full bg-primaryBlue hover:bg-primaryHover"
                 data-cy="add-note-submit-button"
               >
-                {t("Dashboard.notes.addNote.submitButton")}
+                {t("Dashboard.dialogs.notes.addNote.submitButton")}
               </Button>
             </DialogFooter>
           </form>
@@ -306,11 +306,11 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
         newDate: formattedDate,
         newDescription: values.description,
       })
-      toast.success(t("Dashboard.notes.editNote.submitSuccessMessage"))
+      toast.success(t("Dashboard.dialogs.notes.editNote.submitSuccessMessage"))
       form.reset()
       setDialogOpen(false)
     } catch (error) {
-      toast.error(t("Dashboard.notes.editNote.submitErrorMessage"))
+      toast.error(t("Dashboard.dialogs.notes.editNote.submitErrorMessage"))
     }
   }
 
@@ -326,15 +326,17 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
           </DialogTrigger>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{t("Dashboard.notes.editNote.title")}</p>
+          <p>{t("Dashboard.dialogs.notes.editNote.title")}</p>
         </TooltipContent>
       </Tooltip>
 
       <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/4">
         <DialogHeader>
-          <DialogTitle>{t("Dashboard.notes.editNote.title")}</DialogTitle>
+          <DialogTitle>
+            {t("Dashboard.dialogs.notes.editNote.title")}
+          </DialogTitle>
           <DialogDescription>
-            {t("Dashboard.notes.editNote.description")}
+            {t("Dashboard.dialogs.notes.editNote.description")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -347,13 +349,13 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t("Dashboard.notes.editNote.titleLabel")}
+                        {t("Dashboard.dialog.notes.editNote.titleLabel")}
                       </FormLabel>
                       <FormControl>
                         {note ? (
                           <Input
                             placeholder={t(
-                              "Dashboard.notes.editNote.titlePlaceholder"
+                              "Dashboard.dialogs.notes.editNote.titlePlaceholder"
                             )}
                             {...field}
                           />
@@ -371,13 +373,13 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t("Dashboard.notes.editNote.descriptionLabel")}
+                        {t("Dashboard.dialogs.notes.editNote.descriptionLabel")}
                       </FormLabel>
                       <FormControl>
                         {note ? (
                           <Textarea
                             placeholder={t(
-                              "Dashboard.notes.editNote.descriptionPlaceholder"
+                              "Dashboard.dialogs.notes.editNote.descriptionPlaceholder"
                             )}
                             {...field}
                           />
@@ -397,7 +399,9 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                       <FormControl className="flex">
                         <div className="flex items-center justify-between">
                           <Label htmlFor="showInCalendar">
-                            {t("Dashboard.notes.editNote.showInCalendarLabel")}
+                            {t(
+                              "Dashboard.dialogs.notes.editNote.showInCalendarLabel"
+                            )}
                           </Label>
                           <Switch
                             id="showInCalendar"
@@ -420,7 +424,7 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
                           <FormLabel>
-                            {t("Dashboard.notes.editNote.dateLabel")}
+                            {t("Dashboard.dialogs.notes.editNote.dateLabel")}
                           </FormLabel>
                           <Popover
                             open={calendarPopoverOpen}
@@ -475,7 +479,7 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
                 type="submit"
                 className="w-full bg-primaryBlue hover:bg-primaryHover"
               >
-                {t("Dashboard.notes.editNote.submitButton")}
+                {t("Dashboard.dialogs.notes.editNote.submitButton")}
               </Button>
             </DialogFooter>
           </form>
