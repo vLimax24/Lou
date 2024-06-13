@@ -189,6 +189,37 @@
           "placeholderAnswer": "Enter an answer"
         }
       }
+    },
+    "dialogs": {
+      "notes": {
+        "buttonName": "Create Note",
+        "addNote": {
+          "title": "Add Note",
+          "description": "Add a new note for yourself.",
+          "placeholderTitle": "Enter a note",
+          "placeholderDescription": "Enter a description",
+          "titleLabel": "Note",
+          "descriptionLabel": "Description",
+          "showInCalendarLabel": "Show in Calendar",
+          "dueDateLabel": "Due Date",
+          "submitSuccessMessage": "Note added successfully!",
+          "submitErrorMessage": "Error adding Note!",
+          "submitButton": "Add Note"
+        },
+        "editNote": {
+          "title": "Edit Note",
+          "description": "Edit the parts of the note that you want to be changed.",
+          "placeholderTitle": "Enter a note",
+          "placeholderDescription": "Enter a description",
+          "titleLabel": "Note",
+          "descriptionLabel": "Description",
+          "showInCalendarLabel": "Show in Calendar",
+          "dueDateLabel": "Due Date",
+          "submitSuccessMessage": "Note edited successfully!",
+          "submitErrorMessage": "Error editing Note!",
+          "submitButton": "Save"
+        }
+      }
     }
   }
 }
