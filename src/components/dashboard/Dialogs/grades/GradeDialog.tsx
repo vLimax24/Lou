@@ -79,10 +79,7 @@ const shuffleArray = (array: any) => {
   return array
 }
 
-export const AddGradeDialogWithSubject = ({
-  withSubjects = false,
-  subjectId,
-}: Props) => {
+export const AddGrade = ({ withSubjects = false, subjectId }: Props) => {
   const t = useTranslations()
 
   const formSchema = z.object({
