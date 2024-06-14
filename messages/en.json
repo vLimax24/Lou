@@ -316,6 +316,25 @@
             "maxTopicInput": "Input must be at most 30 characters long"
           }
         }
+      },
+      "projects": {
+        "buttonName": "New Project",
+        "addProject": {
+          "title": "Create New Project",
+          "description": "Fill out the form below to create a new project.",
+          "labelName": "Project Name",
+          "addSubjectButtonName": "Open",
+          "placeholderName": "Enter project name",
+          "labelDescription": "Description",
+          "placeholderDescription": "Enter project description",
+          "labelSubject": "Subject",
+          "placeholderSubject": "Select a subject",
+          "labelDeadline": "Deadline",
+          "placeholderDeadline": "Pick a date",
+          "submitButton": "Create Project",
+          "submitSuccessMessage": "Project created successfully!",
+          "submitErrorMessage": "Failed to create project. Please try again."
+        }
       }
     }
   }

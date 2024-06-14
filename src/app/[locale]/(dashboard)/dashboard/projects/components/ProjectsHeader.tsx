@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
-import CreateProject from "./CreateProject"
+import AddProject from "../../../../../../components/dashboard/Dialogs/projects/ProjectDialog"
 import { useState } from "react"
 import ProjectsSection from "./ProjectsBody"
 
@@ -26,7 +26,7 @@ const ProjectsHeader = () => {
           />
         </div>
         <div className="ml-10">
-          <CreateProject />
+          <AddProject />
         </div>
       </div>
       <ProjectsSection searchQuery={searchQuery} />
