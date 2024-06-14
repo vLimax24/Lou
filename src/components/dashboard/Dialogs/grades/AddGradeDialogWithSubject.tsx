@@ -1,6 +1,17 @@
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+"use client"
+
 import { useState, useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useTranslations } from "next-intl"
+import { useMutation, useQuery } from "convex/react"
+import { toast } from "sonner"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { format } from "date-fns"
+import { Plus, X, CalendarIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 import {
   Dialog,
   DialogContent,
@@ -28,30 +39,19 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Calendar } from "@/components/ui/calendar"
-import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
 import { api } from "@/convex/_generated/api"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-import { useMutation, useQuery } from "convex/react"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   convertLetterToGPA,
   convertNumberToGPA,
   convertPercentageToGPA,
 } from "@/utils/gpaCalculation"
 import { Id } from "@/convex/_generated/dataModel"
-import { X, Lightbulb } from "lucide-react"
-
-const formSchema = z.object({
-  topic: z.string().min(2).max(50),
-  grade: z.string(),
-  date: z.date(),
-  subjectId: z.any(),
-  badges: z.array(z.string()),
-})
-
-type FormData = z.infer<typeof formSchema>
 
 type Props = {
   withSubjects?: boolean
@@ -83,10 +83,29 @@ export const AddGradeDialogWithSubject = ({
   withSubjects = false,
   subjectId,
 }: Props) => {
+  const t = useTranslations()
+
+  const formSchema = z.object({
+    topic: z
+      .string()
+      .min(1, t("Dashboard.dialogs.grades.addGrade.errors.emptyTopic"))
+      .min(3, t("Dashboard.dialogs.grades.addGrade.errors.minTopicInput"))
+      .max(30, t("Dashboard.dialogs.grades.addGrade.errors.maxTopicInput")),
+    grade: z
+      .string()
+      .min(1, t("Dashboard.dialogs.grades.addGrade.errors.emptyGrade")),
+    date: z.date(),
+    subjectId: z.any(),
+    badges: z
+      .array(z.string())
+      .max(3, t("Dashboard.dialogs.grades.addGrade.errors.badgeLimit")),
+  })
+
+  type FormData = z.infer<typeof formSchema>
+
   const addGrade = useMutation(api.grades.addGrade)
   const subjects = useQuery(api.studentSubjects.getUserSubjects)
   const user: any = useQuery(api.users.getMyUser)
-
   const country: any = useQuery(api.countries.getSpecificCountry, {
     countryId: user?.country,
   })
@@ -102,6 +121,8 @@ export const AddGradeDialogWithSubject = ({
     },
   })
 
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [calendarPopoverOpen, setCalendarPopoverOpen] = useState(false)
   const [badgeInput, setBadgeInput] = useState("")
   const [shuffledBadgeColors, setShuffledBadgeColors] = useState([])
 
@@ -116,14 +137,12 @@ export const AddGradeDialogWithSubject = ({
         form.setValue("badges", [...form.getValues().badges, trimmedBadge])
         setBadgeInput("")
       } else {
-        toast.error(
-          "You can only add 10 badges. Please remove some badges before adding more."
-        )
+        toast.error(t("Dashboard.dialogs.grades.addGrade.badgeLimitError"))
       }
     } else if (trimmedBadge.length < 3) {
-      toast.error("Badge name must be at least 3 characters long.")
+      toast.error(t("Dashboard.dialogs.grades.addGrade.badgeMinLengthError"))
     } else if (trimmedBadge.length > 7) {
-      toast.error("Badge name must be at most 7 characters long.")
+      toast.error(t("Dashboard.dialogs.grades.addGrade.badgeMaxLengthError"))
     }
   }
 
@@ -162,10 +181,11 @@ export const AddGradeDialogWithSubject = ({
         badges: values.badges,
         subjectName: subjectName,
       })
-      toast.success(`Grade ${values.grade} added!`)
+      toast.success(t("Dashboard.dialogs.grades.addGrade.submitSuccessMessage"))
+      setDialogOpen(false)
       form.reset()
     } catch (error) {
-      toast.error("Error Adding Grade!")
+      toast.error(t("Dashboard.dialogs.grades.addGrade.submitErrorMessage"))
     }
   }
 
@@ -176,189 +196,248 @@ export const AddGradeDialogWithSubject = ({
   }
 
   return (
-    <Dialog>
-      <DialogTrigger className={buttonVariants({ variant: "outline" })}>
-        Add Grade
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DialogTrigger asChild>
+        <Button
+          className="flex items-center justify-center rounded-full bg-primaryBlue hover:bg-primaryHover"
+          data-cy="add-grade-button"
+        >
+          <Plus className="size-5" />
+          <p className="ml-1">{t("Dashboard.dialogs.grades.buttonName")}</p>
+        </Button>
       </DialogTrigger>
-      <DialogContent className="transition-all duration-300 ease-in-out sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add Grade</DialogTitle>
-          <DialogDescription>Add a new grade for yourself.</DialogDescription>
+      <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/3">
+        <DialogHeader className="text-left">
+          <DialogTitle className="font-bold">
+            {t("Dashboard.dialogs.grades.addGrade.title")}
+          </DialogTitle>
+          <DialogDescription>
+            {t("Dashboard.dialogs.grades.addGrade.description")}
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-1 items-center gap-4">
-                <FormField
-                  control={form.control}
-                  name="topic"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Topic</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Trigonometry" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="date"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Date</FormLabel>
-                      <FormControl>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col"
+          >
+            <div className="mt-4 grid grid-cols-1 gap-4">
+              <FormField
+                control={form.control}
+                name="topic"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("Dashboard.dialogs.grades.addGrade.labelTopic")}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t(
+                          "Dashboard.dialogs.grades.addGrade.placeholderTopic"
+                        )}
+                        {...field}
+                        data-cy="grade-topic-input"
+                      />
+                    </FormControl>
+                    <FormMessage data-cy="grade-topic-error-message" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>
+                      {t("Dashboard.dialogs.grades.addGrade.labelDate")}
+                    </FormLabel>
+                    <Popover
+                      open={calendarPopoverOpen}
+                      onOpenChange={setCalendarPopoverOpen}
+                    >
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "font-normal w-full pl-3 text-left",
+                              !field.value && "text-muted-foreground"
+                            )}
+                            onKeyDown={() => {
+                              setCalendarPopoverOpen(true)
+                            }}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          className="flex items-center justify-center rounded-md border"
-                          // {...field}
+                          onDayClick={() => {
+                            setCalendarPopoverOpen(false)
+                          }}
+                          initialFocus
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="grade"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("Dashboard.dialogs.grades.addGrade.labelGrade")}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue
+                            placeholder={t(
+                              "Dashboard.dialogs.grades.addGrade.placeholderGrade"
+                            )}
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>
+                              {t(
+                                "Dashboard.dialogs.grades.addGrade.labelGrade"
+                              )}
+                            </SelectLabel>
+                            {country?.possibleGrades.map((grade: string) => (
+                              <SelectItem key={grade} value={grade}>
+                                {grade}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage data-cy="grade-grade-error-message" />
+                  </FormItem>
+                )}
+              />
+              {withSubjects && (
                 <FormField
                   control={form.control}
-                  name="grade"
-                  disabled={!user}
+                  name="subjectId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Grade</FormLabel>
+                      <FormLabel>
+                        {t("Dashboard.dialogs.grades.addGrade.labelSubject")}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="flex items-center justify-between">
-                          <Select
-                            onValueChange={field.onChange}
-                            value={field.value}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select a grade" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Grades</SelectLabel>
-                                {country?.possibleGrades.map(
-                                  (grade: string) => (
-                                    <SelectItem key={grade} value={grade}>
-                                      {grade}
-                                    </SelectItem>
-                                  )
-                                )}
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {withSubjects && !subjectId && (
-                  <FormField
-                    control={form.control}
-                    name="subjectId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Subject</FormLabel>
-                        <FormControl>
-                          <div className="flex items-center justify-between">
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select a subject" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectLabel>Subject</SelectLabel>
-                                  {subjects?.map(subject => (
-                                    <SelectItem
-                                      key={subject?._id}
-                                      value={subject?._id}
-                                    >
-                                      {subject.name}
-                                    </SelectItem>
-                                  ))}
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
-
-                <FormField
-                  control={form.control}
-                  name="badges"
-                  render={() => (
-                    <FormItem>
-                      <FormLabel>Badges</FormLabel>
-                      <FormControl>
-                        <div className="flex items-center justify-between">
-                          <Input
-                            type="text"
-                            placeholder="Type a badge"
-                            value={badgeInput}
-                            onChange={e => setBadgeInput(e.target.value)}
-                            onKeyDown={handleBadgeInputKeyPress}
-                          />
-                          <Button
-                            type="button"
-                            onClick={handleAddBadge}
-                            className="ml-2 bg-primaryGray hover:bg-primaryHoverGray"
-                          >
-                            Add
-                          </Button>
-                        </div>
-                      </FormControl>
-                      {form.getValues().badges.length == 0 && (
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Lightbulb />
-                          <p>Tip: Press ENTER to add a badge </p>
-                        </div>
-                      )}
-                      <div className="flex items-center transition-all duration-200 ease-in-out">
-                        {form.getValues().badges.map((badge, index) => (
-                          <Badge
-                            key={index}
-                            className="group mr-1 flex w-fit items-center transition-all duration-200 ease-in-out"
-                            style={{
-                              backgroundColor:
-                                shuffledBadgeColors[
-                                  index % shuffledBadgeColors.length
-                                ],
-                            }}
-                          >
-                            <p className="transition-all duration-200 ease-in-out">
-                              {badge}
-                            </p>
-                            <X
-                              size={16}
-                              className="ml-2 hidden cursor-pointer text-white transition-all duration-200 ease-in-out group-hover:block"
-                              onClick={() => removeBadge(index)}
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue
+                              placeholder={t(
+                                "Dashboard.dialogs.grades.addGrade.placeholderSubject"
+                              )}
                             />
-                          </Badge>
-                        ))}
-                      </div>
-                      <FormMessage />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>
+                                {t(
+                                  "Dashboard.dialogs.grades.addGrade.labelSubject"
+                                )}
+                              </SelectLabel>
+                              {subjects?.map(subject => (
+                                <SelectItem
+                                  key={subject._id}
+                                  value={subject._id}
+                                >
+                                  {subject.name}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage data-cy="grade-subject-error-message" />
                     </FormItem>
                   )}
                 />
-              </div>
+              )}
+              <FormField
+                control={form.control}
+                name="badges"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("Dashboard.dialogs.grades.addGrade.labelBadges")}
+                    </FormLabel>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        value={badgeInput}
+                        onChange={e => setBadgeInput(e.target.value)}
+                        onKeyDown={handleBadgeInputKeyPress}
+                        placeholder={t(
+                          "Dashboard.dialogs.grades.addGrade.placeholderBadges"
+                        )}
+                      />
+                      <Button
+                        type="button"
+                        className="border border-primaryBlue bg-transparent text-primaryBlue hover:bg-primaryBlue hover:text-white"
+                        onClick={handleAddBadge}
+                      >
+                        {t("Dashboard.dialogs.grades.addGrade.addButton")}
+                      </Button>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {form.getValues().badges.map((badge, index) => (
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="flex items-center justify-center space-x-2 border-none"
+                          style={{
+                            backgroundColor:
+                              shuffledBadgeColors[
+                                index % shuffledBadgeColors.length
+                              ],
+                          }}
+                        >
+                          {badge}
+                          <X
+                            size={12}
+                            className="ml-1 cursor-pointer"
+                            onClick={() => removeBadge(index)}
+                          />
+                        </Badge>
+                      ))}
+                    </div>
+                    <FormMessage data-cy="grade-badges-error-message" />
+                  </FormItem>
+                )}
+              />
             </div>
-            <DialogFooter>
+            <DialogFooter className="mt-4 flex items-center justify-end space-x-4">
               <Button
                 type="submit"
-                className="bg-primaryGray hover:bg-primaryHoverGray"
+                className="w-full bg-primaryBlue hover:bg-primaryHover"
+                data-cy="submit-grade-button"
               >
-                Add Subject
+                {t("Dashboard.dialogs.grades.addGrade.submitButton")}
               </Button>
             </DialogFooter>
           </form>

@@ -287,6 +287,35 @@
           "submitErrorMessage": "Error editing Task!",
           "submitButton": "Save"
         }
+      },
+      "grades": {
+        "buttonName": "Add Grade",
+        "addGrade": {
+          "title": "Add New Grade",
+          "description": "Fill in the details below to add a new grade.",
+          "labelTopic": "Topic",
+          "placeholderTopic": "Enter topic",
+          "labelDate": "Date",
+          "labelGrade": "Grade",
+          "placeholderGrade": "Select grade",
+          "labelSubject": "Subject",
+          "placeholderSubject": "Select subject",
+          "labelBadges": "Badges",
+          "placeholderBadges": "Add badge (3-7 characters)",
+          "addButton": "Add",
+          "submitButton": "Submit",
+          "submitSuccessMessage": "Grade added successfully!",
+          "submitErrorMessage": "Error adding grade. Please try again.",
+          "errors": {
+            "badgeMinLength": "Badge must be at least 3 characters.",
+            "badgeMaxLength": "Badge must be at most 7 characters.",
+            "badgeLimit": "You can only add 3 badges.",
+            "emptyGrade": "Grade is required",
+            "emptyTopic": "Topic is required",
+            "minTopicInput": "Input must be at least 3 characters long",
+            "maxTopicInput": "Input must be at most 30 characters long"
+          }
+        }
       }
     }
   }
