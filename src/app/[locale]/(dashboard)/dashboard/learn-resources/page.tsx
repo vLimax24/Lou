@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/convex/_generated/api"
 import { useQuery } from "convex/react"
-import { AddLearnResourceSheet } from "@/components/dashboard/Dialogs/learnRessources/AddLearningResourceSheet"
+import { AddResource } from "@/components/dashboard/Dialogs/learnRessources/LearnResourceDialog"
 import { useTranslations } from "next-intl"
 import {
   Dialog,
@@ -91,7 +91,7 @@ const LearnRessources = () => {
           {t("Dashboard.learningRessources.title")}
         </h1>
         <div className="flex items-center">
-          <AddLearnResourceSheet />
+          <AddResource />
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

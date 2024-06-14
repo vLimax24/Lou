@@ -10,7 +10,7 @@ import type {
 import { DndContext, DragOverlay } from "@dnd-kit/core"
 import { useConvexAuth, useMutation, useQuery } from "convex/react"
 import { useState } from "react"
-import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
+import { AddTask } from "@/components/dashboard/Dialogs/tasks/TaskDialog"
 
 import type { Id } from "@/convex/_generated/dataModel"
 import { Loader2 } from "lucide-react"
@@ -64,7 +64,7 @@ const Tasks = () => {
     >
       <div className="mb-6 flex w-full items-center justify-between p-4">
         <h1 className="text-4xl font-bold">Your Tasks</h1>
-        <AddTaskDialog />
+        <AddTask />
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

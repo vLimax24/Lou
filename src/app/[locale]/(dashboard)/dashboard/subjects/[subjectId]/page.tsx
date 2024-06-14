@@ -5,7 +5,7 @@ import { Id } from "@/convex/_generated/dataModel"
 import { useQuery } from "convex/react"
 import { Loader2 } from "lucide-react"
 import { AddNote } from "@/components/dashboard/Dialogs/notes/NoteDialog"
-import { AddTaskDialog } from "@/components/dashboard/Dialogs/tasks/AddTaskDialog"
+import { AddTask } from "@/components/dashboard/Dialogs/tasks/TaskDialog"
 import GradeCard from "@/components/dashboard/Grades/GradeCard"
 import NoteCard from "@/components/dashboard/Notes/NoteCard"
 import { Badge } from "@/components/ui/badge"
@@ -59,7 +59,7 @@ const SubjectPage = () => {
         <SubjectSection
           title="Tasks"
           description="Tasks for your subject"
-          addDialog={<AddTaskDialog subjectId={subject.subject._id} />}
+          addDialog={<AddTask subjectId={subject.subject._id} />}
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
             {!subject.subjectTasks ? (

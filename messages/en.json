@@ -219,6 +219,74 @@
           "submitErrorMessage": "Error editing Note!",
           "submitButton": "Save"
         }
+      },
+      "learnResources": {
+        "buttonName": "Create Resource",
+        "addResource": {
+          "title": "Add Learning Resource",
+          "description": "Add a new resource for yourself.",
+          "placeholderTopic": "Enter the topic",
+          "labelTopic": "Topic",
+          "placeholderSubject": "Enter the subject",
+          "labelSubject": "Subject",
+          "placeholderQuestion": "Enter the question",
+          "labelQuestion": "Question",
+          "placeholderAnswer": "Enter the answer",
+          "submitButton": "Create Resource",
+          "addQuestionButton": "Add Question",
+          "submitSuccessMessage": "Resource added successfully!",
+          "submitErrorMessage": "Error adding Resource!",
+          "errors": {
+            "emptyTopic": "Topic is required",
+            "emptySubject": "Subject is required",
+            "emptyQuestion": "Question is required",
+            "emptyAnswer": "Answer is required",
+            "minTopicInput": "Topic must be at least 3 characters long",
+            "minSubjectInput": "Subject must be at least 3 characters long",
+            "minQuestionInput": "Question must be at least 10 characters long",
+            "minAnswerInput": "Answer must be at least 5 characters long",
+            "maxTopicInput": "Topic must be at most 20 characters long",
+            "maxSubjectInput": "Subject must be at most 20 characters long",
+            "maxQuestionInput": "Question must be at most 100 characters long",
+            "maxAnswerInput": "Answer must be at most 100 characters long"
+          }
+        }
+      },
+      "tasks": {
+        "buttonName": "Create Task",
+        "addTask": {
+          "title": "Add Task",
+          "description": "Add a new task for yourself.",
+          "placeholderText": "Enter a task",
+          "labelText": "Task",
+          "labelStatus": "Status",
+          "submitSuccessMessage": "Task added successfully!",
+          "submitErrorMessage": "Error adding Task!",
+          "submitButton": "Add Task",
+          "status": {
+            "todo": "To-Do",
+            "progress": "In Progress",
+            "completed": "Completed"
+          },
+          "errors": {
+            "emptyText": "Text is required",
+            "minTextInput": "Text must be at least 3 characters long",
+            "maxTextInput": "Text must be at most 50 characters long"
+          }
+        },
+        "editTask": {
+          "title": "Edit Task",
+          "description": "Edit the parts of the task that you want to be changed.",
+          "placeholderTitle": "Enter a task",
+          "placeholderDescription": "Enter a description",
+          "titleLabel": "Task",
+          "descriptionLabel": "Description",
+          "showInCalendarLabel": "Show in Calendar",
+          "dueDateLabel": "Due Date",
+          "submitSuccessMessage": "Task edited successfully!",
+          "submitErrorMessage": "Error editing Task!",
+          "submitButton": "Save"
+        }
       }
     }
   }
