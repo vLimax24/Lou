@@ -88,17 +88,6 @@ export const addSubject = internalMutation({
     template: v.string(),
   },
   handler: async (ctx, args) => {
-    // Check if the subject already exists
-
-    const existingSubject = ctx.db
-      .query("subjects")
-      .filter(q => q.eq(q.field("name"), args.name))
-      .first()
-
-    if (existingSubject !== null) {
-      throw new Error("Subject with this name already exists")
-    }
-    // Subject does not exist, create a new one
     const subjectId = await ctx.db.insert("subjects", {
       name: args.name,
       addedByUser: args.addedByUser || false,

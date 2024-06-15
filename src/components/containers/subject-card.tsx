@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Doc } from "@/convex/_generated/dataModel"
 import { Trash } from "lucide-react"
-import { EditSubjectDialog } from "../dashboard/Dialogs/subjects/EditSubjectDialog"
+import { EditSubject } from "../dashboard/Dialogs/subjects/SubjectDialog"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import ChemistryTemplate from "../../../public/templates/chemistry_template.svg"
@@ -30,7 +30,7 @@ const SubjectCard = ({ subject }: { subject: Doc<"subjects"> }) => {
     >
       <Card
         className={cn(
-          "relative aspect-[143/40] w-full transition-all duration-150 ease-linear hover:scale-105",
+          "relative aspect-[143/40] w-full rounded-2xl transition-all duration-150 ease-linear hover:scale-105",
           template && "bg-cover bg-no-repeat"
         )}
       >

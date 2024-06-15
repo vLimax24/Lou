@@ -335,6 +335,42 @@
           "submitSuccessMessage": "Project created successfully!",
           "submitErrorMessage": "Failed to create project. Please try again."
         }
+      },
+      "subjects": {
+        "addSubject": {
+          "buttonName": "Add Subject",
+          "title": "Add New Subject",
+          "description": "Fill in the details below to add a new subject.",
+          "labelName": "Subject Name",
+          "placeholderName": "Enter subject name",
+          "labelTemplate": "Template",
+          "submitButton": "Submit",
+          "submitSuccessMessage": "Subject added successfully!",
+          "submitErrorMessage": "Error adding subject. Please try again.",
+          "errors": {
+            "emptyName": "Name is required",
+            "minNameInput": "Name must be at least 3 characters long",
+            "maxNameInput": "Name must be at most 30 characters long",
+            "noTemplateSelected": "Please select a template"
+          }
+        }
+      },
+      "documents": {
+        "addDocument": {
+          "buttonName": "Create Document",
+          "title": "Add New Document",
+          "description": "Fill in the details below to add a new document.",
+          "labelName": "Document Name",
+          "placeholderName": "Enter document name",
+          "submitButton": "Submit",
+          "submitSuccessMessage": "Document added successfully!",
+          "submitErrorMessage": "Error adding document. Please try again.",
+          "errors": {
+            "emptyName": "Name is required",
+            "minNameInput": "Name must be at least 3 characters long",
+            "maxNameInput": "Name must be at most 30 characters long"
+          }
+        }
       }
     }
   }
