@@ -52,7 +52,7 @@ export const AnimatedNotification = ({ data, isTask }: NotificationProps) => {
               backgroundColor:
                 task.status === "COMPLETED"
                   ? "#2daf43"
-                  : task.status === "IN_PROGRESS"
+                  : task.status === "IN-PROGRESS"
                     ? "#1e86ff"
                     : "#ffb800",
             }}
@@ -60,7 +60,7 @@ export const AnimatedNotification = ({ data, isTask }: NotificationProps) => {
             <span className="text-lg">
               {task.status === "COMPLETED"
                 ? "🏁"
-                : task.status === "IN_PROGRESS"
+                : task.status === "IN-PROGRESS"
                   ? "➡️"
                   : "📋"}
             </span>
@@ -74,14 +74,14 @@ export const AnimatedNotification = ({ data, isTask }: NotificationProps) => {
                   className={`h-5 ${
                     task.status === "COMPLETED"
                       ? "bg-[#2daf43] hover:bg-[#3e9e53]"
-                      : task.status === "IN_PROGRESS"
+                      : task.status === "IN-PROGRESS"
                         ? "bg-[#1e86ff] hover:bg-[#2a7ae6]"
                         : "bg-[#ffb800] hover:bg-[#bb9430]"
                   } transition-all duration-300 ease-in-out`}
                 >
                   {task.status === "COMPLETED"
                     ? t("Dashboard.home.tasks.completed")
-                    : task.status === "IN_PROGRESS"
+                    : task.status === "IN-PROGRESS"
                       ? t("Dashboard.home.tasks.inProgress")
                       : t("Dashboard.home.tasks.toDo")}
                 </Badge>
