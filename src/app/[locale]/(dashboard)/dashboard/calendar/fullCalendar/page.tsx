@@ -40,11 +40,23 @@ const InfoDialog = ({
 
 const Calendar = () => {
   const events = useQuery(api.events.getEvents)
+  const noteEvents = useQuery(api.notes.getCalendarNotes)
+
+  const combinedEvents =
+    events && noteEvents
+      ? [
+          ...events.map(e => ({ ...e, type: "EVENT" })),
+          ...noteEvents.map(n => ({ ...n, type: "NOTE" })),
+        ]
+      : []
+
   const updateEventDate = useMutation(api.events.updateEventDate)
+  const updateNoteDate = useMutation(api.notes.updateNoteDate)
+
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  const eventsWithFormattedDates = events?.map(event => {
+  const eventsWithFormattedDates = combinedEvents?.map(event => {
     const formattedDate = new Date(event.date)
     const { _id, date, ...rest } = event
     return { ...rest, start: formattedDate, id: _id }
@@ -67,14 +79,23 @@ const Calendar = () => {
         height={"90vh"}
         weekends={true}
         eventDrop={async event => {
+          console.log(event)
           const eventId = event.event.id as Id<"events">
+          const noteId = event.event.id as Id<"notes">
           const newDate = event.event._instance?.range.start.toISOString()
 
           if (newDate) {
-            await updateEventDate({
-              eventId,
-              newDate,
-            })
+            if (event.event.extendedProps.type === "NOTE") {
+              await updateNoteDate({
+                noteId,
+                newDate,
+              })
+            } else {
+              await updateEventDate({
+                eventId,
+                newDate,
+              })
+            }
           } else {
             console.error("New date is undefined")
           }
