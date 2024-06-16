@@ -50,6 +50,7 @@ const config: Config = {
       colors: {
         primaryBlue: "#0089EC",
         primaryHover: "#0082E0",
+        customBlue: 'rgba(76, 172, 255, 0.45)',
         tremor: {
           brand: {
             faint: colors.blue[50],
