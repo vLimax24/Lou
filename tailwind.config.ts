@@ -222,6 +222,7 @@ const config: Config = {
           800: "#8B1245",
           900: "#411526",
         },
+        pastelBlue: '#4D6E8B',
         white: "#FFFFFF",
         transparent: "transparent",
         shadow: "#101828",

@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { ProgressCircle } from "@tremor/react"
 import { Timer, BarChart, Play, Pause } from "lucide-react"
+import { Icon } from "@/components/tiptapUI/Icon"
 
 dayjs.extend(duration)
 dayjs.extend(customParseFormat)
@@ -135,8 +136,9 @@ const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="pomodoro">
-          <div className="flex flex-col">
-            <div className="mt-6 flex items-center justify-center gap-3">
+          <div className="flex flex-col h-full"> 
+            
+            <div className="mt-6 flex items-center justify-center gap-3">{/** Tempos */}
               <div
                 className={`rounded-xl px-4 py-2 hover:cursor-pointer ${selectedTime === "5" ? "bg-[#184d6c] text-white" : "bg-[#b3b4b8] text-white"} transition-all duration-300 ease-in-out`}
                 onMouseDown={() => handleSetTime(5)}
@@ -156,36 +158,33 @@ const PomodoroTimerCard = ({ className, ...props }: CardProps) => {
                 25 mins
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-2 rounded-[2rem] bg-primaryBlue p-4 text-white">
-              <div className="ml-5 mr-4 flex flex-col items-start justify-between md:mr-0">
-                <div className="mb-1 mt-2">
-                  <p>{isWorkTime ? "Session" : "Break"}</p>
-                  <h1 className="mt-2 text-[3rem] font-bold leading-[2.5rem]">
+            
+            <div className="mt-4 flex flex-col p-4 w-full items-center h-full text-white">{/** Wrapper */}
+              <div className="flex flex-col items-center md:mr-0">
+                <div className="mb-1 mt-2 h-full"> {/** Números */}
+                  <h1 className="mt-2 text-[5rem] text-pastelBlue font-bold leading-[2.5rem] lg:text-[6rem]">
                     {formattedTimeLeft}
                   </h1>
                 </div>
+                <div className="flex mt-8 gap-2 items-center">
                 <Button
                   onMouseDown={handleReset}
-                  className="mt-2 rounded-2xl bg-[#303030] px-10 hover:bg-[#272727]"
+                  className="rounded-2xl bg-[#303030] px-4 py-2 hover:bg-[#272727]"
                 >
-                  Stop
+                  <Icon name={"TimerReset"} />
                 </Button>
-              </div>
-              <div className="flex h-full w-full items-center justify-center rounded-3xl bg-[#184d6c]">
-                <div className="relative flex items-center justify-center">
-                  <ProgressCircle
-                    value={progress}
-                    radius={60}
-                    strokeWidth={14}
-                    className="my-4"
-                    color={"#0cdcf8"}
-                  />
-                  <Button
-                    onClick={handleStartPause}
-                    className="absolute z-10 size-18 rounded-full bg-black text-white"
-                  >
-                    {isRunning ? <Pause /> : <Play />}
-                  </Button>
+                <Button
+                  onClick={handleStartPause}
+                  className="rounded-3xl bg-[#303030] px-6 py-6 hover:bg-[#272727]"
+                >
+                  {isRunning ? <Pause /> : <Play />}
+                </Button>
+                <Button
+                  onMouseDown={handleReset}
+                  className="rounded-2xl bg-[#303030] px-4 py-2 hover:bg-[#272727]"
+                >
+                  <Icon name={"FastForward"} />
+                </Button>
                 </div>
               </div>
             </div>
