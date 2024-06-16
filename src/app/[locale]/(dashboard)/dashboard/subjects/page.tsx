@@ -1,7 +1,7 @@
 "use client"
 
 import SubjectCard from "@/components/containers/subject-card"
-import { AddSubjectDialog } from "@/components/dashboard/Dialogs/subjects/AddSubjectDialog"
+import { AddSubject } from "@/components/dashboard/Dialogs/subjects/SubjectDialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/convex/_generated/api"
 import { useQuery } from "convex/react"
@@ -13,7 +13,7 @@ const Subjects = () => {
     <>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-4xl font-bold">Your Subjects</h1>
-        <AddSubjectDialog />
+        <AddSubject />
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {!subjects ? (

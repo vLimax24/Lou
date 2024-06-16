@@ -3,56 +3,72 @@ import * as React from "react"
 import dayjs from "dayjs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetFooter, SheetClose } from "@/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetFooter,
+  SheetClose,
+} from "@/components/ui/sheet"
 import { Calendar } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Dropdown } from "./Dropdown"
 import { Plus, Trash } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Separator } from "@/components/ui/separator"
 import { Id } from "@/convex/_generated/dataModel"
 import { api } from "@/convex/_generated/api"
 import { useMutation } from "convex/react"
 import { toast } from "sonner"
-import { EditNoteDialog } from "../Dialogs/notes/EditNoteDialog"
+import { EditNote } from "../Dialogs/notes/NoteDialog"
 import { EditEventDialog } from "../Dialogs/events/EditEventDialog"
 
-
 type NoteEvent = {
-  _id: Id<"notes">;
-  _creationTime: number;
-  subjectId?: Id<"subjects">;
-  text: string;
-  userId: Id<"users">;
-  showInCalendar: boolean;
-  date: string;
-};
+  _id: Id<"notes">
+  _creationTime: number
+  subjectId?: Id<"subjects">
+  text: string
+  userId: Id<"users">
+  showInCalendar: boolean
+  date: string
+}
 
 type GeneralEvent = {
-  _id: Id<"events">;
-  _creationTime: number;
-  subjectId?: Id<"subjects">;
-  userId: Id<"users">;
-  type: string;
-  date: string;
-  title: string;
-  description: string;
-};
+  _id: Id<"events">
+  _creationTime: number
+  subjectId?: Id<"subjects">
+  userId: Id<"users">
+  type: string
+  date: string
+  title: string
+  description: string
+}
 
-type CombinedEvents = (NoteEvent | GeneralEvent)[];
+type CombinedEvents = (NoteEvent | GeneralEvent)[]
 
 interface CalendarGridProps {
-  currentMonth: dayjs.Dayjs;
-  events: CombinedEvents;
+  currentMonth: dayjs.Dayjs
+  events: CombinedEvents
   onCreateEvent: (
     date: string,
     title: string,
     description: string,
     type: string
-  ) => void;
+  ) => void
 }
 
 const capitalizeFirstLetter = (string: any) => {
@@ -102,19 +118,22 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   }
 
   const typeColors: { [key: string]: string } = {
-    "OTHER": "bg-gray-300 text-gray-800",
-    "EXAM": "bg-red-500 text-white",
-    "ASSIGNMENT": "bg-blue-500 text-white",
-    "NOTES": "bg-green-300 text-green-800",
+    OTHER: "bg-gray-300 text-gray-800",
+    EXAM: "bg-red-500 text-white",
+    ASSIGNMENT: "bg-blue-500 text-white",
+    NOTES: "bg-green-300 text-green-800",
   }
 
   const getEventsForDate = (date: string) => {
     return events
       ?.filter(event => dayjs(event.date).format("YYYY-MM-DD") === date)
-      .map((event) => {
-        const typeClass = typeColors[(event as GeneralEvent).type?.toUpperCase() || "NOTES"]
-        const isNoteEvent = (event: NoteEvent | GeneralEvent): event is NoteEvent => "text" in event
-  
+      .map(event => {
+        const typeClass =
+          typeColors[(event as GeneralEvent).type?.toUpperCase() || "NOTES"]
+        const isNoteEvent = (
+          event: NoteEvent | GeneralEvent
+        ): event is NoteEvent => "text" in event
+
         return (
           <Dialog key={event._id}>
             <DialogTrigger
@@ -123,32 +142,41 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                 e.stopPropagation()
               }}
             >
-              <div className={`${typeClass} my-0.5 w-full rounded-sm pl-2 hover:cursor-pointer`}>
+              <div
+                className={`${typeClass} my-0.5 w-full rounded-sm pl-2 hover:cursor-pointer`}
+              >
                 {isNoteEvent(event) ? event.text : event.title}
               </div>
             </DialogTrigger>
             <DialogContent onClick={e => e.stopPropagation()} className="px-8">
-              <DialogHeader className="flex flex-row justify-between items-center space-y-0">
-                <div className="text-3xl font-bold flex flex-col">
+              <DialogHeader className="flex flex-row items-center justify-between space-y-0">
+                <div className="flex flex-col text-3xl font-bold">
                   <div className="flex items-center gap-4">
-                    <div className={`size-6 ${typeClass} rounded-md mt-0.5`}/>
+                    <div className={`size-6 ${typeClass} mt-0.5 rounded-md`} />
                     {isNoteEvent(event) ? event.text : event.title}
                   </div>
                 </div>
-       
               </DialogHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                <Badge className={`${typeClass}`}>
-                  {isNoteEvent(event) ? "Note" : capitalizeFirstLetter((event as GeneralEvent).type)}
-                </Badge>
+                  <Badge className={`${typeClass}`}>
+                    {isNoteEvent(event)
+                      ? "Note"
+                      : capitalizeFirstLetter((event as GeneralEvent).type)}
+                  </Badge>
                 </div>
               </div>
-              <div>{dayjs(event.date).format("dddd")} - {dayjs(event.date).format("DD.MM.YYYY")}</div>
+              <div>
+                {dayjs(event.date).format("dddd")} -{" "}
+                {dayjs(event.date).format("DD.MM.YYYY")}
+              </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <p>Description: </p>
-                  <div className="ml-2"> {isNoteEvent(event) ? event.text : event.description}</div>
+                  <div className="ml-2">
+                    {" "}
+                    {isNoteEvent(event) ? event.text : event.description}
+                  </div>
                 </div>
               </div>
               <Separator className="my-4" />
@@ -161,7 +189,11 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                     <div className="mx-2 hover:cursor-pointer">
                       <Tooltip delayDuration={50}>
                         <TooltipTrigger asChild>
-                        {isNoteEvent(event) ? (<EditNoteDialog id={event._id}/>) : (<EditEventDialog id={event._id} />)}
+                          {isNoteEvent(event) ? (
+                            <EditNote id={event._id} />
+                          ) : (
+                            <EditEventDialog id={event._id} />
+                          )}
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>Edit Event</p>
@@ -170,7 +202,14 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                     </div>
                     <div className="mx-2 hover:cursor-pointer">
                       <Tooltip delayDuration={50}>
-                        <TooltipTrigger asChild onClick={() => isNoteEvent(event) ? handleDeleteNote(event._id) : handleDeleteEvent(event._id)}>
+                        <TooltipTrigger
+                          asChild
+                          onClick={() =>
+                            isNoteEvent(event)
+                              ? handleDeleteNote(event._id)
+                              : handleDeleteEvent(event._id)
+                          }
+                        >
                           <Trash size={20} />
                         </TooltipTrigger>
                         <TooltipContent>
@@ -186,7 +225,6 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
         )
       })
   }
-  
 
   const renderCalendarCell = (day: dayjs.Dayjs) => {
     const isCurrentDay = day.isSame(dayjs(), "day")
@@ -194,10 +232,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
 
     return (
       <Sheet key={formattedDate}>
-        <SheetTrigger
-          asChild
-          key={formattedDate}
-        >
+        <SheetTrigger asChild key={formattedDate}>
           <div
             key={formattedDate}
             className={`group relative flex h-24 items-center justify-center ${isCurrentDay ? "bg-blue-400 bg-opacity-50" : ""} border border-gray-300 text-sm hover:cursor-default md:h-28 lg:h-32 ${
@@ -223,9 +258,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
               </Tooltip>
             </TooltipProvider>
             <div className="absolute right-0 top-0 m-1">{day.format("D")}</div>
-            <div className="w-full px-2">
-              {getEventsForDate(formattedDate)}
-            </div>
+            <div className="w-full px-2">{getEventsForDate(formattedDate)}</div>
           </div>
         </SheetTrigger>
         <SheetContent>

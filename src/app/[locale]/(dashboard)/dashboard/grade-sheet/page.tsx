@@ -2,7 +2,7 @@
 
 import React from "react"
 import { DataTable } from "@/components/dashboard/GradeSheet/Datatable"
-import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
+import { AddGrade } from "@/components/dashboard/Dialogs/grades/GradeDialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ProgressSection from "./_components/ProgressSection"
 import { useTranslations } from "next-intl"
@@ -13,7 +13,7 @@ const Page = () => {
     <div className="flex flex-col p-5">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-4xl font-bold">{t("Dashboard.grades.title")}</h1>
-        <AddGradeDialogWithSubject withSubjects />
+        <AddGrade withSubjects />
       </div>
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="w-full lg:w-[500px]">

@@ -10,7 +10,7 @@ import GradeCard from "@/components/dashboard/Grades/GradeCard"
 import NoteCard from "@/components/dashboard/Notes/NoteCard"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardFooter, CardHeader } from "@/components/ui/card"
-import { AddGradeDialogWithSubject } from "@/components/dashboard/Dialogs/grades/AddGradeDialogWithSubject"
+import { AddGrade } from "@/components/dashboard/Dialogs/grades/GradeDialog"
 import SubjectSection from "@/components/containers/SubjectSection"
 
 const SubjectPage = () => {
@@ -46,7 +46,7 @@ const SubjectPage = () => {
         <SubjectSection
           title="Grades"
           description="All your grades"
-          addDialog={<AddGradeDialogWithSubject subjectId={subjectId} />}
+          addDialog={<AddGrade subjectId={subjectId} />}
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
             {!grades ? (
