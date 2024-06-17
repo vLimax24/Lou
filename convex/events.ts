@@ -107,3 +107,17 @@ export const updateEventDate = authMutation({
     })
   },
 })
+
+export const updateEventTime = authMutation({
+  args: {
+    eventId: v.id("events"),
+    newStartTime: v.string(),
+    newEndTime: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.eventId, {
+      startTime: args.newStartTime,
+      endTime: args.newEndTime,
+    })
+  },
+})

@@ -8,10 +8,11 @@ import timeGridPlugin from "@fullcalendar/timegrid"
 import { api } from "@/convex/_generated/api"
 import { useQuery, useMutation } from "convex/react"
 import { Id } from "@/convex/_generated/dataModel"
-import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Pencil, Trash } from "lucide-react"
 import { convertToTitleCase } from "@/lib/utils"
+import { useLocale } from "next-intl"
 import {
   Dialog,
   DialogContent,
@@ -22,6 +23,7 @@ import {
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { AddEvent } from "@/components/dashboard/Dialogs/events/EventDialog"
+import { useTranslations } from "next-intl"
 
 const InfoDialog = ({
   event,
@@ -44,6 +46,11 @@ const InfoDialog = ({
         return "bg-[#628BF7]"
     }
   }
+
+  const deleteNote = useMutation(api.notes.deleteNote)
+  const deleteEvent = useMutation(api.events.deleteEvent)
+
+  const t = useTranslations()
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -83,7 +90,25 @@ const InfoDialog = ({
             <Pencil className="size-4" />
             <p>Edit</p>
           </Button>
-          <Button className="flex h-12 w-1/2 items-center justify-center gap-2 border border-red-500 bg-transparent text-red-500 hover:border-red-500 hover:bg-transparent">
+          <Button
+            className="flex h-12 w-1/2 items-center justify-center gap-2 border border-red-500 bg-transparent text-red-500 hover:border-red-500 hover:bg-transparent"
+            onClick={async () => {
+              console.log("Event clicked:", event)
+              if (event?.extendedProps?.generalType === "NOTE") {
+                await deleteNote({
+                  id: event?.id,
+                })
+                onClose(false)
+                toast.success("Note deleted!")
+              } else {
+                await deleteEvent({
+                  id: event?.id,
+                })
+                onClose(false)
+                toast.success("Event deleted!")
+              }
+            }}
+          >
             <Trash className="size-4" />
             <p>Delete</p>
           </Button>
@@ -111,6 +136,7 @@ const Calendar = () => {
 
   const updateEventDate = useMutation(api.events.updateEventDate)
   const updateNoteDate = useMutation(api.notes.updateNoteDate)
+  const updateEventTime = useMutation(api.events.updateEventTime)
 
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -171,6 +197,9 @@ const Calendar = () => {
     )
   }
 
+  const locale = useLocale()
+  const t = useTranslations()
+
   return (
     <div className="w-full">
       <FullCalendar
@@ -180,6 +209,7 @@ const Calendar = () => {
           center: "title",
           right: "dayGridMonth,timeGridWeek,timeGridDay",
         }}
+        titleFormat={{ year: "numeric", month: "long" }}
         initialView="dayGridMonth"
         nowIndicator={true}
         editable={true}
@@ -187,11 +217,31 @@ const Calendar = () => {
         selectMirror={true}
         height={"90vh"}
         weekends={true}
+        locale={locale}
         eventContent={renderEventContent}
         defaultTimedEventDuration={"01:00:00"}
         eventDurationEditable={true}
         eventStartEditable={true}
         eventResizableFromStart={true}
+        eventResize={async event => {
+          if (event.event._def.extendedProps.generalType === "EVENT") {
+            const newStartTime = event.event.start
+              ? event.event.start.toISOString()
+              : ""
+            const newEndTime = event.event.end
+              ? event.event.end.toISOString()
+              : ""
+            await updateEventTime({
+              eventId: event.event.id as Id<"events">,
+              newStartTime: newStartTime,
+              newEndTime: newEndTime,
+            })
+          } else {
+            toast.error(
+              t("Dashboard.dialogs.events.resizeEvent.resizeNoteEventError")
+            )
+          }
+        }}
         eventDrop={async event => {
           console.log("Event dropped:", event)
           const eventId = event.event.id as Id<"events">

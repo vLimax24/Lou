@@ -414,6 +414,14 @@
             "minEventTypeInput": "Event Type must be at least 3 characters long",
             "maxEventTypeInput": "Event Type must be at most 50 characters long"
           }
+        },
+        "deleteEvent": {
+          "buttonName": "Delete",
+          "deleteSuccessMessageEvent": "Event deleted!",
+          "deletesucessMessageNote": "Note deleted!"
+        },
+        "resizeEvent": {
+          "resizeNoteEventError": "You cannot change the time of a note!"
         }
       }
     }

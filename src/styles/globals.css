@@ -189,3 +189,50 @@ input[type="range"] {
   color: white;
   transform: rotateY(180deg);
 }
+
+.fc-dayGridMonth-button {
+  background-color: #0089ec !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.fc-timeGridWeek-button {
+  background-color: #0089ec !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.fc-timeGridDay-button {
+  background-color: #0089ec !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.fc-button-active {
+  background-color: #0075c9 !important;
+  outline: none !important;
+}
+
+.fc-today-button {
+  background-color: transparent !important;
+  border: 2px solid #0089ec !important;
+  color: #0089ec !important;
+  border-radius: 20px !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.fc-today-button:hover {
+  cursor: pointer;
+}
+
+.fc-next-button,
+.fc-prev-button {
+  background-color: #0089ec !important;
+  color: white !important;
+  outline: none !important;
+  border: none !important;
+}
