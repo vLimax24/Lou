@@ -79,6 +79,8 @@ export default defineSchema({
     // subjects: v.optional(v.string()),
     type: v.string(),
     date: v.string(),
+    startTime: v.string(),
+    endTime: v.string(),
     allDay: v.optional(v.boolean()),
     userId: v.id("users"),
     subjectId: v.optional(v.id("subjects")),

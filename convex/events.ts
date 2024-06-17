@@ -47,6 +47,8 @@ export const addEvent = authMutation({
     // subject: v.optional(v.string()),
     type: v.string(),
     date: v.string(),
+    startTime: v.string(),
+    endTime: v.string(),
   },
   handler: async ({ db, user }, args) => {
     const newEvent = await db.insert("events", {
@@ -56,6 +58,8 @@ export const addEvent = authMutation({
       type: args.type,
       date: args.date,
       userId: user._id,
+      startTime: args.startTime,
+      endTime: args.endTime,
     })
     return newEvent
   },
@@ -77,14 +81,12 @@ export const editEvent = authMutation({
     newDate: v.string(),
     newDescription: v.string(),
     newType: v.string(),
-    // newSubjects: v.string()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.eventId, {
       title: args.newTitle,
       description: args.newDescription,
       date: args.newDate,
-      // subjects: args.newSubjects,
       type: args.newType,
     })
   },
@@ -94,10 +96,14 @@ export const updateEventDate = authMutation({
   args: {
     eventId: v.id("events"),
     newDate: v.string(),
+    newStartTime: v.string(),
+    newEndTime: v.string(),
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.eventId, {
       date: args.newDate,
+      startTime: args.newStartTime,
+      endTime: args.newEndTime,
     })
   },
 })

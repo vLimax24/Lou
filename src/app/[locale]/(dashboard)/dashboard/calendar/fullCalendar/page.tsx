@@ -8,14 +8,20 @@ import timeGridPlugin from "@fullcalendar/timegrid"
 import { api } from "@/convex/_generated/api"
 import { useQuery, useMutation } from "convex/react"
 import { Id } from "@/convex/_generated/dataModel"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Pencil, Trash } from "lucide-react"
+import { convertToTitleCase } from "@/lib/utils"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
+import { AddEvent } from "@/components/dashboard/Dialogs/events/EventDialog"
 
 const InfoDialog = ({
   event,
@@ -26,13 +32,62 @@ const InfoDialog = ({
   open: boolean
   onClose: any
 }) => {
+  const getBadgeColor = (type: string) => {
+    switch (type) {
+      case "EXAM":
+        return "bg-[#6ADBC6]"
+      case "ASSIGNMENT":
+        return "bg-[#C6C4FB]"
+      case "OTHER":
+        return "bg-[#FF7ABC]"
+      default:
+        return "bg-[#628BF7]"
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/4">
         <DialogHeader className="text-left">
-          <DialogTitle>{event?.title}</DialogTitle>
-          <DialogDescription>{event?.description}</DialogDescription>
+          <div className="flex items-center justify-start gap-2">
+            <DialogTitle className="text-2xl font-bold">
+              {event?.title}
+            </DialogTitle>
+            <Badge
+              className={`ml-2 ${getBadgeColor(event?.extendedProps?.eventType)}`}
+            >
+              {convertToTitleCase(event?.extendedProps?.eventType || "Note")}
+            </Badge>
+          </div>
+          <DialogDescription className="mt-2 text-sm text-gray-600">
+            {event?.description}
+          </DialogDescription>
         </DialogHeader>
+        <div className="mt-4">
+          {event?.start && (
+            <p>
+              <strong>Start:</strong> {event?.start?.toLocaleString()}
+            </p>
+          )}
+          {event?.end && (
+            <p>
+              <strong>End:</strong> {event?.end?.toLocaleString()}
+            </p>
+          )}
+          <p>
+            <strong>Type:</strong> {event?.extendedProps?.eventType}
+          </p>
+        </div>
+        <DialogFooter className="flex w-full items-center gap-1">
+          <Button className="flex h-12 w-1/2 items-center justify-center gap-2 border border-primaryBlue bg-transparent text-primaryBlue hover:border-primaryBlue hover:bg-transparent">
+            <Pencil className="size-4" />
+            <p>Edit</p>
+          </Button>
+          <Button className="flex h-12 w-1/2 items-center justify-center gap-2 border border-red-500 bg-transparent text-red-500 hover:border-red-500 hover:bg-transparent">
+            <Trash className="size-4" />
+            <p>Delete</p>
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
@@ -42,11 +97,15 @@ const Calendar = () => {
   const events = useQuery(api.events.getEvents)
   const noteEvents = useQuery(api.notes.getCalendarNotes)
 
-  const combinedEvents =
+  const combinedEvents: any =
     events && noteEvents
       ? [
-          ...events.map(e => ({ ...e, type: "EVENT" })),
-          ...noteEvents.map(n => ({ ...n, type: "NOTE" })),
+          ...events.map(e => ({ ...e, generalType: "EVENT" })),
+          ...noteEvents.map(n => ({
+            ...n,
+            generalType: "NOTE",
+            title: n.text,
+          })),
         ]
       : []
 
@@ -55,12 +114,62 @@ const Calendar = () => {
 
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [addEventDialogOpen, setAddEventDialogOpen] = useState(false)
 
-  const eventsWithFormattedDates = combinedEvents?.map(event => {
+  const eventsWithFormattedDates = combinedEvents.map((event: any) => {
     const formattedDate = new Date(event.date)
-    const { _id, date, ...rest } = event
-    return { ...rest, start: formattedDate, id: _id }
+    if (event.generalType === "EVENT") {
+      return {
+        ...event,
+        start: new Date(event.startTime),
+        end: new Date(event.endTime),
+        id: event._id,
+        eventType: event.type,
+      }
+    } else {
+      return {
+        ...event,
+        start: formattedDate,
+        id: event._id,
+        eventType: event.generalType,
+      }
+    }
   })
+
+  const renderEventContent = (eventInfo: any) => {
+    let backgroundColor
+
+    if (eventInfo.event.extendedProps.generalType === "NOTE") {
+      backgroundColor = "#628BF7"
+    } else {
+      switch (eventInfo.event.extendedProps.eventType) {
+        case "EXAM":
+          backgroundColor = "#6ADBC6"
+          break
+        case "ASSIGNMENT":
+          backgroundColor = "#C6C4FB"
+          break
+        case "OTHER":
+          backgroundColor = "#FF7ABC"
+          break
+        default:
+          backgroundColor = "#FFDAB9"
+      }
+    }
+
+    return (
+      <div
+        style={{
+          backgroundColor,
+          borderRadius: "3px",
+          padding: "5px",
+        }}
+        className="w-full"
+      >
+        <h1 className="font-bold text-black">{eventInfo.event.title}</h1>
+      </div>
+    )
+  }
 
   return (
     <div className="w-full">
@@ -78,31 +187,47 @@ const Calendar = () => {
         selectMirror={true}
         height={"90vh"}
         weekends={true}
+        eventContent={renderEventContent}
+        defaultTimedEventDuration={"01:00:00"}
+        eventDurationEditable={true}
+        eventStartEditable={true}
+        eventResizableFromStart={true}
         eventDrop={async event => {
-          console.log(event)
+          console.log("Event dropped:", event)
           const eventId = event.event.id as Id<"events">
           const noteId = event.event.id as Id<"notes">
-          const newDate = event.event._instance?.range.start.toISOString()
+          const newStartTime = event.event.start
+          const newEndTime: any = event.event.end
 
-          if (newDate) {
-            if (event.event.extendedProps.type === "NOTE") {
+          const newStartISOString = newStartTime
+            ? newStartTime.toISOString()
+            : null
+          const newEndISOString = newEndTime ? newEndTime.toISOString() : null
+
+          if (newStartISOString) {
+            if (event.event.extendedProps.generalType === "NOTE") {
               await updateNoteDate({
-                noteId,
-                newDate,
+                noteId: noteId,
+                newDate: newStartISOString,
               })
             } else {
               await updateEventDate({
-                eventId,
-                newDate,
+                eventId: eventId,
+                newDate: newStartISOString,
+                newStartTime: newStartISOString,
+                newEndTime: newEndISOString,
               })
             }
           } else {
-            console.error("New date is undefined")
+            console.error("New start time is undefined")
           }
         }}
         eventClick={event => {
           setSelectedEvent(event.event)
           setDialogOpen(true)
+        }}
+        dateClick={() => {
+          setAddEventDialogOpen(true)
         }}
         events={eventsWithFormattedDates}
       />
@@ -110,6 +235,10 @@ const Calendar = () => {
         event={selectedEvent}
         open={dialogOpen}
         onClose={setDialogOpen}
+      />
+      <AddEvent
+        dialogOpen={addEventDialogOpen}
+        setDialogOpen={setAddEventDialogOpen}
       />
     </div>
   )
