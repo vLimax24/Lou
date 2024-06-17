@@ -90,11 +90,11 @@ export const AddNote = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
         date: formattedDate,
         subjectId: subjectId,
       })
-      toast.success(t("Dashboard.notes.addNote.submitSuccessMessage"))
+      toast.success(t("Dashboard.dialogs.notes.addNote.submitSuccessMessage"))
       setDialogOpen(false)
       form.reset()
     } catch (error) {
-      toast.error(t("Dashboard.notes.addNote.submitErrorMessage"))
+      toast.error(t("Dashboard.dialogs.notes.addNote.submitErrorMessage"))
     }
   }
 
