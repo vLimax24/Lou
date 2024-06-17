@@ -79,6 +79,8 @@ export const editEvent = authMutation({
     eventId: v.id("events"),
     newTitle: v.string(),
     newDate: v.string(),
+    newStartTime: v.string(),
+    newEndTime: v.string(),
     newDescription: v.string(),
     newType: v.string(),
   },
@@ -88,6 +90,8 @@ export const editEvent = authMutation({
       description: args.newDescription,
       date: args.newDate,
       type: args.newType,
+      startTime: args.newStartTime,
+      endTime: args.newEndTime,
     })
   },
 })

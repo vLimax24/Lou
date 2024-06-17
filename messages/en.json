@@ -415,6 +415,35 @@
             "maxEventTypeInput": "Event Type must be at most 50 characters long"
           }
         },
+        "editEvent": {
+          "submitSuccessMessage": "Event edited successfully!",
+          "submitErrorMessage": "Error editing event. Please try again.",
+          "eventTypes": {
+            "Assignment": "Assignment",
+            "Exam": "Exam",
+            "Other": "Other"
+          },
+          "errors": {
+            "emptyTitle": "Title is required",
+            "minTitleInput": "Title must be at least 3 characters long",
+            "maxTitleInput": "Title must be at most 50 characters long",
+            "emptyDescription": "Description is required",
+            "minDescriptionInput": "Description must be at least 10 characters long",
+            "maxDescriptionInput": "Description must be at most 150 characters long",
+            "emptyDate": "Date is required",
+            "minDateInput": "Date must be at least 10 characters long",
+            "maxDateInput": "Date must be at most 10 characters long",
+            "emptyStartTime": "Start Time is required",
+            "minStartTimeInput": "Start Time must be at least 10 characters long",
+            "maxStartTimeInput": "Start Time must be at most 10 characters long",
+            "emptyEndTime": "End Time is required",
+            "minEndTimeInput": "End Time must be at least 10 characters long",
+            "maxEndTimeInput": "End Time must be at most 10 characters long",
+            "emptyEventType": "Event Type is required",
+            "minEventTypeInput": "Event Type must be at least 3 characters long",
+            "maxEventTypeInput": "Event Type must be at most 50 characters long"
+          }
+        },
         "deleteEvent": {
           "buttonName": "Delete",
           "deleteSuccessMessageEvent": "Event deleted!",
