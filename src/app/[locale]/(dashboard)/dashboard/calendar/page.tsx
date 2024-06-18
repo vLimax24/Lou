@@ -251,6 +251,12 @@ const Calendar = () => {
         initialView="dayGridMonth"
         nowIndicator={true}
         editable={true}
+        buttonText={{
+          today: t("Dashboard.calendar.calendarToolbar.today"),
+          month: t("Dashboard.calendar.calendarToolbar.month"),
+          week: t("Dashboard.calendar.calendarToolbar.week"),
+          day: t("Dashboard.calendar.calendarToolbar.day"),
+        }}
         selectable={true}
         selectMirror={true}
         height={"90vh"}

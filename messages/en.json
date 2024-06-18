@@ -190,6 +190,14 @@
         }
       }
     },
+    "calendar": {
+      "calendarToolbar": {
+        "today": "Today",
+        "month": "Month",
+        "week": "Week",
+        "day": "Day"
+      }
+    },
     "dialogs": {
       "notes": {
         "buttonName": "Create Note",
