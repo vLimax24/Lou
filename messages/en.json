@@ -416,6 +416,9 @@
           }
         },
         "editEvent": {
+          "title": "Edit Event",
+          "description": "Edit the parts of the event that you want to be changed.",
+          "submitButton": "Save",
           "submitSuccessMessage": "Event edited successfully!",
           "submitErrorMessage": "Error editing event. Please try again.",
           "eventTypes": {

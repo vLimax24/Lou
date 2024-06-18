@@ -26,6 +26,7 @@ import {
   AddEvent,
   EditEvent,
 } from "@/components/dashboard/Dialogs/events/EventDialog"
+import { EditNote } from "@/components/dashboard/Dialogs/notes/NoteDialog"
 import { useTranslations } from "next-intl"
 
 const InfoDialog = ({
@@ -54,8 +55,11 @@ const InfoDialog = ({
   const deleteEvent = useMutation(api.events.deleteEvent)
 
   const [editEventDialogOpen, setEditEventDialogOpen] = useState(false)
+  const [editNoteDialogOpen, setEditNoteDialogOpen] = useState(false)
 
   const t = useTranslations()
+
+  console.log(event)
 
   return (
     <>
@@ -95,8 +99,12 @@ const InfoDialog = ({
             <Button
               className="flex h-12 w-1/2 items-center justify-center gap-2 border border-primaryBlue bg-transparent text-primaryBlue hover:border-primaryBlue hover:bg-transparent"
               onClick={() => {
-                onClose(false) // Close the InfoDialog
-                setEditEventDialogOpen(true) // Open the EditEvent dialog
+                onClose(false)
+                if (event?._def.extendedProps?.generalType === "NOTE") {
+                  setEditNoteDialogOpen(true)
+                } else {
+                  setEditEventDialogOpen(true)
+                }
               }}
             >
               <Pencil className="size-4" />
@@ -128,11 +136,21 @@ const InfoDialog = ({
         </DialogContent>
       </Dialog>
       {event && (
-        <EditEvent
-          event={event}
-          dialogOpen={editEventDialogOpen}
-          setDialogOpen={setEditEventDialogOpen}
-        />
+        <>
+          {event?.extendedProps?.generalType === "NOTE" ? (
+            <EditNote
+              id={event?.id}
+              dialogOpen={editNoteDialogOpen}
+              setDialogOpen={setEditNoteDialogOpen}
+            />
+          ) : (
+            <EditEvent
+              event={event}
+              dialogOpen={editEventDialogOpen}
+              setDialogOpen={setEditEventDialogOpen}
+            />
+          )}
+        </>
       )}
     </>
   )

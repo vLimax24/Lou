@@ -12,6 +12,7 @@ import {
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Dispatch } from "react"
 import {
   Form,
   FormControl,
@@ -30,11 +31,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -42,7 +38,6 @@ import { useMutation, useQuery } from "convex/react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { Pencil } from "lucide-react"
 import { useState, useEffect } from "react"
 import { Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -266,13 +261,20 @@ export const AddNote = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
   )
 }
 
-export const EditNote = ({ id }: { id: Id<"notes"> }) => {
+export const EditNote = ({
+  id,
+  dialogOpen,
+  setDialogOpen,
+}: {
+  id: any
+  dialogOpen: boolean
+  setDialogOpen: Dispatch<boolean>
+}) => {
   const note = useQuery(api.notes.getSpecificNote, { noteId: id })
   const editNote = useMutation(api.notes.editNote)
   const [showInCalendar, setShowInCalendar] = useState(false)
   const [date, setDate] = useState<Date>(new Date())
   const [calendarPopoverOpen, setCalendarPopoverOpen] = useState(false)
-  const [dialogOpen, setDialogOpen] = useState(false)
 
   const t = useTranslations()
 
@@ -316,20 +318,6 @@ export const EditNote = ({ id }: { id: Id<"notes"> }) => {
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <Tooltip delayDuration={50}>
-        <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <Pencil
-              size={20}
-              className="duration-300 hover:cursor-pointer hover:text-green-500"
-            />
-          </DialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{t("Dashboard.dialogs.notes.editNote.title")}</p>
-        </TooltipContent>
-      </Tooltip>
-
       <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/4">
         <DialogHeader>
           <DialogTitle>

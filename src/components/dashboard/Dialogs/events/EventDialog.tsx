@@ -472,10 +472,10 @@ export const EditEvent = ({
       <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/4">
         <DialogHeader className="text-left">
           <DialogTitle>
-            {t("Dashboard.dialogs.events.addEvent.title")}
+            {t("Dashboard.dialogs.events.editEvent.title")}
           </DialogTitle>
           <DialogDescription>
-            {t("Dashboard.dialogs.events.addEvent.description")}
+            {t("Dashboard.dialogs.events.editEvent.description")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -688,7 +688,7 @@ export const EditEvent = ({
                 type="submit"
                 className="w-full bg-primaryBlue hover:bg-primaryHover"
               >
-                {t("Dashboard.dialogs.events.addEvent.submitButton")}
+                {t("Dashboard.dialogs.events.editEvent.submitButton")}
               </Button>
             </DialogFooter>
           </form>
