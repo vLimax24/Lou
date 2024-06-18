@@ -42,7 +42,7 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
         <main
           className={cn(
             "h-full w-full gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6",
-            isTextEditor ? "p-0" : "p-10"
+            isTextEditor ? "p-0" : "p-5 lg:p-10"
           )}
         >
           {children}

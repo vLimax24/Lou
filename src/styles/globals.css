@@ -236,3 +236,32 @@ input[type="range"] {
   outline: none !important;
   border: none !important;
 }
+
+@media only screen and (max-width: 900px) {
+  .fc-header-toolbar {
+    flex-direction: column !important;
+    align-items: start !important;
+    max-width: 100% !important;
+    width: 80vw;
+  }
+
+  .fc-scrollgrid {
+    max-width: 100% !important;
+    width: fit-content !important;
+  }
+
+  .fc-dayGridMonth {
+    max-width: 100% !important;
+    width: 80vw !important;
+  }
+
+  .fc-view-harness {
+    max-width: 100% !important;
+    width: 80vw !important;
+  }
+
+  .fc {
+    max-width: 100% !important;
+    width: 80vw !important;
+  }
+}
