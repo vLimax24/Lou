@@ -47,7 +47,7 @@ const TasksCard = () => {
             </div>
             <Link
               href={"/dashboard/tasks"}
-              className="text-gray-400 hover:underline"
+              className="mt-2 text-gray-400 hover:underline"
             >
               {t("Dashboard.home.tasks.viewMore")}
             </Link>

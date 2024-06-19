@@ -1,11 +1,11 @@
 "use client"
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog"
 import {
   Tooltip,
@@ -13,21 +13,21 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { LabelSelector } from "./LabelSelector"
-import { TagIcon } from "lucide-react"
+import { Tags } from "lucide-react"
 
 type Props = {
-  entityId: any;
-};
+  entityId: any
+}
 
 export const LabelSelectorDialog = ({ entityId }: Props) => {
   return (
     <Dialog>
-      <Tooltip delayDuration={50} >
+      <Tooltip delayDuration={500}>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
-            <TagIcon
-              size={20}
-              className="duration-300 hover:cursor-pointer hover:text-green-500"
+            <Tags
+              size={22}
+              className="text-[#5B4F4F] duration-300 hover:cursor-pointer hover:text-primaryBlue"
             />
           </DialogTrigger>
         </TooltipTrigger>

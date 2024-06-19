@@ -49,7 +49,7 @@ const EventsCard = () => {
             </div>
             <Link
               href={"/dashboard/calendar"}
-              className="text-gray-400 hover:underline"
+              className="mt-2 text-gray-400 hover:underline"
             >
               {t("Dashboard.home.events.viewMore")}
             </Link>
