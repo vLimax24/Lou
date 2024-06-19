@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { useState } from "react"
 import {
   Form,
   FormControl,
@@ -33,6 +34,8 @@ export const AddDocumentDialog = ({
   accessType: string
   className?: string
 }) => {
+  const [dialogOpen, setDialogOpen] = useState(false)
+
   const addDocument = useMutation(api.documents.addDocument)
 
   const t = useTranslations()
@@ -70,6 +73,7 @@ export const AddDocumentDialog = ({
         accessType: accessType,
       })
       toast.success("Document added!")
+      setDialogOpen(false)
       form.reset()
     } catch (error) {
       toast.error("Error Adding Document!")
@@ -78,7 +82,7 @@ export const AddDocumentDialog = ({
 
   return (
     <div className={className}>
-      <Dialog>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
           <Button
             className="flex items-center justify-center rounded-full bg-primaryBlue hover:bg-primaryHover"
