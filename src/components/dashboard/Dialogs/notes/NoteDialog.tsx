@@ -319,7 +319,7 @@ export const EditNote = ({
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/4">
-        <DialogHeader>
+        <DialogHeader className="text-left">
           <DialogTitle>
             {t("Dashboard.dialogs.notes.editNote.title")}
           </DialogTitle>

@@ -16,6 +16,7 @@ import { LabelSelectorDialog } from "../Dialogs/Labels/LabelSelectorDialog"
 import LabelBadge from "@/components/common/LabelBadge"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useTranslations } from "next-intl"
 
 type Note = {
   _id: Id<"notes">
@@ -50,14 +51,16 @@ const NoteCard = ({ note }: Props) => {
   const [labelDialogOpen, setLabelDialogOpen] = useState(false)
   const deleteNote = useMutation(api.notes.deleteNote)
 
+  const t = useTranslations()
+
   const handleDeleteNote = async (id: any) => {
     try {
       await deleteNote({
         id: id,
       })
-      toast.success("Note deleted!")
+      toast.success(t("Dashboard.notes.deleteNoteSuccessMessage"))
     } catch (error) {
-      toast.error("Error deleting Note!")
+      toast.error(t("Dashboard.notes.deleteNoteErrorMessage"))
     }
   }
 
@@ -79,9 +82,10 @@ const NoteCard = ({ note }: Props) => {
           <Badge
             className="flex cursor-pointer items-center justify-center gap-1 text-center"
             variant={"outline"}
+            onClick={() => setLabelDialogOpen(true)}
           >
             <Plus size={13} />
-            <span>Add</span>
+            <span>{t("Dashboard.notes.addBadgeText")}</span>
           </Badge>
         </div>
       </div>
@@ -104,7 +108,7 @@ const NoteCard = ({ note }: Props) => {
                   />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Delete</p>
+                  <p>{t("Dashboard.notes.tooltips.delete")}</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -118,7 +122,7 @@ const NoteCard = ({ note }: Props) => {
                   />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Edit</p>
+                  <p>{t("Dashboard.notes.tooltips.edit")}</p>
                 </TooltipContent>
               </Tooltip>
 
@@ -138,7 +142,7 @@ const NoteCard = ({ note }: Props) => {
                   />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Add Label</p>
+                  <p>{t("Dashboard.notes.tooltips.manageLabels")}</p>
                 </TooltipContent>
               </Tooltip>
               <LabelSelectorDialog
