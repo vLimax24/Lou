@@ -7,34 +7,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { LabelSelector } from "./LabelSelector"
-import { Tags } from "lucide-react"
+import { Dispatch, SetStateAction } from "react"
 
 type Props = {
   entityId: any
+  dialogOpen: boolean
+  setDialogOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const LabelSelectorDialog = ({ entityId }: Props) => {
+export const LabelSelectorDialog = ({
+  entityId,
+  dialogOpen,
+  setDialogOpen,
+}: Props) => {
   return (
-    <Dialog>
-      <Tooltip delayDuration={500}>
-        <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <Tags
-              size={22}
-              className="text-[#5B4F4F] duration-300 hover:cursor-pointer hover:text-primaryBlue"
-            />
-          </DialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Add Label</p>
-        </TooltipContent>
-      </Tooltip>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Label</DialogTitle>

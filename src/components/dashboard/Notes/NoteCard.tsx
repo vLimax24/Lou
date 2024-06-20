@@ -1,11 +1,8 @@
-import Link from "next/link"
 import { useState } from "react"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { useMutation } from "convex/react"
 import { EditNote } from "@/components/dashboard/Dialogs/notes/NoteDialog"
-import { Button } from "@/components/ui/button"
-import { AddLabelDialog } from "@/components/dashboard/Dialogs/Labels/AddNewLabel"
 import {
   Tooltip,
   TooltipContent,
@@ -13,18 +10,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { LabelsArray } from "@/types/label"
-import { CalendarDays, Trash, Settings, Tags } from "lucide-react"
+import { Trash, Settings, Tags, Plus } from "lucide-react"
 import { toast } from "sonner"
 import { LabelSelectorDialog } from "../Dialogs/Labels/LabelSelectorDialog"
 import LabelBadge from "@/components/common/LabelBadge"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 
 type Note = {
   _id: Id<"notes">
@@ -56,6 +47,7 @@ const getRandomPastelColor = () => {
 
 const NoteCard = ({ note }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [labelDialogOpen, setLabelDialogOpen] = useState(false)
   const deleteNote = useMutation(api.notes.deleteNote)
 
   const handleDeleteNote = async (id: any) => {
@@ -69,12 +61,8 @@ const NoteCard = ({ note }: Props) => {
     }
   }
 
-  const formatDate = (dateString: any) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("de-DE")
-  }
-
   const labelColor = getRandomPastelColor()
+  const hasLabels = note.labels.length > 0
 
   return (
     <Card
@@ -84,8 +72,17 @@ const NoteCard = ({ note }: Props) => {
     >
       <div className="flex flex-col gap-2">
         <h1>{note.text}</h1>
-        <div>
-          <LabelBadge labels={note.labels} />
+        <div
+          className={`flex items-center justify-start ${hasLabels ? "gap-2" : "gap-0"}`}
+        >
+          {hasLabels && <LabelBadge labels={note.labels} />}
+          <Badge
+            className="flex cursor-pointer items-center justify-center gap-1 text-center"
+            variant={"outline"}
+          >
+            <Plus size={13} />
+            <span>Add</span>
+          </Badge>
         </div>
       </div>
       <div className="flex items-end justify-between">
@@ -132,69 +129,27 @@ const NoteCard = ({ note }: Props) => {
               />
             </div>
             <div>
-              <LabelSelectorDialog entityId={note?._id} />
+              <Tooltip delayDuration={500}>
+                <TooltipTrigger asChild>
+                  <Tags
+                    size={22}
+                    className="text-[#5B4F4F] duration-300 hover:cursor-pointer hover:text-primaryBlue"
+                    onClick={() => setLabelDialogOpen(true)}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add Label</p>
+                </TooltipContent>
+              </Tooltip>
+              <LabelSelectorDialog
+                entityId={note?._id}
+                dialogOpen={labelDialogOpen}
+                setDialogOpen={setLabelDialogOpen}
+              />
             </div>
           </div>
         </TooltipProvider>
       </div>
-      {/* <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          {note.text}
-          <p className="mt-2 text-sm text-gray-500">{formatDate(note.date)}</p>
-        </CardTitle>
-        <CardDescription>{note.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <LabelBadge labels={note.labels} />
-      </CardContent>
-      <CardFooter className="justify-between">
-        <TooltipProvider>
-          {note?.showInCalendar && (
-            <div>
-              <Tooltip delayDuration={50}>
-                <TooltipTrigger asChild>
-                  <Link href={"/dashboard/calendar"}>
-                    <CalendarDays
-                      size={20}
-                      className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
-                    />
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>View in Calendar</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-          )}
-          <div>
-            <Tooltip delayDuration={50}>
-              <TooltipTrigger asChild>
-                <Trash
-                  size={20}
-                  className="mx-1 duration-300 hover:cursor-pointer hover:text-green-500"
-                  onClick={() => handleDeleteNote(note._id)}
-                />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Delete Note</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-          <div>
-            <Button>
-              <Settings size={20} className="cursor-pointer" />
-            </Button>
-            <EditNote
-              id={note?._id}
-              dialogOpen={dialogOpen}
-              setDialogOpen={setDialogOpen}
-            />
-          </div>
-          <div>
-            <LabelSelectorDialog entityId={note?._id} />
-          </div>
-        </TooltipProvider>
-      </CardFooter> */}
     </Card>
   )
 }
