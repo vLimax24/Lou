@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
+import { Tags } from "lucide-react"
 import { useConvexAuth, useMutation, useQuery } from "convex/react"
 import { MoreHorizontal } from "lucide-react"
 import Image from "next/image"
@@ -20,9 +21,11 @@ import Link from "next/link"
 import { toast } from "sonner"
 import { AddDocumentDialog } from "./AddDocumentDialog"
 import LabelBadge from "@/components/common/LabelBadge"
+import { useState } from "react"
 import { TooltipProvider } from "@radix-ui/react-tooltip"
 
 const Page = () => {
+  const [dialogOpen, setDialogOpen] = useState(false)
   const { isAuthenticated } = useConvexAuth()
   const documents = useQuery(
     api.documents.getDocuments,
@@ -90,46 +93,55 @@ const Page = () => {
                 </Button>
               </Link>
               <TooltipProvider>
-            
-            
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <MoreHorizontal className="ml-4 size-6 hover:cursor-pointer" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onSelect={e => e.preventDefault()}>
-                    <LabelSelectorDialog entityId={document._id} />
-                  </DropdownMenuItem>
-                  {checkIfDocumentOwner(document._id) ? (
-                    <DropdownMenuItem
-                      className="text-red-500 hover:text-red-600"
-                      onClick={async () => {
-                        await deleteDocument({ documentId: document._id })
-                        toast.success("Document deleted")
-                      }}
-                    >
-                      Delete
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <MoreHorizontal className="ml-4 size-6 hover:cursor-pointer" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                      <div
+                        className="flex items-center gap-2"
+                        onClick={() => setDialogOpen(true)}
+                      >
+                        <Tags />
+                        <span>Labels</span>
+                      </div>
+                      <LabelSelectorDialog
+                        entityId={document._id}
+                        dialogOpen={dialogOpen}
+                        setDialogOpen={setDialogOpen}
+                      />
                     </DropdownMenuItem>
-                  ) : (
-                    <DropdownMenuItem
-                      className="text-red-500 hover:text-red-600"
-                      onClick={async () => {
-                        if (user?._id) {
-                          await leaveDocument({
-                            documentId: document._id,
-                            userId: user._id,
-                          })
-                          toast.success("You left the document")
-                        }
-                      }}
-                    >
-                      Leave
-                    </DropdownMenuItem>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    {checkIfDocumentOwner(document._id) ? (
+                      <DropdownMenuItem
+                        className="text-red-500 hover:text-red-600"
+                        onClick={async () => {
+                          await deleteDocument({ documentId: document._id })
+                          toast.success("Document deleted")
+                        }}
+                      >
+                        Delete
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem
+                        className="text-red-500 hover:text-red-600"
+                        onClick={async () => {
+                          if (user?._id) {
+                            await leaveDocument({
+                              documentId: document._id,
+                              userId: user._id,
+                            })
+                            toast.success("You left the document")
+                          }
+                        }}
+                      >
+                        Leave
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TooltipProvider>
             </div>
           </Card>
