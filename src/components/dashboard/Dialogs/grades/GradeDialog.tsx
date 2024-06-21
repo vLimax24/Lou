@@ -103,7 +103,7 @@ export const AddGrade = ({ withSubjects = false, subjectId }: Props) => {
   const addGrade = useMutation(api.grades.addGrade)
   const subjects = useQuery(api.studentSubjects.getUserSubjects)
   const user: any = useQuery(api.users.getMyUser)
-  const country: any = useQuery(api.countries.getSpecificCountry, {
+  const country = useQuery(api.countries.getSpecificCountry, {
     countryId: user?.country,
   })
 
@@ -152,15 +152,10 @@ export const AddGrade = ({ withSubjects = false, subjectId }: Props) => {
 
   const onSubmit = async (values: FormData) => {
     const formattedDate = values.date.toISOString()
-    const baseGPA = 4
-    const gpaIncrement = baseGPA / (country?.possibleGrades.length - 1)
-    const gradingSystem = country?.system
-    let gpa: any
-    if (gradingSystem === "Number") {
-      gpa = convertNumberToGPA(Number(values.grade), baseGPA, gpaIncrement)
-    } else if (gradingSystem === "Letter") {
-      gpa = convertLetterToGPA(values.grade, baseGPA, gpaIncrement)
-    } else if (gradingSystem === "Percentage") {
+    const gradingSystem = country?.gradingSystem
+    let gpa: any = values.grade
+
+    if (gradingSystem === "Percentage") {
       gpa = convertPercentageToGPA(Number(values.grade))
     }
 
@@ -299,32 +294,69 @@ export const AddGrade = ({ withSubjects = false, subjectId }: Props) => {
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue
-                            placeholder={t(
-                              "Dashboard.dialogs.grades.addGrade.placeholderGrade"
-                            )}
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>
-                              {t(
-                                "Dashboard.dialogs.grades.addGrade.labelGrade"
+                      {country?.gradingSystem === "percentage" ? (
+                        <Input
+                          placeholder={t(
+                            "Dashboard.dialogs.grades.addGrade.placeholderGrade"
+                          )}
+                          {...field}
+                          data-cy="grade-input"
+                        />
+                      ) : (
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <SelectTrigger
+                            className="w-full"
+                            onClick={() => console.log(field.value)}
+                          >
+                            <SelectValue
+                              placeholder={t(
+                                "Dashboard.dialogs.grades.addGrade.placeholderGrade"
                               )}
-                            </SelectLabel>
-                            {country?.possibleGrades.map((grade: string) => (
-                              <SelectItem key={grade} value={grade}>
-                                {grade}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {country?.gradingSystem === "numeric" &&
+                              country?.gradingRules?.numeric && (
+                                <SelectGroup>
+                                  <SelectLabel>
+                                    {t(
+                                      "Dashboard.dialogs.grades.addGrade.labelGrade"
+                                    )}
+                                  </SelectLabel>
+                                  {country.gradingRules.numeric.map(grade => (
+                                    <SelectItem
+                                      key={grade.grade}
+                                      value={grade.gpa.toString()}
+                                    >
+                                      {grade.grade}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              )}
+                            {country?.gradingSystem === "letter" &&
+                              country?.gradingRules?.letter && (
+                                <SelectGroup>
+                                  <SelectLabel>
+                                    {t(
+                                      "Dashboard.dialogs.grades.addGrade.labelGrade"
+                                    )}
+                                  </SelectLabel>
+                                  {country.gradingRules.letter.map(grade => (
+                                    <SelectItem
+                                      key={grade.grade}
+                                      value={grade.gpa.toString()}
+                                    >
+                                      {grade.grade}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              )}
+                          </SelectContent>
+                        </Select>
+                      )}
                     </FormControl>
                     <FormMessage data-cy="grade-grade-error-message" />
                   </FormItem>

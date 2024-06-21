@@ -144,6 +144,7 @@
         "clickTip": "Tip: Click on a line to see exciting statistics!",
         "filterTitle": "Filter by badges",
         "noBadges": "No badges yet",
+        "letterGradeMessage": "*Grades are displayed as GPA for better accuracy",
         "months": {
           "January": "January",
           "February": "February",

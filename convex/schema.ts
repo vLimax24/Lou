@@ -12,9 +12,22 @@ export default defineSchema({
     .index("by_userId", ["userId"]),
   gradingSystems: defineTable({
     countryName: v.string(),
-    countryCode: v.string(),
-    system: v.string(),
-    possibleGrades: v.array(v.string()),
+    gradingSystem: v.string(),
+    gradingRules: v.optional(
+      v.object({
+        numeric: v.optional(
+          v.array(v.object({ grade: v.number(), gpa: v.number() }))
+        ),
+        letter: v.optional(
+          v.array(
+            v.object({
+              grade: v.string(),
+              gpa: v.number(),
+            })
+          )
+        ),
+      })
+    ),
   }),
   notifications: defineTable({
     recieverUserId: v.id("users"),

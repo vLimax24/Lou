@@ -38,21 +38,39 @@ export const convertGPAToLetter = <T>(
   gpaDecrement: number,
   grades: T[]
 ): T | undefined => {
-  let gradeIndex: number = Math.round((baseGPA - gpa) / gpaDecrement)
+  // Edge case: If GPA exceeds the base GPA, return the highest grade.
+  if (gpa > baseGPA) {
+    return grades[0]
+  }
+
+  // Edge case: If GPA is less than 0, return the lowest grade.
+  if (gpa < 0) {
+    return grades[grades.length - 1]
+  }
+
+  // Calculate the index in the grades array based on the GPA.
+  // Step 1: Calculate the difference between base GPA and the provided GPA.
+  const gpaDifference = baseGPA - gpa
+
+  // Step 2: Scale the difference by dividing it by gpaDecrement.
+  const scaledDifference = gpaDifference / gpaDecrement
+
+  // Step 3: Round the scaled difference to get the nearest index.
+  let gradeIndex = Math.round(scaledDifference)
+
+  // Step 4: Clamp the index to ensure it's within the valid range of the grades array.
   gradeIndex = Math.max(0, Math.min(grades.length - 1, gradeIndex))
+
+  // Return the grade at the calculated index.
   return grades[gradeIndex]
 }
 
-export const convertGPAToNumber = <T>(
+export const convertGPAToNumber = (
   gpa: number,
   baseGPA: number,
-  gpaIncrement: number,
-  grades: T[]
-): T | undefined => {
-  const convertedGrade: any = Math.round(
-    (baseGPA - gpa) / gpaIncrement + 1
-  ).toFixed(2)
-  return grades[
-    Math.max(1, Number(Math.min(grades.length, convertedGrade).toFixed(2))) - 1
-  ]
+  gpaIncrement: number
+) => {
+  const convertedGrade: any = (baseGPA - gpa) / gpaIncrement + 1
+
+  return convertedGrade.toFixed(2)
 }
