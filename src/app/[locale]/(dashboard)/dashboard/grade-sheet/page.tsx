@@ -6,8 +6,11 @@ import { AddGrade } from "@/components/dashboard/Dialogs/grades/GradeDialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ProgressSection from "./_components/ProgressSection"
 import { useTranslations } from "next-intl"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 
 const Page = () => {
+  const user = useQuery(api.users.getMyUser)
   const t = useTranslations()
   return (
     <div className="flex flex-col p-5">
@@ -25,10 +28,10 @@ const Page = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="overview">
-          <DataTable />
+          {user && <DataTable user={user} />}
         </TabsContent>
         <TabsContent value="statistics">
-          <ProgressSection />
+          {user && <ProgressSection user={user} />}
         </TabsContent>
       </Tabs>
     </div>

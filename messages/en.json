@@ -144,6 +144,7 @@
         "clickTip": "Tip: Click on a line to see exciting statistics!",
         "filterTitle": "Filter by badges",
         "noBadges": "No badges yet",
+        "letterGradeMessage": "*Grades are displayed as GPA for better accuracy",
         "months": {
           "January": "January",
           "February": "February",
@@ -188,6 +189,25 @@
           "placeholderQuestion": "Enter a question",
           "placeholderAnswer": "Enter an answer"
         }
+      }
+    },
+    "calendar": {
+      "calendarToolbar": {
+        "today": "Today",
+        "month": "Month",
+        "week": "Week",
+        "day": "Day"
+      }
+    },
+    "notes": {
+      "title": "Your Pinboard",
+      "addBadgeText": "Add",
+      "deleteNoteSuccessMessage": "Note deleted successfully",
+      "deleteNoteErrorMessage": "Error while deleting note",
+      "tooltips": {
+        "edit": "Edit Note",
+        "delete": "Delete Note",
+        "manageLabels": "Manage Labels"
       }
     },
     "dialogs": {
@@ -369,6 +389,103 @@
             "emptyName": "Name is required",
             "minNameInput": "Name must be at least 3 characters long",
             "maxNameInput": "Name must be at most 30 characters long"
+          }
+        }
+      },
+      "events": {
+        "addEvent": {
+          "buttonName": "Add Event",
+          "title": "Add Event",
+          "description": "Create a new event",
+          "labelTitle": "Title",
+          "placeholderTitle": "Enter event title",
+          "labelDescription": "Description",
+          "placeholderDescription": "Enter event description",
+          "labelDate": "Date",
+          "labelStartTime": "Start Time",
+          "labelEndTime": "End Time",
+          "labelEventType": "Event Type",
+          "placeholderEventType": "Select an event type",
+          "submitButton": "Add Event",
+          "submitSuccessMessage": "Event added successfully!",
+          "submitErrorMessage": "Error adding event. Please try again.",
+          "eventTypes": {
+            "Assignment": "Assignment",
+            "Exam": "Exam",
+            "Other": "Other"
+          },
+          "errors": {
+            "emptyTitle": "Title is required",
+            "minTitleInput": "Title must be at least 3 characters long",
+            "maxTitleInput": "Title must be at most 50 characters long",
+            "emptyDescription": "Description is required",
+            "minDescriptionInput": "Description must be at least 10 characters long",
+            "maxDescriptionInput": "Description must be at most 150 characters long",
+            "emptyDate": "Date is required",
+            "minDateInput": "Date must be at least 10 characters long",
+            "maxDateInput": "Date must be at most 10 characters long",
+            "emptyStartTime": "Start Time is required",
+            "minStartTimeInput": "Start Time must be at least 10 characters long",
+            "maxStartTimeInput": "Start Time must be at most 10 characters long",
+            "emptyEndTime": "End Time is required",
+            "minEndTimeInput": "End Time must be at least 10 characters long",
+            "maxEndTimeInput": "End Time must be at most 10 characters long",
+            "emptyEventType": "Event Type is required",
+            "minEventTypeInput": "Event Type must be at least 3 characters long",
+            "maxEventTypeInput": "Event Type must be at most 50 characters long"
+          }
+        },
+        "editEvent": {
+          "title": "Edit Event",
+          "description": "Edit the parts of the event that you want to be changed.",
+          "submitButton": "Save",
+          "submitSuccessMessage": "Event edited successfully!",
+          "submitErrorMessage": "Error editing event. Please try again.",
+          "eventTypes": {
+            "Assignment": "Assignment",
+            "Exam": "Exam",
+            "Other": "Other"
+          },
+          "errors": {
+            "emptyTitle": "Title is required",
+            "minTitleInput": "Title must be at least 3 characters long",
+            "maxTitleInput": "Title must be at most 50 characters long",
+            "emptyDescription": "Description is required",
+            "minDescriptionInput": "Description must be at least 10 characters long",
+            "maxDescriptionInput": "Description must be at most 150 characters long",
+            "emptyDate": "Date is required",
+            "minDateInput": "Date must be at least 10 characters long",
+            "maxDateInput": "Date must be at most 10 characters long",
+            "emptyStartTime": "Start Time is required",
+            "minStartTimeInput": "Start Time must be at least 10 characters long",
+            "maxStartTimeInput": "Start Time must be at most 10 characters long",
+            "emptyEndTime": "End Time is required",
+            "minEndTimeInput": "End Time must be at least 10 characters long",
+            "maxEndTimeInput": "End Time must be at most 10 characters long",
+            "emptyEventType": "Event Type is required",
+            "minEventTypeInput": "Event Type must be at least 3 characters long",
+            "maxEventTypeInput": "Event Type must be at most 50 characters long"
+          }
+        },
+        "deleteEvent": {
+          "buttonName": "Delete",
+          "deleteSuccessMessageEvent": "Event deleted!",
+          "deletesucessMessageNote": "Note deleted!"
+        },
+        "resizeEvent": {
+          "resizeNoteEventError": "You cannot change the time of a note!"
+        }
+      },
+      "labels": {
+        "addLabelTo": {
+          "title": "Add Label",
+          "description": "Add a new label for yourself.",
+          "placeholderSearch": "Search...",
+          "noLabelFound": "No labels found",
+          "AttachLabelSuccessMessage": "Label attached successfully!",
+          "DetachLabelSuccessMessage": "Label detached successfully!",
+          "errors": {
+            "badgeLimit": "You can only add a maximum of 3 badges!"
           }
         }
       }

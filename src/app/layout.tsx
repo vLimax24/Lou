@@ -24,7 +24,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       afterSignInUrl="/dashboard"
       afterSignUpUrl="/dashboard"
     >
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body
           className={cn("min-h-screen", bricolage.className ?? inter.className)}
         >

@@ -101,3 +101,15 @@ export const deleteNote = mutation({
     await ctx.db.delete(args.id)
   },
 })
+
+export const updateNoteDate = authMutation({
+  args: {
+    noteId: v.id("notes"),
+    newDate: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.noteId, {
+      date: args.newDate,
+    })
+  },
+})

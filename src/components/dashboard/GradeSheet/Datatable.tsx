@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { useMutation, useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
@@ -26,15 +26,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Link from "next/link"
-import {
-  convertGPAToLetter,
-  convertGPAToNumber,
-  convertGPAToPercentage,
-  calculateGPAStatistics,
-} from "@/utils/gpaCalculation"
+import { calculateGPAStatistics } from "@/utils/gpaCalculation"
 import { useTranslations } from "next-intl"
+import { Doc } from "@/convex/_generated/dataModel"
 
-export const DataTable = () => {
+export const DataTable = ({ user } : { user: Doc<"users"> }) => {
   const t = useTranslations()
   const [sorting] = useState<SortingState>([])
   const [columnFilters] = useState<ColumnFiltersState>([])
@@ -46,113 +42,82 @@ export const DataTable = () => {
 
   const addTotalAverage = useMutation(api.studentSubjects.addTotalAverage)
   const studentSubjects = useQuery(api.studentSubjects.getStudentSubjects)
-
-  const user = useQuery(api.users.getMyUser)
-  const countryId: any = user?.country
-  const country: any = useQuery(api.countries.getSpecificCountry, { countryId })
+  const countryId = user?.country
+  const country = useQuery(api.countries.getSpecificCountry, { countryId })
 
   const subjectsWithGrades = useMemo(() => {
     const subjects = subjectsQuery ?? []
     const grades = gradesQuery ?? []
 
     const convertedGrades = grades.map(grade => {
-      let convertedGrade: any
-      const baseGPA = 4
-      const gpaIncrement = baseGPA / (country?.possibleGrades?.length - 1)
+      let convertedGrade: string | number = grade.grade
 
-      if (country?.system === "Number") {
-        convertedGrade = convertGPAToNumber(
-          Number(grade.grade),
-          baseGPA,
-          gpaIncrement,
-          country.possibleGrades
+      if (country?.gradingSystem === "numeric") {
+        const numericGradingRules = country.gradingRules?.numeric ?? []
+        const gradeObject = numericGradingRules.find(
+          scale => Number(grade.grade) === scale.gpa
         )
-      } else if (country?.system === "Letter") {
-        convertedGrade = convertGPAToLetter(
-          Number(grade.grade),
-          baseGPA,
-          gpaIncrement,
-          country.possibleGrades
+        if (gradeObject) {
+          convertedGrade = gradeObject.grade.toString()
+        }
+      } else if (country?.gradingSystem === "letter") {
+        const letterGradingRules = country.gradingRules?.letter ?? []
+        const gradeObject = letterGradingRules.find(
+          scale => grade.grade === scale.gpa.toString()
         )
-      } else if (country?.system === "Percentage") {
-        convertedGrade = convertGPAToPercentage(Number(grade.grade))
+        if (gradeObject) {
+          convertedGrade = gradeObject.grade
+        }
+      } else if (country?.gradingSystem === "percentage") {
+        convertedGrade = ((Number(grade.grade) * 100) / 4).toFixed(2)
       }
 
       return {
-        topic: grade.topic,
-        date: grade.date,
-        subjectId: grade.subjectId,
-        userId: grade.userId,
-        convertedGrade: convertedGrade,
+        ...grade,
+        convertedGrade,
       }
     })
-
-    const addTotalAverageToDB = async (
-      totalAverage: string,
-      subjectId: any
-    ) => {
-      let studentSubjectId: any
-      studentSubjects?.map(studentSubject => {
-        if (subjectId === studentSubject.subjectId) {
-          studentSubjectId = studentSubject._id
-        }
-      })
-      if (studentSubjectId) {
-        await addTotalAverage({
-          totalAverage: totalAverage,
-          studentSubjectId: studentSubjectId,
-        })
-      }
-    }
 
     return subjects.map(subject => {
       const subjectGrades = convertedGrades.filter(
         grade => grade.subjectId === subject._id
       )
-      const unconvertedSubjectGrades = grades.filter(
-        grade => grade.subjectId === subject._id
+      const totalAverage = calculateGPAStatistics(
+        subjectGrades.map(g => Number(g.convertedGrade))
       )
-      const gradeFiltered = unconvertedSubjectGrades.map(grade => {
-        return Number(Number(grade.grade).toFixed(2))
-      })
-      const totalAverage = calculateGPAStatistics(gradeFiltered)
-      let finalAverage: any = totalAverage
-      const baseGPA = 4
-      const gpaIncrement = baseGPA / (country?.possibleGrades?.length - 1)
-      if (country?.system === "Number") {
-        finalAverage = convertGPAToNumber(
-          totalAverage,
-          baseGPA,
-          gpaIncrement,
-          country.possibleGrades
-        )
-      } else if (country?.system === "Letter") {
-        finalAverage = convertGPAToLetter(
-          totalAverage,
-          baseGPA,
-          gpaIncrement,
-          country.possibleGrades
-        )
-      } else if (country?.system === "Percentage") {
-        finalAverage = convertGPAToPercentage(totalAverage)
-      }
-      const dbAverage = finalAverage?.toString()
-      addTotalAverageToDB(dbAverage, subject._id)
 
       return {
         ...subject,
         grades: subjectGrades,
-        totalAverage: finalAverage,
+        totalAverage,
       }
     })
   }, [
     subjectsQuery,
     gradesQuery,
-    addTotalAverage,
-    studentSubjects,
-    country?.possibleGrades,
-    country?.system,
+    country?.gradingSystem,
+    country?.gradingRules,
   ])
+
+  useEffect(() => {
+    const updateTotalAverages = async () => {
+      for (const subject of subjectsWithGrades) {
+        if (subject.totalAverage !== undefined) {
+          const studentSubject = studentSubjects?.find(
+            ss => ss.subjectId === subject._id
+          )
+          if (studentSubject) {
+            await addTotalAverage({
+              totalAverage: subject.totalAverage.toString(),
+              studentSubjectId: studentSubject._id,
+            })
+          }
+        }
+      }
+    }
+
+    updateTotalAverages()
+  }, [subjectsWithGrades, studentSubjects, addTotalAverage])
 
   const columns: ColumnDef<any>[] = [
     {
@@ -199,7 +164,7 @@ export const DataTable = () => {
         </div>
       ),
       cell: ({ row }) => {
-        const totalAverage: any = row.getValue("totalAverage")
+        const totalAverage: string = row.getValue("totalAverage")
 
         return (
           <div className="w-fit text-right font-medium">

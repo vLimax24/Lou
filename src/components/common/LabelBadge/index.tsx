@@ -1,13 +1,10 @@
 import { Badge } from "@/components/ui/badge"
 import { LabelsArray } from "@/types/label"
 
-
-
 const LabelBadge = ({ labels }: { labels: LabelsArray }) => {
   return (
-    <div className="flex items-center gap-4 flex-wrap">
-      {
-        labels.length > 0 &&
+    <div className="flex flex-wrap items-center gap-2">
+      {labels.length > 0 &&
         labels.map(
           label =>
             label && (
@@ -19,9 +16,7 @@ const LabelBadge = ({ labels }: { labels: LabelsArray }) => {
                 {label.name}
               </Badge>
             )
-        )
-      
-      }
+        )}
     </div>
   )
 }

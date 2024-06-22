@@ -1,44 +1,38 @@
 "use client"
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { LabelSelector } from "./LabelSelector"
-import { TagIcon } from "lucide-react"
+import { Dispatch, SetStateAction } from "react"
+import { useTranslations } from "next-intl"
 
 type Props = {
-  entityId: any;
-};
+  entityId: any
+  dialogOpen: boolean
+  setDialogOpen: Dispatch<SetStateAction<boolean>>
+}
 
-export const LabelSelectorDialog = ({ entityId }: Props) => {
+export const LabelSelectorDialog = ({
+  entityId,
+  dialogOpen,
+  setDialogOpen,
+}: Props) => {
+  const t = useTranslations()
   return (
-    <Dialog>
-      <Tooltip delayDuration={50} >
-        <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <TagIcon
-              size={20}
-              className="duration-300 hover:cursor-pointer hover:text-green-500"
-            />
-          </DialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Add Label</p>
-        </TooltipContent>
-      </Tooltip>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Label</DialogTitle>
-          <DialogDescription>Add a new label for yourself.</DialogDescription>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/4">
+        <DialogHeader className="text-left">
+          <DialogTitle>
+            {t("Dashboard.dialogs.labels.addLabelTo.title")}
+          </DialogTitle>
+          <DialogDescription>
+            {t("Dashboard.dialogs.labels.addLabelTo.description")}
+          </DialogDescription>
         </DialogHeader>
         <LabelSelector entityId={entityId} />
       </DialogContent>
