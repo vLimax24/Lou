@@ -21,7 +21,9 @@ const Tutorial = () => {
   const hasHydrated = useHydration(useStore)
 
   const querySubjects = useQuery(api.subjects.getAllSubjects)
-  const updateUserTutorialData = useMutation(api.users.updateUserTutorialData)
+  const updateUserTutorialData: any = useMutation(
+    api.users.updateUserTutorialData
+  )
   const updateSubjects = useMutation(api.studentSubjects.assignStudentSubjects)
   const queryCountries = useQuery(api.countries.getCountries)
 
