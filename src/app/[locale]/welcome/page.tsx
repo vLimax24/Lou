@@ -62,7 +62,7 @@ const Tutorial = () => {
   const handleNext = () => {
     if (step >= 4) return
     if (step === 1 && subjects.length === 0) {
-      setErrors({ ...errors, subject: "Please select at least one subject." })
+      setErrors({ ...errors, subject: "Please select, at least one subject." })
       return
     }
     if (step === 2 && !country) {
