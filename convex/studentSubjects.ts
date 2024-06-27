@@ -20,7 +20,7 @@ export const assignStudentSubjects = authMutation({
 })
 
 export const getStudentSubjects = authQuery({
-  args:{},
+  args: {},
   handler: async ({ db, user }) => {
     const studentSubjects = await db
       .query("studentSubjects")
@@ -34,8 +34,7 @@ export const getUserSubjects = authQuery({
   args: {},
   handler: async ({ db, user, auth }) => {
     if (!auth) throw new ConvexError("Not Authroized")
-    if (!user) return []
-  
+    if (!user) throw new ConvexError("User not found")
 
     const userSubjects = await getManyViaOrThrow(
       db,
@@ -52,19 +51,16 @@ export const getUserSubjects = authQuery({
 })
 
 export const assignUserAddedSubject = internalMutation({
-  args: {subjectId: v.id("subjects"), userId: v.id("users")},
+  args: { subjectId: v.id("subjects"), userId: v.id("users") },
   handler: async (ctx, args) => {
+    const studentSubjectId = await ctx.db.insert("studentSubjects", {
+      userId: args.userId,
+      subjectId: args.subjectId,
+    })
 
-      const studentSubjectId = await ctx.db.insert("studentSubjects",{
-        userId: args.userId,
-        subjectId: args.subjectId
-      })
-
-      return studentSubjectId
-
-  }
+    return studentSubjectId
+  },
 })
-
 
 export const addTotalAverage = authMutation({
   args: {
@@ -75,6 +71,8 @@ export const addTotalAverage = authMutation({
     if (!args.studentSubjectId) {
       throw new Error("studentSubjectId is required")
     }
-    await ctx.db.patch(args.studentSubjectId, { totalAverage: args.totalAverage })
+    await ctx.db.patch(args.studentSubjectId, {
+      totalAverage: args.totalAverage,
+    })
   },
 })
