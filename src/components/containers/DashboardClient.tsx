@@ -11,13 +11,15 @@ import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import { useLocale } from "next-intl"
+import { useRouter } from "next/navigation"
 
 const DashboardClient = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useConvexAuth()
-  const [openDialog, setOpenDialog] = React.useState(false)
   const pathname = usePathname()
   const locale = useLocale()
 
+  const myUser = useQuery(api.users.getMyUser)
+  const router = useRouter()
   const subjects = useQuery(
     api.subjects.getUserSubjects,
     !isAuthenticated ? "skip" : undefined
@@ -26,9 +28,18 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!subjects) return
     if (subjects.length <= 0) {
-      setOpenDialog(true)
+      router.push("/welcome")
     }
   }, [subjects])
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && myUser) {
+      const storedUser = localStorage.getItem("user")
+      if (!storedUser) {
+        localStorage.setItem("user", JSON.stringify(myUser))
+      }
+    }
+  }, [myUser])
 
   const isTextEditor = pathname.startsWith(
     `/${locale}/dashboard/text-editor/doc`
@@ -48,7 +59,6 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
           {children}
         </main>
         <Toaster richColors />
-        <TutorialDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
       </div>
     </div>
   )

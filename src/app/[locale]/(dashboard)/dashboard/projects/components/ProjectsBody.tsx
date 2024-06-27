@@ -191,7 +191,11 @@ const ProjectsSection = ({ searchQuery }: any) => {
                         </p>
                       </div>
                     </div>
-                    <Progress value={progressValue} className="mt-1" />
+                    <Progress
+                      value={progressValue}
+                      className="mt-1"
+                      indicatorColor="bg-black"
+                    />
                   </CardContent>
                 </Card>
               )
@@ -296,7 +300,11 @@ const ProjectsSection = ({ searchQuery }: any) => {
                         </p>
                       </div>
                     </div>
-                    <Progress value={progressValue} className="mt-1" />
+                    <Progress
+                      value={progressValue}
+                      className="mt-1"
+                      indicatorColor="bg-black"
+                    />
                   </CardContent>
                 </Card>
               )

@@ -1,14 +1,13 @@
-import { authMiddleware } from "@clerk/nextjs"
-
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 import createMiddleware from "next-intl/middleware"
 
-authMiddleware({
-  // Allow signed out users to access the specified routes:
-  publicRoutes: ["/", "/api/getCollabToken/[userId]"],
-  ignoredRoutes: ["/tutorial/(.*)", "/api"],
-})
+const isProtectedRoute = createRouteMatcher([
+  "/(.*)/dashboard",
+  "/(.*)/welcome",
+])
 
-export default createMiddleware({
+// Middleware to handle internationalization
+const intlMiddleware = createMiddleware({
   // A list of all locales that are supported
   locales: ["en", "de"],
 
@@ -16,7 +15,17 @@ export default createMiddleware({
   defaultLocale: "en",
 })
 
+export default clerkMiddleware((auth, req) => {
+  if (isProtectedRoute(req)) auth().protect()
+
+  // Apply internationalization middleware to all routes
+  return intlMiddleware(req)
+})
+
 export const config = {
   // Match only internationalized pathnames and ignore /api route
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)", "/(de|en)/:path*"],
+  matcher: [
+    "/((?!api|_next|_vercel|.*\\..*).*)",
+    "/(de|en)/:path*", // This seems to be part of the internationalization config
+  ],
 }

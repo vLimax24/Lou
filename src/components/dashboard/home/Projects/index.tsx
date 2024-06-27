@@ -85,7 +85,11 @@ const ProjectsCard = () => {
                     </p>
                     <p className="text-sm text-gray-500">{formattedDeadline}</p>
                   </div>
-                  <Progress value={progressValue} className="mt-1" />
+                  <Progress
+                    value={progressValue}
+                    className="mt-1"
+                    indicatorColor="bg-black"
+                  />
                 </div>
               </Link>
             )

@@ -9,6 +9,7 @@ import { Bricolage_Grotesque } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
 import "@/styles/globals.css"
 import { cn } from "@/lib/utils"
+import { dark } from "@clerk/themes"
 
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
@@ -18,11 +19,17 @@ export const revalidate = 0
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL)
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
+  const handleSignOut = () => {
+    // Delete the desired entry from localStorage
+    localStorage.removeItem("tutorial-user-store")
+  }
+
   return (
     <ClerkProvider
       publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      afterSignInUrl="/dashboard"
-      afterSignUpUrl="/dashboard"
+      signInFallbackRedirectUrl={"/dashboard"}
+      signUpFallbackRedirectUrl={"/welcome"}
+      afterSignOutUrl={"/"}
     >
       <html lang="en" suppressHydrationWarning>
         <body
