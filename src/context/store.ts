@@ -51,7 +51,6 @@ export const createUserSlice: StateCreator<UserSlice> = set => ({
   updateUser: user => set({ user }),
 })
 
-// Combined store with persistence
 export const useStore = create<TutorialSlice & UserSlice>()(
   persist(
     (...args) => ({
