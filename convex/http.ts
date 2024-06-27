@@ -10,7 +10,6 @@ http.route({
   method: "POST",
   handler: httpAction(async (ctx, request) => {
     const payloadString = await request.text()
-    console.log("🚀 ~ handler:httpAction ~ payloadString:", payloadString)
     const headerPayload = request.headers
 
     try {
@@ -23,14 +22,12 @@ http.route({
         },
       })
 
-      console.log(result.data)
-
       switch (result.type) {
         case "user.created":
           await ctx.runMutation(internal.users.createUser, {
             email: result.data.email_addresses[0]?.email_address,
             clerkId: result.data.id,
-            name: `${result.data.first_name} ${result.data.last_name}`,
+            name: `${result.data.first_name}`,
             profileImage: result.data.image_url,
           })
           break
@@ -40,6 +37,13 @@ http.route({
             profileImage: result.data.image_url,
             name: `${result.data.first_name} ${result.data.last_name}`,
           })
+          break
+        case "user.deleted":
+          if (result.data.id) {
+            await ctx.runMutation(internal.users.deleteUser, {
+              clerkId: result.data.id,
+            })
+          }
           break
       }
 
