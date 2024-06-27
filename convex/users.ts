@@ -52,6 +52,20 @@ export const createUser = internalMutation({
   },
 })
 
+export const deleteUser = internalMutation({
+  args: { clerkId: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", q => q.eq("clerkId", args.clerkId))
+      .first()
+
+    if (!user) return
+
+    await ctx.db.delete(user._id)
+  },
+})
+
 export const updateLastSeenOnline = mutation({
   args: {
     id: v.id("users"),
@@ -141,6 +155,11 @@ export const getMyUser = authQuery({
   handler: async ctx => ctx.user,
 })
 
+export const getMyUserId = authQuery({
+  args: {},
+  handler: async ctx => ctx?.user?._id,
+})
+
 export const addUserSubjectAction = authAction({
   args: { name: v.string(), template: v.string() },
   handler: async (ctx, args) => {
@@ -191,5 +210,21 @@ export const searchUsers = authQuery({
       )
       .take(2)
     return users
+  },
+})
+
+export const updateUserTutorialData = authMutation({
+  args: {
+    country: v.id("gradingSystems"),
+    username: v.string(),
+  },
+  handler: async (ctx, args) => {
+    if (!ctx.auth) throw new ConvexError("Not Authorized")
+    if (!ctx.user) throw new Error("Not User")
+
+    await ctx.db.patch(ctx.user._id, {
+      country: args.country,
+      username: args.username,
+    })
   },
 })
