@@ -62,7 +62,7 @@ export const NavBar: React.FC = () => {
                 <Loader2 className="size-8 animate-spin" />
               ) : isAuthenticated ? (
                 <>
-                  <Link href="/dashboard">
+                  <Link href="/dashboard/subjects">
                     <Button className="h-12 rounded-3xl bg-primaryBlue px-16 text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover">
                       Dashboard
                     </Button>
@@ -106,7 +106,7 @@ export const NavBar: React.FC = () => {
               {isLoading ? (
                 <Loader2 className="size-8 animate-spin" />
               ) : isAuthenticated ? (
-                <Link href="/dashboard">
+                <Link href="/dashboard/subjects">
                   <Button className="h-12 rounded-3xl bg-primaryBlue px-16 text-lg font-bold text-white transition-all duration-200 ease-in-out hover:bg-primaryHover">
                     Dashboard
                   </Button>

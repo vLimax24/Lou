@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import { useLocale } from "next-intl"
 import { useRouter } from "next/navigation"
+import InteractiveTutorial from "@/components/dashboard/Tutorial/InteractiveTutorial"
 
 const DashboardClient = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useConvexAuth()
@@ -57,6 +58,7 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
         >
           {children}
         </main>
+
         <Toaster richColors />
       </div>
     </div>

@@ -154,6 +154,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.1",
     "react-hot-toast": "^2.1.1",
+    "react-joyride": "^2.8.2",
     "react-mobile-app-button": "^1.2.18",
     "react-mobile-store-button": "^0.0.6",
     "react-resizable-panels": "^2.0.16",

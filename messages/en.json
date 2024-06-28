@@ -95,6 +95,58 @@
     }
   },
   "Dashboard": {
+    "countries": {
+      "singapore": "Singapore",
+      "saudiarabia": "Saudi Arabia",
+      "sweden": "Sweden",
+      "netherlands": "Netherlands",
+      "southafrica": "South Africa",
+      "mexico": "Mexico",
+      "spain": "Spain",
+      "italy": "Italy",
+      "brazil": "Brazil",
+      "russia": "Russia",
+      "southkorea": "South Korea",
+      "india": "India",
+      "japan": "Japan",
+      "australia": "Australia",
+      "canada": "Canada",
+      "germany": "Germany",
+      "france": "France",
+      "unitedkingdom": "United Kingdom",
+      "usa": "United States",
+      "china": "China"
+    },
+    "onboarding": {
+      "survey": {
+        "placeholderSearch": "Search...",
+        "noSearchResults": "No results found",
+        "country": {
+          "heading": "Where are you from?",
+          "description": "This will determine your grading system and how we manage your grades"
+        },
+        "subject": {
+          "heading": "What are your Subjects?",
+          "description": "If you can't find a subject here, you can add it later."
+        },
+        "username": {
+          "heading": "How do you want to be called?",
+          "description": "Choose a username you'll go by on our platform",
+          "placeholderUsername": "Username..."
+        },
+        "errors": {
+          "noCountrySelected": "Please select a country",
+          "noSubjectSelected": "Select at least one subject",
+          "invalidUsername": "Please enter a valid username"
+        },
+        "completion": {
+          "heading": "Congratulations, You're All Set!"
+        },
+        "continueButton": "Continue",
+        "takeATourButton": "Take a tour"
+      },
+      "interactive": {}
+    },
     "home": {
       "events": {
         "title": "Events",
