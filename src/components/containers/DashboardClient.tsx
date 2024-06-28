@@ -1,6 +1,5 @@
 "use client"
 
-import TutorialDialog from "@/components/dashboard/Dialogs/tutorial/TutorialDialog"
 import DashboardHeader from "@/components/dashboard/Layout/header"
 import DashboardSidebar from "@/components/dashboard/Layout/sidebar"
 import { api } from "@/convex/_generated/api"
