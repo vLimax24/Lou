@@ -11,7 +11,8 @@ import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import { useLocale } from "next-intl"
 import { useRouter } from "next/navigation"
-import InteractiveTutorial from "@/components/dashboard/Tutorial/InteractiveTutorial"
+import { Authenticated } from "convex/react"
+import * as Frigade from "@frigade/react"
 
 const DashboardClient = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useConvexAuth()
@@ -35,7 +36,9 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (typeof window !== "undefined" && myUser) {
       const storedUser = localStorage.getItem("user")
-      if (!storedUser) {
+      const hasStoredUserSameCredentials =
+        storedUser && JSON.parse(storedUser)._id === myUser._id
+      if (!storedUser || !hasStoredUserSameCredentials) {
         localStorage.setItem("user", JSON.stringify(myUser))
       }
     }
@@ -45,23 +48,64 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
     `/${locale}/dashboard/text-editor/doc`
   )
 
-  return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <DashboardSidebar />
-      <div className="flex flex-col">
-        <DashboardHeader />
-        <main
-          className={cn(
-            "h-full w-full gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6",
-            isTextEditor ? "p-0" : "p-5 lg:p-10"
-          )}
-        >
-          {children}
-        </main>
+  const { flow } = Frigade.useFlow("your-flow-id")
 
-        <Toaster richColors />
+  useEffect(() => {
+    const handlePathChange = async () => {
+      if (flow) {
+        await flow.reload() // Reload the flow to check for new selectors
+
+        // If we're on the new task page and the current step is still step 2
+        if (
+          pathname === `${locale}/dashboard/tasks` &&
+          flow.getCurrentStepIndex() === 1
+        ) {
+          // Wait a bit for the DOM to fully load
+          setTimeout(() => {
+            flow.getCurrentStep()?.complete()
+            flow.forward()
+          }, 500)
+        }
+      }
+    }
+
+    handlePathChange()
+  }, [pathname, flow])
+
+  return (
+    <Frigade.Provider
+      apiKey="api_public_160FIs24m8Vgi97XhIKnXOj5WTMZ8KpUaEsI3pIV4qVmISrY6X57I7Czq5oInS1C"
+      userId={myUser?._id}
+    >
+      <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        <Authenticated>
+          <DashboardSidebar />
+          <div className="flex flex-col">
+            <DashboardHeader />
+            <main
+              className={cn(
+                "h-full w-full gap-4 overflow-y-hidden bg-[#FAFAFA] lg:gap-6",
+                isTextEditor ? "p-0" : "p-5 lg:p-10"
+              )}
+            >
+              {children}
+            </main>
+            <Toaster richColors />
+          </div>
+          <div
+            id="onboarding-tour-selector-1"
+            className="fixed left-1/2 top-1/2 z-[2500] -translate-x-1/2 -translate-y-1/2 transform"
+          />
+          <Frigade.Tour
+            flowId="flow_VIdtJ1vD"
+            zIndex={100000}
+            spotlight={true}
+            sideOffset={10}
+            forceMount={true}
+          />
+        </Authenticated>
       </div>
-    </div>
+    </Frigade.Provider>
   )
 }
 

@@ -22,6 +22,8 @@ import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
 import Logo from "../../../../public/logo.svg"
 import Image from "next/image"
+import { useFlow } from "@frigade/react"
+import { useRouter } from "next/navigation"
 
 const DashboardSidebar = () => {
   const pathname = usePathname()
@@ -32,7 +34,20 @@ const DashboardSidebar = () => {
     !isAuthenticated ? "skip" : undefined
   )
   const params = useParams()
+  const router = useRouter()
   const locale = params.locale
+
+  const { flow } = useFlow("flow_VIdtJ1vD")
+
+  const handleClick = async (e: any) => {
+    e.preventDefault()
+
+    if (flow && flow.getCurrentStepIndex() === 1) {
+      await flow.getCurrentStep()?.complete()
+    }
+
+    router.push("/dashboard/tasks")
+  }
 
   const projectPathnameId =
     pathname.split("/")[pathname.split("/").indexOf("projects") + 1]
@@ -58,7 +73,10 @@ const DashboardSidebar = () => {
           </Link>
         </div>
         <div className="w-full items-center">
-          <nav className="mr-6 grid items-start text-sm font-medium">
+          <nav
+            className="mr-6 grid items-start text-sm font-medium"
+            id="onboarding-tour-selector-6"
+          >
             <Link
               href="/dashboard"
               className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
@@ -98,6 +116,8 @@ const DashboardSidebar = () => {
             <Link
               href="/dashboard/tasks"
               className={`my-1 flex items-center gap-3 rounded-lg px-3 py-2 font-regular transition-all duration-200 ${pathname == `/${locale}/dashboard/tasks` ? "bg-primaryBlue text-white hover:text-white" : "bg-none text-mutedGray hover:text-primaryBlue"}`}
+              id="onboarding-tour-selector-2"
+              onClick={handleClick}
             >
               <ListChecks className="h-4 w-4" />
               {t("Dashboard.sidebar.tasks")}

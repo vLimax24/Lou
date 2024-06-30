@@ -23,6 +23,7 @@ const Subjects = () => {
             <Skeleton className="h-20 w-full rounded-md" />
           </div>
         ) : (
+          subjects &&
           subjects.map(subject => (
             <SubjectCard subject={subject} key={subject._id} />
           ))

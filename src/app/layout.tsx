@@ -15,7 +15,6 @@ const bricolage = Bricolage_Grotesque({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
 
 // do not cache this layout
-export const revalidate = 0
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL)
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

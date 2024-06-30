@@ -38,6 +38,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Id } from "@/convex/_generated/dataModel"
+import { useFlow } from "@frigade/react"
+import { TasksTourHandler } from "@/app/[locale]/(dashboard)/dashboard/tasks/TasksTourHandler"
 
 export const AddTask = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
   const t = useTranslations()
@@ -77,18 +79,32 @@ export const AddTask = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
     }
   }
 
+  const { flow } = useFlow("flow_VIdtJ1vD")
+
+  const handleClick = async (e: any) => {
+    if (flow && flow.getCurrentStepIndex() === 2) {
+      await flow.getCurrentStep()?.complete()
+    }
+  }
+
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <TasksTourHandler />
       <DialogTrigger asChild>
         <Button
           className="flex items-center justify-center rounded-full bg-primaryBlue hover:bg-primaryHover"
           data-cy="add-task-button"
+          id="onboarding-tour-selector-3"
+          onClick={handleClick}
         >
           <Plus className="size-5" />
           <p className="ml-1">{t("Dashboard.dialogs.tasks.buttonName")}</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/3">
+      <DialogContent
+        className="max-h-[95vh] max-w-[95vw] overflow-y-auto rounded-2xl transition-all duration-300 ease-in-out lg:w-1/3"
+        id="onboarding-tour-selector-4"
+      >
         <DialogHeader className="text-left">
           <DialogTitle className="text-3xl font-bold">
             {t("Dashboard.dialogs.tasks.addTask.title")}
@@ -177,6 +193,11 @@ export const AddTask = ({ subjectId }: { subjectId?: Id<"subjects"> }) => {
                 type="submit"
                 className="mt-1 w-full bg-primaryBlue hover:bg-primaryHover"
                 data-cy="submit-button"
+                onClick={() => {
+                  if (flow && flow.getCurrentStepIndex() === 3) {
+                    flow.getCurrentStep()?.complete()
+                  }
+                }}
               >
                 {t("Dashboard.dialogs.tasks.addTask.submitButton")}
               </Button>

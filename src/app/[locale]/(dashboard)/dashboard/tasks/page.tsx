@@ -9,13 +9,14 @@ import type {
 } from "@dnd-kit/core"
 import { DndContext, DragOverlay } from "@dnd-kit/core"
 import { useConvexAuth, useMutation, useQuery } from "convex/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { AddTask } from "@/components/dashboard/Dialogs/tasks/TaskDialog"
-
+import { TasksTourHandler } from "./TasksTourHandler"
 import type { Id } from "@/convex/_generated/dataModel"
 import { Loader2 } from "lucide-react"
 import { Draggable } from "@/components/dnd/Draggable"
 import { Droppable } from "@/components/dnd/Droppable"
+import { useFlow } from "@frigade/react"
 
 type TaskStatus = "PENDING" | "IN-PROGRESS" | "COMPLETED"
 const taskTypes: Record<string, TaskStatus> = {
@@ -67,7 +68,10 @@ const Tasks = () => {
         <AddTask />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div
+        className="grid grid-cols-1 gap-4 lg:grid-cols-3"
+        id="onboarding-tour-selector-5"
+      >
         {containers.map((type: TaskStatus) => (
           <Droppable key={type} id={type} status={type}>
             {!tasks ? (
