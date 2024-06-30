@@ -187,6 +187,7 @@ const Tutorial = () => {
                   )}
                   value={searchQuery}
                   onChange={handleSearchChange}
+                  autoFocus={true}
                 />
               </div>
             </div>
@@ -252,6 +253,7 @@ const Tutorial = () => {
                   )}
                   value={searchQuery}
                   onChange={handleSearchChange}
+                  autoFocus={true}
                 />
               </div>
             </div>
@@ -326,6 +328,7 @@ const Tutorial = () => {
                   value={username}
                   onChange={handleUsernameChange}
                   autoComplete="off"
+                  autoFocus={true}
                 />
               </div>
             </div>
