@@ -72,11 +72,10 @@ const DashboardClient = ({ children }: { children: React.ReactNode }) => {
     handlePathChange()
   }, [pathname, flow])
 
+  const apiKey = process.env.NEXT_PUBLIC_FRIGADE_API_KEY
+
   return (
-    <Frigade.Provider
-      apiKey="api_public_160FIs24m8Vgi97XhIKnXOj5WTMZ8KpUaEsI3pIV4qVmISrY6X57I7Czq5oInS1C"
-      userId={myUser?._id}
-    >
+    <Frigade.Provider apiKey={apiKey ? apiKey : ""} userId={myUser?._id}>
       <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
         <Authenticated>
           <DashboardSidebar />
