@@ -18,11 +18,6 @@ const inter = Inter({ subsets: ["latin"] })
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL)
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  const handleSignOut = () => {
-    // Delete the desired entry from localStorage
-    localStorage.removeItem("tutorial-user-store")
-  }
-
   return (
     <ClerkProvider
       publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}

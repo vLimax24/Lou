@@ -297,10 +297,12 @@ export const AddGrade = ({ withSubjects = false, subjectId }: Props) => {
                       {country?.gradingSystem === "percentage" ? (
                         <Input
                           placeholder={t(
-                            "Dashboard.dialogs.grades.addGrade.placeholderGrade"
+                            "Dashboard.dialogs.grades.addGrade.placeholderGradePercentage"
                           )}
                           {...field}
                           data-cy="grade-input"
+                          pattern="/^[0-9]*$/"
+                          inputMode="numeric"
                         />
                       ) : (
                         <Select

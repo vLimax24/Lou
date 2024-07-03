@@ -370,6 +370,7 @@
           "labelDate": "Date",
           "labelGrade": "Grade",
           "placeholderGrade": "Select grade",
+          "placeholderGradePercentage": "Enter percentage",
           "labelSubject": "Subject",
           "placeholderSubject": "Select subject",
           "labelBadges": "Badges",
