@@ -63,7 +63,7 @@ const SubjectCard = ({ subject }: { subject: Doc<"subjects"> }) => {
                                       ? RussianTemplate
                                       : template === "latin"
                                         ? LatinTemplate
-                                        : null
+                                        : ''
             }
             alt="test"
             layout="fill"

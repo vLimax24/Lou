@@ -44,7 +44,7 @@ export const getUserSubjects = authQuery({
       user._id
     )
 
-    // if (!userSubjects) return [];
+    if (!userSubjects) return [];
 
     return userSubjects
   },
